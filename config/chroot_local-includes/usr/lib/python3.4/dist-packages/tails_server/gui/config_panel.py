@@ -2,10 +2,11 @@ import collections
 import logging
 import os
 import sh
+import io
 
 from gi.repository import Gtk
 
-from tails_server.gui.option_row import OptionRow
+from tails_server.gui.option_row import OptionRow, ClickableLabel
 from tails_server.gui.service_status import STATUS_STOPPED, STATUS_STOPPING
 
 from tails_server.config import CONFIG_UI_FILE
@@ -21,11 +22,32 @@ class ServiceConfigPanel(object):
         self.builder.add_from_file(CONFIG_UI_FILE)
         self.builder.connect_signals(self)
         self.switch = self.builder.get_object("switch_service_start_stop")
-        self.new_onion_address_button = self.builder.get_object("button_new_onion_address")
         self.onion_address_label = self.builder.get_object("label_onion_address")
-        self.connection_string_label = self.builder.get_object("label_connection_string")
         self.onion_address_box = self.builder.get_object("box_onion_address")
-        self.connection_string_box = self.builder.get_object("box_connection_string")
+        onion_address_button = self.builder.get_object("button_onion_address")
+        onion_address_button_box = self.builder.get_object("box_button_onion_address")
+        onion_address_refresh_image = self.builder.get_object("image_refresh")
+        onion_address_value_label = self.builder.get_object("label_onion_address_value")
+        self.onion_address_clickable_label = ClickableLabel(
+            self.onion_address_box,
+            onion_address_button,
+            onion_address_button_box,
+            onion_address_value_label,
+            onion_address_refresh_image
+        )
+        self.connection_info_label = self.builder.get_object("label_connection_info")
+        self.connection_info_box = self.builder.get_object("box_connection_info")
+        connection_info_button = self.builder.get_object("button_connection_info")
+        connection_info_button_box = self.builder.get_object("box_button_connection_info")
+        connection_info_copy_image = self.builder.get_object("image_copy")
+        connection_info_value_label = self.builder.get_object("label_connection_info_value")
+        self.connection_info_clickable_label = ClickableLabel(
+            self.connection_info_box,
+            connection_info_button,
+            connection_info_button_box,
+            connection_info_value_label,
+            connection_info_copy_image
+        )
         self.options_grid = self.builder.get_object("grid_options")
         self.option_rows = list()
         self.option_groups = set()
@@ -52,9 +74,9 @@ class ServiceConfigPanel(object):
             return
         self.options_populated = True
         for widget in (self.onion_address_label,
-                       self.connection_string_label,
+                   self.connection_info_label,
                        self.onion_address_box,
-                       self.connection_string_box):
+                       self.connection_info_box):
             widget.set_visible(True)
         self.option_groups = {"connection"} | {
             option.group for option in self.service.options_dict.values() if option.group
@@ -73,9 +95,9 @@ class ServiceConfigPanel(object):
 
     def remove_option_rows(self):
         for widget in (self.onion_address_label,
-                       self.connection_string_label,
+                       self.connection_info_label,
                        self.onion_address_box,
-                       self.connection_string_box):
+                       self.connection_info_box):
             widget.set_visible(False)
         for row in self.option_rows:
             row.box.set_visible(False)
@@ -115,9 +137,10 @@ class ServiceConfigPanel(object):
 
         if self.options_populated:
             self.builder.get_object("label_onion_address_value").set_text(str(self.service.address))
-            self.builder.get_object("label_connection_string_value").set_text(
-                str(self.service.connection_string_in_gui))
-            self.set_new_onion_address_button_sensitivity()
+            self.builder.get_object("label_connection_info_value").set_text(
+                str(self.service.connection_info_in_gui))
+            self.set_onion_address_sensitivity()
+            self.set_connection_info_sensitivity()
             self.set_persistence_sensitivity()
             self.set_autorun_sensitivity()
 
@@ -127,9 +150,13 @@ class ServiceConfigPanel(object):
         config_panel_container.add(self.builder.get_object("viewport_service_config"))
         self.gui.current_service = self.service
 
-    def set_new_onion_address_button_sensitivity(self):
-        self.new_onion_address_button.set_sensitive(not self.service.is_running and
-                                                    self.service.address is not None)
+    def set_onion_address_sensitivity(self):
+        if not self.service.address:
+            self.onion_address_clickable_label.clickable = False
+
+    def set_connection_info_sensitivity(self):
+        if not self.service.address:
+            self.connection_info_clickable_label.clickable = False
 
     def set_persistence_sensitivity(self):
         try:
@@ -222,8 +249,11 @@ class ServiceConfigPanel(object):
     def on_switch_state_set(self, status):
         for option_row in self.option_rows:
             option_row.sensitive = not status
-        self.set_new_onion_address_button_sensitivity()
+        self.onion_address_clickable_label.clickable = not status
+        self.connection_info_clickable_label.clickable = not status
         self.set_autorun_sensitivity()
+        self.set_onion_address_sensitivity()
+        self.set_connection_info_sensitivity()
 
         is_running = self.service.is_running
         logging.debug("is running: %r", is_running)
@@ -245,11 +275,26 @@ class ServiceConfigPanel(object):
         state = checkbutton.get_active()
         self.service.options_dict["autostart"].value = state
 
-    def on_button_copy_connection_string_clicked(self, button):
+    def on_button_copy_connection_info_clicked(self, button):
         text = self.service.connection_info
         self.gui.clipboard.set_text(text, len(text))
 
-    def on_button_new_onion_address_clicked(self, button):
+    def on_button_connection_info_clicked(self, button):
+        text = self.service.connection_info
+        in_stream = io.StringIO(text)
+        try:
+            sh.zenity(
+                "--text-info",
+                "--ok-label", "Copy",
+                "--cancel-label", "Don't Copy",
+                "--title", "Connection Information",
+                _in=in_stream
+            )
+        except sh.ErrorReturnCode_1:
+            return
+        self.gui.clipboard.set_text(text, len(text))
+
+    def on_button_onion_address_clicked(self, button):
         confirmed = self.gui.obtain_confirmation(
             title="Generate new onion address",
             text="This will irrevocably change this service's onion address. Are you sure you "

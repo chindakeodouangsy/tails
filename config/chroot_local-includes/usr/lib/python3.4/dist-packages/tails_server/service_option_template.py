@@ -85,6 +85,7 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
         }
 
     group = None
+    masked = False
 
     def __init__(self, service):
         self.service = service        

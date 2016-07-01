@@ -116,7 +116,7 @@ class TailsService(metaclass=abc.ABCMeta):
         return None
 
     @property
-    def connection_string_in_gui(self):
+    def connection_info_in_gui(self):
         return self.connection_info
 
     @property

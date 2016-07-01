@@ -24,6 +24,7 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
     description = "Password required to connect to service"
     type = str
     group = "connection"
+    masked = True
 
     @property
     def default(self):

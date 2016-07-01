@@ -37,6 +37,7 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
     description = "Password required to connect to service"
     type = str
     group = "connection"
+    masked = True
 
     @property
     def default(self):
@@ -92,7 +93,7 @@ class MumbleServer(service_template.TailsService):
         return s
 
     @property
-    def connection_string_in_gui(self):
+    def connection_info_in_gui(self):
         if not self.address:
             return None
 
