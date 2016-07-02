@@ -2,6 +2,8 @@
 
 import string
 import random
+import sqlite3
+import OpenSSL.crypto
 
 from tails_server import file_util
 from tails_server import option_util
@@ -62,6 +64,17 @@ class MumbleServer(service_template.TailsService):
     persistent_paths = [CONFIG_FILE]
     icon_name = "mumble"
 
+    db_path = "/var/lib/mumble-server/mumble-server.sqlite"
+
+    @property
+    def fingerprint(self):
+        connection = sqlite3.connect(self.db_path)
+        c = connection.cursor()
+        c.execute("SELECT value FROM config WHERE key = 'certificate'")
+        cert_string = c.fetchone()[0]
+        cert = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, cert_string)
+        return cert.digest("sha1").decode()
+
     @property
     def connection_string(self):
         if not self.address:
@@ -73,7 +86,8 @@ class MumbleServer(service_template.TailsService):
         s = str()
         s += "Address: %s\n" % self.address
         s += "Port: %s\n" % self.virtual_port
-        s += "Password: %s" % self.options_dict["server-password"].value
+        s += "Password: %s\n" % self.options_dict["server-password"].value
+        s += "Certificate SHA1 Fingerprint: %s" % self.fingerprint
         return s
 
     @property
@@ -81,12 +95,8 @@ class MumbleServer(service_template.TailsService):
         if not self.address:
             return None
 
-        masked_password = "*" * len(self.options_dict["server-password"].value)
-        s = str()
-        s += "Address: %s; " % self.address
-        s += "Port: %s; " % self.virtual_port
-        s += "Password: %s" % masked_password
-        return s
+        # masked_password = "*" * len(self.options_dict["server-password"].value)
+        return self.connection_string.replace("\n", "; ")
 
     options = [
         service_option_template.VirtualPort,
