@@ -75,7 +75,12 @@ class ServiceDecorator(object):
     def add_onion(self):
         self.status.emit("update", ServiceStatus.STATUS_PUBLISHING)
         self.service.add_onion()
-        self.status.emit("update", ServiceStatus.STATUS_ONLINE)
+        if self.service.is_running:
+            self.status.emit("update", ServiceStatus.STATUS_ONLINE)
+        else:
+            logging.debug("Removing newly created onion address because service %r stopped",
+                          self.name)
+            self.remove_onion()
 
     def activate_status_monitor(self):
         self.status.dbus_monitor.run()

@@ -358,7 +358,7 @@ class TailsService(metaclass=abc.ABCMeta):
 
     def disable(self):
         self.stop()
-        self.remove_hs()
+        self.remove_onion()
 
     def stop(self):
         logging.info("Stopping service %r", self.name)
@@ -398,6 +398,11 @@ class TailsService(metaclass=abc.ABCMeta):
     def add_onion(self):
         # create_hidden_service() fails because the Tor sandbox prevents accessing the filesystem
         # see https://github.com/micahflee/onionshare/issues/179
+        if not self.is_running:
+            logging.warning("Refusing to create hidden service of not-running service %r",
+                            self.name)
+            return
+
         logging.debug("Adding HS with create_ephemeral_hidden_service")
 
         try:
@@ -444,7 +449,11 @@ class TailsService(metaclass=abc.ABCMeta):
         with open(self.hs_private_key_file, 'w+') as f:
             f.write(key)
 
-    def remove_hs(self):
+    def remove_onion(self):
+        if not self.address:
+            logging.warning("Can't remove onion address of service %r: Address is not set",
+                            self.name)
+            return
         logging.debug("Removing HS with remove_ephemeral_hidden_service")
         controller = stem.control.Controller.from_port(port=TOR_CONTROL_PORT)
         controller.authenticate()
