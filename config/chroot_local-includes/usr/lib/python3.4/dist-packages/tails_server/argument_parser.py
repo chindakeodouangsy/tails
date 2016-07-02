@@ -18,6 +18,7 @@ class CommandParser(HelpfulParser):
         'info': "Print information about the service",
         'status': "Print whether the service is installed and running",
         'install': "Install the service",
+        'uninstall': "Uninstall the service",
         'enable': "Install, configure, and start the service",
         'disable': "Stop the service",
         'get-option': "Print the current value of an option",
@@ -46,6 +47,7 @@ class CommandParser(HelpfulParser):
 
         self.add_service_command("status")
         self.add_service_command("install")
+        self.add_service_command("uninstall")
         self.add_service_command("enable")
         self.add_service_command("disable")
         self.add_service_command("get-option", {"dest": "OPTION", "type": str})

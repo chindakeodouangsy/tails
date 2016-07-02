@@ -164,6 +164,8 @@ class TailsService(metaclass=abc.ABCMeta):
 
     @property
     def is_published(self):
+        if not self.address:
+            return False
         return tor_util.is_published(self.address)
 
     @property
@@ -491,6 +493,8 @@ class TailsService(metaclass=abc.ABCMeta):
             return self.print_status()
         elif args.command == "install":
             return self.install()
+        elif args.command == "uninstall":
+            return self.uninstall()
         elif args.command == "enable":
             return self.enable()
         elif args.command == "disable":
