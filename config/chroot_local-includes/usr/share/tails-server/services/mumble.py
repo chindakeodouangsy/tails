@@ -57,7 +57,7 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
 class MumbleServer(service_template.TailsService):
     name = "mumble"
     systemd_service = "mumble-server.service"
-    description = "A low-latency, high quality voice chat server"
+    description = "A voice chat server"
     packages = ["mumble-server"]
     default_target_port = 64738
     documentation = "file:///usr/share/doc/tails/website/doc/tails_server/mumble.en.html"
