@@ -34,10 +34,8 @@ def init(args):
 
 
 def exec_service(args):
-    service_script_path = os.path.join(config.SERVICES_DIR, args.SERVICE)
     service_module_path = service_module_paths[args.SERVICE]
     del args.SERVICE
-    print("service_module_path: %r" % service_module_path)
     os.execv(service_module_path, [service_module_path] + sys.argv[1:-1])
 
 
