@@ -12,7 +12,7 @@ from tails_server import config
 from tails_server import util
 import tails_server.services
 
-from gi.repository import Gtk, GLib, Gdk, GObject
+from gi.repository import Gtk, GLib, Gdk, GObject, Pango
 
 DATA_DIR = config.DATA_DIR
 ICON_DIR = os.path.join(DATA_DIR, "icons")
@@ -366,6 +366,7 @@ class ServiceConfigPanel(object):
             str(self.service.connection_string_in_gui))
 
         self.set_new_onion_address_button_sensitivity()
+        self.set_persistence_sensitivity()
         self.set_autorun_sensitivity()
 
         config_panel_container = self.gui.builder.get_object("scrolledwindow_service_config")
@@ -377,6 +378,21 @@ class ServiceConfigPanel(object):
     def set_new_onion_address_button_sensitivity(self):
         self.new_onion_address_button.set_sensitive(not self.service.is_running and
                                                     self.service.address is not None)
+
+    def set_persistence_sensitivity(self):
+        persistence_row = [r for r in self.option_rows if r.option.name == "persistence"][0]
+
+        if os.path.exists("/live/persistence/TailsData_unlocked"):
+            persistence_row.sensitive = True
+            label = self.builder.get_object("label_persistence_comment")
+            if label in persistence_row.box.get_children():
+                persistence_row.box.remove(label)
+            return
+
+        persistence_row.sensitive = False
+        label = self.builder.get_object("label_persistence_comment")
+        if label not in persistence_row.box.get_children():
+            persistence_row.box.pack_end(label, expand=True, fill=True, padding=0)
 
     def set_autorun_sensitivity(self):
         try:
