@@ -18,6 +18,11 @@ from tails_server import util
 from tails_server import argument_parser
 from tails_server import service_option_template
 
+from tails_server.exceptions import TorIsNotRunningError
+from tails_server.exceptions import UnknownOptionError
+from tails_server.exceptions import ServiceNotInstalledError
+from tails_server.exceptions import ServiceAlreadyEnabledError
+
 TOR_DIR = config.TOR_DIR
 TOR_USER = config.TOR_USER
 TOR_SERVICE = config.TOR_SERVICE
@@ -26,22 +31,6 @@ TOR_CONTROL_PORT = config.TOR_CONTROL_PORT
 ADDITIONAL_SOFTWARE_CONFIG = config.ADDITIONAL_SOFTWARE_CONFIG
 STATE_DIR = config.STATE_DIR
 OPTIONS_FILE_NAME = config.OPTIONS_FILE_NAME
-
-
-class UnknownOptionError(Exception):
-    pass
-
-
-class ServiceAlreadyEnabledError(Exception):
-    pass
-
-
-class ServiceNotInstalledError(Exception):
-    pass
-
-
-class TorIsNotRunningError(Exception):
-    pass
 
 
 class LazyOptionDict(OrderedDict):
@@ -256,6 +245,9 @@ class TailsService(metaclass=abc.ABCMeta):
         if self.is_running:
             raise ServiceAlreadyEnabledError("Service %r is already enabled" % self.name)
         logging.info("Enabling service %r" % self.name)
+
+        if not util.tor_has_bootstrapped():
+            raise TorIsNotRunningError()
 
         if not self.is_installed:
             self.install()

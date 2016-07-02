@@ -10,6 +10,7 @@ TORRC = "/etc/tor/torrc"
 TOR_DIR = "/var/lib/tor"
 TOR_USER = "debian-tor"
 TOR_SERVICE = "tor@default.service"
+TOR_BOOTSTRAPPED_TARGET = "tails-tor-has-bootstrapped.target"
 TOR_CONTROL_PORT = 9051
 
 PERSISTENCE_CONFIG = "/live/persistence/TailsData_unlocked/persistence.conf"
