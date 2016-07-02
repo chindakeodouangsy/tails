@@ -2,8 +2,8 @@ import tempfile
 import os
 import shutil
 import threading
-import sh
 from gi.repository import GLib
+
 
 class PolicyNoAutostartOnInstallation(object):
     policy_path = "/usr/sbin/policy-rc.d"
@@ -46,12 +46,3 @@ def run_with_exception_handling(service, function, *args):
     except:
         service.status.emit("update", service.status.STATUS_ERROR)
         raise
-
-
-def tor_has_bootstrapped():
-    try:
-        sh.systemctl("status", "tails-tor-has-bootstrapped.target")
-    except sh.ErrorReturnCode_3:
-        return False
-    return True
-

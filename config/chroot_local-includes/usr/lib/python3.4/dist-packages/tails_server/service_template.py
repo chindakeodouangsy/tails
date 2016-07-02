@@ -14,6 +14,7 @@ import stem.control
 
 from tails_server import config
 from tails_server import file_util
+from tails_server import tor_util
 from tails_server import util
 from tails_server import argument_parser
 from tails_server import service_option_template
@@ -162,6 +163,10 @@ class TailsService(metaclass=abc.ABCMeta):
         return self.options_dict["persistence"].value
 
     @property
+    def is_published(self):
+        return tor_util.is_published(self.address)
+
+    @property
     def address(self):
         try:
             with open(self.hs_hostname_file, 'r') as f:
@@ -229,7 +234,8 @@ class TailsService(metaclass=abc.ABCMeta):
 
     def get_status(self):
         return {"installed": self.is_installed,
-                "enabled": self.is_running}
+                "enabled": self.is_running,
+                "published": self.is_published}
 
     def print_status(self):
         status = self.get_status()
@@ -246,7 +252,7 @@ class TailsService(metaclass=abc.ABCMeta):
             raise ServiceAlreadyEnabledError("Service %r is already enabled" % self.name)
         logging.info("Enabling service %r" % self.name)
 
-        if not util.tor_has_bootstrapped():
+        if not tor_util.tor_has_bootstrapped():
             raise TorIsNotRunningError()
 
         if not self.is_installed:
