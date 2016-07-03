@@ -106,11 +106,11 @@ class ServiceStatus(Gtk.Widget):
     @classmethod
     def register_signal(cls):
         GObject.signal_new(
-            "update",          # signal name
+            "update",       # signal name
             ServiceStatus,  # object type
             GObject.SIGNAL_RUN_FIRST | GObject.SIGNAL_ACTION,  # flags
             None,           # return type
-            (str,),             # argument types
+            (str,),         # argument types
         )
 
     STATUS_STARTING = "Starting"
@@ -154,7 +154,7 @@ class ServiceStatus(Gtk.Widget):
 
         box.pack_start(visual_widget, expand=False, fill=False, padding=0)
         box.pack_start(label, expand=False, fill=False, padding=0)
-        # XXX: Find out why the status only refreshs after config_panel.show() and do something
+        # XXX: Find out why the status only refreshes after config_panel.show() and do something
         # more lightweight
         if self.service.config_panel.is_active:
             self.service.config_panel.show()
