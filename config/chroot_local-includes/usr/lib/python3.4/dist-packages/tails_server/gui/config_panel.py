@@ -225,4 +225,4 @@ class ServiceConfigPanel(object):
         self.show()
 
     def on_button_help_clicked(self, button):
-        sh.xdg_open(self.service.documentation)
+        sh.sudo("-u", "amnesia", "xdg-open", self.service.documentation)

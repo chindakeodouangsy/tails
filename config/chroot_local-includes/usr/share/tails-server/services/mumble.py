@@ -65,7 +65,6 @@ class MumbleServer(service_template.TailsService):
     icon_name = "mumble"
 
     db_path = "/var/lib/mumble-server/mumble-server.sqlite"
-
     @property
     def fingerprint(self):
         connection = sqlite3.connect(self.db_path)
