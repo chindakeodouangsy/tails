@@ -40,14 +40,14 @@ class StatusMonitor(object):
         # See https://bugs.launchpad.net/ubuntu/+source/apache2/+bug/1488962/comments/5
 
     def run(self):
-        logging.info("Starting status monitor for service %r", self.service_name)
+        logging.debug("Starting status monitor for service %r", self.service_name)
         thread = threading.Thread(target=self.add_signal_receiver, args=(self.signal_receiver,))
         self.threads.append(thread)
         thread.start()
 
     def stop(self):
         if self.loop.is_running:
-            logging.info("Stopping status monitor for service %r", self.service_name)
+            logging.debug("Stopping status monitor for service %r", self.service_name)
             self.loop.quit()
 
     def add_signal_receiver(self, receiver_function):

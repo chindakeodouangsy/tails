@@ -1,8 +1,6 @@
 import tempfile
 import os
 import shutil
-import threading
-from gi.repository import GLib
 
 
 class PolicyNoAutostartOnInstallation(object):
@@ -24,25 +22,3 @@ class PolicyNoAutostartOnInstallation(object):
         if self.old_policy_path:
             shutil.move(self.old_policy_path, self.policy_path)
         os.rmdir(self.tmp_dir)
-
-
-def run_threaded(service, function, *args):
-    thread = threading.Thread(target=run_with_exception_handling,
-                              args=(service, function) + args)
-    thread.daemon = True
-    thread.start()
-
-
-def run_threaded_when_idle(service, function, *args):
-    thread = threading.Thread(target=run_with_exception_handling,
-                              args=(service, GLib.idle_add, function) + args)
-    thread.daemon = True
-    thread.start()
-
-
-def run_with_exception_handling(service, function, *args):
-    try:
-        function(*args)
-    except:
-        service.status.emit("update", service.status.STATUS_ERROR)
-        raise

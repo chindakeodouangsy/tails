@@ -7,9 +7,9 @@ import argparse
 import sh
 import abc
 import time
+import threading
 
 from tails_server import dbus_interface
-from tails_server import util
 from tails_server import tor_util
 import tails_server.services
 
@@ -102,6 +102,25 @@ class ServiceDecorator(object):
         self.status.dbus_monitor.stop()
         self.status.tor_dbus_monitor.stop()
 
+    def run_threaded(self, function, *args):
+        thread = threading.Thread(target=self.run_with_exception_handling,
+                                  args=(function,) + args)
+        thread.daemon = True
+        thread.start()
+
+    def run_threaded_when_idle(self, function, *args):
+        thread = threading.Thread(target=self.run_with_exception_handling,
+                                  args=(GLib.idle_add, function) + args)
+        thread.daemon = True
+        thread.start()
+
+    def run_with_exception_handling(self, function, *args):
+        try:
+            function(*args)
+        except:
+            self.status.emit("update", self.status.STATUS_ERROR)
+            raise
+
 
 class OptionRow(object, metaclass=abc.ABCMeta):
     known_options_widgets = {
@@ -141,6 +160,7 @@ class OptionRow(object, metaclass=abc.ABCMeta):
         self.config_panel = config_panel
         self.option = option
         logging.debug("Adding option %r to GUI", option.name)
+        logging.debug("%r.value: %r", option.name, option.value)
         self.value_widget = None
         self.label = None
         self.box = None
@@ -315,7 +335,8 @@ class ServiceStatus(Gtk.Widget):
             return
 
         if not self.service.address or not self.service.is_published:
-            self.service.add_onion()
+            self.service.run_threaded(self.service.add_onion)
+            self.service.config_panel.set_switch_status(True)
             return
 
         self.update(self.STATUS_ONLINE)
@@ -340,6 +361,7 @@ class ServiceConfigPanel(object):
         self.option_rows = list()
         self.option_groups = set()
         self.group_separators = collections.OrderedDict()
+        self.options_populated = False
         if self.service.is_installed:
             self.populate_option_rows()
 
@@ -348,6 +370,9 @@ class ServiceConfigPanel(object):
         return self.gui.current_service == self.service
 
     def populate_option_rows(self):
+        if self.options_populated:
+            return
+        self.options_populated = True
         for widget in (self.onion_address_label,
                        self.connection_string_label,
                        self.onion_address_box,
@@ -493,7 +518,7 @@ class ServiceConfigPanel(object):
 
     def on_switch_service_start_stop_state_set(self, switch, status):
         logging.debug("on_switch_service_start_stop_state_set. status: %r", status)
-        util.run_threaded_when_idle(self.service, self.on_switch_state_set, status)
+        self.service.run_threaded_when_idle(self.on_switch_state_set, status)
 
     def on_switch_state_set(self, status):
         for option_row in self.option_rows:
@@ -505,20 +530,17 @@ class ServiceConfigPanel(object):
         logging.debug("is running: %r", is_running)
         if status and not is_running:
             self.apply_options()
-            util.run_threaded(self.service, self.service.enable)
+            self.service.run_threaded(self.service.enable)
             self.show()
         if not status and is_running:
-            util.run_threaded(self.service, self.service.disable)
+            self.service.run_threaded(self.service.disable)
 
     def on_checkbutton_persistence_toggled(self, checkbutton):
         state = checkbutton.get_active()
-        try:
-            autostart_row = [row for row in self.option_rows if row.option.name == "autostart"][0]
-        except IndexError:
-            return
-        autostart_row.sensitive = state
-        if not state:
-            autostart_row.value_widget.set_active(False)
+        if state:
+            self.apply_options()
+        self.service.options_dict["persistence"].value = state
+        self.set_autorun_sensitivity()
 
     def on_button_copy_connection_string_clicked(self, button):
         text = self.service.connection_string
@@ -662,7 +684,7 @@ class ServiceChooser(object):
         self.gui.service_list.add_service(service)
         self.gui.service_list.select_service(service)
 
-        util.run_threaded(service, service.install)
+        service.run_threaded(service.install)
 
         # self.gui.loading_window.display_while_calling(
         #     service.install,
@@ -719,7 +741,7 @@ class TailsServerGUI(object):
         )
         if not confirmed:
             return
-        util.run_threaded(service, self.uninstall_service, service)
+        service.run_threaded(self.uninstall_service, service)
 
     def uninstall_service(self, service):
         service.uninstall()
@@ -757,10 +779,7 @@ class TailsServerGUI(object):
                          for module in service_modules_dict.values()]
 
         self.service_list = ServiceList(self)
-        persistent_services = [service for service in self.services
-                               if service.options_dict["persistence"].value]
-        for service in persistent_services:
-            service.install()
+        self.install_persistent_services()
         for service in [service for service in self.services if service.is_installed]:
             self.service_list.add_service(service)
         if self.service_list:
@@ -776,6 +795,12 @@ class TailsServerGUI(object):
         self.window.connect("delete-event", Gtk.main_quit)
         self.window.set_title("Tails Server")
         self.window.show_all()
+
+    def install_persistent_services(self):
+        persistent_services = [service for service in self.services
+                               if service.options_dict["persistence"].value]
+        for service in [service for service in persistent_services if not service.is_installed]:
+            service.install()
 
     def show_config_panel_placeholder(self):
         config_panel_container = self.builder.get_object("scrolledwindow_service_config")
