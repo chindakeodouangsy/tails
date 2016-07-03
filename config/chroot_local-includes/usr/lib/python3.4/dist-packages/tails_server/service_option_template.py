@@ -180,7 +180,10 @@ class AutoStartOption(TailsServiceOption):
 
     def apply(self):
         super().apply()
-        raise NotImplementedError()
+        if self.value:
+            self.service.add_to_additional_software()
+        else:
+            self.service.remove_from_additional_software()
 
 
 class PersistenceOption(TailsServiceOption):
@@ -188,7 +191,6 @@ class PersistenceOption(TailsServiceOption):
     PERSISTENT_OPTIONS_FILE = "options"
 
     name = "persistence"
-    name_in_gui = "Persistent"
     description = "Store service configuration and data on the persistent volume"
     type = bool
     default = False
@@ -212,7 +214,6 @@ class PersistenceOption(TailsServiceOption):
         self.make_path_persistent(self.service.options_file,
                                   persistence_name=self.PERSISTENT_OPTIONS_FILE)
         self.make_config_files_persistent()
-        self.service.add_to_additional_software()
 
     def create_persistence_dirs(self):
         if not os.path.exists(PERSISTENCE_DIR):
@@ -265,7 +266,6 @@ class PersistenceOption(TailsServiceOption):
         self.remove_from_persistence(self.service.options_file,
                                      persistence_name=self.PERSISTENT_OPTIONS_FILE)
         self.remove_config_files_from_persistence()
-        self.service.remove_from_additional_software()
 
     def remove_from_persistence(self, path, persistence_name=None):
         if not persistence_name:

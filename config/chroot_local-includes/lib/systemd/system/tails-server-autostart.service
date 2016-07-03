@@ -1,0 +1,10 @@
+[Unit]
+Description=Start Tails Server services which have autostart enabled
+After=tails-tor-has-bootstrapped.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/tails-service autostart
+
+[Install]
+WantedBy=multi-user.target

@@ -127,12 +127,14 @@ class ServiceConfigPanel(object):
 
     def set_autorun_sensitivity(self):
         try:
-            persistence_row = [r for r in self.option_rows if r.option.name == "persistence"][0]
             autostart_row = [r for r in self.option_rows if r.option.name == "autostart"][0]
         except IndexError:
+            logging.warning("No 'autostart' option for service %r", self.service)
             return
-        if not persistence_row.value:
+        if not self.service.options_dict["persistence"].value:
             autostart_row.sensitive = False
+        else:
+            autostart_row.sensitive = True
 
     def add_option(self, option):
         try:
@@ -207,6 +209,10 @@ class ServiceConfigPanel(object):
             self.apply_options()
         self.service.options_dict["persistence"].value = state
         self.set_autorun_sensitivity()
+
+    def on_checkbutton_autostart_toggled(self, checkbutton):
+        state = checkbutton.get_active()
+        self.service.options_dict["autostart"].value = state
 
     def on_button_copy_connection_string_clicked(self, button):
         text = self.service.connection_string

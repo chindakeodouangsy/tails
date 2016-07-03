@@ -1,6 +1,7 @@
 import tempfile
 import os
 import shutil
+import threading
 
 
 class PolicyNoAutostartOnInstallation(object):
@@ -22,3 +23,8 @@ class PolicyNoAutostartOnInstallation(object):
         if self.old_policy_path:
             shutil.move(self.old_policy_path, self.policy_path)
         os.rmdir(self.tmp_dir)
+
+
+def run_threaded(function, *args):
+    thread = threading.Thread(target=function, args=args)
+    thread.start()

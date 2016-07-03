@@ -70,6 +70,8 @@ class WrapperParser(CommandParser):
         super().__init__(**kwargs)
         self.subparsers.add_parser("list", help="Print list of available services")
         self.subparsers.add_parser("list-enabled", help="Print list of enabled services")
+        self.subparsers.add_parser("autostart", help="Enable the services which have the "
+                                                     "'autostart' option set to True.")
 
     def add_service_command(self, command_name, *arguments):
         command = super().add_service_command(command_name, *arguments)

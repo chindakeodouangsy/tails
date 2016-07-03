@@ -250,7 +250,7 @@ class TailsService(metaclass=abc.ABCMeta):
         self.print_yaml(attributes)
 
     def enable(self, skip_add_onion=False):
-        if self.is_running:
+        if self.is_running and self.is_published:
             raise ServiceAlreadyEnabledError("Service %r is already enabled" % self.name)
         logging.info("Enabling service %r" % self.name)
 
@@ -259,7 +259,8 @@ class TailsService(metaclass=abc.ABCMeta):
 
         if not self.is_installed:
             self.install()
-        self.start()
+        if not self.is_running:
+            self.start()
         self.create_hs_dir()
         if not skip_add_onion:
             self.add_onion()

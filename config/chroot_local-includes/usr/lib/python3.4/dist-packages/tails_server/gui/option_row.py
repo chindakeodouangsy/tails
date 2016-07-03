@@ -6,8 +6,8 @@ from gi.repository import Gtk
 
 class OptionRow(object, metaclass=abc.ABCMeta):
     known_options_widgets = {
-        "persistence": ("label_persistence", "box_persistence", "checkbutton_persistence"),
-        "autostart": ("label_autostart", "box_autostart", "checkbutton_autostart"),
+        "persistence": ("label_persistence", "box_persistence", "checkbutton_persistence", bool),
+        "autostart": ("label_autostart", "box_autostart", "checkbutton_autostart", bool),
         # "allow-lan": ("label_allow_lan", "box_allow_lan", "checkbutton_allow_lan"),
     }
 
@@ -55,12 +55,17 @@ class OptionRow(object, metaclass=abc.ABCMeta):
 class KnownOptionRow(OptionRow):
     def __init__(self, config_panel, option):
         super().__init__(config_panel, option)
-        label, box, value_widget = self.known_options_widgets[option.name]
+        label, box, value_widget, type_ = self.known_options_widgets[option.name]
         self.label = self.config_panel.builder.get_object(label)
         self.label.unparent()
         self.box = self.config_panel.builder.get_object(box)
         self.box.unparent()
         self.value_widget = self.config_panel.builder.get_object(value_widget)
+        if type_ == bool:
+            self.value_widget.set_active(option.value)
+        elif type in (str, int):
+            self.value_widget.set_text(str(option.value))
+
         self.config_panel.builder.connect_signals(self.config_panel)
 
 

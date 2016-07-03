@@ -5,7 +5,7 @@ import os
 import logging
 
 from tails_server import argument_parser
-from tails_server import config
+from tails_server import util
 import tails_server.services
 
 service_names = tails_server.services.service_names
@@ -23,6 +23,16 @@ def list_enabled():
     enabled_services = [service for service in services if service.is_running]
     for service in enabled_services:
         print("-", service.name)
+
+
+def autostart():
+    autostart_services = [
+        service for service in services
+        if "autostart" in service.options_dict and service.options_dict["autostart"].value
+    ]
+    for service in autostart_services:
+        logging.info("Starting service %r", service.name)
+        util.run_threaded(service.enable)
 
 
 def init(args):
@@ -47,6 +57,8 @@ def main():
         list_services()
     elif args.command == "list-enabled":
         list_enabled()
+    elif args.command == "autostart":
+        autostart()
     else:
         if os.geteuid() != 0:
             exit("This command requires root")
