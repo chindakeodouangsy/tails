@@ -20,3 +20,10 @@ PERSISTENCE_DIR = os.path.join("/live/persistence/TailsData_unlocked", PERSISTEN
 ADDITIONAL_SOFTWARE_CONFIG = "/live/persistence/TailsData_unlocked/live-additional-software.conf"
 
 ANSIBLE_PLAYBOOK_DIR = os.path.join(DATA_DIR, "ansible_playbooks")
+ICON_DIR = os.path.join(DATA_DIR, "icons")
+MAIN_UI_FILE = os.path.join(DATA_DIR, "gui", "tails_server.ui")
+CONFIG_UI_FILE = os.path.join(DATA_DIR, "gui", "service_config.ui")
+SERVICE_CHOOSER_UI_FILE = os.path.join(DATA_DIR, "gui", "service_chooser.ui")
+LOADING_WINDOW_UI_FILE = os.path.join(DATA_DIR, "gui", "loading_window.ui")
+STATUS_UI_FILE = os.path.join(DATA_DIR, "gui", "status.ui")
+SERVICE_LIST_UI_FILE = os.path.join(DATA_DIR, "gui", "service_list.ui")
