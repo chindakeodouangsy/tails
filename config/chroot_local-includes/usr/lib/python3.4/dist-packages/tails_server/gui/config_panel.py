@@ -13,6 +13,7 @@ from tails_server.config import CONFIG_UI_FILE
 class ServiceConfigPanel(object):
 
     def __init__(self, gui, service):
+        logging.debug("Instantiating config panel for service %r", service.name)
         self.gui = gui
         self.service = service
         self.builder = Gtk.Builder()
@@ -41,6 +42,10 @@ class ServiceConfigPanel(object):
         self.switch.set_sensitive(True)
         self.show()
 
+    def on_service_removal(self):
+        self.remove_option_rows()
+        self.switch.set_sensitive(False)
+
     def populate_option_rows(self):
         if self.options_populated:
             return
@@ -64,6 +69,16 @@ class ServiceConfigPanel(object):
 
         for option in self.service.options_dict.values():
             self.add_option(option)
+
+    def remove_option_rows(self):
+        for widget in (self.onion_address_label,
+                       self.connection_string_label,
+                       self.onion_address_box,
+                       self.connection_string_box):
+            widget.set_visible(False)
+        for row in self.option_rows:
+            row.box.set_visible(False)
+            row.label.set_visible(False)
 
     def add_separator(self, group):
         logging.debug("Inserting separator for group %r", group)
@@ -96,12 +111,12 @@ class ServiceConfigPanel(object):
 
         self.builder.get_object("label_service_name").set_text(self.service.name_in_gui)
         self.builder.get_object("label_service_description").set_text(self.service.description)
-        self.builder.get_object("label_onion_address_value").set_text(str(self.service.address))
-        self.builder.get_object("label_connection_string_value").set_text(
-            str(self.service.connection_string_in_gui))
 
-        self.set_new_onion_address_button_sensitivity()
         if self.options_populated:
+            self.builder.get_object("label_onion_address_value").set_text(str(self.service.address))
+            self.builder.get_object("label_connection_string_value").set_text(
+                str(self.service.connection_string_in_gui))
+            self.set_new_onion_address_button_sensitivity()
             self.set_persistence_sensitivity()
             self.set_autorun_sensitivity()
 

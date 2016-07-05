@@ -15,24 +15,17 @@ from tails_server.config import STATUS_UI_FILE
 class ServiceDecorator(object):
 
     status_row = None
-    _config_panel = None
-
-    @property
-    def config_panel(self):
-        if not self._config_panel:
-            logging.debug("Instantiating config panel for service %r", self.service.name)
-            try:
-                self._config_panel = ServiceConfigPanel(self.gui, self)
-            except AttributeError as e:
-                # XXX: This is a workaround for a bug in Python which blames all AttributeErrors on
-                # __getattr__, if a custom __getattr__ was defined.
-                raise Exception(e)
-        return self._config_panel
 
     def __init__(self, gui, service):
         self.gui = gui
         self.service = service
         self.status = ServiceStatus(self)
+        try:
+            self.config_panel = ServiceConfigPanel(self.gui, self)
+        except AttributeError as e:
+            # XXX: This is a workaround for a bug in Python which blames all AttributeErrors on
+            # __getattr__, if a custom __getattr__ was defined.
+            raise Exception(e)
 
     def __getattr__(self, item):
         return getattr(self.service, item)
@@ -51,9 +44,9 @@ class ServiceDecorator(object):
         if self.service.is_running:
             self.service.disable()
         self.status.emit("update", ServiceStatus.STATUS_UNINSTALLING)
-        self._config_panel = None
         self.stop_status_monitor()
         self.service.uninstall()
+        self.config_panel = None
 
     def enable(self):
         self.status.emit("update", ServiceStatus.STATUS_STARTING)
@@ -134,7 +127,7 @@ class ServiceStatus(Gtk.Widget):
                                                              self.tor_dbus_receiver)
 
     def on_update(self, obj, status):
-        logging.debug("New status: %r", status)
+        logging.debug("New status for service %r: %r", self.service.name, status)
         GLib.idle_add(self.update, status)
 
     def update(self, status):
@@ -201,17 +194,17 @@ class ServiceStatus(Gtk.Widget):
         """Receives systemd status value from dbus and sets the status accordingly.
         valid status values: "active", "activating", "inactive", "deactivating"""
         if status == "active":
-            self.update(self.STATUS_ONLINE)
+            self.emit("update", self.STATUS_ONLINE)
         if status == "inactive":
-            self.update(self.STATUS_OFFLINE)
+            self.emit("update", self.STATUS_OFFLINE)
         if status == "activating":
-            self.update(self.STATUS_STARTING)
+            self.emit("update", self.STATUS_STARTING)
         if status == "deactivating":
-            self.update(self.STATUS_STOPPING)
+            self.emit("update", self.STATUS_STOPPING)
 
     def tor_dbus_receiver(self, status):
         if status == "inactive":
-            self.update(self.STATUS_TOR_IS_NOT_RUNNING)
+            self.emit("update", self.STATUS_TOR_IS_NOT_RUNNING)
         if status == "active":
             self.guess_status()
 
@@ -219,12 +212,12 @@ class ServiceStatus(Gtk.Widget):
         if not self.service.is_installed:
             return
         if not self.service.is_running:
-            self.update(self.STATUS_OFFLINE)
+            self.emit("update", self.STATUS_OFFLINE)
             self.service.config_panel.set_switch_status(False)
             return
 
         if not tor_util.tor_has_bootstrapped():
-            self.update(self.STATUS_TOR_IS_NOT_RUNNING)
+            self.emit("update", self.STATUS_TOR_IS_NOT_RUNNING)
             return
 
         if not self.service.address or not self.service.is_published:
@@ -232,5 +225,5 @@ class ServiceStatus(Gtk.Widget):
             self.service.config_panel.set_switch_status(True)
             return
 
-        self.update(self.STATUS_ONLINE)
+        self.emit("update", self.STATUS_ONLINE)
         self.service.config_panel.set_switch_status(True)

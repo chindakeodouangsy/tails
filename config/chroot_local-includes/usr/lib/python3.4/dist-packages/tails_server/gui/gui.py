@@ -1,4 +1,5 @@
 import sh
+import logging
 from gi.repository import Gtk, GLib, Gdk
 
 from tails_server import services
@@ -40,6 +41,7 @@ class TailsServerGUI(object):
         service.run_threaded(self.uninstall_service, service)
 
     def uninstall_service(self, service):
+        service.run_threaded(GLib.idle_add, service.config_panel.on_service_removal)
         service.uninstall()
         GLib.idle_add(self.service_list.remove_service, service)
         self.reset_service(service)
