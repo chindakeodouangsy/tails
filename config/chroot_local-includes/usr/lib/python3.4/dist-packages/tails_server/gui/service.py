@@ -45,7 +45,7 @@ class ServiceDecorator(object):
         self.status.emit("update", ServiceStatus.STATUS_INSTALLING)
         self.service.install()
         self.status.emit("update", ServiceStatus.STATUS_OFFLINE)
-        GLib.idle_add(self.config_panel.populate_option_rows)
+        GLib.idle_add(self.config_panel.on_service_installed)
 
     def uninstall(self):
         if self.service.is_running:

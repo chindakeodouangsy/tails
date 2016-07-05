@@ -179,6 +179,7 @@
             <child>
               <object class="GtkSwitch" id="switch_service_start_stop">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>

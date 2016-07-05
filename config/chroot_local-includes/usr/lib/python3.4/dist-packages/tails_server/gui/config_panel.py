@@ -18,6 +18,7 @@ class ServiceConfigPanel(object):
         self.builder = Gtk.Builder()
         self.builder.add_from_file(CONFIG_UI_FILE)
         self.builder.connect_signals(self)
+        self.switch = self.builder.get_object("switch_service_start_stop")
         self.new_onion_address_button = self.builder.get_object("button_new_onion_address")
         self.onion_address_label = self.builder.get_object("label_onion_address")
         self.connection_string_label = self.builder.get_object("label_connection_string")
@@ -29,11 +30,16 @@ class ServiceConfigPanel(object):
         self.group_separators = collections.OrderedDict()
         self.options_populated = False
         if self.service.is_installed:
-            self.populate_option_rows()
+            self.on_service_installed()
 
     @property
     def is_active(self):
         return self.gui.current_service == self.service
+
+    def on_service_installed(self):
+        self.populate_option_rows()
+        self.switch.set_sensitive(True)
+        self.show()
 
     def populate_option_rows(self):
         if self.options_populated:
@@ -83,6 +89,7 @@ class ServiceConfigPanel(object):
             )
 
     def show(self):
+        logging.debug("Showing config panel of service %r", self.service)
         icon = self.builder.get_object("image_service_icon")
         _, size = icon.get_icon_name()
         icon.set_from_icon_name(self.service.icon_name, size)
@@ -111,6 +118,7 @@ class ServiceConfigPanel(object):
         try:
             persistence_row = [r for r in self.option_rows if r.option.name == "persistence"][0]
         except IndexError:
+            logging.warning("No 'persistence' option for service %r", self.service)
             return
 
         if os.path.exists("/live/persistence/TailsData_unlocked"):
@@ -120,6 +128,7 @@ class ServiceConfigPanel(object):
                 persistence_row.box.remove(label)
             return
 
+        logging.debug("Setting persistence sensitivity to False")
         persistence_row.sensitive = False
         label = self.builder.get_object("label_persistence_comment")
         if label not in persistence_row.box.get_children():
@@ -169,10 +178,9 @@ class ServiceConfigPanel(object):
         )
 
     def set_switch_status(self, status):
-        switch = self.builder.get_object("switch_service_start_stop")
         # XXX: Use only either set_active or set_status here?
-        switch.set_active(status)
-        switch.set_state(status)
+        self.switch.set_active(status)
+        self.switch.set_state(status)
 
     def apply_options(self):
         logging.debug("Applying options")

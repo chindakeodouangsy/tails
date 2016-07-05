@@ -47,7 +47,7 @@ class TailsServerGUI(object):
     def reset_service(self, service):
         i = self.services.index(service)
         new_service = service_modules_dict[service.name].service_class()
-        self.services[i] = service.ServiceDecorator(self, new_service)
+        self.services[i] = ServiceDecorator(self, new_service)
 
     def on_listbox_service_status_row_activated(self, listbox, listboxrow):
         self.service_list.row_selected(listboxrow)
