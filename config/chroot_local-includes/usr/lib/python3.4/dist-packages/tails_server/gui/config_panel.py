@@ -6,6 +6,7 @@ import sh
 from gi.repository import Gtk
 
 from tails_server.gui.option_row import OptionRow
+from tails_server.gui.service_status import STATUS_STOPPED, STATUS_STOPPING
 
 from tails_server.config import CONFIG_UI_FILE
 
@@ -197,6 +198,12 @@ class ServiceConfigPanel(object):
         # XXX: Use only either set_active or set_status here?
         self.switch.set_active(status)
         self.switch.set_state(status)
+
+    def update_switch_status(self):
+        if self.service.status.service_status in [STATUS_STOPPED, STATUS_STOPPING]:
+            self.set_switch_status(False)
+        else:
+            self.set_switch_status(True)
 
     def apply_options(self):
         logging.debug("Applying options")

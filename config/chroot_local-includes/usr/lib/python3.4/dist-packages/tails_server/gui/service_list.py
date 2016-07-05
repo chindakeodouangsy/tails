@@ -38,6 +38,7 @@ class ServiceList(object):
         self.listbox.add(service_list_row.listboxrow)
 
         service.status.guess_status()
+        service.config_panel.update_switch_status()
         service.activate_status_monitor()
 
     def remove_service(self, service):

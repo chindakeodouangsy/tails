@@ -13,3 +13,6 @@ class ServiceNotInstalledError(Exception):
 class TorIsNotRunningError(Exception):
     pass
 
+
+class InvalidStatusError(Exception):
+    pass
