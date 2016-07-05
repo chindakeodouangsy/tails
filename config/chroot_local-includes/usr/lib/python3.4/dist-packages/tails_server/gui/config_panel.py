@@ -101,8 +101,9 @@ class ServiceConfigPanel(object):
             str(self.service.connection_string_in_gui))
 
         self.set_new_onion_address_button_sensitivity()
-        self.set_persistence_sensitivity()
-        self.set_autorun_sensitivity()
+        if self.options_populated:
+            self.set_persistence_sensitivity()
+            self.set_autorun_sensitivity()
 
         config_panel_container = self.gui.builder.get_object("scrolledwindow_service_config")
         for child in config_panel_container.get_children():
