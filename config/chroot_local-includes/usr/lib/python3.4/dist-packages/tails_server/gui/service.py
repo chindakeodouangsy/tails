@@ -125,12 +125,14 @@ class ServiceStatus(Gtk.Widget):
                                                          self.dbus_receiver)
         self.tor_dbus_monitor = dbus_interface.StatusMonitor(TOR_BOOTSTRAPPED_TARGET,
                                                              self.tor_dbus_receiver)
+        self.status = str()
 
     def on_update(self, obj, status):
         logging.debug("New status for service %r: %r", self.service.name, status)
         GLib.idle_add(self.update, status)
 
     def update(self, status):
+        self.status = status
         self.update_config_panel(status)
         self.update_service_list(status)
 
@@ -193,14 +195,26 @@ class ServiceStatus(Gtk.Widget):
     def dbus_receiver(self, status):
         """Receives systemd status value from dbus and sets the status accordingly.
         valid status values: "active", "activating", "inactive", "deactivating"""
-        if status == "active":
-            self.emit("update", self.STATUS_ONLINE)
-        if status == "inactive":
-            self.emit("update", self.STATUS_OFFLINE)
+
         if status == "activating":
+            if self.status == self.STATUS_PUBLISHING:
+                return
             self.emit("update", self.STATUS_STARTING)
+
+        if status == "active":
+            if self.status == self.STATUS_PUBLISHING:
+                return
+            self.emit("update", self.STATUS_ONLINE)
+
         if status == "deactivating":
+            if self.status == self.STATUS_UNINSTALLING:
+                return
             self.emit("update", self.STATUS_STOPPING)
+
+        if status == "inactive":
+            if self.status == self.STATUS_UNINSTALLING:
+                return
+            self.emit("update", self.STATUS_OFFLINE)
 
     def tor_dbus_receiver(self, status):
         if status == "inactive":
