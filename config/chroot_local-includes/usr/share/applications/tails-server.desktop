@@ -5,6 +5,6 @@ Comment=Install and Configure Onion Services
 Icon=network-workgroup.svg
 Exec=gksudo tails-server
 Terminal=false
-Categories=Internet;Tails;
+Categories=Network;Tails;
 Keywords=Tails;Server;Services;Onion;Network;Tor;Anonymous;File Sharing;Voice Chat;VoIP;Collaborative;
 
