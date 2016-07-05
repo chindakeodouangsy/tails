@@ -138,6 +138,10 @@ class ServiceConfigPanel(object):
             logging.warning("No 'persistence' option for service %r", self.service)
             return
 
+        if self.switch.get_active():
+            persistence_row.sensitive = False
+            return
+
         if os.path.exists("/live/persistence/TailsData_unlocked"):
             persistence_row.sensitive = True
             label = self.builder.get_object("label_persistence_comment")
@@ -157,6 +161,11 @@ class ServiceConfigPanel(object):
         except IndexError:
             logging.warning("No 'autostart' option for service %r", self.service)
             return
+
+        if self.switch.get_active():
+            autostart_row.sensitive = False
+            return
+
         if not self.service.options_dict["persistence"].value:
             autostart_row.sensitive = False
         else:
