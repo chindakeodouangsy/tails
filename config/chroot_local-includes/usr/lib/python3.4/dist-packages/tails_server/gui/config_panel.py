@@ -175,18 +175,12 @@ class ServiceConfigPanel(object):
             persistence_row.sensitive = False
             return
 
-        if os.path.exists("/live/persistence/TailsData_unlocked"):
-            persistence_row.sensitive = True
-            label = self.builder.get_object("label_persistence_comment")
-            if label in persistence_row.box.get_children():
-                persistence_row.box.remove(label)
-            return
-
-        logging.debug("Setting persistence sensitivity to False")
-        persistence_row.sensitive = False
+        persistence_row.sensitive = True
         label = self.builder.get_object("label_persistence_comment")
-        if label not in persistence_row.box.get_children():
-            persistence_row.box.pack_end(label, expand=True, fill=True, padding=0)
+        if label in persistence_row.box.get_children():
+            persistence_row.box.remove(label)
+        return
+
 
     def set_autorun_sensitivity(self):
         try:
