@@ -407,10 +407,11 @@ python-qt4
 libgnome2-bin
 
 # Tails Server
-python3-stem
-python3-sh
-python3-yaml
-python3-gi
-python3-dbus
-python3-apt
 ansible
+python3-apt
+python3-dbus
+python3-gi
+python3-openssl
+python3-sh
+python3-stem
+python3-yaml
