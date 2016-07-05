@@ -160,7 +160,10 @@ class ServiceStatus(Gtk.Widget):
             self.service.config_panel.show()
 
     def update_service_list(self, status):
-        service_row = self.service.gui.service_list.service_row_dict[self.service]
+        try:
+            service_row = self.service.gui.service_list.service_row_dict[self.service]
+        except KeyError:
+            return
         builder = service_row.builder
         box = builder.get_object("box_status_inner")
         label = builder.get_object("label_status_value")
