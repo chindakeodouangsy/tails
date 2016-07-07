@@ -42,6 +42,7 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
 
 class AutoSaveInterval(service_option_template.TailsServiceOption):
     name = "autosave-interval"
+    name_in_gui = "Autosave Interval (Sec)"
     description = "Interval in seconds to automatically save all open documents"
     default = 30
     type = int
