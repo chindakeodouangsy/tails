@@ -75,7 +75,7 @@ class MumbleServer(service_template.TailsService):
         return cert.digest("sha1").decode()
 
     @property
-    def connection_string(self):
+    def connection_info(self):
         if not self.address:
             return None
 
@@ -97,7 +97,7 @@ class MumbleServer(service_template.TailsService):
             return None
 
         # masked_password = "*" * len(self.options_dict["server-password"].value)
-        return self.connection_string.replace("\n", "; ")
+        return self.connection_info.replace("\n", "; ")
 
     options = [
         service_option_template.VirtualPort,

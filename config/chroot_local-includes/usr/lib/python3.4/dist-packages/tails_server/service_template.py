@@ -110,14 +110,14 @@ class TailsService(metaclass=abc.ABCMeta):
         return self.default_virtual_port
 
     @property
-    def connection_string(self):
+    def connection_info(self):
         if self.address:
             return "%s:%s" % (self.address, self.virtual_port)
         return None
 
     @property
     def connection_string_in_gui(self):
-        return self.connection_string
+        return self.connection_info
 
     @property
     @abc.abstractmethod

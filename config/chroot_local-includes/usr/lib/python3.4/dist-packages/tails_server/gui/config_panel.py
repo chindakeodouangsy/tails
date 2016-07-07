@@ -246,7 +246,7 @@ class ServiceConfigPanel(object):
         self.service.options_dict["autostart"].value = state
 
     def on_button_copy_connection_string_clicked(self, button):
-        text = self.service.connection_string
+        text = self.service.connection_info
         self.gui.clipboard.set_text(text, len(text))
 
     def on_button_new_onion_address_clicked(self, button):
