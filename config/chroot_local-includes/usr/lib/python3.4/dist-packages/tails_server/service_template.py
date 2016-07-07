@@ -297,6 +297,8 @@ class TailsService(metaclass=abc.ABCMeta):
         logging.info("Service %r installed", self.name)
 
     def uninstall(self):
+        if self.is_running:
+            self.disable()
         if self.is_persistent:
             self.remove_persistence()
         self.uninstall_packages()
