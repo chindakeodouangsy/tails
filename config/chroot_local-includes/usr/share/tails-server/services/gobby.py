@@ -78,6 +78,16 @@ class GobbyServer(service_template.TailsService):
         AutoSaveInterval,
     ]
 
+    @property
+    def connection_info(self):
+        if not self.address:
+            return None
+
+        s = str()
+        s += "Address: %s\n" % self.address
+        s += "Password: %s\n" % self.options_dict["server-password"].value
+        return s
+
     # def start(self):
     #     logging.info("Starting gobby server infinoted")
     #     sh.infinoted("-d")
