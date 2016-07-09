@@ -5,6 +5,7 @@ from gi.repository import Gtk, Gdk
 
 from tails_server.config import SERVICE_OPTION_UI_FILE
 
+
 class OptionRow(object, metaclass=abc.ABCMeta):
     known_options_widgets = {
         "persistence": ("label_persistence", "box_persistence", "checkbutton_persistence", bool),
@@ -35,9 +36,15 @@ class OptionRow(object, metaclass=abc.ABCMeta):
 
     def set_text(self, value):
         if self.option.masked:
-            self.value_widget.set_text("*" * len(value))
+            self.set_masked_text(value)
         else:
-            self.value_widget.set_text(value)
+            self.set_unmasked_text(value)
+
+    def set_unmasked_text(self, value):
+        self.value_widget.set_text(value)
+
+    def set_masked_text(self, value):
+        self.value_widget.set_text("*" * len(value))
 
     @classmethod
     def create(cls, config_panel, option):
@@ -86,8 +93,6 @@ class ClickableLabel(object):
         self.button_box = button_box
         self.label = label
         self.image = image
-        # for widget in (self.button, self.label, self.image):
-        #     widget.unparent()
         self._clickable = True
         self._make_clickable()
 
@@ -108,6 +113,10 @@ class ClickableLabel(object):
         if not self._clickable:
             self.container.remove(self.label)
             self.container.remove(self.image)
+        for child in self.container.get_children():
+            self.container.remove(child)
+        for child in self.button_box.get_children():
+            self.button_box.remove(child)
         self.button_box.pack_start(self.label, expand=True, fill=True, padding=0)
         self.button_box.pack_end(self.image, expand=False, fill=False, padding=0)
         self.container.pack_start(self.button, expand=True, fill=True, padding=0)
@@ -162,6 +171,13 @@ class EditableOptionRow(UnknownOptionRow):
     @sensitive.setter
     def sensitive(self, value):
         self.clickable_label.clickable = value
+        if not self.option.masked:
+            return
+        show_button = self.builder.get_object("togglebutton_show")
+        if not value:
+            self.box.pack_end(show_button, expand=False, fill=False, padding=0)
+        else:
+            self.box.remove(show_button)
 
     def __init__(self, config_panel, option):
         super().__init__(config_panel, option)
@@ -178,6 +194,12 @@ class EditableOptionRow(UnknownOptionRow):
                                               self.value_widget, self.image_edit)
         self._in_stop_editing = False
         self._button_pressed = False
+
+    def on_togglebutton_show_toggled(self, button):
+        if button.get_active():
+            self.set_unmasked_text(self.masked_value)
+        else:
+            self.set_masked_text(self.masked_value)
 
     def on_entry_key_press_event(self, widget, event):
         key_name = Gdk.keyval_name(event.keyval)
@@ -221,9 +243,10 @@ class EditableOptionRow(UnknownOptionRow):
         logging.log(5, "Entering stop editing")
         self._in_stop_editing = True
         if apply:
-            self.masked_value = self.entry.get_text()
-            self.set_text(self.masked_value)
-            self.option.value = self.masked_value
+            value = self.entry.get_text()
+            self.masked_value = value
+            self.set_text(value)
+            self.option.value = value
         self.button_box.remove(self.entry)
         self.button_box.pack_start(self.value_widget, expand=True, fill=True, padding=0)
         self.image_edit.set_from_stock("gtk-edit", Gtk.IconSize.BUTTON)
