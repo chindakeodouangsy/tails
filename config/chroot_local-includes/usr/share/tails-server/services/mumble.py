@@ -89,7 +89,7 @@ class MumbleServer(service_template.TailsService):
         s += "Address: %s\n" % self.address
         s += "Port: %s\n" % self.virtual_port
         s += "Password: %s\n" % self.options_dict["server-password"].value
-        s += "Certificate SHA1 Fingerprint: %s" % self.fingerprint
+        s += "Certificate SHA-1 Fingerprint: %s" % self.fingerprint
         return s
 
     @property

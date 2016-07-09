@@ -9,7 +9,7 @@ from gi.repository import Gtk
 from tails_server.gui.option_row import OptionRow, ClickableLabel
 from tails_server.gui.service_status import STATUS_STOPPED, STATUS_STOPPING
 
-from tails_server.config import CONFIG_UI_FILE
+from tails_server.config import CONFIG_UI_FILE, CONNECTION_INFO_UI_FILE
 
 
 class ServiceConfigPanel(object):
@@ -137,8 +137,6 @@ class ServiceConfigPanel(object):
 
         if self.options_populated:
             self.builder.get_object("label_onion_address_value").set_text(str(self.service.address))
-            self.builder.get_object("label_connection_info_value").set_text(
-                str(self.service.connection_info_in_gui))
             self.set_onion_address_sensitivity()
             self.set_connection_info_sensitivity()
             self.set_persistence_sensitivity()
@@ -151,12 +149,20 @@ class ServiceConfigPanel(object):
         self.gui.current_service = self.service
 
     def set_onion_address_sensitivity(self):
-        if not self.service.address:
-            self.onion_address_clickable_label.clickable = False
+        if self.service.address:
+            self.onion_address_box.set_visible(True)
+            self.onion_address_label.set_visible(True)
+        else:
+            self.onion_address_box.set_visible(False)
+            self.onion_address_label.set_visible(False)
 
     def set_connection_info_sensitivity(self):
-        if not self.service.address:
-            self.connection_info_clickable_label.clickable = False
+        if self.service.address:
+            self.connection_info_box.set_visible(True)
+            self.connection_info_label.set_visible(True)
+        else:
+            self.connection_info_box.set_visible(False)
+            self.connection_info_label.set_visible(False)
 
     def set_persistence_sensitivity(self):
         try:
@@ -250,7 +256,6 @@ class ServiceConfigPanel(object):
         for option_row in self.option_rows:
             option_row.sensitive = not status
         self.onion_address_clickable_label.clickable = not status
-        self.connection_info_clickable_label.clickable = not status
         self.set_autorun_sensitivity()
         self.set_onion_address_sensitivity()
         self.set_connection_info_sensitivity()
@@ -281,18 +286,37 @@ class ServiceConfigPanel(object):
 
     def on_button_connection_info_clicked(self, button):
         text = self.service.connection_info
-        in_stream = io.StringIO(text)
-        try:
-            sh.zenity(
-                "--text-info",
-                "--ok-label", "Copy",
-                "--cancel-label", "Don't Copy",
-                "--title", "Connection Information",
-                _in=in_stream
-            )
-        except sh.ErrorReturnCode_1:
-            return
+        # in_stream = io.StringIO(text)
+        # try:
+        #     sh.zenity(
+        #         "--text-info",
+        #         "--ok-label", "Copy",
+        #         "--cancel-label", "Don't Copy",
+        #         "--title", "Connection Information",
+        #         _in=in_stream
+        #     )
+        # except sh.ErrorReturnCode_1:
+        #     return
+
+        builder = Gtk.Builder()
+        builder.add_from_file(CONNECTION_INFO_UI_FILE)
+        builder.connect_signals(self)
+        textbuffer = builder.get_object("textbuffer")
+        # XXX: Do we have to set a length here? Make sure this is overflow resistant.
+        textbuffer.set_text(text, length=-1)
+        textview = builder.get_object("textview")
+        window = builder.get_object("dialog")
+        window.show_all()
+        allocated_width = textview.get_allocated_width()
+        logging.debug("allocated_width: %r", allocated_width)
+
+    def on_close_button_clicked(self, window):
+        window.close()
+
+    def on_copy_connection_info_button_clicked(self, window):
+        text = self.service.connection_info
         self.gui.clipboard.set_text(text, len(text))
+        window.close()
 
     def on_button_onion_address_clicked(self, button):
         confirmed = self.gui.obtain_confirmation(
