@@ -110,14 +110,14 @@ class TailsService(metaclass=abc.ABCMeta):
         return self.default_virtual_port
 
     @property
-    def connection_string(self):
+    def connection_info(self):
         if self.address:
             return "%s:%s" % (self.address, self.virtual_port)
         return None
 
     @property
-    def connection_string_in_gui(self):
-        return self.connection_string
+    def connection_info_in_gui(self):
+        return self.connection_info
 
     @property
     @abc.abstractmethod
@@ -297,6 +297,8 @@ class TailsService(metaclass=abc.ABCMeta):
         logging.info("Service %r installed", self.name)
 
     def uninstall(self):
+        if self.is_running:
+            self.disable()
         if self.is_persistent:
             self.remove_persistence()
         self.uninstall_packages()

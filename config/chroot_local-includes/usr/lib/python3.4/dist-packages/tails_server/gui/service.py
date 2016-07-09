@@ -38,8 +38,6 @@ class ServiceDecorator(object):
         GLib.idle_add(self.config_panel.on_service_installed)
 
     def uninstall(self):
-        if self.service.is_running:
-            self.service.disable()
         self.status.emit("update", STATUS_UNINSTALLING)
         self.stop_status_monitor()
         self.service.uninstall()

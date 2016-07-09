@@ -37,6 +37,7 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
     description = "Password required to connect to service"
     type = str
     group = "connection"
+    masked = True
 
     @property
     def default(self):
@@ -75,7 +76,7 @@ class MumbleServer(service_template.TailsService):
         return cert.digest("sha1").decode()
 
     @property
-    def connection_string(self):
+    def connection_info(self):
         if not self.address:
             return None
 
@@ -88,16 +89,16 @@ class MumbleServer(service_template.TailsService):
         s += "Address: %s\n" % self.address
         s += "Port: %s\n" % self.virtual_port
         s += "Password: %s\n" % self.options_dict["server-password"].value
-        s += "Certificate SHA1 Fingerprint: %s" % self.fingerprint
+        s += "Certificate SHA-1 Fingerprint: %s" % self.fingerprint
         return s
 
     @property
-    def connection_string_in_gui(self):
+    def connection_info_in_gui(self):
         if not self.address:
             return None
 
         # masked_password = "*" * len(self.options_dict["server-password"].value)
-        return self.connection_string.replace("\n", "; ")
+        return self.connection_info.replace("\n", "; ")
 
     options = [
         service_option_template.VirtualPort,

@@ -25,6 +25,7 @@
       <object class="GtkBox" id="box_autostart">
         <property name="sensitive">False</property>
         <property name="can_focus">False</property>
+        <property name="margin_left">5</property>
         <child>
           <object class="GtkCheckButton" id="checkbutton_autostart">
             <property name="visible">True</property>
@@ -64,10 +65,59 @@
       </packing>
     </child>
   </object>
-  <object class="GtkImage" id="image1">
+  <object class="GtkBox" id="persistence">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-refresh</property>
+    <child>
+      <object class="GtkLabel" id="label_persistence">
+        <property name="visible">True</property>
+        <property name="sensitive">False</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">1</property>
+        <property name="label" translatable="yes">Persistent</property>
+        <property name="wrap">True</property>
+        <property name="width_chars">7</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkBox" id="box_persistence">
+        <property name="can_focus">False</property>
+        <property name="margin_left">5</property>
+        <child>
+          <object class="GtkCheckButton" id="checkbutton_persistence">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="xalign">0</property>
+            <property name="draw_indicator">True</property>
+            <signal name="toggled" handler="on_checkbutton_persistence_toggled" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkTextBuffer" id="textbuffer1">
+    <property name="text" translatable="yes">mumble://username:sILJL7S348ABvpw9saDd@62g5pcnlcldv5u7d.onion</property>
+  </object>
+  <object class="GtkTextView" id="textview1">
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <property name="buffer">textbuffer1</property>
   </object>
   <object class="GtkViewport" id="viewport_service_config">
     <property name="visible">True</property>
@@ -183,6 +233,7 @@
                 <property name="can_focus">True</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>
+                <property name="margin_left">10</property>
                 <signal name="state-set" handler="on_switch_service_start_stop_state_set" swapped="no"/>
               </object>
               <packing>
@@ -205,65 +256,7 @@
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
             <property name="row_spacing">5</property>
-            <property name="column_spacing">10</property>
-            <child>
-              <object class="GtkLabel" id="label_connection_string">
-                <property name="sensitive">False</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">1</property>
-                <property name="label" translatable="yes">Connection Info</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="box_connection_string">
-                <property name="can_focus">False</property>
-                <property name="hexpand">True</property>
-                <child>
-                  <object class="GtkLabel" id="label_connection_string_value">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
-                    <property name="label" translatable="yes">mumble://nickname:password@kcypfugyqj2nkv5q.onion</property>
-                    <property name="selectable">True</property>
-                    <property name="ellipsize">end</property>
-                    <property name="max_width_chars">30</property>
-                    <property name="lines">1</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="button_copy_connection_string">
-                    <property name="label">gtk-copy</property>
-                    <property name="width_request">74</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="use_stock">True</property>
-                    <property name="xalign">0</property>
-                    <property name="always_show_image">True</property>
-                    <signal name="clicked" handler="on_button_copy_connection_string_clicked" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack_type">end</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
+            <property name="column_spacing">5</property>
             <child>
               <object class="GtkLabel" id="label_onion_address">
                 <property name="sensitive">False</property>
@@ -273,47 +266,6 @@
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox" id="box_onion_address">
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkLabel" id="label_onion_address_value">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
-                    <property name="label" translatable="yes">kcypfugyqj2nkv5q.onion</property>
-                    <property name="selectable">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="button_new_onion_address">
-                    <property name="label" translatable="yes">Reset</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="image">image1</property>
-                    <property name="xalign">0</property>
-                    <property name="always_show_image">True</property>
-                    <signal name="clicked" handler="on_button_new_onion_address_clicked" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack_type">end</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
                 <property name="top_attach">3</property>
               </packing>
             </child>
@@ -336,6 +288,7 @@
               <object class="GtkBox" id="box_status">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_left">5</property>
                 <property name="margin_bottom">5</property>
                 <property name="spacing">5</property>
                 <child>
@@ -360,10 +313,144 @@
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkBox" id="box_onion_address">
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkButton" id="button_onion_address">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <property name="image_position">right</property>
+                    <signal name="clicked" handler="on_button_onion_address_clicked" swapped="no"/>
+                    <child>
+                      <object class="GtkBox" id="box_button_onion_address">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <child>
+                          <object class="GtkLabel" id="label_onion_address_value">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">kcypfugyqj2nkv5q.onion</property>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkImage" id="image_refresh">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="opacity">0.80000000000000004</property>
+                            <property name="stock">gtk-refresh</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="pack_type">end</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">3</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkLabel" id="label_connection_info">
+                <property name="sensitive">False</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">1</property>
+                <property name="label" translatable="yes">Connection Info</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="box_connection_info">
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkButton" id="button_connection_info">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <property name="image_position">right</property>
+                    <signal name="clicked" handler="on_button_connection_info_clicked" swapped="no"/>
+                    <child>
+                      <object class="GtkBox" id="box_button_connection_info">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <child>
+                          <object class="GtkLabel" id="label_connection_info_value">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Click to display</property>
+                            <property name="ellipsize">end</property>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkImage" id="image_copy">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="opacity">0.80000000000000004</property>
+                            <property name="stock">gtk-info</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="pack_type">end</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSeparator" id="separator1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">2</property>
+                <property name="width">2</property>
+              </packing>
             </child>
           </object>
           <packing>
@@ -373,76 +460,6 @@
           </packing>
         </child>
       </object>
-    </child>
-  </object>
-  <object class="GtkImage" id="image_tor_connected">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-  </object>
-  <object class="GtkImage" id="image_tor_not_connected">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">tor-stopping</property>
-  </object>
-  <object class="GtkBox" id="persistence">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <child>
-      <object class="GtkLabel" id="label_persistence">
-        <property name="visible">True</property>
-        <property name="sensitive">False</property>
-        <property name="can_focus">False</property>
-        <property name="xalign">1</property>
-        <property name="label" translatable="yes">Persistence</property>
-        <property name="wrap">True</property>
-        <property name="width_chars">7</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkBox" id="box_persistence">
-        <property name="can_focus">False</property>
-        <child>
-          <object class="GtkCheckButton" id="checkbutton_persistence">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">False</property>
-            <property name="xalign">0</property>
-            <property name="draw_indicator">True</property>
-            <signal name="toggled" handler="on_checkbutton_persistence_toggled" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label_persistence_comment">
-            <property name="visible">True</property>
-            <property name="sensitive">False</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">(no persistence volume detected)</property>
-            <attributes>
-              <attribute name="scale" value="0.80000000000000004"/>
-            </attributes>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
     </child>
   </object>
 </interface>

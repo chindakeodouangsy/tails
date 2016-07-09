@@ -24,6 +24,7 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
     description = "Password required to connect to service"
     type = str
     group = "connection"
+    masked = True
 
     @property
     def default(self):
@@ -42,6 +43,7 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
 
 class AutoSaveInterval(service_option_template.TailsServiceOption):
     name = "autosave-interval"
+    name_in_gui = "Autosave Interval (Sec)"
     description = "Interval in seconds to automatically save all open documents"
     default = 30
     type = int
@@ -76,6 +78,16 @@ class GobbyServer(service_template.TailsService):
         service_option_template.AllowLanOption,
         AutoSaveInterval,
     ]
+
+    @property
+    def connection_info(self):
+        if not self.address:
+            return None
+
+        s = str()
+        s += "Address: %s\n" % self.address
+        s += "Password: %s\n" % self.options_dict["server-password"].value
+        return s
 
     # def start(self):
     #     logging.info("Starting gobby server infinoted")
