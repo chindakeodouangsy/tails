@@ -12,7 +12,7 @@ STATUS_RUNNING = "Running"
 STATUS_STOPPING = "Stopping"
 STATUS_STOPPED = "Stopped"
 
-STATUS_PUBLISHING = "Connecting to Tor"
+STATUS_PUBLISHING = "Registering onion address"
 STATUS_ONLINE = "Online"
 STATUS_OFFLINE = "Offline"
 
