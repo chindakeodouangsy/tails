@@ -78,6 +78,9 @@
                         <property name="use_underline">True</property>
                         <property name="icon_name">list-add-symbolic</property>
                         <signal name="clicked" handler="on_button_add_service_clicked" swapped="no"/>
+                        <style>
+                          <class name="suggested-action"/>
+                        </style>
                       </object>
                       <packing>
                         <property name="expand">False</property>
