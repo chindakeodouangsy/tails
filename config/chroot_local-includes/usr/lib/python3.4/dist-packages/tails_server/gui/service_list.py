@@ -14,6 +14,7 @@ class ServiceList(object):
         self.gui = gui
         self.builder = gui.builder
         self.listbox = self.builder.get_object("listbox_service_status")
+        self.remove_service_button = self.builder.get_object("toolbutton_remove_service")
 
     def __len__(self):
         return len(self.service_row_dict)
@@ -36,6 +37,7 @@ class ServiceList(object):
         service_list_row = ServiceListRow(service)
         self.service_row_dict[service] = service_list_row
         self.listbox.add(service_list_row.listboxrow)
+        self.remove_service_button.set_sensitive(True)
 
         service.status.guess_status()
         service.config_panel.update_switch_status()
@@ -50,6 +52,7 @@ class ServiceList(object):
             self.select_service(self[0])
         else:
             self.gui.show_config_panel_placeholder()
+            self.remove_service_button.set_sensitive(False)
 
     def row_selected(self, listboxrow):
         service = self.listboxrow_to_service(listboxrow)
