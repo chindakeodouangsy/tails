@@ -43,8 +43,8 @@ class TailsServerGUI(object):
     def uninstall_service(self, service):
         service.run_threaded(GLib.idle_add, service.config_panel.on_service_removal)
         service.uninstall()
+        GLib.idle_add(self.reset_service, service)
         GLib.idle_add(self.service_list.remove_service, service)
-        self.reset_service(service)
 
     def reset_service(self, service):
         i = self.services.index(service)
