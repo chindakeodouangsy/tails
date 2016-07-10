@@ -87,6 +87,8 @@ class GobbyServer(service_template.TailsService):
         s = str()
         s += "Application: Gobby (included in Tails)\n"
         s += "Address (Host Name): %s\n" % self.address
+        if self.virtual_port != self.default_virtual_port:
+            s += "Port: %s" % self.virtual_port
         s += "Password: %s\n" % self.options_dict["server-password"].value
         return s
 
