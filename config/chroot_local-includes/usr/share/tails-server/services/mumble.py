@@ -85,7 +85,10 @@ class MumbleServer(service_template.TailsService):
         if self.virtual_port != self.default_target_port:
             mime_string += ":%s" % self.virtual_port
 
-        s = "%s\n" % mime_string
+        s = str()
+        s += "Application: Mumble (included in Tails)\n"
+        s += "URL: %s (Copy to clipboard before adding the server in the Mumble client, " \
+             "to fill in the connection info fields automatically)\n" % mime_string
         s += "Address: %s\n" % self.address
         s += "Port: %s\n" % self.virtual_port
         s += "Password: %s\n" % self.options_dict["server-password"].value

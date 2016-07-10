@@ -85,7 +85,8 @@ class GobbyServer(service_template.TailsService):
             return None
 
         s = str()
-        s += "Address: %s\n" % self.address
+        s += "Application: Gobby (included in Tails)\n"
+        s += "Address (Host Name): %s\n" % self.address
         s += "Password: %s\n" % self.options_dict["server-password"].value
         return s
 
