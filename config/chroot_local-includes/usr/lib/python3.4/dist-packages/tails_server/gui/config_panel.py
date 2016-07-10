@@ -237,6 +237,7 @@ class ServiceConfigPanel(object):
         )
 
     def set_switch_status(self, status):
+        logging.debug("Setting switch status to %r", status)
         # XXX: Use only either set_active or set_status here?
         self.switch.set_active(status)
         self.switch.set_state(status)

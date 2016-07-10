@@ -26,6 +26,7 @@ STATUS_TOR_IS_RUNNING = "Tor is running"
 STATUS_ERROR = "An error occurred. See the log for details."
 STATUS_INVALID = "The service is in an invalid state. See the log for details."
 
+
 class ServiceStatus(Gtk.Widget):
 
     @classmethod
@@ -193,9 +194,8 @@ class ServiceStatus(Gtk.Widget):
         else:
             self.onion_status = STATUS_OFFLINE
 
-        # if not self.service.address or not self.service.is_published:
-        #     self.service.run_threaded(self.service.add_onion)
-        #     self.service.config_panel.set_switch_status(True)
-        #     return
-
         self.emit("update", self.get_status_from_substates())
+
+    def make_states_consistent(self):
+        if self.service_status == STATUS_RUNNING and self.onion_status == STATUS_OFFLINE:
+            self.service.run_threaded(self.service.add_onion)
