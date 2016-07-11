@@ -5,6 +5,7 @@ import random
 import sqlite3
 import OpenSSL.crypto
 
+from tails_server import _
 from tails_server import file_util
 from tails_server import option_util
 from tails_server import service_template
@@ -15,7 +16,7 @@ CONFIG_FILE = "/etc/mumble-server.ini"
 
 class WelcomeMessageOption(service_option_template.TailsServiceOption):
     name = "welcome-message"
-    description = "Welcome message sent to clients when they connect"
+    description = _("Welcome message sent to clients when they connect")
     type = str
     default = ""
 
@@ -33,8 +34,8 @@ class WelcomeMessageOption(service_option_template.TailsServiceOption):
 class ServerPasswordOption(service_option_template.TailsServiceOption):
     DEFAULT_LENGTH = 20
     name = "server-password"
-    name_in_gui = "Password"
-    description = "Password required to connect to service"
+    name_in_gui = _("Password")
+    description = _("Password required to connect to service")
     type = str
     group = "connection"
     masked = True
@@ -58,7 +59,7 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
 class MumbleServer(service_template.TailsService):
     name = "mumble"
     systemd_service = "mumble-server.service"
-    description = "A voice chat server"
+    description = _("A voice chat server")
     packages = ["mumble-server"]
     default_target_port = 64738
     documentation = "file:///usr/share/doc/tails/website/doc/tails_server/mumble.en.html"
@@ -80,19 +81,19 @@ class MumbleServer(service_template.TailsService):
         if not self.address:
             return None
 
-        mime_string = "mumble://username:%s@%s" % (self.options_dict["server-password"].value,
-                                                   self.address)
+        mime_string = _("mumble://username:{}@{}".format(
+            self.options_dict["server-password"].value, self.address))
         if self.virtual_port != self.default_target_port:
             mime_string += ":%s" % self.virtual_port
 
         s = str()
-        s += "Application: Mumble (included in Tails)\n"
-        s += "URL: %s (Copy to clipboard before adding the server in the Mumble client, " \
-             "to fill in the connection info fields automatically)\n" % mime_string
-        s += "Address: %s\n" % self.address
-        s += "Port: %s\n" % self.virtual_port
-        s += "Password: %s\n" % self.options_dict["server-password"].value
-        s += "Certificate SHA-1 Fingerprint: %s" % self.fingerprint
+        s += _("Application: Mumble (included in Tails)\n")
+        s += _("URL: %s (Copy to clipboard before adding the server in the Mumble client, "
+               "to fill in the connection info fields automatically)\n") % mime_string
+        s += _("Address: %s\n") % self.address
+        s += _("Port: %s\n") % self.virtual_port
+        s += _("Password: %s\n") % self.options_dict["server-password"].value
+        s += _("Certificate SHA-1 Fingerprint: %s") % self.fingerprint
         return s
 
     @property

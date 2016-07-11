@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-import logging
 import os
-import sh
 import random
 import string
 
+from tails_server import _
 from tails_server import file_util
 from tails_server import option_util
 from tails_server import service_template
@@ -62,7 +61,7 @@ class AutoSaveInterval(service_option_template.TailsServiceOption):
 class GobbyServer(service_template.TailsService):
     name = "gobby"
     systemd_service = "gobby-server.service"
-    description = "A collaborative text editor"
+    description = _("A collaborative text editor")
     packages = ["infinoted"]
     default_target_port = 6523
     documentation = "file:///usr/share/doc/tails/website/doc/tails_server/gobby.en.html"
@@ -85,11 +84,11 @@ class GobbyServer(service_template.TailsService):
             return None
 
         s = str()
-        s += "Application: Gobby (included in Tails)\n"
-        s += "Address (Host Name): %s\n" % self.address
+        s += _("Application: Gobby (included in Tails)\n")
+        s += _("Address (Host Name): %s\n") % self.address
         if self.virtual_port != self.default_virtual_port:
-            s += "Port: %s" % self.virtual_port
-        s += "Password: %s\n" % self.options_dict["server-password"].value
+            s += _("Port: %s") % self.virtual_port
+        s += _("Password: %s\n") % self.options_dict["server-password"].value
         return s
 
     # def start(self):
