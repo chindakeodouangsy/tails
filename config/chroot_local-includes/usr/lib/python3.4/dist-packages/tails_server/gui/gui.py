@@ -7,8 +7,7 @@ from tails_server.gui.service import ServiceDecorator
 from tails_server.gui.service_list import ServiceList
 from tails_server.gui.service_chooser import ServiceChooser
 
-from tails_server.config import ICON_DIR
-from tails_server.config import MAIN_UI_FILE
+from tails_server.config import APP_NAME, ICON_DIR, MAIN_UI_FILE
 
 service_modules_dict = services.import_service_modules()
 
@@ -70,6 +69,7 @@ class TailsServerGUI(object):
 
     def __init__(self):
         self.builder = Gtk.Builder()
+        self.builder.set_translation_domain(APP_NAME)
         self.builder.add_from_file(MAIN_UI_FILE)
         self.builder.connect_signals(self)
 

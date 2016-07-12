@@ -4,7 +4,7 @@ from gi.repository import Gtk
 
 from tails_server.gui.util import DisableOtherWindows
 
-from tails_server.config import SERVICE_CHOOSER_UI_FILE
+from tails_server.config import APP_NAME, SERVICE_CHOOSER_UI_FILE
 
 
 class ServiceChooser(object):
@@ -14,6 +14,7 @@ class ServiceChooser(object):
     def __init__(self, gui):
         self.gui = gui
         self.builder = Gtk.Builder()
+        self.builder.set_translation_domain(APP_NAME)
         self.builder.add_from_file(SERVICE_CHOOSER_UI_FILE)
         self.builder.connect_signals(self)
         self.listbox = self.builder.get_object("listbox_add_service")
@@ -41,6 +42,7 @@ class ServiceChooser(object):
 
     def add_service(self, service):
         new_builder = Gtk.Builder()
+        new_builder.set_translation_domain(APP_NAME)
         new_builder.add_from_file(SERVICE_CHOOSER_UI_FILE)
         title_label = new_builder.get_object("label_add_service_title")
         title_label.set_text(service.name_in_gui)

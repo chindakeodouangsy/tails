@@ -2,14 +2,13 @@ import collections
 import logging
 import os
 import sh
-import io
 
 from gi.repository import Gtk
 
 from tails_server.gui.option_row import OptionRow, ClickableLabel
-from tails_server.gui.service_status import STATUS_STOPPED, STATUS_STOPPING
+from tails_server.gui.service_status import Status
 
-from tails_server.config import CONFIG_UI_FILE, CONNECTION_INFO_UI_FILE
+from tails_server.config import APP_NAME, CONFIG_UI_FILE, CONNECTION_INFO_UI_FILE
 
 
 class ServiceConfigPanel(object):
@@ -19,6 +18,7 @@ class ServiceConfigPanel(object):
         self.gui = gui
         self.service = service
         self.builder = Gtk.Builder()
+        self.builder.set_translation_domain(APP_NAME)
         self.builder.add_from_file(CONFIG_UI_FILE)
         self.builder.connect_signals(self)
         self.switch = self.builder.get_object("switch_service_start_stop")
@@ -243,7 +243,7 @@ class ServiceConfigPanel(object):
         self.switch.set_state(status)
 
     def update_switch_status(self):
-        if self.service.status.service_status in [STATUS_STOPPED, STATUS_STOPPING]:
+        if self.service.status.service_status in [Status.stopped, Status.stopping]:
             self.set_switch_status(False)
         else:
             self.set_switch_status(True)
@@ -309,6 +309,7 @@ class ServiceConfigPanel(object):
         #     return
 
         builder = Gtk.Builder()
+        builder.set_translation_domain(APP_NAME)
         builder.add_from_file(CONNECTION_INFO_UI_FILE)
         builder.connect_signals(self)
         textbuffer = builder.get_object("textbuffer")

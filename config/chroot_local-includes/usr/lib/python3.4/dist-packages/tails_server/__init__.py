@@ -7,4 +7,5 @@ if os.path.exists('po/locale'):
 else:
     translation = gettext.translation('tails-server', '/usr/share/locale',
                                       fallback=True)
-_ = translation.ugettext
+_ = translation.gettext
+

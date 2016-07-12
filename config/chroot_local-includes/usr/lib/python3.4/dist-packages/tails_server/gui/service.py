@@ -4,9 +4,10 @@ import time
 
 from gi.repository import GLib, Gtk
 
+from tails_server import tor_util
 from tails_server.exceptions import TorIsNotRunningError
 from tails_server.gui.config_panel import ServiceConfigPanel
-from tails_server.gui.service_status import *
+from tails_server.gui.service_status import Status, ServiceStatus
 
 
 class ServiceDecorator(object):
@@ -29,33 +30,33 @@ class ServiceDecorator(object):
 
     def install(self):
         if not tor_util.tor_has_bootstrapped():
-            self.status.emit("update", STATUS_TOR_IS_NOT_RUNNING)
+            self.status.emit("update", Status.tor_is_not_running)
             while not tor_util.tor_has_bootstrapped():
                 time.sleep(1)
-        self.status.emit("update", STATUS_INSTALLING)
+        self.status.emit("update", Status.installing)
         self.service.install()
-        self.status.emit("update", STATUS_INSTALLED)
+        self.status.emit("update", Status.installed)
         GLib.idle_add(self.config_panel.on_service_installed)
 
     def uninstall(self):
-        self.status.emit("update", STATUS_UNINSTALLING)
+        self.status.emit("update", Status.uninstalling)
         self.stop_status_monitor()
         self.service.uninstall()
         self.config_panel = None
 
     def enable(self):
-        self.status.emit("update", STATUS_STARTING)
+        self.status.emit("update", Status.starting)
         try:
             self.service.enable(skip_add_onion=True)
             self.add_onion()
         except TorIsNotRunningError:
-            self.status.emit("update", STATUS_TOR_IS_NOT_RUNNING)
+            self.status.emit("update", Status.tor_is_not_running)
 
     def add_onion(self):
-        self.status.emit("update", STATUS_PUBLISHING)
+        self.status.emit("update", Status.publishing)
         self.service.add_onion()
         if self.service.is_running:
-            self.status.emit("update", STATUS_ONLINE)
+            self.status.emit("update", Status.online)
         else:
             logging.debug("Removing newly created onion address because service %r stopped",
                           self.name)
@@ -85,6 +86,6 @@ class ServiceDecorator(object):
         try:
             function(*args)
         except:
-            self.status.emit("update", STATUS_ERROR)
+            self.status.emit("update", Status.error)
             raise
 

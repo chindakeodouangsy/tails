@@ -5,6 +5,7 @@ import sh
 import logging
 import yaml
 
+from tails_server import _
 from tails_server import config
 from tails_server import file_util
 
@@ -135,7 +136,8 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
 
 class VirtualPort(TailsServiceOption):
     name = "virtual-port"
-    description = "Port opened on the Tor network"
+    name_in_gui = _("Port")
+    description = _("Port opened on the Tor network")
     type = int
     group = "connection"
 
@@ -146,8 +148,8 @@ class VirtualPort(TailsServiceOption):
 
 class AllowLanOption(TailsServiceOption):
     name = "allow-lan"
-    name_in_gui = "Allow LAN"
-    description = "Allow connections from the local network"
+    name_in_gui = _("Allow LAN")
+    description = _("Allow connections from the local network")
     type = bool
     default = False
     group = "generic-checkbox"
@@ -173,8 +175,8 @@ class AllowLanOption(TailsServiceOption):
 
 class AutoStartOption(TailsServiceOption):
     name = "autostart"
-    name_in_gui = "Autostart"
-    description = "Start service automatically after booting Tails"
+    name_in_gui = _("Autostart")
+    description = _("Start service automatically after booting Tails")
     type = bool
     default = False
     group = "generic-checkbox"
@@ -192,7 +194,7 @@ class PersistenceOption(TailsServiceOption):
     PERSISTENT_OPTIONS_FILE = "options"
 
     name = "persistence"
-    description = "Store service configuration and data on the persistent volume"
+    description = _("Store service configuration and data on the persistent volume")
     type = bool
     default = False
     group = "generic-checkbox"

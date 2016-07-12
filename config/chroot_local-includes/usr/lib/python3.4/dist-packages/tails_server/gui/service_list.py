@@ -3,7 +3,7 @@ import logging
 
 from gi.repository import Gtk
 
-from tails_server.config import SERVICE_LIST_UI_FILE
+from tails_server.config import APP_NAME, SERVICE_LIST_UI_FILE
 
 
 class ServiceList(object):
@@ -69,6 +69,7 @@ class ServiceList(object):
 class ServiceListRow(object):
     def __init__(self, service):
         self.builder = Gtk.Builder()
+        self.builder.set_translation_domain(APP_NAME)
         self.builder.add_from_file(SERVICE_LIST_UI_FILE)
         self.listboxrow = self.builder.get_object("listboxrow_service_status")
         label = self.builder.get_object("label_status_title")

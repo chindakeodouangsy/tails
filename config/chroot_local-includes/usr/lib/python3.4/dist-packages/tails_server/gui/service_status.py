@@ -1,30 +1,57 @@
 import logging
 from gi.repository import GLib, Gtk, GObject
 
+from tails_server import _
 from tails_server import dbus_interface
 from tails_server import tor_util
 from tails_server.exceptions import InvalidStatusError
 from tails_server.config import TOR_BOOTSTRAPPED_TARGET
 from tails_server.config import STATUS_UI_FILE
 
-STATUS_STARTING = "Starting"
-STATUS_RUNNING = "Running"
-STATUS_STOPPING = "Stopping"
-STATUS_STOPPED = "Stopped"
 
-STATUS_PUBLISHING = "Registering onion address"
-STATUS_ONLINE = "Online"
-STATUS_OFFLINE = "Offline"
+# This would be prettier as an Enum, but Widget.emit only allows strings as args
+class Status(object):
+    installing = "0"
+    installed = "1"
+    uninstalling = "2"
+    uninstalled = "3"
 
-STATUS_INSTALLING = "Installing"
-STATUS_INSTALLED = "Installed"
-STATUS_UNINSTALLING = "Uninstalling"
-STATUS_UNINSTALLED = "Not installed"
+    starting = "10"
+    running = "11"
+    stopping = "12"
+    stopped = "13"
 
-STATUS_TOR_IS_NOT_RUNNING = "Tor is not running"
-STATUS_TOR_IS_RUNNING = "Tor is running"
-STATUS_ERROR = "An error occurred. See the log for details."
-STATUS_INVALID = "The service is in an invalid state. See the log for details."
+    publishing = "20"
+    online = "21"
+    offline = "22"
+
+    tor_is_not_running = "30"
+    tor_is_running = "31"
+
+    error = "40"
+    invalid = "41"
+
+
+status_to_string = {
+    Status.starting: _("Starting"),
+    Status.running: _("Running"),
+    Status.stopping: _("Stopping"),
+    Status.stopped: _("Stopped"),
+
+    Status.publishing: _("Registering onion address"),
+    Status.online: _("Online"),
+    Status.offline: _("Offline"),
+
+    Status.installing: _("Installing"),
+    Status.installed: _("Installed"),
+    Status.uninstalling: _("Uninstalling"),
+    Status.uninstalled: _("Not installed"),
+
+    Status.tor_is_not_running: _("Tor is not running"),
+    Status.tor_is_running: _("Tor is running"),
+    Status.error: _("An error occurred. See the log for details."),
+    Status.invalid: _("The service is in an invalid state. See the log for details."),
+}
 
 
 class ServiceStatus(Gtk.Widget):
@@ -60,7 +87,7 @@ class ServiceStatus(Gtk.Widget):
     def update(self, status):
         self.update_substates(status)
 
-        if status in [STATUS_ERROR, STATUS_INVALID]:
+        if status in [Status.error, Status.invalid]:
             new_status = status
         else:
             new_status = self.get_status_from_substates()
@@ -71,13 +98,13 @@ class ServiceStatus(Gtk.Widget):
         self.update_service_list()
 
     def get_status_from_substates(self):
-        if self.tor_status != STATUS_TOR_IS_RUNNING:
+        if self.tor_status != Status.tor_is_running:
             logging.debug("Setting status to tor status %r", self.tor_status)
             return self.tor_status
-        elif self.installation_status != STATUS_INSTALLED:
+        elif self.installation_status != Status.installed:
             logging.debug("Setting status to installation status %r", self.installation_status)
             return self.installation_status
-        elif self.service_status != STATUS_RUNNING:
+        elif self.service_status != Status.running:
             logging.debug("Setting status to service status %r", self.service_status)
             return self.service_status
         else:
@@ -85,22 +112,26 @@ class ServiceStatus(Gtk.Widget):
             return self.onion_status
 
     def update_substates(self, status):
-        if status in [STATUS_TOR_IS_RUNNING,
-                      STATUS_TOR_IS_NOT_RUNNING]:
+        if status in [Status.tor_is_running,
+                      Status.tor_is_not_running]:
+            logging.debug("Setting tor status to %r", status)
             self.tor_status = status
-        elif status in [STATUS_ONLINE,
-                        STATUS_OFFLINE,
-                        STATUS_PUBLISHING]:
+        elif status in [Status.online,
+                        Status.offline,
+                        Status.publishing]:
+            logging.debug("Setting onion status to %r", status)
             self.onion_status = status
-        elif status in [STATUS_STARTING,
-                        STATUS_STOPPING,
-                        STATUS_STOPPED,
-                        STATUS_RUNNING]:
+        elif status in [Status.starting,
+                        Status.running,
+                        Status.stopping,
+                        Status.stopped]:
+            logging.debug("Setting service status to %r", status)
             self.service_status = status
-        elif status in [STATUS_INSTALLING,
-                        STATUS_INSTALLED,
-                        STATUS_UNINSTALLING,
-                        STATUS_UNINSTALLED]:
+        elif status in [Status.installing,
+                        Status.installed,
+                        Status.uninstalling,
+                        Status.uninstalled]:
+            logging.debug("Setting installation status to %r", status)
             self.installation_status = status
 
     def update_config_panel(self):
@@ -112,7 +143,7 @@ class ServiceStatus(Gtk.Widget):
         for child in box.get_children():
             box.remove(child)
 
-        label.set_label(self.status)
+        label.set_label(status_to_string[self.status])
 
         box.pack_start(visual_widget, expand=False, fill=False, padding=0)
         box.pack_start(label, expand=False, fill=False, padding=0)
@@ -135,10 +166,10 @@ class ServiceStatus(Gtk.Widget):
 
         visual_widget = self.get_visual_widget(self.status)
         label_value = None
-        if self.status in (STATUS_OFFLINE, STATUS_STOPPED):
-            label_value = "Off"
-        if self.status in (STATUS_ONLINE,):
-            label_value = "On"
+        if self.status in (Status.offline, Status.stopped):
+            label_value = _("Off")
+        if self.status in (Status.online,):
+            label_value = _("On")
 
         if visual_widget:
             box.pack_start(visual_widget, expand=False, fill=False, padding=0)
@@ -149,14 +180,14 @@ class ServiceStatus(Gtk.Widget):
     def get_visual_widget(self, status):
         new_builder = Gtk.Builder()
         new_builder.add_from_file(STATUS_UI_FILE)
-        if status in (STATUS_STARTING, STATUS_STOPPING, STATUS_INSTALLING,
-                      STATUS_UNINSTALLING, STATUS_PUBLISHING):
+        if status in (Status.starting, Status.stopping, Status.installing,
+                      Status.uninstalling, Status.publishing):
             return new_builder.get_object("spinner")
-        if status in (STATUS_OFFLINE, STATUS_STOPPED):
+        if status in (Status.offline, Status.stopped):
             return new_builder.get_object("image_off")
-        if status == STATUS_ONLINE:
+        if status == Status.online:
             return new_builder.get_object("image_on")
-        if status in (STATUS_ERROR, STATUS_TOR_IS_NOT_RUNNING):
+        if status in (Status.error, Status.tor_is_not_running):
             return new_builder.get_object("image_error")
         raise InvalidStatusError("No visual widget for status %r defined" % status)
 
@@ -165,37 +196,37 @@ class ServiceStatus(Gtk.Widget):
         valid status values: "active", "activating", "inactive", "deactivating"""
 
         if status == "activating":
-            self.emit("update", STATUS_STARTING)
+            self.emit("update", Status.starting)
         if status == "active":
-            self.emit("update", STATUS_RUNNING)
+            self.emit("update", Status.running)
         if status == "deactivating":
-            self.emit("update", STATUS_STOPPING)
+            self.emit("update", Status.stopping)
         if status == "inactive":
-            self.emit("update", STATUS_STOPPED)
+            self.emit("update", Status.stopped)
 
     def tor_dbus_receiver(self, status):
         if status == "inactive":
-            self.emit("update", STATUS_TOR_IS_NOT_RUNNING)
+            self.emit("update", Status.tor_is_not_running)
         if status == "active":
-            self.emit("update", STATUS_TOR_IS_RUNNING)
+            self.emit("update", Status.tor_is_running)
 
     def guess_status(self):
-        self.installation_status = STATUS_INSTALLED if self.service.is_installed \
-            else STATUS_UNINSTALLED
+        self.installation_status = Status.installed if self.service.is_installed \
+            else Status.uninstalled
 
-        self.service_status = STATUS_RUNNING if self.service.is_running \
-            else STATUS_STOPPED
+        self.service_status = Status.running if self.service.is_running \
+            else Status.stopped
 
-        self.tor_status = STATUS_TOR_IS_RUNNING if tor_util.tor_has_bootstrapped() \
-            else STATUS_TOR_IS_NOT_RUNNING
+        self.tor_status = Status.tor_is_running if tor_util.tor_has_bootstrapped() \
+            else Status.tor_is_not_running
 
         if self.service.address and self.service.is_published:
-            self.onion_status = STATUS_ONLINE
+            self.onion_status = Status.online
         else:
-            self.onion_status = STATUS_OFFLINE
+            self.onion_status = Status.offline
 
         self.emit("update", self.get_status_from_substates())
 
     def make_states_consistent(self):
-        if self.service_status == STATUS_RUNNING and self.onion_status == STATUS_OFFLINE:
+        if self.service_status == Status.running and self.onion_status == Status.offline:
             self.service.run_threaded(self.service.add_onion)

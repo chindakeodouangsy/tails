@@ -3,7 +3,7 @@ import logging
 
 from gi.repository import Gtk, Gdk
 
-from tails_server.config import SERVICE_OPTION_UI_FILE
+from tails_server.config import APP_NAME, SERVICE_OPTION_UI_FILE
 
 
 class OptionRow(object, metaclass=abc.ABCMeta):
@@ -182,6 +182,7 @@ class EditableOptionRow(UnknownOptionRow):
     def __init__(self, config_panel, option):
         super().__init__(config_panel, option)
         self.builder = Gtk.Builder()
+        self.builder.set_translation_domain(APP_NAME)
         self.builder.add_from_file(SERVICE_OPTION_UI_FILE)
         self.builder.connect_signals(self)
         self.value_widget = self.builder.get_object("value_label")

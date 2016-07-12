@@ -1,6 +1,8 @@
 import os
 PACKAGE_PATH = os.path.dirname(os.path.realpath(__file__))
 
+APP_NAME = "tails-server"
+
 DATA_DIR = "/usr/share/tails-server/"
 STATE_DIR = "/var/lib/tails-server/"
 SERVICES_DIR = os.path.join(DATA_DIR, "services")
