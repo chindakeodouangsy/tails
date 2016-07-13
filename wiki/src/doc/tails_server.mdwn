@@ -1,0 +1,17 @@
+[[!meta title="Tails Server"]]
+
+<span class="application">Tails Server</span> ermöglicht es, diverse Online-Dienste einzurichten und für andere über Tor erreichbar zu machen.
+
+Um <span class="application">Tails Server</span> zu starten, öffnen Sie
+<span class="menuchoice">
+  <span class="guimenu">Anwendungen</span>&nbsp;▸
+  <span class="guisubmenu">Tails</span>&nbsp;▸
+  <span class="guimenuitem">Tails Server</span>
+</span>.
+
+
+Einrichten der Dienste
+======================
+
+  - [[Gobby - ein kollaborativer Texteditor|tails_server/gobby]]
+  - [[Mumble - ein Sprachkonferenz-Server|tails_server/mumble]]
