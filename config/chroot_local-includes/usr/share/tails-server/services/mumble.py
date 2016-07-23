@@ -89,8 +89,9 @@ class MumbleServer(service_template.TailsService):
 
         s = str()
         s += _("Application: Mumble (included in Tails)\n")
-        s += _("URL: %s (Copy to clipboard before adding the server in the Mumble client, "
-               "to fill in the connection info fields automatically)\n") % mime_string
+        s += _("URL: %s\n\t(Copy the URL to the clipboard before adding the server in the Mumble "
+               "client, to fill in the connection info fields automatically)\n") % mime_string
+        # s += _("URL: %s\n") % mime_string
         s += _("Address: %s\n") % self.address
         s += _("Port: %s\n") % self.virtual_port
         s += _("Password: %s\n") % self.options_dict["server-password"].value

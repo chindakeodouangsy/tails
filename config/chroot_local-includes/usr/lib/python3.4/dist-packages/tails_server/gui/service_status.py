@@ -137,16 +137,21 @@ class ServiceStatus(Gtk.Widget):
     def update_config_panel(self):
         builder = self.service.config_panel.builder
         box = builder.get_object("box_status")
+        switch = builder.get_object("switch_service_start_stop")
         label = builder.get_object("label_status_value")
-        visual_widget = self.get_visual_widget(self.status)
+        label_to_expand_grid = builder.get_object("label_to_expand_grid")
+        visual_widget = self.get_visual_widget(self.status, no_on_off_state=True)
 
         for child in box.get_children():
             box.remove(child)
 
         label.set_label(status_to_string[self.status])
 
-        box.pack_start(visual_widget, expand=False, fill=False, padding=0)
+        box.pack_start(switch, expand=False, fill=False, padding=0)
+        if visual_widget:
+            box.pack_start(visual_widget, expand=False, fill=False, padding=0)
         box.pack_start(label, expand=False, fill=False, padding=0)
+        box.pack_end(label_to_expand_grid, expand=True, fill=True, padding=0)
         # XXX: Find out why the status only refreshes after config_panel.show() and do something
         # more lightweight
         if self.service.config_panel.is_active:
@@ -177,18 +182,22 @@ class ServiceStatus(Gtk.Widget):
             label.set_label(label_value)
             box.pack_start(label, expand=False, fill=False, padding=0)
 
-    def get_visual_widget(self, status):
+    def get_visual_widget(self, status, no_on_off_state=False):
         new_builder = Gtk.Builder()
         new_builder.add_from_file(STATUS_UI_FILE)
         if status in (Status.starting, Status.stopping, Status.installing,
                       Status.uninstalling, Status.publishing):
             return new_builder.get_object("spinner")
-        if status in (Status.offline, Status.stopped):
-            return new_builder.get_object("image_off")
-        if status == Status.online:
-            return new_builder.get_object("image_on")
         if status in (Status.error, Status.tor_is_not_running):
             return new_builder.get_object("image_error")
+        if status in (Status.offline, Status.stopped):
+            if no_on_off_state:
+                return None
+            return new_builder.get_object("image_off")
+        if status == Status.online:
+            if no_on_off_state:
+                return None
+            return new_builder.get_object("image_on")
         raise InvalidStatusError("No visual widget for status %r defined" % status)
 
     def dbus_receiver(self, status):

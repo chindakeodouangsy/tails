@@ -51,7 +51,7 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
     @property
     @abc.abstractmethod
     def type(self):
-        pass
+        return str
 
     @property
     @abc.abstractmethod
@@ -112,7 +112,8 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
         if self.name not in options:
             raise OptionNotFoundError("Could not find option %r in %r" %
                                       (self.name, self.service.options_file))
-        return options[self.name]
+        value = options[self.name]
+        return self.type(value)
 
     def store(self):
         logging.debug("Storing option %r", self.name)
