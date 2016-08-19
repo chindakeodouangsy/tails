@@ -38,13 +38,13 @@ class ServiceConfigPanel(object):
         self.onion_address_clickable_label.clickable = False
         # self.connection_info_label = self.builder.get_object("label_connection_info")
         self.connection_info_box = self.builder.get_object("box_connection_info")
-        connection_info_button = self.builder.get_object("button_connection_info")
+        self.connection_info_button = self.builder.get_object("button_connection_info")
         connection_info_button_box = self.builder.get_object("box_button_connection_info")
         connection_info_copy_image = self.builder.get_object("image_copy")
         connection_info_value_label = self.builder.get_object("label_connection_info_value")
         self.connection_info_clickable_label = ClickableLabel(
             self.connection_info_box,
-            connection_info_button,
+            self.connection_info_button,
             connection_info_button_box,
             connection_info_value_label,
             connection_info_copy_image
@@ -165,10 +165,10 @@ class ServiceConfigPanel(object):
 
     def set_connection_info_sensitivity(self):
         if self.service.address:
-            self.connection_info_box.set_visible(True)
+            self.connection_info_button.set_sensitive(True)
             # self.connection_info_label.set_visible(True)
         else:
-            self.connection_info_box.set_visible(False)
+            self.connection_info_button.set_sensitive(False)
             # self.connection_info_label.set_visible(False)
 
     def update_persistence_checkbox(self):
