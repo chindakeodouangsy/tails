@@ -51,7 +51,7 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
     @property
     @abc.abstractmethod
     def type(self):
-        pass
+        return str
 
     @property
     @abc.abstractmethod
@@ -112,7 +112,8 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
         if self.name not in options:
             raise OptionNotFoundError("Could not find option %r in %r" %
                                       (self.name, self.service.options_file))
-        return options[self.name]
+        value = options[self.name]
+        return self.type(value)
 
     def store(self):
         logging.debug("Storing option %r", self.name)
@@ -227,16 +228,34 @@ class PersistenceOption(TailsServiceOption):
             os.chmod(self.persistence_dir, 0o755)
 
     def make_path_persistent(self, path, persistence_name=None):
+        is_dir = os.path.isdir(path)
+        dest = os.path.join(self.persistence_dir, persistence_name)
         if not persistence_name:
             persistence_name = os.path.basename(path)
         self.add_to_persistence_config(path, persistence_name)
-        if os.path.isdir(path):
-            self.move_to_persistence_volume(path, persistence_name)
-            os.mkdir(path)
+        self.move(path, dest)
+        if is_dir:
+            self.create_empty_dir(path)
         else:
-            self.move_to_persistence_volume(path, persistence_name)
-            open(path, 'w+').close()
-        sh.mount("--bind", os.path.join(self.persistence_dir, persistence_name), path)
+            self.create_empty_file(path)
+        sh.mount("--bind", dest, path)
+
+    @staticmethod
+    def move(src, dest):
+        if os.path.isdir(src):
+            shutil.copytree(src, dest)
+            shutil.rmtree(src)
+        else:
+            shutil.move(src, dest)
+        logging.debug("Moved %r to %r", src, dest)
+
+    @staticmethod
+    def create_empty_file(path):
+        open(path, 'w+').close()
+
+    @staticmethod
+    def create_empty_dir(path):
+        os.mkdir(path)
 
     def add_to_persistence_config(self, path, persistence_name):
         line = "%s source=%s\n" % (
@@ -247,18 +266,9 @@ class PersistenceOption(TailsServiceOption):
         written = file_util.append_line_if_not_present(PERSISTENCE_CONFIG, line)
         if not written:
             raise AlreadyPersistentError(
-                "Service %r already seems to have an entry in persistence config file %r" %
+                "Service %r seems to already have an entry in persistence config file %r" %
                 (self.service.name, PERSISTENCE_CONFIG))
         logging.debug("Added line to persistence.config: %r", line)
-
-    def move_to_persistence_volume(self, path, persistence_name):
-        dest = os.path.join(self.persistence_dir, persistence_name)
-        if os.path.isdir(path):
-            shutil.copytree(path, dest)
-            shutil.rmtree(path)
-        else:
-            shutil.move(path, dest)
-        logging.debug("Copied %r to %r", path, dest)
 
     def make_config_files_persistent(self):
         for path in self.service.persistent_paths:

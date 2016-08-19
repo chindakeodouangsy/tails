@@ -35,24 +35,30 @@ class ServiceConfigPanel(object):
             onion_address_value_label,
             onion_address_refresh_image
         )
-        self.connection_info_label = self.builder.get_object("label_connection_info")
+        self.onion_address_clickable_label.clickable = False
+        # self.connection_info_label = self.builder.get_object("label_connection_info")
         self.connection_info_box = self.builder.get_object("box_connection_info")
-        connection_info_button = self.builder.get_object("button_connection_info")
+        self.connection_info_button = self.builder.get_object("button_connection_info")
         connection_info_button_box = self.builder.get_object("box_button_connection_info")
         connection_info_copy_image = self.builder.get_object("image_copy")
         connection_info_value_label = self.builder.get_object("label_connection_info_value")
         self.connection_info_clickable_label = ClickableLabel(
             self.connection_info_box,
-            connection_info_button,
+            self.connection_info_button,
             connection_info_button_box,
             connection_info_value_label,
             connection_info_copy_image
         )
+        self.editing_buttonbox = self.builder.get_object("buttonbox_editing")
+        self.edit_button = self.builder.get_object("button_edit")
+        self.cancel_edit_button = self.builder.get_object("button_cancel_edit")
+        self.apply_button = self.builder.get_object("button_apply")
         self.options_grid = self.builder.get_object("grid_options")
         self.option_rows = list()
         self.option_groups = set()
         self.group_separators = collections.OrderedDict()
         self.options_populated = False
+        self.in_edit_mode = False
         if self.service.is_installed:
             self.on_service_installed()
 
@@ -74,7 +80,7 @@ class ServiceConfigPanel(object):
             return
         self.options_populated = True
         for widget in (self.onion_address_label,
-                   self.connection_info_label,
+                       # self.connection_info_label,
                        self.onion_address_box,
                        self.connection_info_box):
             widget.set_visible(True)
@@ -91,11 +97,12 @@ class ServiceConfigPanel(object):
         logging.debug("Option groups: %r", groups)
 
         for option in self.service.options_dict.values():
+            logging.debug("Adding option %r (value: %r)", option.name, option.value)
             self.add_option(option)
 
     def remove_option_rows(self):
         for widget in (self.onion_address_label,
-                       self.connection_info_label,
+                       # self.connection_info_label,
                        self.onion_address_box,
                        self.connection_info_box):
             widget.set_visible(False)
@@ -137,10 +144,10 @@ class ServiceConfigPanel(object):
 
         if self.options_populated:
             self.builder.get_object("label_onion_address_value").set_text(str(self.service.address))
-            self.set_onion_address_sensitivity()
+            self.update_onion_address_widget()
             self.set_connection_info_sensitivity()
-            self.set_persistence_sensitivity()
-            self.set_autorun_sensitivity()
+            self.update_persistence_checkbox()
+            self.update_autorun_checkbox()
 
         config_panel_container = self.gui.builder.get_object("scrolledwindow_service_config")
         for child in config_panel_container.get_children():
@@ -148,7 +155,7 @@ class ServiceConfigPanel(object):
         config_panel_container.add(self.builder.get_object("viewport_service_config"))
         self.gui.current_service = self.service
 
-    def set_onion_address_sensitivity(self):
+    def update_onion_address_widget(self):
         if self.service.address:
             self.onion_address_box.set_visible(True)
             self.onion_address_label.set_visible(True)
@@ -158,20 +165,20 @@ class ServiceConfigPanel(object):
 
     def set_connection_info_sensitivity(self):
         if self.service.address:
-            self.connection_info_box.set_visible(True)
-            self.connection_info_label.set_visible(True)
+            self.connection_info_button.set_sensitive(True)
+            # self.connection_info_label.set_visible(True)
         else:
-            self.connection_info_box.set_visible(False)
-            self.connection_info_label.set_visible(False)
+            self.connection_info_button.set_sensitive(False)
+            # self.connection_info_label.set_visible(False)
 
-    def set_persistence_sensitivity(self):
+    def update_persistence_checkbox(self):
         try:
             persistence_row = [r for r in self.option_rows if r.option.name == "persistence"][0]
         except IndexError:
             logging.warning("No 'persistence' option for service %r", self.service)
             return
 
-        if self.switch.get_active():
+        if not self.in_edit_mode:
             persistence_row.sensitive = False
             return
 
@@ -182,19 +189,26 @@ class ServiceConfigPanel(object):
         return
 
 
-    def set_autorun_sensitivity(self):
+    def update_autorun_checkbox(self):
         try:
             autostart_row = [r for r in self.option_rows if r.option.name == "autostart"][0]
         except IndexError:
             logging.warning("No 'autostart' option for service %r", self.service)
             return
 
-        if self.switch.get_active():
+        try:
+            persistence_row = [r for r in self.option_rows if r.option.name == "persistence"][0]
+        except IndexError:
+            logging.warning("No 'persistence' option for service %r", self.service)
+            return
+
+        if not self.in_edit_mode:
             autostart_row.sensitive = False
             return
 
-        if not self.service.options_dict["persistence"].value:
+        if not persistence_row.value:
             autostart_row.sensitive = False
+            autostart_row.value_widget.set_active(False)
         else:
             autostart_row.sensitive = True
 
@@ -206,9 +220,6 @@ class ServiceConfigPanel(object):
             return
         option_row.show()
         self.option_rows.append(option_row)
-        # if not option_row.known_option:
-        # self.options_grid.insert_row(-1)
-        # self.options_grid.attach(option_row.label, -1, -1, 1, 1)
         if option.group:
             self.add_row_to_group(option_row, option.group)
         else:
@@ -248,6 +259,44 @@ class ServiceConfigPanel(object):
             logging.debug("Setting option %r to %r", option_row.option.name, option_row.value)
             option_row.option.value = option_row.value
 
+    def apply_options_with_restarting(self):
+        self.service.disable()
+        self.apply_options()
+        self.service.run_threaded(self.service.enable)
+
+    def get_changes(self):
+        changes = collections.OrderedDict()
+        for option_row in self.option_rows:
+            change = option_row.get_change()
+            if change:
+                changes[option_row.option.name_in_gui] = change
+        return changes
+
+    def enter_edit_mode(self):
+        if self.in_edit_mode:
+            return
+        self.in_edit_mode = True
+        for option_row in self.option_rows:
+            option_row.start_editing()
+        self.onion_address_clickable_label.clickable = True
+        self.update_persistence_checkbox()
+        self.update_autorun_checkbox()
+        self.editing_buttonbox.remove(self.edit_button)
+        self.editing_buttonbox.pack_start(self.cancel_edit_button, expand=True, fill=True,
+                                          padding=0)
+        self.editing_buttonbox.pack_end(self.apply_button,  expand=True, fill=True, padding=0)
+
+    def exit_edit_mode(self, apply):
+        if not self.in_edit_mode:
+            return
+        self.in_edit_mode = False
+        self.onion_address_clickable_label.clickable = False
+        for option_row in self.option_rows:
+            option_row.stop_editing(apply)
+        self.editing_buttonbox.remove(self.cancel_edit_button)
+        self.editing_buttonbox.remove(self.apply_button)
+        self.editing_buttonbox.pack_end(self.edit_button, expand=True, fill=True, padding=0)
+
     def on_copy_entry_clicked(self, entry, icon, event):
         entry.select_region(0, -1)
         entry.copy_clipboard()
@@ -257,32 +306,68 @@ class ServiceConfigPanel(object):
         self.service.run_threaded_when_idle(self.on_switch_state_set, status)
 
     def on_switch_state_set(self, status):
-        for option_row in self.option_rows:
-            option_row.sensitive = not status
-        self.onion_address_clickable_label.clickable = not status
-        self.set_autorun_sensitivity()
-        self.set_onion_address_sensitivity()
+        self.update_onion_address_widget()
         self.set_connection_info_sensitivity()
 
         is_running = self.service.is_running
         logging.debug("is running: %r", is_running)
         if status and not is_running:
-            self.apply_options()
+            success = self.ensure_not_in_edit_mode()
+            if not success:
+                return
             self.service.run_threaded(self.service.enable)
             self.show()
         if not status and is_running:
             self.service.run_threaded(self.service.disable)
 
-    def on_checkbutton_persistence_toggled(self, checkbutton):
-        state = checkbutton.get_active()
-        if state:
-            self.apply_options()
-        self.service.options_dict["persistence"].value = state
-        self.set_autorun_sensitivity()
+    def ensure_not_in_edit_mode(self):
+        if not self.in_edit_mode:
+            return True
 
-    def on_checkbutton_autostart_toggled(self, checkbutton):
-        state = checkbutton.get_active()
-        self.service.options_dict["autostart"].value = state
+        changes = self.get_changes()
+        logging.debug("Changes: %r", changes)
+        if not changes:
+            self.exit_edit_mode(apply=False)
+            return True
+
+        answer = self.gui.confirm_apply_changes()
+        logging.debug("answer: %r", answer)
+        if answer == "cancel":
+            self.set_switch_status(False)
+            return False
+        apply = answer == "yes"
+        self.exit_edit_mode(apply)
+        return True
+
+    def on_button_edit_clicked(self, button):
+        self.enter_edit_mode()
+
+    def on_button_apply_clicked(self, button):
+        changes = self.get_changes()
+        logging.debug("Changes: %r", changes)
+        if not changes:
+            self.exit_edit_mode(apply=False)
+            return
+
+        if self.switch.get_active():
+            answer = self.gui.confirm_restart_service()
+            if answer == "yes":
+                def apply_changes():
+                    self.apply_options_with_restarting()
+                    self.exit_edit_mode(apply=True)
+                self.service.run_threaded_when_idle(apply_changes)
+            elif answer == "no":
+                self.exit_edit_mode(apply=False)
+            return
+
+        self.apply_options()
+        self.exit_edit_mode(apply=True)
+
+    def on_button_cancel_edit_clicked(self, button):
+        self.exit_edit_mode(apply=False)
+
+    def on_checkbutton_persistence_toggled(self, checkbutton):
+        self.update_autorun_checkbox()
 
     def on_button_copy_connection_info_clicked(self, button):
         text = self.service.connection_info
@@ -290,17 +375,6 @@ class ServiceConfigPanel(object):
 
     def on_button_connection_info_clicked(self, button):
         text = self.service.connection_info
-        # in_stream = io.StringIO(text)
-        # try:
-        #     sh.zenity(
-        #         "--text-info",
-        #         "--ok-label", "Copy",
-        #         "--cancel-label", "Don't Copy",
-        #         "--title", "Connection Information",
-        #         _in=in_stream
-        #     )
-        # except sh.ErrorReturnCode_1:
-        #     return
 
         builder = Gtk.Builder()
         builder.set_translation_domain(APP_NAME)
@@ -309,11 +383,10 @@ class ServiceConfigPanel(object):
         textbuffer = builder.get_object("textbuffer")
         # XXX: Do we have to set a length here? Make sure this is overflow resistant.
         textbuffer.set_text(text, length=-1)
-        textview = builder.get_object("textview")
+        # textview = builder.get_object("textview")
         window = builder.get_object("dialog")
+        window.set_transient_for(self.gui.window)
         window.show_all()
-        allocated_width = textview.get_allocated_width()
-        logging.debug("allocated_width: %r", allocated_width)
 
     def on_close_button_clicked(self, window):
         window.close()

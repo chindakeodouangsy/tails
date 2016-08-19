@@ -6,6 +6,7 @@ from tails_server import services
 from tails_server.gui.service import ServiceDecorator
 from tails_server.gui.service_list import ServiceList
 from tails_server.gui.service_chooser import ServiceChooser
+from tails_server.gui import question_dialog
 
 from tails_server.config import APP_NAME, ICON_DIR, MAIN_UI_FILE
 
@@ -66,6 +67,16 @@ class TailsServerGUI(object):
         except sh.ErrorReturnCode_1:
             return False
         return True
+
+    def confirm_restart_service(self):
+        dialog = question_dialog.RestartServiceQuestionDialog(self.window)
+        dialog.run()
+        return dialog.result
+
+    def confirm_apply_changes(self):
+        dialog = question_dialog.ApplyChangesQuestionDialog(self.window)
+        dialog.run()
+        return dialog.result
 
     def __init__(self):
         self.builder = Gtk.Builder()

@@ -1,7 +1,7 @@
 import abc
 import logging
 
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk
 
 from tails_server.config import APP_NAME, SERVICE_OPTION_UI_FILE
 
@@ -11,6 +11,7 @@ class OptionRow(object, metaclass=abc.ABCMeta):
         "persistence": ("label_persistence", "box_persistence", "checkbutton_persistence", bool),
         "autostart": ("label_autostart", "box_autostart", "checkbutton_autostart", bool),
         # "allow-lan": ("label_allow_lan", "box_allow_lan", "checkbutton_allow_lan"),
+        # "server-password": ("label_password", "box_password", "label_password_value", str)
     }
 
     masked_value = None
@@ -34,6 +35,14 @@ class OptionRow(object, metaclass=abc.ABCMeta):
         elif self.option.type == bool:
             return self.value_widget.get_active()
 
+    @property
+    def editable(self):
+        return self._editable
+
+    @property
+    def edited_value(self):
+        return self.value
+
     def set_text(self, value):
         if self.option.masked:
             self.set_masked_text(value)
@@ -49,11 +58,25 @@ class OptionRow(object, metaclass=abc.ABCMeta):
     @classmethod
     def create(cls, config_panel, option):
         if option.name in cls.known_options_widgets:
-            return KnownOptionRow(config_panel, option)
+            type_ = cls.known_options_widgets[option.name][3]
+            return cls.create_known_option_row(config_panel, option, type_)
+        else:
+            return cls.create_unknown_option_row(config_panel, option)
+
+    @classmethod
+    def create_known_option_row(cls, config_panel, option, type_):
+        if type_ in [str, int]:
+            return KnownTextOptionRow(config_panel, option)
+        if type_ == bool:
+            return KnownBooleanOptionRow(config_panel, option)
+        raise TypeError("Can't display option %r of type %r", option.name, option.type)
+
+    @classmethod
+    def create_unknown_option_row(cls, config_panel, option):
         if option.type in [str, int]:
-            return EditableOptionRow(config_panel, option)
+            return UnknownTextOptionRow(config_panel, option)
         if option.type == bool:
-            return BooleanOptionRow(config_panel, option)
+            return UnknownBooleanOptionRow(config_panel, option)
         raise TypeError("Can't display option %r of type %r", option.name, option.type)
 
     def __init__(self, config_panel, option):
@@ -66,10 +89,17 @@ class OptionRow(object, metaclass=abc.ABCMeta):
         self.value_widget = None
         self.label = None
         self.box = None
+        self._editable = False
 
     def show(self):
         self.label.show_all()
         self.box.show_all()
+
+    def get_change(self):
+        logging.debug("Has %r changed? Old value: %r; New value: %r", self.option.name,
+                      self.option.value, self.value)
+        if self.option.value != self.edited_value:
+            return self.option.value, self.edited_value
 
 
 class ClickableLabel(object):
@@ -106,6 +136,7 @@ class ClickableLabel(object):
         self.container.pack_end(self.image, expand=False, fill=False, padding=9)
         self.label.set_selectable(True)
         self.image.set_visible(False)
+        self.image.set_no_show_all(True)
         self._clickable = False
 
     def _make_clickable(self):
@@ -122,24 +153,91 @@ class ClickableLabel(object):
         self.container.pack_start(self.button, expand=True, fill=True, padding=0)
         self.label.set_selectable(False)
         self.image.set_visible(True)
+        self.image.set_no_show_all(False)
         self._clickable = True
+
+
+class BooleanOptionRow(OptionRow):
+    def __init__(self, config_panel, option):
+        super().__init__(config_panel, option)
+
+    @property
+    def value(self):
+        return self.value_widget.get_active()
+
+
+    def start_editing(self):
+        logging.log(5, "Entering start editing")
+        self.value_widget.set_sensitive(True)
+        self._editable = True
+        logging.log(5, "Exiting start editing")
+
+    def stop_editing(self, apply=True):
+        logging.log(5, "Entering stop editing")
+        if apply:
+            self.option.value = self.value
+        else:
+            self.value_widget.set_active(self.option.value)
+        self.value_widget.set_sensitive(False)
+        self._editable = False
+        logging.log(5, "Exiting stop editing")
+
+
+class TextOptionRow(OptionRow):
+
+    entry = None
+    togglebutton_show = None
+
+    @property
+    def edited_value(self):
+        return self.option.type(self.entry.get_text())
+
+    def stop_editing(self, apply=True):
+        logging.log(5, "Entering stop editing")
+        if apply:
+            value = self.entry.get_text()
+            self.masked_value = value
+            self.set_text(value)
+            self.option.value = value
+        self.box.remove(self.entry)
+        self.box.pack_start(self.value_widget, expand=True, fill=True, padding=9)
+        self._editable = False
+        logging.log(5, "Exiting stop editing")
+
+    def start_editing(self):
+        logging.log(5, "Entering start editing")
+        self.entry.set_text(str(self.option.value))
+        if self.option.masked:
+            self.entry.set_visibility(self.togglebutton_show.get_active())
+        self.box.remove(self.value_widget)
+        self.box.pack_start(self.entry, expand=True, fill=True, padding=0)
+        self._editable = True
+        # self.entry.grab_focus()
+        logging.log(5, "Exiting start editing")
 
 
 class KnownOptionRow(OptionRow):
     def __init__(self, config_panel, option):
         super().__init__(config_panel, option)
-        label, box, value_widget, type_ = self.known_options_widgets[option.name]
+        label, box, value_widget, cls = self.known_options_widgets[option.name]
         self.label = self.config_panel.builder.get_object(label)
         self.label.unparent()
         self.box = self.config_panel.builder.get_object(box)
         self.box.unparent()
         self.value_widget = self.config_panel.builder.get_object(value_widget)
-        if type_ == bool:
-            self.value_widget.set_active(option.value)
-        elif type in (str, int):
-            self.value_widget.set_text(str(option.value))
-
         self.config_panel.builder.connect_signals(self.config_panel)
+
+
+class KnownBooleanOptionRow(KnownOptionRow, BooleanOptionRow):
+    def __init__(self, config_panel, option):
+        super().__init__(config_panel, option)
+        self.value_widget.set_active(option.value)
+
+
+class KnownTextOptionRow(KnownOptionRow, TextOptionRow):
+    def __init__(self, config_panel, option):
+        super().__init__(config_panel, option)
+        self.value_widget.set_text(option.value)
 
 
 class UnknownOptionRow(OptionRow):
@@ -151,34 +249,16 @@ class UnknownOptionRow(OptionRow):
         self.label.set_sensitive(False)
 
 
-class BooleanOptionRow(UnknownOptionRow):
-    @property
-    def value(self):
-        return self.value_widget.get_active()
-
+class UnknownBooleanOptionRow(UnknownOptionRow, BooleanOptionRow):
     def __init__(self, config_panel, option):
         super().__init__(config_panel, option)
         self.value_widget = Gtk.CheckButton()
         self.value_widget.set_active(option.value)
+        self.value_widget.set_sensitive(False)
         self.box.pack_end(self.value_widget, expand=True, fill=True, padding=5)
 
 
-class EditableOptionRow(UnknownOptionRow):
-    @property
-    def sensitive(self):
-        return self.clickable_label.clickable
-
-    @sensitive.setter
-    def sensitive(self, value):
-        self.clickable_label.clickable = value
-        if not self.option.masked:
-            return
-        show_button = self.builder.get_object("togglebutton_show")
-        if not value:
-            self.box.pack_end(show_button, expand=False, fill=False, padding=0)
-        else:
-            self.box.remove(show_button)
-
+class UnknownTextOptionRow(UnknownOptionRow, TextOptionRow):
     def __init__(self, config_panel, option):
         super().__init__(config_panel, option)
         self.builder = Gtk.Builder()
@@ -187,78 +267,20 @@ class EditableOptionRow(UnknownOptionRow):
         self.builder.connect_signals(self)
         self.value_widget = self.builder.get_object("value_label")
         self.set_text(str(self.option.value))
-        self.value_button = self.builder.get_object("value_button")
-        self.image_edit = self.builder.get_object("image_edit")
         self.entry = self.builder.get_object("entry")
-        self.button_box = self.builder.get_object("value_button_box")
-        self.clickable_label = ClickableLabel(self.box, self.value_button, self.button_box,
-                                              self.value_widget, self.image_edit)
-        self._in_stop_editing = False
-        self._button_pressed = False
+        self.box.pack_start(self.value_widget, expand=True, fill=True, padding=9)
+        if self.option.masked:
+            self.togglebutton_show = self.builder.get_object("togglebutton_show")
+            self.box.pack_end(self.togglebutton_show, expand=False, fill=False, padding=0)
 
     def on_togglebutton_show_toggled(self, button):
+        if self.editable:
+            self.entry.set_visibility(button.get_active())
+            return
+
         if button.get_active():
             self.set_unmasked_text(self.masked_value)
         else:
             self.set_masked_text(self.masked_value)
 
-    def on_entry_key_press_event(self, widget, event):
-        key_name = Gdk.keyval_name(event.keyval)
-        logging.log(5, "Event: Key pressed: %r", key_name)
-        if key_name == "Return":
-            self.stop_editing()
-        if key_name == "Escape":
-            self.stop_editing(apply=False)
 
-    def on_value_button_event(self, widget, event):
-        logging.log(3, "Event: Value button event: %r", event)
-        if event.type == Gdk.EventType.BUTTON_PRESS:
-            logging.log(5, "Before button press. Button is pressed in: %r", widget.get_active())
-            self._button_pressed = True
-
-    def on_value_button_toggled(self, button):
-        logging.log(5, "Event: Value button toggled. is pressed in: %r", button.get_active())
-        if not self.clickable_label.clickable:
-            return True
-        if self.value_button.get_active():
-            self.start_editing()
-        else:
-            self.stop_editing()
-
-    def on_value_button_event_after(self, widget, event):
-        if event.type == Gdk.EventType.BUTTON_RELEASE:
-            logging.log(5, "After button press")
-            self._button_pressed = False
-
-    def on_entry_focus_out_event(self, widget, event):
-        if self._button_pressed:
-            return
-        logging.log(5, "Entering entry focus out event %r", event)
-        self.stop_editing()
-        self.value_button.set_active(False)
-        logging.log(5, "Exiting entry focus out event %r", event)
-
-    def stop_editing(self, apply=True):
-        if self._in_stop_editing or self.value_widget in self.button_box.get_children():
-            return
-        logging.log(5, "Entering stop editing")
-        self._in_stop_editing = True
-        if apply:
-            value = self.entry.get_text()
-            self.masked_value = value
-            self.set_text(value)
-            self.option.value = value
-        self.button_box.remove(self.entry)
-        self.button_box.pack_start(self.value_widget, expand=True, fill=True, padding=0)
-        self.image_edit.set_from_stock("gtk-edit", Gtk.IconSize.BUTTON)
-        self._in_stop_editing = False
-        logging.log(5, "Exiting stop editing")
-
-    def start_editing(self):
-        logging.log(5, "Entering start editing")
-        self.entry.set_text(str(self.option.value))
-        self.button_box.remove(self.value_widget)
-        self.button_box.pack_start(self.entry, expand=True, fill=True, padding=0)
-        self.image_edit.set_from_stock("gtk-apply", Gtk.IconSize.BUTTON)
-        self.entry.grab_focus()
-        logging.log(5, "Exiting start editing")
