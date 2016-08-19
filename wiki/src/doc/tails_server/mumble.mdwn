@@ -1,50 +1,51 @@
-[[!meta title="Sprachkonferenzen mit Mumble"]]
+[[!meta title="Voice chatting with Mumble"]]
 
-Für Sprachkonferenzen enthält <span class="application">Tails Server</span> den Dienst <span
-class="application">Mumble-Server</span>.
+For voice chatting, <span class="application">Tails Server</span> includes <span
+class="application">Mumble-Server</span>. 
 
-Eine ausführlichere Dokumentation finden Sie im [offiziellen
+For more detailed documentation, refer to the [official
 <span class="application">Mumble</span>
-Wiki](http://wiki.mumble.info/wiki/FAQ).
+documentation](http://wiki.mumble.info/wiki/FAQ).
 
-Konfigurieren des Dienstes
-==========================
+Configure the Service
+=====================
 
-Der <span class="application">Mumble-Server</span> ist im <span class="application">Tails Server</span> so vorkonfigueriert, dass er ohne weitere Konfiguration gestartet werden kann. Sie wollen vielleicht trotzdem einige der Optionen konfigurieren:
+The <span class="application">Mumble-Server</span> is preconfigured in <span class="application">Tails Server</span>, so you are able to start it without additional configuration. You might still want to configure some of the service's options:
 
-1. Passwort: Das Passwort, das zum verbinden mit dem Dienst benötigt wird. Standardmäßig ist dies eine 20 Zeichen lange zufällige Zeichenfolge.
+1. Password: The password required to connect to the service. This is preset to a 20 character random string.
 
-1. Persistenz: Speichert die Konfiguration des Dienstes persistent (d.h. sie wird nach einem Neustart von Tails nicht zurückgesetzt). Diese Option ist nur verfügbar, wenn der [[beständige Speicherbereich|first_steps/persistence]] in Tails aktiviert wurde.
+1. Persistence: Stores the service's configuration persistently (i.e. it will not be reset after rebooting Tails). This is only available if you enabled [[Tails' persistence feature|first_steps/persistence]].
 
-1. Autostart: Startet den Dienst automatisch nach einem Neustart von Tails.
+1. Autostart: Starts this service automatically after boot.
 
-1. Erlaube LAN: Erlaubt Verbindungen aus dem Lokalen Netzwerk (LAN) zu dem Dienst.
+1. Allow LAN: Allows connection from your local area network (LAN) to the service. 
 
    <div class="tip">
-   <p>Um sich lokal zu dem Dienst zu verbinden, müssen Sie die ihrem System im lokalen Netzwerk zugewiesene IP-Adresse kennen. Diese können Sie in der <span class="application">Netzwerk</span> Anwendung herausfinden. Um <span class="application">Netzwerk</span> zu starten, öffnen Sie <span class="menuchoice">
-     <span class="guimenu">Anwendungen</span>&nbsp;▸
-     <span class="guisubmenu">Systemwerkzeuge</span>&nbsp;▸
-     <span class="guimenuitem">Einstellungen</span>
-   </span> und wählen dann <span class="guimenuitem">Netzwerk</span>.
+   <p>To connect locally, you will have to find out which IP address your computer is assigned to on your local network. You can look this up in the <span class="application">Network</span> application. To start <span class="application">Network</span>, open <span class="menuchoice">
+     <span class="guimenu">Applications</span>&nbsp;▸
+     <span class="guisubmenu">System Tools</span>&nbsp;▸
+     <span class="guimenuitem">Settings</span>
+   </span>, and then choose <span class="guimenuitem">Network</span>.
    </div>
 
-Zum Dienst verbinden
-====================
 
-Sie können sich mit dem <span class="application">Mumble</span>-Client zum <span class="application">Mumble-Server</span> verbinden. Um den <span class="application">Mumble</span>-Client zu starten, öffnen Sie
+Connect to the Service
+======================
+
+You can connect to the <span class="application">Mumble-Server</span> service using the <span class="application">Mumble</span> client. To start <span class="application">Mumble</span>, open
 <span class="menuchoice">
-  <span class="guimenu">Anwendungen</span>&nbsp;▸
+  <span class="guimenu">Applications</span>&nbsp;▸
   <span class="guisubmenu">Internet</span>&nbsp;▸
   <span class="guimenuitem">Mumble</span>
 </span>.
-Um sich mit dem Dienst verbinden zu können, müssen Sie die Onion Adresse, den Port und das Passwort kennen. Diese Informationen können von dem Administrator des Servers leicht über die im <span class="application">Tails Server</span> angezeigte <em>Connection Info</em> kopiert und weitergegeben werden.
+In order to connect to the service, you will need the onion address, the port, and the password. This information can be easily distributed by the service administrator by copying the <em>Connection Info</em> displayed in <span class="application">Tails Server</span>.
 
-Um sich mit dem Dienst zu verbinden, wählen Sie
-<span class="menuchoice">
+To connect to the service, choose <span class="menuchoice">
   <span class="guimenu">Server</span>&nbsp;▸
-  <span class="guimenuitem">Verbinden</span>
-</span> und klicken dann auf <span class="guimenuitem">Server hinzufügen</span>. Jetzt müssen Sie die Onion Adresse und den Port (standardmäßig 64738) eingeben. Sie müssen hier außerdem eine Bezeichnung für den Dienst und einen Benutzernamen wählen. Wenn Sie auf OK klicken, versucht sich der Client zu dem Dienst zu verbinden und wird Sie auffordern, das Passwort einzugeben.
+  <span class="guimenuitem">Connect</span>
+</span>, and then click <span class="guimenuitem">Add New</span>. Now you need to enter the onion address and the port (defaults to 64738). You will also need to choose a label for the service and a username. When you click OK, the client will try to connect to the service and will ask you to enter the service's password.
 
-Zertifikat überprüfen
-=====================
-Wenn Sie den Dienst das erste Mal starten, werden Sie darüber informiert, dass das Zertifikat fehlerhaft ist (der Hostname stimmt nicht und es ist selbst-signiert). Sie werden gefragt, ob Sie das Zertifikat trotzdem akzeptieren möchten. Sie sollten die SHA1-Prüfsumme des Zertifikats mit der aus der <em>Connection Info</em>  im <span class="application">Tails Server</span> vergleichen und das Zertifikat nur akzeptieren, wenn beide übereinstimmen. Sollten Sie die <em>Connection Info</em> nicht haben, fragen Sie den Administrator des <span class="application">Tails Servers</span> danach.
+Verify Certificate
+==================
+When connecting to the service for the first time, there will be a prompt informing you that there are errors with the certificate (it's host name doesn't match and it is self-signed) and asking you if you want to accept the certificate. You should compare the displayed certificate fingerprint with the fingerprint in the <em>Connection Info</em> in <span class="application">Tails Server</span> and only accept the certificate if they match. If you do not have this <em>Connection Info</em>, ask the <span class="application">Tails Server</span> administrator for it.
+
