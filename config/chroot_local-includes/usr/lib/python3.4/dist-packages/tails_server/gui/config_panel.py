@@ -186,8 +186,6 @@ class ServiceConfigPanel(object):
         label = self.builder.get_object("label_persistence_comment")
         if label in persistence_row.box.get_children():
             persistence_row.box.remove(label)
-        return
-
 
     def update_autorun_checkbox(self):
         try:
