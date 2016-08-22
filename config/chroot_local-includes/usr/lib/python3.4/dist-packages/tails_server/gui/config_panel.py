@@ -39,16 +39,6 @@ class ServiceConfigPanel(object):
         # self.connection_info_label = self.builder.get_object("label_connection_info")
         self.connection_info_box = self.builder.get_object("box_connection_info")
         self.connection_info_button = self.builder.get_object("button_connection_info")
-        connection_info_button_box = self.builder.get_object("box_button_connection_info")
-        connection_info_copy_image = self.builder.get_object("image_copy")
-        connection_info_value_label = self.builder.get_object("label_connection_info_value")
-        self.connection_info_clickable_label = ClickableLabel(
-            self.connection_info_box,
-            self.connection_info_button,
-            connection_info_button_box,
-            connection_info_value_label,
-            connection_info_copy_image
-        )
         self.editing_buttonbox = self.builder.get_object("buttonbox_editing")
         self.edit_button = self.builder.get_object("button_edit")
         self.cancel_edit_button = self.builder.get_object("button_cancel_edit")
