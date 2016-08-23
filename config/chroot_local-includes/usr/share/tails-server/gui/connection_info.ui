@@ -2,6 +2,16 @@
 <!-- Generated with glade 3.18.3 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
+  <object class="GtkButton" id="copy_button">
+    <property name="label">gtk-copy</property>
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <property name="receives_default">True</property>
+    <property name="margin_top">5</property>
+    <property name="margin_bottom">5</property>
+    <property name="use_stock">True</property>
+    <signal name="clicked" handler="on_copy_connection_info_button_clicked" object="dialog" swapped="no"/>
+  </object>
   <object class="GtkScrolledWindow" id="scrolledwindow">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
@@ -30,20 +40,20 @@
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="copy_button">
-                <property name="label">gtk-copy</property>
+              <object class="GtkButton" id="close_button">
+                <property name="label">gtk-close</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="margin_top">5</property>
+                <property name="margin_top">6</property>
                 <property name="margin_bottom">5</property>
                 <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_copy_connection_info_button_clicked" object="dialog" swapped="no"/>
+                <signal name="clicked" handler="on_close_connection_info_button_clicked" object="dialog" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="position">0</property>
               </packing>
             </child>
           </object>

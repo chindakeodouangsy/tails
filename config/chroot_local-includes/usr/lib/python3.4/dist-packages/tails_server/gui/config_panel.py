@@ -66,6 +66,7 @@ class ServiceConfigPanel(object):
         self.switch.set_sensitive(False)
 
     def populate_option_rows(self):
+        """For each option of this service, add a row to configure the option to the config panel"""
         if self.options_populated:
             return
         self.options_populated = True
@@ -146,6 +147,7 @@ class ServiceConfigPanel(object):
         self.gui.current_service = self.service
 
     def update_onion_address_widget(self):
+
         if self.service.address:
             self.onion_address_box.set_visible(True)
             self.onion_address_label.set_visible(True)
@@ -376,7 +378,7 @@ class ServiceConfigPanel(object):
         window.set_transient_for(self.gui.window)
         window.show_all()
 
-    def on_close_button_clicked(self, window):
+    def on_close_connection_info_button_clicked(self, window):
         window.close()
 
     def on_copy_connection_info_button_clicked(self, window):
