@@ -171,6 +171,10 @@ class ServiceStatus(Gtk.Widget):
 
         visual_widget = self.get_visual_widget(self.status)
         label_value = None
+        if self.status in (Status.starting, Status.stopping, Status.installing,
+                           Status.uninstalling, Status.publishing):
+            visual_widget = None
+            label_value = "..."
         if self.status in (Status.offline, Status.stopped):
             label_value = _("Off")
         if self.status in (Status.online,):
