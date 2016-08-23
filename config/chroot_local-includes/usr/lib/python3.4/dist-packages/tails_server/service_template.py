@@ -141,12 +141,16 @@ class TailsService(metaclass=abc.ABCMeta):
                 self, [(option.name, option) for option in self.options])
         return self._options_dict
 
+    _is_installed = "Not checked"
+
     @property
     def is_installed(self):
-        cache = apt.Cache()
-        if any(package not in cache for package in self.packages):
-            return False
-        return all(cache[package].is_installed for package in self.packages)
+        if self._is_installed == "Not checked":
+            cache = apt.Cache()
+            if any(package not in cache for package in self.packages):
+                self._is_installed = False
+            self._is_installed = all(cache[package].is_installed for package in self.packages)
+        return self._is_installed
 
     @property
     def is_running(self):
