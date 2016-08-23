@@ -15,6 +15,7 @@ class OptionRow(object, metaclass=abc.ABCMeta):
     }
 
     masked_value = None
+    show_unmasked = False
 
     @property
     def sensitive(self):
@@ -45,6 +46,8 @@ class OptionRow(object, metaclass=abc.ABCMeta):
 
     def set_text(self, value):
         if self.option.masked:
+            logging.warning("show_unmasked: %r", self.show_unmasked)
+        if self.option.masked and not self.show_unmasked:
             self.set_masked_text(value)
         else:
             self.set_unmasked_text(value)
@@ -279,8 +282,10 @@ class UnknownTextOptionRow(UnknownOptionRow, TextOptionRow):
             return
 
         if button.get_active():
+            self.show_unmasked = True
             self.set_unmasked_text(self.masked_value)
         else:
+            self.show_unmasked = False
             self.set_masked_text(self.masked_value)
 
 
