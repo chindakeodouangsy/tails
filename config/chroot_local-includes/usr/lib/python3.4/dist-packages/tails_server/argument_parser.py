@@ -7,6 +7,7 @@ service_names = tails_server.services.service_names
 
 
 class HelpfulParser(argparse.ArgumentParser):
+    """Argument parser that prints the help on error"""
     def error(self, message):
         sys.stderr.write('error: %s\n' % message)
         self.print_help()
@@ -30,6 +31,7 @@ class CommandParser(HelpfulParser):
     service_commands = descriptions.keys()
 
     def add_service_command(self, command_name, *arguments):
+        """Add a command to the argument parser"""
         command = self.subparsers.add_parser(command_name,
                                              help=self.descriptions[command_name],
                                              description=self.descriptions[command_name])

@@ -11,6 +11,7 @@ from tails_server.gui.service_status import Status, ServiceStatus
 
 
 class ServiceDecorator(object):
+    """Service class extended by functions used in the GUI"""
 
     status_row = None
 
@@ -54,7 +55,7 @@ class ServiceDecorator(object):
 
     def add_onion(self):
         self.status.emit("update", Status.publishing)
-        self.service.add_onion()
+        self.service.create_hidden_service()
         if self.service.is_running:
             self.status.emit("update", Status.online)
         else:
@@ -71,12 +72,14 @@ class ServiceDecorator(object):
         self.status.tor_dbus_monitor.stop()
 
     def run_threaded(self, function, *args):
+        """Run the specified function in a new thread"""
         thread = threading.Thread(target=self.run_with_exception_handling,
                                   args=(function,) + args)
         thread.daemon = True
         thread.start()
 
     def run_threaded_when_idle(self, function, *args):
+        """Run the specified function wrapped in a GLib.idle_add() call in a new thread"""
         thread = threading.Thread(target=self.run_with_exception_handling,
                                   args=(GLib.idle_add, function) + args)
         thread.daemon = True

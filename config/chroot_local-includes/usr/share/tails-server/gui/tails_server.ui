@@ -136,7 +136,7 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">20</property>
                         <property name="margin_right">20</property>
-                        <property name="label" translatable="yes">Tails Server allows you to create online services to which other people can connect through Tor. For example, you can create a Mumble service to organize group calls.
+                        <property name="label" translatable="yes">Tails Server allows you to create online services in Tails to which other people can connect through Tor. For example, you can create a Mumble service to organize group calls.
 
 Click '+' to create a new service.
 

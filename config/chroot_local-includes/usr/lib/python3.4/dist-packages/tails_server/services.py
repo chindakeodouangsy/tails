@@ -15,6 +15,7 @@ class DuplicateServiceError(Exception):
 
 
 def load_service_names():
+    """Extract the service's name from the filenames in SERVICES_DIR"""
     global service_names
     global service_module_paths
     service_module_paths = collections.OrderedDict()
@@ -32,14 +33,12 @@ def load_service_names():
 
 
 def import_service_modules():
+    """Import the modules in SERVICES_DIR"""
     service_modules = collections.OrderedDict()
     for service_name in service_names:
         module_path = service_module_paths[service_name]
         source_file_loader = importlib.machinery.SourceFileLoader(service_name, module_path)
         service_modules[service_name] = source_file_loader.load_module()
-    # print("service_modules: %r" % service_modules)
     return service_modules
 
 load_service_names()
-# print("service_names: %r" % service_names)
-# print("service_module_paths: %r" % service_module_paths)

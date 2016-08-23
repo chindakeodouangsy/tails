@@ -37,29 +37,37 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
     @property
     @abc.abstractmethod
     def name(self):
+        """The name of the option, as used in the CLI and the stored options file"""
         pass
 
     @property
     def name_in_gui(self):
+        """The name of the option as displayed in the GUI"""
         return self.name.replace("-", " ").title()
 
     @property
     @abc.abstractmethod
     def description(self):
+        """A short description of the option that will be displayed in the GUI"""
         pass
 
     @property
     @abc.abstractmethod
     def type(self):
+        """The option's type. This will determine which widgets are used for this option in the
+        GUI. Defaults to str"""
         return str
 
     @property
     @abc.abstractmethod
     def default(self):
+        """The default value of this option"""
         pass
 
     @property
     def value(self):
+        """The option's value. Setting this to a different value will automatically trigger
+        on_value_changed, which will store and apply the value"""
         return self._value
 
     @value.setter
@@ -98,6 +106,9 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
             self.store()
 
     def load(self):
+        """Load the option's value from the option file. Create the option file if it doesn't exist.
+        If this option has any other stable representation (e.g. in a config file), this function
+        should be overridden and load this other representation instead"""
         try:
             return self.do_load()
         except (FileNotFoundError, ValueError, TypeError):
@@ -116,6 +127,9 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
         return self.type(value)
 
     def store(self):
+        """Store the option's value in the option file. If this option has any other stable
+        representation (e.g. if it modifies a config file), this function should be overridden
+        and replace this other representation instead."""
         logging.debug("Storing option %r", self.name)
         with open(self.service.options_file) as f:
             options = yaml.load(f)
@@ -129,6 +143,9 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
         self.apply()
 
     def apply(self):
+        """This function should be overridden if the option will not automatically apply after
+        store() is called and the service is restarted (if the option is stored in a config file,
+        it will usually be applied automatically by restarting the service)."""
         logging.debug("Applying option %s", self.name)
 
     def __str__(self):

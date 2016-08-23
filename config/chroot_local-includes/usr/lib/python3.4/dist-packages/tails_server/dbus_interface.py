@@ -8,6 +8,8 @@ dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
 
 class StatusMonitor(object):
+    """Monitors changes of the service's running status, by registering a signal receiver for
+    changes of the "ActiveState" and "SubState" properties of the service's systemd unit on dbus."""
 
     def __init__(self, service_name, status_receiver_function):
         logging.debug("Initializing status monitor for service %r", service_name)
@@ -21,9 +23,19 @@ class StatusMonitor(object):
         self.unit = self.manager.LoadUnit(self.service_name)
         self.loop = GLib.MainLoop()
         self.threads = list()
-        # proxy = bus.get_object('org.freedesktop.systemd1', str(unit))
-        # # interface = Interface(proxy, dbus_interface='org.freedesktop.systemd1.Unit')
-        # proxy.Get('org.freedesktop.systemd1.Unit', 'ActiveState', dbus_interface='org.freedesktop.DBus.Properties')
+
+    def add_signal_receiver(self, receiver_function):
+        self.bus.add_signal_receiver(
+            receiver_function,
+            None,
+            'org.freedesktop.DBus.Properties',
+            path=self.unit,
+            sender_keyword='sender',
+            destination_keyword='destination',
+            member_keyword='member',
+            path_keyword='path'
+        )
+        # self.loop.run()
 
     def signal_receiver(self, interface_name, changed_properties, invalidated_properties, **kwargs):
         if 'ActiveState' in changed_properties:
@@ -50,23 +62,7 @@ class StatusMonitor(object):
             logging.debug("Stopping status monitor for service %r", self.service_name)
             self.loop.quit()
 
-    def add_signal_receiver(self, receiver_function):
-        self.bus.add_signal_receiver(
-            receiver_function,
-            None,
-            'org.freedesktop.DBus.Properties',
-            path=self.unit,
-            sender_keyword='sender',
-            destination_keyword='destination',
-            member_keyword='member',
-            path_keyword='path'
-        )
-        # self.loop.run()
-
 
 def get_active_status(interface_name, changed_properties, invalidated_properties, **kwargs):
     if 'ActiveState' in changed_properties:
         print(changed_properties['ActiveState'])
-
-# mumble_monitor = StatusMonitor("mumble-server.service", "foo")
-# mumble_monitor.add_signal_receiver(get_active_status)

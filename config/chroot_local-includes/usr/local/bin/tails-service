@@ -25,7 +25,8 @@ def list_enabled():
         print("-", service.name)
 
 
-def autostart():
+def autostart_services():
+    """Start services with the autostart option set to True"""
     autostart_services = [
         service for service in services
         if "autostart" in service.options_dict and service.options_dict["autostart"].value
@@ -58,7 +59,7 @@ def main():
     elif args.command == "list-enabled":
         list_enabled()
     elif args.command == "autostart":
-        autostart()
+        autostart_services()
     else:
         if os.geteuid() != 0:
             exit("This command requires root")

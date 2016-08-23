@@ -35,7 +35,7 @@ OPTIONS_FILE_NAME = config.OPTIONS_FILE_NAME
 
 
 class LazyOptionDict(OrderedDict):
-    """Expects classes as it's values. Returns an instance of the respective class."""
+    """Expects classes as its values. Returns an instance of the respective class."""
     def __init__(self, service, *args, **kwargs):
         self.service = service
         super().__init__(*args, **kwargs)
@@ -76,11 +76,14 @@ class TailsService(metaclass=abc.ABCMeta):
     @property
     @abc.abstractmethod
     def description(self):
+        """A short description of the service, which will be displayed in the GUI."""
         return str()
 
     @property
     @abc.abstractmethod
     def packages(self):
+        """Packages needed by this service.
+        These will be installed when the service is installed."""
         return list()
 
     @property
@@ -91,37 +94,47 @@ class TailsService(metaclass=abc.ABCMeta):
     @property
     @abc.abstractmethod
     def default_target_port(self):
+        """The default value of the service's target port (i.e. the port opened by the service on
+        localhost) if the user does not specify a custom target port"""
         return int()
 
     @property
     def target_port(self):
+        """The port opened by the service on localhost which should be forwarded via Tor"""
         if "target-port" in self.options_dict:
             return self.options_dict["target-port"].value
         return self.default_target_port
 
     @property
     def default_virtual_port(self):
+        """The default value of the service's virtual port (i.e. the port exposed via the onion
+        service) if the user does not specify a custom virtual port"""
         return self.default_target_port
 
     @property
     def virtual_port(self):
+        """The port exposed via the onion service, i.e. the port clients have to use to connect to
+        the service"""
         if "virtual-port" in self.options_dict:
             return self.options_dict["virtual-port"].value
         return self.default_virtual_port
 
     @property
     def connection_info(self):
+        """A summary of all information necessary to connect to the service"""
         if self.address:
             return "%s:%s" % (self.address, self.virtual_port)
         return None
 
     @property
     def connection_info_in_gui(self):
+        """The connection as it should be displayed in the GUI"""
         return self.connection_info
 
     @property
     @abc.abstractmethod
     def icon_name(self):
+        """Name of the icon to use for this service in the GUI"""
         return str()
 
     documentation = str()
@@ -136,6 +149,13 @@ class TailsService(metaclass=abc.ABCMeta):
 
     @property
     def options_dict(self):
+        """A LazyOptionDict mapping the names of this service's options to the options' classes.
+        The LazyOptionDict automatically instantiates an option the first time it is accessed,
+        so then the dict maps the option's name to the option object.
+        The reasoning for this is that instantiating an option usually requires disk reads and
+        therefore is very slow, so we don't want to instantiate all the options when the GUI
+        starts, because this would slow the start of the GUI down a lot. Instead we only
+        instantiate the options when they are actually needed."""
         if not self._options_dict:
             self._options_dict = LazyOptionDict(
                 self, [(option.name, option) for option in self.options])
@@ -174,6 +194,10 @@ class TailsService(metaclass=abc.ABCMeta):
 
     @property
     def address(self):
+        """
+        The hidden service hostname aka onion address of this service.
+        :return: onion address
+        """
         try:
             with open(self.hs_hostname_file, 'r') as f:
                 return f.read().strip()
@@ -231,13 +255,6 @@ class TailsService(metaclass=abc.ABCMeta):
         self._target_port = self.default_target_port
         self._virtual_port = self.default_virtual_port
 
-    def instantiate_options(self):
-        logging.debug("Instantiating options of %r", self.name)
-        for i, option in enumerate(self.options_dict.values()):
-            logging.debug("Instantiating option %r", option.name)
-            assert (issubclass(option, service_option_template.TailsServiceOption))
-            self.options_dict[i] = option(self)
-
     def get_status(self):
         return {"installed": self.is_installed,
                 "enabled": self.is_running,
@@ -267,7 +284,7 @@ class TailsService(metaclass=abc.ABCMeta):
             self.start()
         self.create_hs_dir()
         if not skip_add_onion:
-            self.add_onion()
+            self.create_hidden_service()
 
     def install(self):
         logging.info("Installing packages: %s" % " ".join(self.packages))
@@ -365,7 +382,7 @@ class TailsService(metaclass=abc.ABCMeta):
 
     def disable(self):
         self.stop()
-        self.remove_onion()
+        self.remove_hidden_service()
 
     def stop(self):
         logging.info("Stopping service %r", self.name)
@@ -402,9 +419,8 @@ class TailsService(metaclass=abc.ABCMeta):
         logging.debug("Option %r reset to %r", option_name, option.value)
         return
 
-    def add_onion(self):
-        # create_hidden_service() fails because the Tor sandbox prevents accessing the filesystem
-        # see https://github.com/micahflee/onionshare/issues/179
+    def create_hidden_service(self):
+        """Creating hidden service and setting address and hs_private_key accordingly"""
         if not self.is_running:
             logging.warning("Refusing to create hidden service of not-running service %r",
                             self.name)
@@ -427,6 +443,9 @@ class TailsService(metaclass=abc.ABCMeta):
 
         controller = stem.control.Controller.from_port(port=TOR_CONTROL_PORT)
         controller.authenticate()
+        # We have to use create_ephemeral_hidden_service() here instead of create_hidden_service(),
+        # because the latter needs to access the filesystem, which is prevented by the Tor sandbox
+        # see https://github.com/micahflee/onionshare/issues/179
         response = controller.create_ephemeral_hidden_service(
             ports={self.virtual_port: self.target_port},
             key_type=key_type,
@@ -456,7 +475,7 @@ class TailsService(metaclass=abc.ABCMeta):
         with open(self.hs_private_key_file, 'w+') as f:
             f.write(key)
 
-    def remove_onion(self):
+    def remove_hidden_service(self):
         if not self.address:
             logging.warning("Can't remove onion address of service %r: Address is not set",
                             self.name)
