@@ -110,6 +110,7 @@ fi
 # FIXME: Or would it make sense to fallback to Google's DNS or OpenDNS?
 # Some stupid captive portals may allow DNS to any host, but chances are
 # that only the portal's DNS would forward to the login page.
+IP4_NAMESERVERS='10.1.1.1'
 if [ -z "${IP4_NAMESERVERS:-}" ]; then
     error "`gettext \"No DNS server was obtained through DHCP or manually configured in NetworkManager.\"`"
 fi
@@ -127,6 +128,9 @@ configure_chroot_browser "${CHROOT}" "${BROWSER_USER}" "${BROWSER_NAME}" \
     "${TBB_EXT}"/langpack-*.xpi || \
         error "`gettext \"Failed to configure browser.\"`"
 
+#echo XXX
+#read A
+
 echo "* Starting Unsafe Browser"
 run_browser_in_chroot "${CHROOT}" "${BROWSER_NAME}" "${BROWSER_USER}" \
     "${SUDO_USER}" || \
@@ -134,6 +138,6 @@ run_browser_in_chroot "${CHROOT}" "${BROWSER_NAME}" "${BROWSER_USER}" \
 
 echo "* Exiting the Unsafe Browser"
 show_shutdown_notification
-maybe_restart_tor
+#maybe_restart_tor
 
 exit 0

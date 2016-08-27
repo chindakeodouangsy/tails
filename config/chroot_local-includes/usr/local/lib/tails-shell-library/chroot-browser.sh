@@ -21,7 +21,7 @@ try_cleanup_browser_chroot () {
     local user="${3}"
     try_for 10 "pkill -u ${user} 1>/dev/null 2>&1" 0.1 || \
         pkill -9 -u "${user}" || :
-    for mnt in "${chroot}/dev" "${chroot}/proc" "${chroot}" "${cow}"; do
+    for mnt in "${chroot}/dev" "${chroot}/proc" "${chroot}/run/dbus" "${chroot}" "${cow}"; do
         try_for 10 "umount ${mnt} 2>/dev/null" 0.1
     done
     rmdir "${cow}" "${chroot}"
@@ -61,6 +61,9 @@ setup_chroot_for_browser () {
     mount -t proc proc "${chroot}/proc" && \
     mount --bind "/dev" "${chroot}/dev" || \
         return 1
+
+    mkdir -p "${chroot}/run/dbus"
+    mount --rbind "/run/dbus" "${chroot}/run/dbus"
 
     # Workaround for #6110
     chmod -t "${cow}"
@@ -244,9 +247,15 @@ run_browser_in_chroot () {
     local profile="$(browser_profile_dir ${browser_name} ${chroot_user})"
 
     sudo -u "${local_user}" xhost "+SI:localuser:${chroot_user}"
-    chroot "${chroot}" sudo -u "${chroot_user}" /bin/sh -c \
-        ". /usr/local/lib/tails-shell-library/tor-browser.sh && \
-         exec_firefox -DISPLAY='${DISPLAY}' \
-                      -profile '${profile}'"
+    #XAUTHORITY="${XAUTHORITY}"
+    chroot "${chroot}" \
+        pkexec --user "${chroot_user}" \
+            env DISPLAY="${DISPLAY}"  \
+            /bin/sh -c \
+            "gedit"
+#                    ". /usr/local/lib/tails-shell-library/tor-browser.sh && \
+#                     exec_firefox -DISPLAY='${DISPLAY}' \
+#                                  -profile '${profile}'"
+
     sudo -u "${local_user}" xhost "-SI:localuser:${chroot_user}"
 }

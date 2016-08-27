@@ -527,7 +527,7 @@ EOF
   end
 
   def file_overwrite(*args)
-    execute_successfully("rm -f '#{args.first}'")
+    execute_successfully("truncate -s 0 '#{args.first}'")
     file_append(*args)
   end
 
