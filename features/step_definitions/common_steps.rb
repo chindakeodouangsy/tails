@@ -287,6 +287,20 @@ Given /^the computer (re)?boots Tails$/ do |reboot|
   $vm.wait_until_remote_shell_is_up
   activate_filesystem_shares
   step 'I configure Tails to use a simulated Tor network'
+  # In order to get Dogtail to see applications run by
+  # non-{root,LIVE_USER} we open up the at-spi2 bus so any user has
+  # full access to it.
+  $vm.execute_successfully('mkdir -p /etc/at-spi2')
+  if not $vm.file_exist?('/etc/at-spi2/accessibility.conf')
+    $vm.execute_successfully(
+      'cp /usr/share/defaults/at-spi2/accessibility.conf ' +
+      '   /etc/at-spi2/accessibility.conf'
+    )
+  end
+  $vm.execute_successfully(
+    "sed -i 's@<allow user=\"root\"\/>@<allow user=\"*\"/>' " +
+    "    /etc/at-spi2/accessibility.conf"
+  )
 end
 
 Given /^I log in to a new session(?: in )?(|German)$/ do |lang|
