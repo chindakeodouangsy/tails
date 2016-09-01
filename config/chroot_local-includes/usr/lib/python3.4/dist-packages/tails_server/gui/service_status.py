@@ -178,7 +178,7 @@ class ServiceStatus(Gtk.Widget):
         """Get the visual widget to display to the user for the specified signal"""
         new_builder = Gtk.Builder()
         new_builder.add_from_file(STATUS_UI_FILE)
-        if status in (Status.starting, Status.stopping, Status.installing,
+        if status in (Status.starting, Status.stopping, Status.installing, Status.uninstalled,
                       Status.uninstalling, Status.publishing):
             return new_builder.get_object("spinner")
         if status in (Status.error, Status.tor_is_not_running):
