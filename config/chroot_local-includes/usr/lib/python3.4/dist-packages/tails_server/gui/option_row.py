@@ -45,8 +45,6 @@ class OptionRow(object, metaclass=abc.ABCMeta):
         return self.value
 
     def set_text(self, value):
-        if self.option.masked:
-            logging.warning("show_unmasked: %r", self.show_unmasked)
         if self.option.masked and not self.show_unmasked:
             self.set_masked_text(value)
         else:
