@@ -4,7 +4,7 @@ from tails_server.config import APP_NAME, QUESTION_DIALOG_UI_FILE
 
 class QuestionDialog(object):
     def __init__(self, parent, title, text, yes_label, no_label,
-                 cancel_label=None, suggest_actions=False):
+                 cancel_label=None, destructive=False):
         self.result = "cancel"
 
         self.builder = Gtk.Builder()
@@ -33,11 +33,9 @@ class QuestionDialog(object):
         else:
             action_area.remove(cancel_button)
 
-        if suggest_actions:
+        if destructive:
             yes_button_style_context = yes_button.get_style_context()
-            yes_button_style_context.add_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION)
-            no_button_style_context = no_button.get_style_context()
-            no_button_style_context.add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+            yes_button_style_context.add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
 
     def run(self):
         self.dialog.run()
@@ -67,8 +65,7 @@ class RestartServiceQuestionDialog(QuestionDialog):
         yes_label = "Apply & Restart Service"
         no_label = "Discard Changes"
         cancel_label = "Cancel"
-        suggest_actions = True
-        super().__init__(parent, title, text, yes_label, no_label, cancel_label, suggest_actions)
+        super().__init__(parent, title, text, yes_label, no_label, cancel_label)
 
 
 class ApplyChangesQuestionDialog(QuestionDialog):
@@ -78,5 +75,15 @@ class ApplyChangesQuestionDialog(QuestionDialog):
         yes_label = "Apply Changes"
         no_label = "Discard Changes"
         cancel_label = "Cancel"
-        suggest_actions = True
-        super().__init__(parent, title, text, yes_label, no_label, cancel_label, suggest_actions)
+        super().__init__(parent, title, text, yes_label, no_label, cancel_label)
+
+
+class RemoveServiceQuestionDialog(QuestionDialog):
+    def __init__(self, parent):
+        title = "Remove service"
+        text = "This will irrevocably delete all configurations and data of this service, " \
+               "including the onion address. Are you sure you want to proceed?"
+        yes_label = "Remove"
+        no_label = "Cancel"
+        super().__init__(parent, title, text, yes_label, no_label, cancel_label=False,
+                         destructive=True)

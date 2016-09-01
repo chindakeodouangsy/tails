@@ -30,13 +30,8 @@ class TailsServerGUI(object):
 
     def on_button_remove_service_clicked(self, button):
         service = self.service_list.get_selected_service()
-        confirmed = self.obtain_confirmation(
-            "Remove service",
-            "This will irrevocably delete all configurations and data of this service, "
-            "including the onion address. Are you sure you want to proceed?",
-            ok_label="Remove"
-        )
-        if not confirmed:
+        answer = self.confirm_remove_service()
+        if answer != "yes":
             return
         service.run_threaded(self.uninstall_service, service)
 
@@ -54,7 +49,7 @@ class TailsServerGUI(object):
     def on_listbox_service_status_row_activated(self, listbox, listboxrow):
         self.service_list.row_selected(listboxrow)
 
-    def obtain_confirmation(self, title, text, ok_label, cancel_label="Cancel"):
+    def obtain_confirmation(self, title, text, ok_label, cancel_label="Cancel", destructive=False):
         try:
             sh.zenity(
                 "--question",
@@ -75,6 +70,11 @@ class TailsServerGUI(object):
 
     def confirm_apply_changes(self):
         dialog = question_dialog.ApplyChangesQuestionDialog(self.window)
+        dialog.run()
+        return dialog.result
+
+    def confirm_remove_service(self):
+        dialog = question_dialog.RemoveServiceQuestionDialog(self.window)
         dialog.run()
         return dialog.result
 
