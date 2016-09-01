@@ -3,13 +3,17 @@ PACKAGE_PATH = os.path.dirname(os.path.realpath(__file__))
 
 APP_NAME = "tails-server"
 
+TAILS_SERVER_USER = "tails-server"
+TAILS_SERVER_CLIENT_USER = "tails-server-client"
 DATA_DIR = "/usr/share/tails-server/"
 STATE_DIR = "/var/lib/tails-server/"
-SERVICES_DIR = os.path.join(DATA_DIR, "services")
 OPTIONS_FILE_NAME = "options"
+SERVICES_DIR = os.path.join(DATA_DIR, "services")
+CLIENT_LAUNCHERS_DIR = os.path.join(DATA_DIR, "client-launchers")
 
 TORRC = "/etc/tor/torrc"
 TOR_DIR = "/var/lib/tor"
+HS_DIR = os.path.join(TOR_DIR, "hidden_services")
 TOR_USER = "debian-tor"
 TOR_SERVICE = "tor@default.service"
 TOR_BOOTSTRAPPED_TARGET = "tails-tor-has-bootstrapped.target"
@@ -32,3 +36,4 @@ SERVICE_LIST_UI_FILE = os.path.join(DATA_DIR, "gui", "service_list.ui")
 SERVICE_OPTION_UI_FILE = os.path.join(DATA_DIR, "gui", "service_option.ui")
 CONNECTION_INFO_UI_FILE = os.path.join(DATA_DIR, "gui", "connection_info.ui")
 QUESTION_DIALOG_UI_FILE = os.path.join(DATA_DIR, "gui", "question_dialog.ui")
+CLIENT_UI_FILE = os.path.join(DATA_DIR, "gui", "client_app.ui")

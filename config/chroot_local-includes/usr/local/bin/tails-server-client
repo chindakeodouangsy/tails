@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+RUN_AS_USER=tails-server-client
+
+cd /
+xhost +SI:localuser:"$RUN_AS_USER"
+sudo -u "$RUN_AS_USER" /usr/bin/tails-server-client $@
+xhost -SI:localuser:"$RUN_AS_USER"

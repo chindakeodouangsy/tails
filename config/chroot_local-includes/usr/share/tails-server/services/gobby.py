@@ -60,8 +60,9 @@ class AutoSaveInterval(service_option_template.TailsServiceOption):
 
 class GobbyServer(service_template.TailsService):
     name = "gobby"
-    systemd_service = "gobby-server.service"
     description = _("A collaborative text editor")
+    systemd_service = "gobby-server.service"
+    client_application = "gobby"
     packages = ["infinoted"]
     default_target_port = 6523
     documentation = "file:///usr/share/doc/tails/website/doc/tails_server/gobby.en.html"
@@ -84,7 +85,7 @@ class GobbyServer(service_template.TailsService):
             return None
 
         s = str()
-        s += _("Application: Gobby (included in Tails)\n")
+        s += _("Application: Gobby\n")
         s += _("Address (Host Name): %s\n") % self.address
         if self.virtual_port != self.default_virtual_port:
             s += _("Port: %s") % self.virtual_port

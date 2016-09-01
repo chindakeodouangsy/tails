@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+
+import stem.control
+import sys
+
+
+def main():
+    if len(sys.argv) != 3:
+        sys.exit("Usage: %s address cookie" % sys.argv[0])
+    address = sys.argv[1]
+    cookie = sys.argv[2]
+
+    controller = stem.control.Controller.from_socket_file()
+    controller.authenticate()
+    controller.set_conf("HidServAuth", "%s %s" % (address, cookie))
+
+if __name__ == "__main__":
+    main()

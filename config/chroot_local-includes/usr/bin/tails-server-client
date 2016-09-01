@@ -1,0 +1,207 @@
+#!/usr/bin/env python3
+
+import argparse
+import logging
+import subprocess
+
+from gi.repository import Gtk, Gdk, GdkPixbuf
+
+from tails_server import _
+from tails_server import client_launchers
+from tails_server import client_launcher_template
+from tails_server.config import CLIENT_UI_FILE, ICON_DIR
+
+APP_NAME = "tails-server-client"
+SET_CLIENT_AUTH_SCRIPT_NAME = "tails-set-hs-auth"
+
+# import tails_server.services
+# service_modules_dict = tails_server.services.import_service_modules()
+# services = [module.service_class()for module in service_modules_dict.values()]
+
+client_launcher_modules_dict = client_launchers.import_client_launcher_modules()
+clients = [module.client_launcher_class() for module in client_launcher_modules_dict.values()]
+
+
+class ClientGUI(object):
+
+    application = str()
+    address = str()
+    port = str()
+    client_cookie = str()
+
+    def on_combobox_application_changed(self, combobox):
+        self.add_details_to_grid()
+
+    def on_textbuffer_changed(self, textbuffer):
+        text = textbuffer.get_text(textbuffer.get_start_iter(), textbuffer.get_end_iter(), True)
+        logging.info("textbuffer: %s", text)
+        lines = [line.strip() for line in text.split("\n")]
+        for line in lines:
+            if line.startswith("Application: "):
+                app_name = line.replace("Application: ", "").strip()
+                self.app_combobox_choose(app_name)
+                continue
+            if line.startswith("Address: "):
+                address = line.split()[-1]
+                if ':' in address:
+                    address, port = address.split(':')
+                    self.detail_rows[self.get_detail("port")].entry.set_text(port)
+                self.detail_rows[self.get_detail("address")].entry.set_text(address)
+                continue
+            for detail_row in self.detail_rows.values():
+                name = detail_row.detail.name_in_gui
+                if line.startswith(name):
+                    value = line.replace("%s: " % name, "", 1).strip()
+                    detail_row.entry.set_text(value)
+
+    def on_connect_button_clicked(self, button):
+        connection_info = self.get_connection_info()
+        self.set_client_cookie(connection_info["address"], connection_info["client_cookie"])
+        self.client.values = connection_info
+        self.client.launch()
+
+    def get_connection_info(self):
+        return dict([(detail_row.detail.name, detail_row.value) for detail_row in
+                     self.detail_rows.values()])
+
+    @staticmethod
+    def set_client_cookie(address, cookie):
+        logging.info("Setting client cookie")
+        subprocess.check_call(["sudo", SET_CLIENT_AUTH_SCRIPT_NAME, address, cookie])
+        logging.info("Client cookie set")
+
+    @property
+    def app(self):
+        iter_ = self.app_combobox.get_active_iter()
+        if not iter_:
+            return None
+        return self.app_list_store.get_value(iter_, 1)
+
+    @property
+    def client(self):
+        if not self.app:
+            return None
+        for client in clients:
+            if client.name_in_gui == self.app:
+                return client
+
+    @property
+    def details(self):
+        if not self.client:
+            return client_launcher_template.ClientLauncher.details
+        return self.client.details
+
+    def get_detail(self, name):
+        for detail in self.details:
+            if detail.name == name:
+                return detail
+
+    def __init__(self):
+        self.detail_rows = dict()
+        self.icon_theme = Gtk.IconTheme.get_default()
+        self.icon_theme.prepend_search_path(ICON_DIR)
+
+        self.builder = Gtk.Builder()
+        self.builder.set_translation_domain(APP_NAME)
+        self.builder.add_from_file(CLIENT_UI_FILE)
+        self.builder.connect_signals(self)
+
+        self.app_combobox = self.builder.get_object("combobox_application")
+        self.app_list_store = Gtk.ListStore(GdkPixbuf.Pixbuf, str)
+        self.grid = self.builder.get_object("grid")
+        self.listbox_stored = self.builder.get_object("listbox_stored")
+        logging.info("clients: %r", clients)
+        self.add_clients_to_app_combobox()
+        self.add_details_to_grid()
+
+        self.window = self.builder.get_object("window1")
+        self.service_viewport_container = self.builder.get_object("box2")
+        self.clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+
+        self.window.connect("delete-event", Gtk.main_quit)
+        self.window.set_title("Tails Server Client")
+        self.window.show_all()
+
+    def add_clients_to_app_combobox(self):
+        for client in clients:
+            self.add_client_to_app_combobox(client)
+        self.app_combobox.set_model(self.app_list_store)
+
+        renderer = Gtk.CellRendererPixbuf()
+        renderer.set_padding(5, 0)
+        self.app_combobox.pack_start(renderer, False)
+        self.app_combobox.add_attribute(renderer, "pixbuf", 0)
+
+        renderer = Gtk.CellRendererText()
+        renderer.set_padding(10, 0)
+        self.app_combobox.pack_start(renderer, True)
+        self.app_combobox.add_attribute(renderer, "text", 1)
+
+    def add_client_to_app_combobox(self, client):
+        logging.info("Adding client %r to applications", client.name)
+        size = 32
+        pixbuf = self.icon_theme.load_icon(client.icon_name, size, 0)
+        self.app_list_store.append([pixbuf, client.name_in_gui])
+
+    def add_details_to_grid(self):
+        self.remove_details_from_grid()
+        logging.info("Adding details %r", [d.name for d in self.details])
+        for detail in self.details:
+            self.add_detail_to_grid(detail)
+        self.grid.show_all()
+
+    def remove_details_from_grid(self):
+        self.detail_rows = dict()
+        while self.grid.get_child_at(left=0, top=1):
+            self.grid.remove_row(1)
+
+    def add_detail_to_grid(self, detail):
+        detail_row = DetailRow(detail)
+        self.detail_rows[detail] = detail_row
+        self.grid.add(detail_row.label)
+        self.grid.attach_next_to(detail_row.entry, detail_row.label, Gtk.PositionType.RIGHT,
+                                 width=1, height=1)
+
+    def app_combobox_choose(self, app_name):
+        logging.info("Setting Application to %r", app_name)
+        for item in self.app_list_store:
+            if item[1] == app_name:
+                self.app_combobox.set_active_iter(item.iter)
+
+
+class DetailRow(object):
+    def __init__(self, detail):
+        self.detail = detail
+        self.label = Gtk.Label(detail.name_in_gui)
+        self.entry = Gtk.Entry()
+        self.entry.set_width_chars(30)
+        self.label.set_alignment(xalign=1, yalign=0.5)
+        self.label.set_sensitive(False)
+
+    @property
+    def value(self):
+        return self.entry.get_text()
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--verbose", action="store_true")
+    return parser.parse_args()
+
+
+def init(args):
+    if args.verbose:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
+    logging.debug("args: %r", args)
+
+
+def main():
+    args = parse_args()
+    init(args)
+    ClientGUI()
+    Gtk.main()
+
+if __name__ == "__main__":
+    main()

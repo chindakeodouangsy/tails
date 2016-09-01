@@ -59,8 +59,9 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
 
 class MumbleServer(service_template.TailsService):
     name = "mumble"
-    systemd_service = "mumble-server.service"
     description = _("A voice chat server")
+    client_application = "mumble"
+    systemd_service = "mumble-server.service"
     packages = ["mumble-server"]
     default_target_port = 64738
     documentation = "file:///usr/share/doc/tails/website/doc/tails_server/mumble.en.html"
@@ -88,12 +89,10 @@ class MumbleServer(service_template.TailsService):
             mime_string += ":%s" % self.virtual_port
 
         s = str()
-        s += _("Application: Mumble (included in Tails)\n")
-        s += _("URL: %s\n\t(Copy the URL to the clipboard before adding the server in the Mumble "
-               "client, to fill in the connection info fields automatically)\n") % mime_string
-        # s += _("URL: %s\n") % mime_string
+        s += _("Application: Mumble\n")
         s += _("Address: %s\n") % self.address
         s += _("Port: %s\n") % self.virtual_port
+        s += _("Client Cookie: %s\n") % self.client_cookie
         s += _("Password: %s\n") % self.options_dict["server-password"].value
         s += _("Certificate SHA-1 Fingerprint: %s") % self.fingerprint
         return s

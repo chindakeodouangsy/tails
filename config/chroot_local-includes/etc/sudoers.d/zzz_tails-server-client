@@ -1,0 +1,3 @@
+amnesia             ALL = (tails-server-client)   NOPASSWD: /usr/bin/tails-server-client
+tails-server-client ALL = (root)                  NOPASSWD: /usr/bin/tails-set-hs-auth
+tails-server-client ALL = (amnesia)               NOPASSWD: ALL
