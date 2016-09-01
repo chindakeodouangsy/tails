@@ -6,16 +6,9 @@ import logging
 import yaml
 
 from tails_server import _
-from tails_server import config
 from tails_server import file_util
-
-TOR_DIR = config.TOR_DIR
-TOR_USER = config.TOR_USER
-TOR_SERVICE = config.TOR_SERVICE
-TORRC = config.TORRC
-PERSISTENCE_DIR = config.PERSISTENCE_DIR
-PERSISTENCE_DIR_NAME = config.PERSISTENCE_DIR_NAME
-PERSISTENCE_CONFIG = config.PERSISTENCE_CONFIG
+from tails_server.config import TOR_DIR, TOR_USER, TOR_SERVICE, TORRC, PERSISTENCE_DIR, \
+    PERSISTENCE_DIR_NAME, PERSISTENCE_CONFIG
 
 PERSISTENT_TORRC = "/usr/share/tor/tor-service-defaults-torrc"
 CONFIG_DIR_PREFIX = "config_"

@@ -2,9 +2,7 @@ import os
 import collections
 import importlib.machinery
 
-from tails_server import config
-
-SERVICES_DIR = config.SERVICES_DIR
+from tails_server.config import SERVICES_DIR
 
 service_names = list()
 service_module_paths = collections.OrderedDict()

@@ -12,7 +12,6 @@ import yaml.resolver
 import apt
 import stem.control
 
-from tails_server import config
 from tails_server import file_util
 from tails_server import tor_util
 from tails_server import util
@@ -24,14 +23,8 @@ from tails_server.exceptions import UnknownOptionError
 from tails_server.exceptions import ServiceNotInstalledError
 from tails_server.exceptions import ServiceAlreadyEnabledError
 
-TOR_DIR = config.TOR_DIR
-TOR_USER = config.TOR_USER
-TOR_SERVICE = config.TOR_SERVICE
-TORRC = config.TORRC
-TOR_CONTROL_PORT = config.TOR_CONTROL_PORT
-ADDITIONAL_SOFTWARE_CONFIG = config.ADDITIONAL_SOFTWARE_CONFIG
-STATE_DIR = config.STATE_DIR
-OPTIONS_FILE_NAME = config.OPTIONS_FILE_NAME
+from tails_server.config import HS_DIR, TOR_USER, TAILS_SERVER_USER, ADDITIONAL_SOFTWARE_CONFIG, \
+    STATE_DIR, OPTIONS_FILE_NAME
 
 
 class LazyOptionDict(OrderedDict):
