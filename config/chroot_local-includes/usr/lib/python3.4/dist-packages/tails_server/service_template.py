@@ -47,11 +47,14 @@ class TailsService(metaclass=abc.ABCMeta):
 
     @classmethod
     def set_up_logging(cls, args):
-        format_ = '%(levelname)s %(message)s'
-        if args.verbose:
-            logging.basicConfig(format=format_, level=logging.DEBUG)
+        if not args.verbose:
+            level = logging.INFO
+        elif args.verbose == 1:
+            level = logging.DEBUG
         else:
-            logging.basicConfig(format=format_, level=logging.INFO)
+            level = 0
+        logging.basicConfig(level=level)
+        logging.getLogger('stem').setLevel(level)
         logging.debug("args: %r", args)
 
     @property

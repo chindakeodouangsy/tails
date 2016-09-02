@@ -41,7 +41,7 @@ class CommandParser(HelpfulParser):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.add_argument("--verbose", "-v", action="store_true")
+        self.add_argument("--verbose", "-v", action="count")
 
         self.subparsers = self.add_subparsers(dest="command", parser_class=HelpfulParser)
         info_parser = self.add_service_command("info")

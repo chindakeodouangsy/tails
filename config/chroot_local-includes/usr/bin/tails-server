@@ -14,15 +14,17 @@ sh.ErrorReturnCode.truncate_cap = 5000
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--verbose", action="store_true")
+    parser.add_argument("--verbose", "-v", action="count")
     return parser.parse_args()
 
 
 def init(args):
-    if args.verbose:
-        level = 0
-    else:
+    if not args.verbose:
         level = logging.INFO
+    elif args.verbose == 1:
+        level = logging.DEBUG
+    else:
+        level = 0
     logging.basicConfig(level=level)
     logging.getLogger('stem').setLevel(level)
     logging.debug("args: %r", args)
