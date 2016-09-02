@@ -298,6 +298,7 @@ class TailsService(metaclass=abc.ABCMeta):
         if not tor_util.tor_has_bootstrapped():
             raise TorIsNotRunningError()
 
+        logging.warning("Is installed: %r", self.is_installed)
         if not self.is_installed:
             self.install()
         if not self.is_running:
