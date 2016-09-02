@@ -441,6 +441,7 @@ class TailsService(metaclass=abc.ABCMeta):
         return
 
     def create_hidden_service(self):
+        logging.info("Creating hidden service for %r", self.name)
         if not self.is_running:
             logging.warning("Refusing to create hidden service of not-running service %r",
                             self.name)
