@@ -3,23 +3,54 @@
 import sys
 import os
 import sqlite3
+import sh
 
 MUMBLE_DB = os.path.expanduser("~/.local/share/data/Mumble/Mumble/.mumble.sqlite")
 
 # IMPORTANT: If you are going to edit this file, be aware that it is called by
 # tails-server-client with user controlled arguments.
 
-(address, port, fingerprint) = sys.argv[1:]
-conn = sqlite3.connect(MUMBLE_DB)
-cursor = conn.cursor()
 
-# XXX: Should we really delete old certificates here?
-cursor.execute("DELETE FROM cert WHERE hostname=?", (address,))
+def create_mumble_db():
+    sh.mkdir("-p", os.path.dirname(MUMBLE_DB))
+    sh.touch(MUMBLE_DB)
+    conn = sqlite3.connect(MUMBLE_DB)
+    cursor = conn.cursor()
+    cursor.execute("CREATE TABLE cert (id, hostname, port, digest)")
+    conn.commit()
 
-cursor.execute("SELECT max(id) FROM cert")
-id_ = cursor.fetchone()[0] + 1
 
-# XXX: Using the '?' placeholder should prevent SQL injections
-cursor.execute("INSERT INTO cert VALUES (?, ?, ?, ?)", (id_, address, port, fingerprint))
+def insert_certificate(address, fingerprint, port):
+    conn = sqlite3.connect(MUMBLE_DB)
+    cursor = conn.cursor()
+    cursor.execute("SELECT max(id) FROM cert")
+    max_id = cursor.fetchone()[0]
+    new_id = max_id + 1 if max_id else 1
+    # XXX: Using the '?' placeholder should prevent SQL injections
+    cursor.execute("INSERT INTO cert VALUES (?, ?, ?, ?)", (new_id, address, port, fingerprint))
+    conn.commit()
 
-conn.commit()
+
+def delete_old_certificates(address):
+    conn = sqlite3.connect(MUMBLE_DB)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM cert WHERE hostname=?", (address,))
+    conn.commit()
+
+
+def main():
+    address = sys.argv[1]
+    port = int(sys.argv[2])
+    fingerprint = sys.argv[3]
+
+    if not os.path.exists(MUMBLE_DB):
+        create_mumble_db()
+
+    # XXX: Should we really delete old certificates here?
+    delete_old_certificates(address)
+
+    insert_certificate(address, fingerprint, port)
+
+
+if __name__ == "__main__":
+    main()
