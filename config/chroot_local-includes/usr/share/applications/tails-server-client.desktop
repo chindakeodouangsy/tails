@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Tails Server Client
+Comment=Connect to Tails Server
+Icon=network-workgroup.svg
+Exec=tails-server-client
+Terminal=false
+Categories=Network;Tails;
+Keywords=Tails;Server;Client;Connect;Services;Onion;Network;Tor;Anonymous;File Sharing;Voice Chat;VoIP;Collaborative;
+
