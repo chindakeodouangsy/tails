@@ -1,3 +1,6 @@
 amnesia             ALL = (tails-server-client)   NOPASSWD: /usr/bin/tails-server-client
+Defaults!/usr/bin/tails-server-client	env_keep+=GNOME_DESKTOP_SESSION_ID
+
 tails-server-client ALL = (root)                  NOPASSWD: /usr/bin/tails-set-hs-auth
 tails-server-client ALL = (amnesia)               NOPASSWD: ALL
+Defaults	env_keep+=GNOME_DESKTOP_SESSION_ID
