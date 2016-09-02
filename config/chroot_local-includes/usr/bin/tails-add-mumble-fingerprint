@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+import sqlite3
+
+MUMBLE_DB = os.path.expanduser("~/.local/share/data/Mumble/Mumble/.mumble.sqlite")
+
+# IMPORTANT: If you are going to edit this file, be aware that it is called by
+# tails-server-client with user controlled arguments.
+
+(address, port, fingerprint) = sys.argv[1:]
+conn = sqlite3.connect(MUMBLE_DB)
+cursor = conn.cursor()
+
+# XXX: Should we really delete old certificates here?
+cursor.execute("DELETE FROM cert WHERE hostname=?", (address,))
+
+cursor.execute("SELECT max(id) FROM cert")
+id_ = cursor.fetchone()[0] + 1
+
+# XXX: Using the '?' placeholder should prevent SQL injections
+cursor.execute("INSERT INTO cert VALUES (?, ?, ?, ?)", (id_, address, port, fingerprint))
+
+conn.commit()
