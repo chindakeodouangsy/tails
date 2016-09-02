@@ -49,11 +49,11 @@ class ServiceDecorator(object):
         self.status.emit("update", Status.starting)
         try:
             self.service.enable(skip_add_onion=True)
-            self.add_onion()
+            self.create_hidden_service()
         except TorIsNotRunningError:
             self.status.emit("update", Status.tor_is_not_running)
 
-    def add_onion(self):
+    def create_hidden_service(self):
         self.status.emit("update", Status.publishing)
         self.service.create_hidden_service()
         if self.service.is_running:
