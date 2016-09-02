@@ -3,16 +3,16 @@
 import argparse
 import logging
 import subprocess
+import re
 
 from gi.repository import Gtk, Gdk, GdkPixbuf
 
-from tails_server import _
 from tails_server import client_launchers
 from tails_server import client_launcher_template
+from tails_server import util
 from tails_server.config import CLIENT_UI_FILE, ICON_DIR
 
 APP_NAME = "tails-server-client"
-SET_CLIENT_AUTH_SCRIPT_NAME = "tails-set-hs-auth"
 
 # import tails_server.services
 # service_modules_dict = tails_server.services.import_service_modules()
@@ -45,8 +45,10 @@ class ClientGUI(object):
                 address = line.split()[-1]
                 if ':' in address:
                     address, port = address.split(':')
-                    self.detail_rows[self.get_detail("port")].entry.set_text(port)
-                self.detail_rows[self.get_detail("address")].entry.set_text(address)
+                    if util.is_valid_port(port):
+                        self.set_port(port)
+                if util.is_valid_onion_address(address):
+                    self.set_address(address)
                 continue
             for detail_row in self.detail_rows.values():
                 name = detail_row.detail.name_in_gui
@@ -54,21 +56,19 @@ class ClientGUI(object):
                     value = line.replace("%s: " % name, "", 1).strip()
                     detail_row.entry.set_text(value)
 
+    def set_address(self, address):
+        self.detail_rows[self.get_detail("address")].entry.set_text(address)
+
+    def set_port(self, port):
+        self.detail_rows[self.get_detail("port")].entry.set_text(port)
+
     def on_connect_button_clicked(self, button):
-        connection_info = self.get_connection_info()
-        self.set_client_cookie(connection_info["address"], connection_info["client_cookie"])
-        self.client.values = connection_info
+        self.client.values = self.get_connection_info()
         self.client.launch()
 
     def get_connection_info(self):
         return dict([(detail_row.detail.name, detail_row.value) for detail_row in
                      self.detail_rows.values()])
-
-    @staticmethod
-    def set_client_cookie(address, cookie):
-        logging.info("Setting client cookie")
-        subprocess.check_call(["sudo", SET_CLIENT_AUTH_SCRIPT_NAME, address, cookie])
-        logging.info("Client cookie set")
 
     @property
     def app(self):

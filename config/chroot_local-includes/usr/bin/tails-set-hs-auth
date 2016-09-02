@@ -3,6 +3,9 @@
 import stem.control
 import sys
 
+# IMPORTANT: If you are going to edit this file, be aware that it is called by
+# tails-server-client with user controlled arguments.
+
 
 def main():
     if len(sys.argv) != 3:
@@ -12,6 +15,11 @@ def main():
 
     controller = stem.control.Controller.from_socket_file()
     controller.authenticate()
+    # XXX: address and cookie are user controlled, but this should still be secure.
+    # I (segfault) also checked the stem set_conf() and it correctly quotes the "value"
+    # argument before sending it to the control port.
+    # XXX: Maybe also check if there is no vulnerability in the Tor code that could be exploited
+    # by this
     controller.set_conf("HidServAuth", "%s %s" % (address, cookie))
 
 if __name__ == "__main__":

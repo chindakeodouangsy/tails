@@ -2,7 +2,7 @@ import tempfile
 import os
 import shutil
 import threading
-
+import re
 
 class PolicyNoAutostartOnInstallation(object):
     policy_path = "/usr/sbin/policy-rc.d"
@@ -28,3 +28,15 @@ class PolicyNoAutostartOnInstallation(object):
 def run_threaded(function, *args):
     thread = threading.Thread(target=function, args=args)
     thread.start()
+
+
+def is_valid_onion_address(address):
+    return re.match("^[a-z2-7]{16}\.onion$", address)
+
+
+def is_valid_port(port):
+    return re.match("^[0-9]{0,5}$", port)
+
+
+def is_valid_client_cookie(cookie):
+    return re.match("^[A-Za-z0-9+/.]{22}$", cookie)
