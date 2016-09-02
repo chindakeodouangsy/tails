@@ -71,6 +71,7 @@ class MumbleServer(service_template.TailsService):
     icon_name = "mumble"
 
     db_path = "/var/lib/mumble-server/mumble-server.sqlite"
+
     @property
     def fingerprint(self):
         connection = sqlite3.connect(self.db_path)
@@ -98,14 +99,6 @@ class MumbleServer(service_template.TailsService):
         s += _("Password: %s\n") % self.options_dict["server-password"].value
         s += _("Certificate SHA-1 Fingerprint: %s") % self.fingerprint
         return s
-
-    @property
-    def connection_info_in_gui(self):
-        if not self.address:
-            return None
-
-        # masked_password = "*" * len(self.options_dict["server-password"].value)
-        return self.connection_info.replace("\n", "; ")
 
     options = [
         service_option_template.VirtualPort,
