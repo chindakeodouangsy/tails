@@ -128,7 +128,6 @@ class ClickableLabel(object):
         self._make_clickable()
 
     def _make_not_clickable(self):
-        logging.debug("Making %r not clickable", self.button)
         self.container.remove(self.button)
         self.button_box.remove(self.label)
         # self.value_widget.set_padding(0, 4)
@@ -141,7 +140,6 @@ class ClickableLabel(object):
         self._clickable = False
 
     def _make_clickable(self):
-        logging.debug("Making %r clickable", self.button)
         if not self._clickable:
             self.container.remove(self.label)
             self.container.remove(self.image)
