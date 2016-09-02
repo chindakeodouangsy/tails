@@ -20,9 +20,11 @@ def parse_args():
 
 def init(args):
     if args.verbose:
-        logging.basicConfig(level=logging.DEBUG)
+        level = 0
     else:
-        logging.basicConfig(level=logging.INFO)
+        level = logging.INFO
+    logging.basicConfig(level=level)
+    logging.getLogger('stem').setLevel(level)
     logging.debug("args: %r", args)
 
 
