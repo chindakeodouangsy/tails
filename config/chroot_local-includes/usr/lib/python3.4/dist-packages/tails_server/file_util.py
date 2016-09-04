@@ -20,7 +20,7 @@ def ansible_remove_hs_from_torrc(service_name):
 
 
 def append_to_file(file_path, s):
-    with open(file_path, 'a+') as f:
+    with open(file_path, 'a') as f:
         f.write(s)
 
 
