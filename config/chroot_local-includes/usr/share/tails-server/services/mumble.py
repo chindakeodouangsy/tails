@@ -86,13 +86,8 @@ class MumbleServer(service_template.TailsService):
         if not self.address:
             return None
 
-        mime_string = _("mumble://username:{}@{}".format(
-            self.options_dict["server-password"].value, self.address))
-        if self.virtual_port != self.default_target_port:
-            mime_string += ":%s" % self.virtual_port
-
         s = str()
-        s += _("Application: Mumble\n")
+        s += _("Application: %s\n") % self.client_application_in_gui
         s += _("Address: %s\n") % self.address
         s += _("Port: %s\n") % self.virtual_port
         s += _("Client Cookie: %s\n") % self.client_cookie
