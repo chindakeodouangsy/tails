@@ -272,6 +272,7 @@ class TailsService(metaclass=abc.ABCMeta):
         self.create_state_dir()
         self.hs_dir = os.path.join(HS_DIR, self.name)
         self.hs_hostname_file = os.path.join(self.hs_dir, "hostname")
+        self.hs_private_key_file = os.path.join(self.hs_dir, "private_key")
         self.options_file = os.path.join(self.state_dir, OPTIONS_FILE_NAME)
         self._target_port = self.default_target_port
         self._virtual_port = self.default_virtual_port
@@ -550,9 +551,6 @@ class TailsService(metaclass=abc.ABCMeta):
     #     with open(self.hs_hostname_file, 'w+') as f:
     #         f.write(address + ".onion")
     #
-    # def remove_onion_address(self):
-    #     os.remove(self.hs_hostname_file)
-    #     os.remove(self.hs_private_key_file)
     #
     # def set_hs_private_key(self, key):
     #     with open(self.hs_private_key_file, 'w+') as f:
@@ -571,6 +569,10 @@ class TailsService(metaclass=abc.ABCMeta):
     #     controller = stem.control.Controller.from_port(port=TOR_CONTROL_PORT)
     #     controller.authenticate()
     #     controller.remove_ephemeral_hidden_service(self.address.replace(".onion", ""))
+
+    def remove_onion_address(self):
+        os.remove(self.hs_hostname_file)
+        os.remove(self.hs_private_key_file)
 
     def add_to_additional_software(self):
         lines = self.packages
