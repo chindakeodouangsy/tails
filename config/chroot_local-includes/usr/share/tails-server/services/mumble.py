@@ -43,8 +43,6 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
 
     @property
     def default(self):
-        import logging
-        logging.warning("Setting default password")
         return ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in
                        range(self.DEFAULT_LENGTH))
 
