@@ -322,6 +322,7 @@ class TailsService(metaclass=abc.ABCMeta):
             sh.apt_get("install", "-y", "-o", 'Dpkg::Options::=--force-confold',
                        "--no-install-recommends", self.packages)
 
+        self._is_installed = True
         self.configure()
 
     def configure(self):
