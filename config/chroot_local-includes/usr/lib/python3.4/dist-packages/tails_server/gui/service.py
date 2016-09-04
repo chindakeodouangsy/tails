@@ -61,7 +61,7 @@ class ServiceDecorator(object):
         else:
             logging.debug("Removing newly created onion address because service %r stopped",
                           self.name)
-            self.remove_onion()
+            self.remove_hidden_service()
 
     def activate_status_monitor(self):
         self.status.dbus_monitor.run()
