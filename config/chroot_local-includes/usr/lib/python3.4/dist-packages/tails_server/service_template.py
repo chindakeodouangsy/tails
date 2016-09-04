@@ -152,6 +152,7 @@ class TailsService(metaclass=abc.ABCMeta):
     persistent_paths = list()
 
     options = [
+        service_option_template.VirtualPort,
         service_option_template.AllowLanOption,
         service_option_template.PersistenceOption,
         service_option_template.AutoStartOption,
