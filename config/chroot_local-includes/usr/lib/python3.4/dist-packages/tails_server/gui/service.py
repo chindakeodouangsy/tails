@@ -5,6 +5,7 @@ import time
 from gi.repository import GLib, Gtk
 
 from tails_server import tor_util
+from tails_server import dbus_status_monitor
 from tails_server.exceptions import TorIsNotRunningError
 from tails_server.gui.config_panel import ServiceConfigPanel
 from tails_server.gui.service_status import Status, ServiceStatus
@@ -64,12 +65,10 @@ class ServiceDecorator(object):
             self.remove_hidden_service()
 
     def activate_status_monitor(self):
-        self.status.dbus_monitor.run()
-        self.status.tor_dbus_monitor.run()
+        dbus_status_monitor.run()
 
     def stop_status_monitor(self):
-        self.status.dbus_monitor.stop()
-        self.status.tor_dbus_monitor.stop()
+        dbus_status_monitor.remove_unit(self.service.systemd_service)
 
     def run_threaded(self, function, *args):
         """Run the specified function in a new thread"""

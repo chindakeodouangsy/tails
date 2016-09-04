@@ -2,7 +2,7 @@ import logging
 from gi.repository import GLib, Gtk, GObject
 
 from tails_server import _
-from tails_server import dbus_interface
+from tails_server import dbus_status_monitor
 from tails_server import tor_util
 from tails_server.exceptions import InvalidStatusError
 from tails_server.config import TOR_BOOTSTRAPPED_TARGET
@@ -33,6 +33,19 @@ class Status(object):
     invalid = _("The service is in an invalid state. See the log for details.")
 
 
+systemd_state_to_service_status = {
+    "activating": Status.starting,
+    "active": Status.running,
+    "deactivating": Status.stopping,
+    "inactive": Status.stopped
+}
+
+systemd_state_to_tor_status = {
+    "active": Status.tor_is_running,
+    "inactive": Status.tor_is_not_running
+}
+
+
 class ServiceStatus(Gtk.Widget):
 
     @classmethod
@@ -55,10 +68,8 @@ class ServiceStatus(Gtk.Widget):
         super().__init__()
         self.service = service
         self.connect("update", self.on_update)
-        self.dbus_monitor = dbus_interface.StatusMonitor(self.service.systemd_service,
-                                                         self.dbus_receiver)
-        self.tor_dbus_monitor = dbus_interface.StatusMonitor(TOR_BOOTSTRAPPED_TARGET,
-                                                             self.tor_dbus_receiver)
+        dbus_status_monitor.add_unit(self.service.systemd_service, self.on_service_status_changed)
+        dbus_status_monitor.add_unit(TOR_BOOTSTRAPPED_TARGET, self.on_tor_status_changed)
         self.service_status = str()
         self.onion_status = str()
         self.tor_status = str()
@@ -193,26 +204,22 @@ class ServiceStatus(Gtk.Widget):
             return new_builder.get_object("image_on")
         raise InvalidStatusError("No visual widget for status %r defined" % status)
 
-    def dbus_receiver(self, status):
+    def on_service_status_changed(self, active_state, sub_state):
         """Receives systemd status value of the service from dbus and sets the status accordingly.
         valid status values: "active", "activating", "inactive", "deactivating"""
+        service_status = systemd_state_to_service_status[active_state]
+        logging.debug("New status: %r, old status: %r", service_status, self.service_status)
+        if service_status != self.service_status:
+            self.service_status = service_status
+            self.emit("update", service_status)
 
-        if status == "activating":
-            self.emit("update", Status.starting)
-        if status == "active":
-            self.emit("update", Status.running)
-        if status == "deactivating":
-            self.emit("update", Status.stopping)
-        if status == "inactive":
-            self.emit("update", Status.stopped)
-
-    def tor_dbus_receiver(self, status):
+    def on_tor_status_changed(self, active_state, sub_state):
         """Receives systemd status value of the tor service from dbus and sets the status
         accordingly"""
-        if status == "inactive":
-            self.emit("update", Status.tor_is_not_running)
-        if status == "active":
-            self.emit("update", Status.tor_is_running)
+        tor_status = systemd_state_to_tor_status[active_state]
+        if tor_status != self.tor_status:
+            self.tor_status = tor_status
+            self.emit("update", tor_status)
 
     def guess_status(self):
         """Called after starting the application. Guesses the service's status based on the
