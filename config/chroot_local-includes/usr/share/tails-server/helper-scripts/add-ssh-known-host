@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+
+KNOWN_HOSTS_PATH = os.path.expanduser("~/.ssh/known_hosts")
+
+# IMPORTANT: If you are going to edit this file, be aware that it is called by
+# tails-server-client with user controlled arguments.
+
+
+def main():
+    key = sys.argv[1]
+    with open(KNOWN_HOSTS_PATH, 'a') as f:
+        f.write("\n" + key)
+
+
+if __name__ == "__main__":
+    main()

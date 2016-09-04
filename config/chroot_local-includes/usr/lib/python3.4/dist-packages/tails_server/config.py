@@ -10,6 +10,7 @@ STATE_DIR = "/var/lib/tails-server/"
 OPTIONS_FILE_NAME = "options"
 SERVICES_DIR = os.path.join(DATA_DIR, "services")
 CLIENT_LAUNCHERS_DIR = os.path.join(DATA_DIR, "client-launchers")
+HELPER_SCRIPTS_DIR = os.path.join(DATA_DIR, "helper-scripts")
 
 TORRC = "/etc/tor/torrc"
 TOR_DIR = "/var/lib/tor"

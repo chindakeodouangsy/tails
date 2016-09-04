@@ -1,11 +1,13 @@
 import abc
 import logging
 import subprocess
+import os
 
 from tails_server import _
 from tails_server import util
+from tails_server.config import HELPER_SCRIPTS_DIR
 
-SET_CLIENT_AUTH_SCRIPT_NAME = "tails-set-hs-auth"
+SET_CLIENT_AUTH_SCRIPT_NAME = os.path.join(HELPER_SCRIPTS_DIR, "set-hidden-service-auth")
 
 
 class MissingArgumentsError(Exception):
@@ -13,6 +15,7 @@ class MissingArgumentsError(Exception):
         message = ", ".join([arg.name for arg in missing_args])
         super().__init__(message, *args, **kwargs)
         self.missing_args = missing_args
+
 
 class InvalidArgumentError(Exception):
     pass
