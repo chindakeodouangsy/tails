@@ -14,6 +14,7 @@ sh.ErrorReturnCode.truncate_cap = 5000
 
 def parse_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--log-file", "-l", default="/var/log/tails-server.log")
     parser.add_argument("--verbose", "-v", action="count")
     return parser.parse_args()
 
@@ -25,7 +26,11 @@ def init(args):
         level = logging.DEBUG
     else:
         level = 0
-    logging.basicConfig(level=level)
+    if args.log_file:
+        logging.basicConfig(filename=args.log_file, level=level)
+        logging.getLogger().addHandler(logging.StreamHandler())
+    else:
+        logging.basicConfig(level=level)
     logging.getLogger('stem').setLevel(level)
     logging.debug("args: %r", args)
 
