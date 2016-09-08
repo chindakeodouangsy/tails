@@ -55,9 +55,7 @@ def remove_line_if_present(file_path, line_):
 def delete_lines_starting_with(file_path, s):
     with open(file_path, 'r') as f:
         lines = f.readlines()
-    for i, line in enumerate(lines):
-        if line.startswith(s):
-            del lines[i]
+    lines = [line for line in lines if not line.startswith(s)]
     with open(file_path, 'w+') as f:
         f.writelines(lines)
 
