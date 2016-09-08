@@ -68,6 +68,15 @@ class MumbleServer(service_template.TailsService):
     persistent_paths = [CONFIG_FILE]
     icon_name = "mumble"
 
+    options = [
+        service_option_template.VirtualPort,
+        ServerPasswordOption,
+        service_option_template.PersistenceOption,
+        service_option_template.AutoStartOption,
+        service_option_template.AllowLanOption,
+        WelcomeMessageOption,
+    ]
+
     db_path = "/var/lib/mumble-server/mumble-server.sqlite"
 
     @property
@@ -92,15 +101,6 @@ class MumbleServer(service_template.TailsService):
         s += _("Password: %s\n") % self.options_dict["server-password"].value
         s += _("Certificate SHA-1 Fingerprint: %s") % self.fingerprint
         return s
-
-    options = [
-        service_option_template.VirtualPort,
-        ServerPasswordOption,
-        service_option_template.PersistenceOption,
-        service_option_template.AutoStartOption,
-        service_option_template.AllowLanOption,
-        WelcomeMessageOption,
-    ]
 
 service_class = MumbleServer
 
