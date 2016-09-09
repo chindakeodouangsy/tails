@@ -125,7 +125,7 @@ class ServiceConfigPanel(object):
             )
 
     def show(self):
-        logging.debug("Showing config panel of service %r", self.service)
+        logging.debug("Showing config panel of service %r", self.service.name)
         icon = self.builder.get_object("image_service_icon")
         _, size = icon.get_icon_name()
         icon.set_from_icon_name(self.service.icon_name, size)
