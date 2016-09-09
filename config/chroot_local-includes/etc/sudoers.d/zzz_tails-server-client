@@ -3,4 +3,9 @@ Defaults!/usr/bin/tails-server-client	env_keep+=GNOME_DESKTOP_SESSION_ID
 
 tails-server-client ALL = (root)                  NOPASSWD: /usr/share/tails-server/helper-scripts/set-hidden-service-auth
 tails-server-client ALL = (amnesia)               NOPASSWD: ALL
+
+# Needed by Mumble (window doesn't use GNOME style without this)
 Defaults	env_keep+=GNOME_DESKTOP_SESSION_ID
+
+# Needed by nautilus to connect to connect to SFTP
+Defaults	env_keep+=DBUS_SESSION_BUS_ADDRESS
