@@ -64,11 +64,16 @@ class ServiceDecorator(object):
                           self.name)
             self.remove_hidden_service()
 
+    def disable(self):
+        self.service.disable()
+        self.status.emit("update", Status.offline)
+
     def activate_status_monitor(self):
         dbus_status_monitor.run()
 
     def stop_status_monitor(self):
         dbus_status_monitor.remove_unit(self.service.systemd_service)
+        self.status.emit("update", Status.offline)
 
     def run_threaded(self, function, *args):
         """Run the specified function in a new thread"""

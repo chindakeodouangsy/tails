@@ -314,8 +314,7 @@ class TailsService(metaclass=abc.ABCMeta):
             self.install()
         if not self.is_running:
             self.start()
-        self.create_hs_dir()
-        if not skip_add_onion:
+        if not skip_add_onion and not self.is_published:
             self.create_hidden_service()
 
     def install(self):
@@ -457,6 +456,7 @@ class TailsService(metaclass=abc.ABCMeta):
         return
 
     def create_hidden_service(self):
+        self.create_hs_dir()
         self.create_hidden_service_with_stem_ephemeral()
 
     def remove_hidden_service(self):
