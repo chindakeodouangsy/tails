@@ -89,7 +89,7 @@ class GobbyServer(service_template.TailsService):
         s += _("Address (Host Name): %s\n") % self.address
         if self.virtual_port != self.default_virtual_port:
             s += _("Port: %s") % self.virtual_port
-        s += _("Password: %s\n") % self.options_dict["server-password"].value
+        s += _("Password: %s") % self.options_dict["server-password"].value
         return s
 
     # def start(self):
