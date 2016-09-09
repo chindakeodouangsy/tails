@@ -31,9 +31,11 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
                        range(self.DEFAULT_LENGTH))
 
     def store(self):
+        import logging
+        logging.warning("Storing gobby server password %r", self.value)
         file_util.delete_lines_starting_with(CONFIG_FILE, "password=")
         if self.value:
-            file_util.insert_to_section(CONFIG_FILE, "[infinoted]", "password=%s\n" % self.value)
+            file_util.insert_to_section(CONFIG_FILE, "infinoted", "password=%s\n" % self.value)
 
     def load(self):
         value = option_util.get_option(CONFIG_FILE, "password=")
@@ -86,9 +88,9 @@ class GobbyServer(service_template.TailsService):
 
         s = str()
         s += _("Application: Gobby\n")
-        s += _("Address (Host Name): %s\n") % self.address
-        if self.virtual_port != self.default_virtual_port:
-            s += _("Port: %s") % self.virtual_port
+        s += _("Address: %s\n") % self.address
+        s += _("Port: %s\n") % self.virtual_port
+        s += _("Client Cookie: %s\n") % self.client_cookie
         s += _("Password: %s") % self.options_dict["server-password"].value
         return s
 
