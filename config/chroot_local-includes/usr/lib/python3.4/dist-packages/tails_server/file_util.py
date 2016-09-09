@@ -75,6 +75,7 @@ def insert_to_section(file_path, section_name, s):
 
     lines.append("[%s]" % section_name)
     lines.append(s)
+    write_to_file()
 
 
 def delete_section(file_path, section_name):
