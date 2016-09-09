@@ -13,6 +13,8 @@ def tor_has_bootstrapped():
 
 
 def is_published(address):
+    # XXX: This only works with create_ephemeral_hidden_service, which we will only be able to
+    # use with tor >= 2.9.X
     service_id = address.replace(".onion", "")
     c = stem.control.Controller.from_socket_file()
     c.authenticate()

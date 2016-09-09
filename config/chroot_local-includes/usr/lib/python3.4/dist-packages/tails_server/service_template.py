@@ -221,11 +221,19 @@ class TailsService(metaclass=abc.ABCMeta):
         """The authentication cookie required to connect to this service.
         :return: client authentication cookie
         """
+        # XXX: Use this with create_ephemeral_hidden_service()
         try:
-            with open(self.hs_hostname_file, 'r') as f:
-                return f.read().split()[1].strip()
+            with open(self.hs_client_auth_file, 'r') as f:
+                return f.read()
         except FileNotFoundError:
             return None
+
+        # XXX: Use this with non-ephemeral create_hidden_service()
+        # try:
+        #     with open(self.hs_hostname_file, 'r') as f:
+        #         return f.read().split()[1].strip()
+        # except FileNotFoundError:
+        #     return None
 
     @property
     def info_attributes(self):
@@ -273,6 +281,8 @@ class TailsService(metaclass=abc.ABCMeta):
         self.hs_dir = os.path.join(HS_DIR, self.name)
         self.hs_hostname_file = os.path.join(self.hs_dir, "hostname")
         self.hs_private_key_file = os.path.join(self.hs_dir, "private_key")
+        # XXX: This is not used with non-ephemeral create_hidden_service()
+        self.hs_client_auth_file = os.path.join(self.hs_dir, "client_auth")
         self.options_file = os.path.join(self.state_dir, OPTIONS_FILE_NAME)
         self._target_port = self.default_target_port
         self._virtual_port = self.default_virtual_port
@@ -447,6 +457,14 @@ class TailsService(metaclass=abc.ABCMeta):
         return
 
     def create_hidden_service(self):
+        self.create_hidden_service_with_stem_ephemeral()
+
+    def remove_hidden_service(self):
+        self.remove_hidden_service_with_stem_ephemeral()
+
+    # We have to use this until create_ephemeral_hidden_service() supports client authentication
+    # (stem 1.5.0)
+    def create_hidden_service_with_stem_non_ephemeral(self):
         logging.info("Creating hidden service for %r", self.name)
         if not self.is_running:
             logging.warning("Refusing to create hidden service of not-running service %r",
@@ -461,7 +479,7 @@ class TailsService(metaclass=abc.ABCMeta):
                                          auth_type="basic",
                                          client_names=["client"])
 
-    def remove_hidden_service(self):
+    def remove_hidden_service_with_stem_non_ephemeral(self):
         controller = stem.control.Controller.from_socket_file()
         controller.authenticate()
         controller.remove_hidden_service(self.hs_dir, self.virtual_port)
@@ -492,82 +510,79 @@ class TailsService(metaclass=abc.ABCMeta):
     #     file_util.ansible_remove_hs_from_torrc(self.name)
     #     tor_util.reload_tor()
 
-
     # stem uses the Tor control socket with ADD_ONION, which doesn't support client
     # authentication with Tor < 0.2.9.1. So we have to wait until this is available in Tails to
     # use stem.
     #
-    # def create_hidden_service_with_stem(self):
-    #     """Creating hidden service and setting address and hs_private_key accordingly"""
-    #     if not self.is_running:
-    #         logging.warning("Refusing to create hidden service of not-running service %r",
-    #                         self.name)
-    #         return
-    #
-    #     logging.debug("Adding HS with create_ephemeral_hidden_service")
-    #
-    #     try:
-    #         key_type = "RSA1024"
-    #         with open(self.hs_private_key_file, 'r') as f:
-    #             key_content = f.read()
-    #     except FileNotFoundError:
-    #         key_type = "NEW"
-    #         key_content = "RSA1024"
-    #
-    #     # We make client authentication non-optional until we have stable entry guards in Tails
-    #     # if "client-authentication" in self.options_dict:
-    #     #     client_auth = self.options_dict["client-authentication"].value
-    #     # else:
-    #     #     client_auth = None
-    #     client_auth = {"client": None}
-    #
-    #
-    #     controller = stem.control.Controller.from_port(port=TOR_CONTROL_PORT)
-    #     controller.authenticate()
-    #     # We have to use create_ephemeral_hidden_service() here instead of create_hidden_service(),
-    #     # because the latter needs to access the filesystem, which is prevented by the Tor sandbox
-    #     # see https://github.com/micahflee/onionshare/issues/179
-    #     response = controller.create_ephemeral_hidden_service(
-    #         ports={self.virtual_port: self.target_port},
-    #         key_type=key_type,
-    #         key_content=key_content,
-    #         discard_key=False,
-    #         detached=True,
-    #         await_publication=True,
-    #         # XXX: This option will be available in stem 1.5.0
-    #         basic_auth=client_auth
-    #     )
-    #
-    #     if response.service_id:
-    #         self.set_onion_address(response.service_id)
-    #     if response.private_key:
-    #         self.set_hs_private_key(response.private_key)
-    #     # XXX: Set client authentication
-    #     if response.client_auth:
-    #         self.set_client_auth(response.client_auth)
-    #
-    # def set_onion_address(self, address):
-    #     with open(self.hs_hostname_file, 'w+') as f:
-    #         f.write(address + ".onion")
-    #
-    #
-    # def set_hs_private_key(self, key):
-    #     with open(self.hs_private_key_file, 'w+') as f:
-    #         f.write(key)
-    #
-    # def set_client_auth(self, client_auth):
-    #     with open(self.hs_client_auth_file, 'w+') as f:
-    #         f.write(client_auth)
-    #
-    # def remove_hidden_service_with_stem(self):
-    #     if not self.address:
-    #         logging.warning("Can't remove onion address of service %r: Address is not set",
-    #                         self.name)
-    #         return
-    #     logging.debug("Removing HS with remove_ephemeral_hidden_service")
-    #     controller = stem.control.Controller.from_port(port=TOR_CONTROL_PORT)
-    #     controller.authenticate()
-    #     controller.remove_ephemeral_hidden_service(self.address.replace(".onion", ""))
+    def create_hidden_service_with_stem_ephemeral(self):
+        """Creating hidden service and setting address and hs_private_key accordingly"""
+        if not self.is_running:
+            logging.warning("Refusing to create hidden service of not-running service %r",
+                            self.name)
+            return
+
+        logging.debug("Adding HS with create_ephemeral_hidden_service")
+
+        try:
+            key_type = "RSA1024"
+            with open(self.hs_private_key_file, 'r') as f:
+                key_content = f.read()
+        except FileNotFoundError:
+            key_type = "NEW"
+            key_content = "RSA1024"
+
+        # We make client authentication non-optional until we have stable entry guards in Tails
+        # if "client-authentication" in self.options_dict:
+        #     client_auth = self.options_dict["client-authentication"].value
+        # else:
+        #     client_auth = None
+        client_auth = {"client": self.client_cookie}
+
+        controller = stem.control.Controller.from_socket_file()
+        controller.authenticate()
+        # We have to use create_ephemeral_hidden_service() here instead of create_hidden_service(),
+        # because the latter needs to access the filesystem, which is prevented by the Tor sandbox
+        # see https://github.com/micahflee/onionshare/issues/179
+        response = controller.create_ephemeral_hidden_service(
+            ports={self.virtual_port: self.target_port},
+            key_type=key_type,
+            key_content=key_content,
+            discard_key=False,
+            detached=True,
+            await_publication=True,
+            # XXX: This option will be available in stem 1.5.0
+            basic_auth=client_auth
+        )
+
+        if response.service_id:
+            self.set_onion_address(response.service_id)
+        if response.private_key:
+            self.set_hs_private_key(response.private_key)
+        # XXX: Set client authentication
+        if response.client_auth:
+            self.set_client_auth(response.client_auth)
+
+    def set_onion_address(self, address):
+        with open(self.hs_hostname_file, 'w+') as f:
+            f.write(address + ".onion")
+
+    def set_hs_private_key(self, key):
+        with open(self.hs_private_key_file, 'w+') as f:
+            f.write(key)
+
+    def set_client_auth(self, client_auth):
+        with open(self.hs_client_auth_file, 'w+') as f:
+            f.write(client_auth["client"])
+
+    def remove_hidden_service_with_stem_ephemeral(self):
+        if not self.address:
+            logging.warning("Can't remove onion address of service %r: Address is not set",
+                            self.name)
+            return
+        logging.debug("Removing HS with remove_ephemeral_hidden_service")
+        controller = stem.control.Controller.from_socket_file()
+        controller.authenticate()
+        controller.remove_ephemeral_hidden_service(self.address.replace(".onion", ""))
 
     def remove_onion_address(self):
         os.remove(self.hs_hostname_file)
