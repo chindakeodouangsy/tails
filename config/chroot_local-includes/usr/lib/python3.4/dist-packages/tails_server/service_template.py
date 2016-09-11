@@ -24,7 +24,7 @@ from tails_server.exceptions import ServiceNotInstalledError
 from tails_server.exceptions import ServiceAlreadyEnabledError
 
 from tails_server.config import HS_DIR, TOR_USER, TAILS_SERVER_USER, ADDITIONAL_SOFTWARE_CONFIG, \
-    STATE_DIR, OPTIONS_FILE_NAME
+    STATE_DIR, OPTIONS_FILE_NAME, INSTALLED_FILE_PATH
 
 
 class LazyOptionDict(OrderedDict):
@@ -174,15 +174,30 @@ class TailsService(metaclass=abc.ABCMeta):
                 self, [(option.name, option) for option in self.options])
         return self._options_dict
 
-    _is_installed = "Not checked"
-
     @property
     def is_installed(self):
-        logging.debug("is_installed: %r", self._is_installed)
-        if self._is_installed == "Not checked":
-            cache = apt.Cache()
-            self._is_installed = all(cache[package].is_installed for package in self.packages)
-        return self._is_installed
+        installed_services = self.get_installed_services()
+        return self.name in installed_services
+
+    @is_installed.setter
+    def is_installed(self, value):
+        installed_services = self.get_installed_services()
+        if value:
+            installed_services |= {self.name}
+        else:
+            installed_services -= {self.name}
+        with open(INSTALLED_FILE_PATH, "w+") as f:
+            f.write(yaml.dump(list(installed_services), default_flow_style=False))
+
+    def get_installed_services(self):
+        try:
+            with open(INSTALLED_FILE_PATH) as f:
+                return set(yaml.load(f.read()))
+        except FileNotFoundError:
+            # create empty "installed" file
+            with open(INSTALLED_FILE_PATH, "w+") as f:
+                f.write(yaml.dump(list(), default_flow_style=False))
+            return set()
 
     @property
     def is_running(self):
@@ -332,7 +347,7 @@ class TailsService(metaclass=abc.ABCMeta):
             sh.apt_get("install", "-y", "-o", 'Dpkg::Options::=--force-confold',
                        "--no-install-recommends", self.packages)
 
-        self._is_installed = True
+        self.is_installed = True
         self.configure()
 
     def configure(self):
@@ -354,25 +369,16 @@ class TailsService(metaclass=abc.ABCMeta):
             self.disable()
         if self.is_persistent:
             self.remove_persistence()
-        self.uninstall_packages()
         self.remove_options_file()
         self.remove_state_dir()
         if os.path.exists(self.hs_dir):
             self.remove_hs_dir()
+        self.is_installed = False
         logging.info("Service %r uninstalled", self.name)
 
     def remove_persistence(self):
         logging.info("Removing persistence of service %r", self.name)
         self.options_dict["persistence"].value = False
-
-    def uninstall_packages(self):
-        # XXX: This could delete packages which were not installed by this service
-        # (i.e. packages that are required by this service but were already installed)
-        logging.info("Uninstalling packages: %s" % " ".join(self.packages))
-        cache = apt.Cache()
-        for package in self.packages:
-            cache[package].mark_delete(purge=True)
-        cache.commit()
 
     def create_state_dir(self):
         if not os.path.exists(self.state_dir):

@@ -8,6 +8,7 @@ TAILS_SERVER_CLIENT_USER = "tails-server-client"
 DATA_DIR = "/usr/share/tails-server/"
 STATE_DIR = "/var/lib/tails-server/"
 OPTIONS_FILE_NAME = "options"
+INSTALLED_FILE_PATH = os.path.join(STATE_DIR, "installed")
 SERVICES_DIR = os.path.join(DATA_DIR, "services")
 CLIENT_LAUNCHERS_DIR = os.path.join(DATA_DIR, "client-launchers")
 HELPER_SCRIPTS_DIR = os.path.join(DATA_DIR, "helper-scripts")
