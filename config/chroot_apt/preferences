@@ -134,6 +134,10 @@ Package: ttdnsd
 Pin: release o=TorProject,n=sid
 Pin-Priority: 999
 
+Package: tor
+Pin: release o=TorProject,n=tor-experimental-0.2.9.x-jessie
+Pin-Priority: 999
+
 Package: torsocks
 Pin: release o=Debian,n=jessie-backports
 Pin-Priority: 999
