@@ -37,7 +37,8 @@ systemd_state_to_service_status = {
     "activating": Status.starting,
     "active": Status.running,
     "deactivating": Status.stopping,
-    "inactive": Status.stopped
+    "inactive": Status.stopped,
+    "failed": Status.error,
 }
 
 systemd_state_to_tor_status = {
@@ -209,6 +210,11 @@ class ServiceStatus(Gtk.Widget):
         valid status values: "active", "activating", "inactive", "deactivating"""
         service_status = systemd_state_to_service_status[active_state]
         logging.debug("New status: %r, old status: %r", service_status, self.service_status)
+
+        if active_state == "failed":
+            logging.error("systemd service %r failed. See 'systemctl status tails-server-sftp.service' and "
+                          "'journalctl -xn' for details", self.service.systemd_service)
+
         if service_status != self.service_status:
             self.service_status = service_status
             self.emit("update", service_status)

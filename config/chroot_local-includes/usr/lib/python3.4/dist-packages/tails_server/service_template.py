@@ -419,8 +419,9 @@ class TailsService(metaclass=abc.ABCMeta):
         shutil.rmtree(self.hs_dir)
 
     def start(self):
-        logging.info("Starting service %r", self.name)
+        logging.info("Starting service %r. Command: `systemctl start %s`", self.name, self.systemd_service)
         sh.systemctl("start", self.systemd_service)
+        # XXX: Listen for JobRemoved events to check if the service was started successfully
 
     def disable(self):
         self.stop()
