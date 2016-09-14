@@ -250,7 +250,7 @@ Archive of ISO images
 
 We keep an archive of all the ISO images of official Tails releases. It
 is private to limit the bandwidth and costs but contributors can ask
-tails-sysadmins@boum.org to grant them access to:
+[[mailto:tails-sysadmins@boum.org]] to grant them access to:
 
 	git clone gitolite@git.puppet.tails.boum.org:isos
 
