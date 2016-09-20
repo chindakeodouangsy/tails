@@ -18,7 +18,7 @@ upgrade as soon as possible.
 
 - Replace *Vidalia*, which has been unmaintained for years, with:
   - a system status icon indicating whether Tails is connected to Tor or not,
-  - [[*Onion Circuits*|doc/anonymous_internet/Tor_status]] to display a list of the current Tor circuits and connections.
+  - [[*Onion Circuits*|doc/anonymous_internet/tor_status]] to display a list of the current Tor circuits and connections.
 
 [[!img version_2.2/onion_circuits.png alt="Tor Status extension clicked in the top bar and Onion Circuits window open" link="no"]]
 
@@ -48,7 +48,16 @@ For more details, see also our [changelog](https://git-tails.immerda.ch/tails/pl
 
 # Known issues
 
-See the current list of [[known issues|support/known_issues]].
+* While there is an automatic upgrade from Tails 2.2~rc1 to 2.2, it
+  will not be detected by default since Tails 2.2~rc1 think it already
+  is 2.2 (see [[the 2.2~rc1 announcement|test_2.2-rc1]]). To fix this,
+  run the following command:
+
+      sudo sed -i 's/^TAILS_VERSION_ID="2.2"$/TAILS_VERSION_ID="2.2~rc1"/' \
+          /etc/os-release && \
+      tails-upgrade-frontend-wrapper
+
+* See the current list of [[known issues|support/known_issues]].
 
 # Install or upgrade
 
@@ -70,4 +79,4 @@ Have a look at our [[!tails_roadmap]] to see where we are heading to.
 
 We need your help and there are many ways to [[contribute to
 Tails|contribute]] ([[donating|contribute/how/donate]] is only one of
-them). Come [[talk to us|contribute/talk]]!
+them). Come [[talk to us|about/contact#tails-dev]]!
