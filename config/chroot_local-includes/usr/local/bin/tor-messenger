@@ -1,10 +1,8 @@
 #!/bin/sh
 
 export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}":/usr/local/lib/tor-messenger
-# Needed for OTR support
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}":/usr/local/lib/tor-messenger/extensions/ctypes-otr@tormessenger/chrome/content
 
-DEFAULT_CONF="/usr/local/lib/tor-messenger/TorMessenger/Data/Browser/"
+DEFAULT_CONF="/usr/local/lib/tor-messenger/TorBrowser/Data/Browser/"
 USER_CONF="${HOME}/.tor-messenger"
 USER_PROFILE="${USER_CONF}/profile.default"
 
