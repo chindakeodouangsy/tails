@@ -230,6 +230,12 @@ td, th {
   z-index: 1;
 }
 
+/* Hide toggle on router by default, not to cover other content when
+ * JavaScript is disabled. */
+#scenarios div.toggleable {
+  display: none;
+}
+
 #download-and-verify div.toggleable p, #needs div.toggleable p, #scenarios div.toggleable p {
   margin-bottom: 0px;
 }
