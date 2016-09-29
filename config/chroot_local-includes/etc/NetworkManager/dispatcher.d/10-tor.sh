@@ -3,6 +3,9 @@
 # We don't start Tor automatically so *this* is the time
 # when it is supposed to start.
 
+# Import get_all_ethernet_nics(), nic_is_up().
+. /usr/local/lib/tails-shell-library/hardware.sh
+
 # Run only when the interface is not "lo":
 if [ $1 = "lo" ]; then
     exit 0
@@ -11,7 +14,13 @@ fi
 if [ $2 = "up" ]; then
     : # go on, that's what this script is for
 elif [ "${2}" = "down" ]; then
+    for nic in $(get_all_ethernet_nics); do
+        if [ "${nic}" != "${current_nic}" ] && nic_is_up "${nic}"; then
+            exit 0
+        fi
+    done
     systemctl --no-block stop tails-tor-has-bootstrapped.target
+    systemctl --no-block stop tor@default.service
     exit 0
 else
     exit 0
