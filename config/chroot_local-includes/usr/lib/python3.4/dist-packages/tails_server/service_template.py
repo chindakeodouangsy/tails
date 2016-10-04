@@ -153,6 +153,7 @@ class TailsService(metaclass=abc.ABCMeta):
 
     options = [
         service_option_template.VirtualPort,
+        service_option_template.AllowLocalhostOption,
         service_option_template.AllowLanOption,
         service_option_template.PersistenceOption,
         service_option_template.AutoStartOption,
@@ -523,6 +524,7 @@ class TailsService(metaclass=abc.ABCMeta):
     #
     def create_hidden_service_with_stem_ephemeral(self):
         """Creating hidden service and setting address and hs_private_key accordingly"""
+        logging.info("Creating hidden service")
         if not self.is_running:
             logging.warning("Refusing to create hidden service of not-running service %r",
                             self.name)

@@ -157,6 +157,33 @@ class VirtualPort(TailsServiceOption):
         return self.service.default_virtual_port
 
 
+class AllowLocalhostOption(TailsServiceOption):
+    name = "allow-localhost"
+    name_in_gui = _("Allow localhost")
+    description = _("Allow connections from localhost")
+    type = bool
+    default = False
+    group = "generic-checkbox"
+
+    @property
+    def rule(self):
+        return ("OUTPUT", "--out-interface", "lo", "--protocol", "tcp", "--dport",
+                self.service.target_port, "--jump", "ACCEPT")
+
+    def apply(self):
+        super().apply()
+        if self.value:
+            self.accept_localhost_connections()
+        else:
+            self.reject_localhost_connections()
+
+    def accept_localhost_connections(self):
+        sh.iptables("-I", *self.rule)
+
+    def reject_localhost_connections(self):
+        sh.iptables("-D", *self.rule)
+
+
 class AllowLanOption(TailsServiceOption):
     name = "allow-lan"
     name_in_gui = _("Allow LAN")
@@ -166,9 +193,10 @@ class AllowLanOption(TailsServiceOption):
     group = "generic-checkbox"
 
     @property
-    def rule(self):
-        return ["OUTPUT", "--out-interface", "lo", "--protocol", "tcp", "--dport",
-                self.service.target_port, "--jump", "ACCEPT"]
+    def rules(self):
+        return [("INPUT", "--source", subnet, "--protocol", "tcp", "--dport",
+                self.service.target_port, "--jump", "ACCEPT")
+                for subnet in ("10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16")]
 
     def apply(self):
         super().apply()
@@ -178,10 +206,12 @@ class AllowLanOption(TailsServiceOption):
             self.reject_lan_connections()
 
     def accept_lan_connections(self):
-        sh.iptables("-I", *self.rule)
+        for rule in self.rules:
+            sh.iptables("-I", *rule)
 
     def reject_lan_connections(self):
-        sh.iptables("-D", *self.rule)
+        for rule in self.rules:
+            sh.iptables("-D", *rule)
 
 
 class AutoStartOption(TailsServiceOption):

@@ -57,6 +57,7 @@ class SFTPServer(service_template.TailsService):
         ServerPasswordOption,
         service_option_template.PersistenceOption,
         service_option_template.AutoStartOption,
+        service_option_template.AllowLocalhostOption,
         service_option_template.AllowLanOption,
     ]
 
