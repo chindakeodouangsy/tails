@@ -263,10 +263,10 @@ class AutoStartOption(TailsServiceOption):
 
     def apply(self):
         super().apply()
-        # if self.value:
-        #     self.service.add_to_additional_software()
-        # else:
-        #     self.service.remove_from_additional_software()
+        if self.value:
+            self.service.add_to_additional_software()
+        else:
+            self.service.remove_from_additional_software()
 
     def clean(self):
         super().clean()
@@ -290,10 +290,10 @@ class PersistenceOption(TailsServiceOption):
 
     def apply(self):
         super().apply()
-        # if self.value:
-        #     self.make_persistent()
-        # else:
-        #     self.remove_persistence()
+        if self.value:
+            self.make_persistent()
+        else:
+            self.remove_persistence()
 
     def clean(self):
         super().clean()
