@@ -170,8 +170,8 @@ class AllowLocalhostOption(TailsServiceOption):
         return ("OUTPUT", "--out-interface", "lo", "--protocol", "tcp", "--dport",
                 self.service.target_port, "--jump", "ACCEPT")
 
-    def apply(self):
-        super().apply()
+    def store(self):
+        super().store()
         if self.value:
             self.accept_localhost_connections()
         else:
@@ -182,6 +182,16 @@ class AllowLocalhostOption(TailsServiceOption):
 
     def reject_localhost_connections(self):
         sh.iptables("-D", *self.rule)
+
+    def load(self):
+        return self.is_allowed()
+
+    def is_allowed(self):
+        try:
+            sh.iptables("-C", *self.rule)
+            return True
+        except sh.ErrorReturnCode_1:
+            return False
 
 
 class AllowLanOption(TailsServiceOption):
@@ -198,8 +208,8 @@ class AllowLanOption(TailsServiceOption):
                 self.service.target_port, "--jump", "ACCEPT")
                 for subnet in ("10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16")]
 
-    def apply(self):
-        super().apply()
+    def store(self):
+        super().store()
         if self.value:
             self.accept_lan_connections()
         else:
@@ -212,6 +222,20 @@ class AllowLanOption(TailsServiceOption):
     def reject_lan_connections(self):
         for rule in self.rules:
             sh.iptables("-D", *rule)
+
+    def load(self):
+        return self.is_allowed()
+
+    def is_allowed(self):
+        return all(self.is_active(rule) for rule in self.rules)
+
+    @staticmethod
+    def is_active(rule):
+        try:
+            sh.iptables("-C", *rule)
+            return True
+        except sh.ErrorReturnCode_1:
+            return False
 
 
 class AutoStartOption(TailsServiceOption):
