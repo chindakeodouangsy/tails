@@ -80,6 +80,10 @@ class MumbleServer(service_template.TailsService):
 
     db_path = "/var/lib/mumble-server/mumble-server.sqlite"
 
+    def configure(self):
+        super().configure()
+        self.set_option("allow-localhost", True)
+
     @property
     def fingerprint(self):
         connection = sqlite3.connect(self.db_path)

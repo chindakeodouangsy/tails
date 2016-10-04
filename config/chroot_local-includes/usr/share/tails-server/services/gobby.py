@@ -82,6 +82,27 @@ class GobbyServer(service_template.TailsService):
         AutoSaveInterval,
     ]
 
+    def configure(self):
+        super().configure()
+
+        self.set_option("allow-localhost", True)
+
+        with open(CONFIG_FILE, "w+") as f:
+            f.write("[infinoted]\n")
+            f.write("root-directory=%s\n" % DATA_DIR)
+            f.write("log-file=%s\n" % LOG_FILE)
+            f.write("security-policy=no-tls\n")
+        if not os.path.isdir(DATA_DIR):
+            os.mkdir(DATA_DIR, mode=0o700)
+
+    # def start(self):
+    #     logging.info("Starting gobby server infinoted")
+    #     sh.infinoted("-d")
+    #
+    # def stop(self):
+    #     logging.info("Stopping gobby server infinoted")
+    #     sh.infinoted("-D")
+
     @property
     def connection_info(self):
         if not self.address:
@@ -94,23 +115,6 @@ class GobbyServer(service_template.TailsService):
         s += _("Client Cookie: %s\n") % self.client_cookie
         s += _("Password: %s") % self.options_dict["server-password"].value
         return s
-
-    # def start(self):
-    #     logging.info("Starting gobby server infinoted")
-    #     sh.infinoted("-d")
-    #
-    # def stop(self):
-    #     logging.info("Stopping gobby server infinoted")
-    #     sh.infinoted("-D")
-
-    def configure(self):
-        with open(CONFIG_FILE, "w+") as f:
-            f.write("[infinoted]\n")
-            f.write("root-directory=%s\n" % DATA_DIR)
-            f.write("log-file=%s\n" % LOG_FILE)
-            f.write("security-policy=no-tls\n")
-        if not os.path.isdir(DATA_DIR):
-            os.mkdir(DATA_DIR, mode=0o700)
 
 
 service_class = GobbyServer
