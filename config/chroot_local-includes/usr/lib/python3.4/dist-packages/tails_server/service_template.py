@@ -368,8 +368,8 @@ class TailsService(metaclass=abc.ABCMeta):
     def uninstall(self):
         if self.is_running:
             self.disable()
-        if self.is_persistent:
-            self.remove_persistence()
+        for option in self.options_dict.values():
+            option.clean()
         self.remove_options_file()
         self.remove_state_dir()
         if os.path.exists(self.hs_dir):

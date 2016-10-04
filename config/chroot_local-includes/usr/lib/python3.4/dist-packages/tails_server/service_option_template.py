@@ -141,6 +141,11 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
         it will usually be applied automatically by restarting the service)."""
         logging.debug("Applying option %s", self.name)
 
+    def clean(self):
+        """This function should be overridden if something needs to be cleaned up for this option
+        when the service is uninstalled."""
+        logging.debug("Cleaning option %s", self.name)
+
     def __str__(self):
         return "%s: %s" % (self.name, self.value)
 
@@ -193,6 +198,11 @@ class AllowLocalhostOption(TailsServiceOption):
         except sh.ErrorReturnCode_1:
             return False
 
+    def clean(self):
+        super().clean()
+        if self.value:
+            self.reject_localhost_connections()
+
 
 class AllowLanOption(TailsServiceOption):
     name = "allow-lan"
@@ -237,6 +247,11 @@ class AllowLanOption(TailsServiceOption):
         except sh.ErrorReturnCode_1:
             return False
 
+    def clean(self):
+        super().clean()
+        if self.value:
+            self.reject_lan_connections()
+
 
 class AutoStartOption(TailsServiceOption):
     name = "autostart"
@@ -252,6 +267,11 @@ class AutoStartOption(TailsServiceOption):
         #     self.service.add_to_additional_software()
         # else:
         #     self.service.remove_from_additional_software()
+
+    def clean(self):
+        super().clean()
+        if self.value:
+            self.service.remove_from_additional_software()
 
 
 class PersistenceOption(TailsServiceOption):
@@ -274,6 +294,11 @@ class PersistenceOption(TailsServiceOption):
         #     self.make_persistent()
         # else:
         #     self.remove_persistence()
+
+    def clean(self):
+        super().clean()
+        if self.value:
+            self.remove_persistence()
 
     def make_persistent(self):
         self.create_persistence_dirs()
