@@ -212,8 +212,9 @@ class ServiceStatus(Gtk.Widget):
         logging.debug("New status: %r, old status: %r", service_status, self.service_status)
 
         if active_state == "failed":
-            logging.error("systemd service %r failed. See 'systemctl status tails-server-sftp.service' and "
-                          "'journalctl -xn' for details", self.service.systemd_service)
+            logging.error("systemd service %r failed. See 'systemctl status %r' and "
+                          "'journalctl -xn' for details", self.service.systemd_service,
+                          self.service.systemd_service)
 
         if service_status != self.service_status:
             self.service_status = service_status
