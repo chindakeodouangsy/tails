@@ -449,7 +449,6 @@ class TailsService(metaclass=abc.ABCMeta):
             raise UnknownOptionError("Service %r has no option %r" % (self.name, option_name))
 
         option.value = value
-        option.apply()
         logging.debug("Option %r set to %r", option_name, value)
         return
 

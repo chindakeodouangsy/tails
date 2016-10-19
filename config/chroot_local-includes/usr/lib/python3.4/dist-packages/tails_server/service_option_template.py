@@ -123,6 +123,13 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
         """Store the option's value in the option file. If this option has any other stable
         representation (e.g. if it modifies a config file), this function should be overridden
         and replace this other representation instead."""
+        try:
+            return self.do_store()
+        except (FileNotFoundError, ValueError, TypeError):
+            self.service.create_options_file()
+            return self.do_store()
+
+    def do_store(self):
         logging.debug("Storing option %r", self.name)
         with open(self.service.options_file) as f:
             options = yaml.load(f)
