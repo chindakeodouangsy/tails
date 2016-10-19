@@ -83,8 +83,6 @@ class GobbyServer(service_template.TailsService):
     ]
 
     def configure(self):
-        super().configure()
-
         self.set_option("allow-localhost", True)
 
         with open(CONFIG_FILE, "w+") as f:
@@ -94,6 +92,8 @@ class GobbyServer(service_template.TailsService):
             f.write("security-policy=no-tls\n")
         if not os.path.isdir(DATA_DIR):
             os.mkdir(DATA_DIR, mode=0o700)
+
+        super().configure()
 
     # def start(self):
     #     logging.info("Starting gobby server infinoted")
