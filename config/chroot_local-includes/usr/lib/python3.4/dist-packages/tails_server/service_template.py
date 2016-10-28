@@ -372,8 +372,7 @@ class TailsService(metaclass=abc.ABCMeta):
 
     def configure(self):
         """Initial configuration after installing the service"""
-        for option in self.options_dict.values():
-            option.value = option.default
+        pass
 
     def install_using_apt_module(self):
         # There seems to be no way to automatically keep old config on conflicts with the apt module
