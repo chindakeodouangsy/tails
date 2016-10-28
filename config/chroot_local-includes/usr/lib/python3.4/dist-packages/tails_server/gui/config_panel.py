@@ -324,14 +324,15 @@ class ServiceConfigPanel(object):
         self.update_onion_address_widget()
         self.set_connection_info_sensitivity()
 
-        enabled = self.service.is_running and self.service.is_published
-        if status and not enabled:
+        is_running = self.service.is_running
+        is_published = self.service.is_published
+        if status and not (is_running and is_published):
             success = self.ensure_not_in_edit_mode()
             if not success:
                 return
             self.service.run_threaded(self.service.enable)
             self.show()
-        elif not status and enabled:
+        elif not status and (is_running or is_published):
             self.service.run_threaded(self.service.disable)
 
     def ensure_not_in_edit_mode(self):
