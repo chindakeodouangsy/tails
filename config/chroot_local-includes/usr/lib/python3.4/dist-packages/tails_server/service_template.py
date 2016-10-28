@@ -24,7 +24,7 @@ from tails_server.exceptions import ServiceNotInstalledError
 from tails_server.exceptions import ServiceAlreadyEnabledError
 
 from tails_server.config import HS_DIR, TOR_USER, TAILS_SERVER_USER, ADDITIONAL_SOFTWARE_CONFIG, \
-    STATE_DIR, OPTIONS_FILE_NAME, INSTALLED_FILE_PATH
+    STATE_DIR, OPTIONS_FILE_NAME, PERSISTENCE_CONFIG_NAME, PERSISTENCE_DIR, INSTALLED_FILE_PATH
 
 
 class LazyOptionDict(OrderedDict):
@@ -291,6 +291,20 @@ class TailsService(metaclass=abc.ABCMeta):
         OrderedDictDumper.add_representer(OrderedDict, _dict_representer)
         print(yaml.dump(*args, Dumper=OrderedDictDumper, default_flow_style=False, **kwargs))
 
+    @property
+    def default_persistence_map(self):
+        return [
+            (self.hs_dir, os.path.join(self.persistence_dir, "hidden_service")),
+            (self.options_file, os.path.join(self.persistence_dir, OPTIONS_FILE_NAME))
+        ]
+
+    @property
+    def persistence_map(self):
+        return self.default_persistence_map + [
+            (path, os.path.join(self.persistence_dir, os.path.basename(path))) for path in
+            self.persistent_paths
+        ]
+
     def __init__(self):
         self.state_dir = os.path.join(STATE_DIR, self.name)
         self.create_state_dir()
@@ -300,6 +314,8 @@ class TailsService(metaclass=abc.ABCMeta):
         # XXX: This is not used with non-ephemeral create_hidden_service()
         self.hs_client_auth_file = os.path.join(self.hs_dir, "client_auth")
         self.options_file = os.path.join(self.state_dir, OPTIONS_FILE_NAME)
+        self.persistence_config = os.path.join(self.state_dir, PERSISTENCE_CONFIG_NAME)
+        self.persistence_dir = os.path.join(PERSISTENCE_DIR, self.name)
         self._target_port = self.default_target_port
         self._virtual_port = self.default_virtual_port
 
@@ -374,12 +390,35 @@ class TailsService(metaclass=abc.ABCMeta):
         self.remove_state_dir()
         if os.path.exists(self.hs_dir):
             self.remove_hs_dir()
+        self.remove_persistence_dir()
         self.is_installed = False
         logging.info("Service %r uninstalled", self.name)
 
-    def remove_persistence(self):
-        logging.info("Removing persistence of service %r", self.name)
-        self.options_dict["persistence"].value = False
+    def mount_persistent_files(self):
+        for dest, source in self.persistence_map:
+            self.ensure_dest_exists(dest, source)
+            sh.mount("--bind", source, dest)
+
+    def unmount_persistent_files(self):
+        for dest, source in self.persistence_map:
+            sh.umount(dest)
+            self.remove_dest(dest, source)
+
+    @staticmethod
+    def ensure_dest_exists(dest, source):
+        if os.path.exists(dest):
+            return
+        if os.path.isdir(source):
+            sh.mkdir(dest)
+        else:
+            sh.touch(dest)
+
+    @staticmethod
+    def remove_dest(dest, source):
+        if os.path.isdir(source):
+            sh.rmdir(dest)
+        else:
+            sh.rm(dest)
 
     def create_state_dir(self):
         if not os.path.exists(self.state_dir):
@@ -418,6 +457,15 @@ class TailsService(metaclass=abc.ABCMeta):
     def remove_hs_dir(self):
         logging.info("Removing HS directory %r", self.hs_dir)
         shutil.rmtree(self.hs_dir)
+
+    def create_persistence_dir(self):
+        logging.info("Creating persistence directory %r", self.persistence_dir)
+        sh.install("-m", 755, "-d", self.persistence_dir)
+
+    def remove_persistence_dir(self):
+        if os.path.exists(self.persistence_dir):
+            logging.info("Removing persistence directory %r", self.persistence_dir)
+            shutil.rmtree(self.persistence_dir)
 
     def start(self):
         logging.info("Starting service %r. Command: `systemctl start %s`", self.name, self.systemd_service)

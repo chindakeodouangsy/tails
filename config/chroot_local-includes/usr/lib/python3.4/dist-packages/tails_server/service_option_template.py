@@ -1,25 +1,13 @@
 import os
 import abc
-import shutil
 import sh
 import logging
 import yaml
 
 from tails_server import _
-from tails_server import file_util
-from tails_server.config import TOR_DIR, TOR_USER, TOR_SERVICE, TORRC, PERSISTENCE_DIR, \
-    PERSISTENCE_DIR_NAME, PERSISTENCE_CONFIG
 
 PERSISTENT_TORRC = "/usr/share/tor/tor-service-defaults-torrc"
 CONFIG_DIR_PREFIX = "config_"
-
-
-class AlreadyPersistentError(Exception):
-    pass
-
-
-class NotPersistentError(Exception):
-    pass
 
 
 class OptionNotFoundError(Exception):
@@ -138,7 +126,7 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
             yaml.dump(options, f, default_flow_style=False)
 
     def on_value_changed(self):
-        logging.debug("Option %r set to %r", self.name, self.value)
+        logging.debug("Option %r value changed to %r", self.name, self.value)
         self.store()
         self.apply()
 
@@ -282,18 +270,11 @@ class AutoStartOption(TailsServiceOption):
 
 
 class PersistenceOption(TailsServiceOption):
-    PERSISTENT_HS_DIR = "hidden_service"
-    PERSISTENT_OPTIONS_FILE = "options"
-
     name = "persistence"
     description = _("Store service configuration and data on the persistent volume")
     type = bool
     default = False
     group = "generic-checkbox"
-
-    @property
-    def persistence_dir(self):
-        return os.path.join(PERSISTENCE_DIR, self.service.name)
 
     def apply(self):
         super().apply()
@@ -308,116 +289,29 @@ class PersistenceOption(TailsServiceOption):
             self.remove_persistence()
 
     def make_persistent(self):
-        self.create_persistence_dirs()
+        self.service.create_persistence_dir()
         self.service.create_hs_dir()
-        self.make_path_persistent(self.service.hs_dir, persistence_name=self.PERSISTENT_HS_DIR)
-        self.make_path_persistent(self.service.options_file,
-                                  persistence_name=self.PERSISTENT_OPTIONS_FILE)
-        self.make_config_files_persistent()
+        for path, persistent_path in self.service.persistence_map:
+            self.move(path, persistent_path)
+        self.service.mount_persistent_files()
 
-    def create_persistence_dirs(self):
-        if not os.path.exists(PERSISTENCE_DIR):
-            os.mkdir(PERSISTENCE_DIR)
-            os.chmod(PERSISTENCE_DIR, 0o755)
-        if not os.path.exists(self.persistence_dir):
-            os.mkdir(self.persistence_dir)
-            os.chmod(self.persistence_dir, 0o755)
+    def remove_persistence(self):
+        try:
+            self.service.unmount_persistent_files()
+        except sh.ErrorReturnCode_32:
+            logging.error("Error while unmounting persistent files", exc_info=True)
 
-    def make_path_persistent(self, path, persistence_name=None):
-        is_dir = os.path.isdir(path)
-        dest = os.path.join(self.persistence_dir, persistence_name)
-        if not persistence_name:
-            persistence_name = os.path.basename(path)
-        self.add_to_persistence_config(path, persistence_name)
-        self.move(path, dest)
-        if is_dir:
-            self.create_empty_dir(path)
-        else:
-            self.create_empty_file(path)
-        sh.mount("--bind", dest, path)
+        try:
+            for (path, persistent_path) in self.service.persistence_map:
+                self.move(persistent_path, path)
+        except (sh.ErrorReturnCode_1, FileExistsError):
+            logging.error("Error while moving persistent files", exc_info=True)
 
     @staticmethod
     def move(src, dest):
-        if os.path.isdir(src):
-            shutil.copytree(src, dest)
-            shutil.rmtree(src)
-        else:
-            shutil.move(src, dest)
+        if os.path.exists(dest):
+            raise FileExistsError("Couldn't move %r to %r, destination %r already exists" %
+                                  (src, dest, dest))
+
+        sh.mv(src, dest)
         logging.debug("Moved %r to %r", src, dest)
-
-    @staticmethod
-    def create_empty_file(path):
-        open(path, 'w+').close()
-
-    @staticmethod
-    def create_empty_dir(path):
-        os.mkdir(path)
-
-    def add_to_persistence_config(self, path, persistence_name):
-        line = "%s source=%s\n" % (
-            path, os.path.join(PERSISTENCE_DIR_NAME, self.service.name, persistence_name))
-        self.add_line_to_persistence_config(line)
-
-    def add_line_to_persistence_config(self, line):
-        written = file_util.append_line_if_not_present(PERSISTENCE_CONFIG, line)
-        if not written:
-            raise AlreadyPersistentError(
-                "Service %r seems to already have an entry in persistence config file %r" %
-                (self.service.name, PERSISTENCE_CONFIG))
-        logging.debug("Added line to persistence.config: %r", line)
-
-    def make_config_files_persistent(self):
-        for path in self.service.persistent_paths:
-            self.make_path_persistent(path)
-
-    def remove_persistence(self):
-        self.remove_from_persistence(self.service.hs_dir, self.PERSISTENT_HS_DIR)
-        self.remove_from_persistence(self.service.options_file,
-                                     persistence_name=self.PERSISTENT_OPTIONS_FILE)
-        self.remove_config_files_from_persistence()
-
-    def remove_from_persistence(self, path, persistence_name=None):
-        if not persistence_name:
-            persistence_name = os.path.basename(path)
-        try:
-            self.remove_from_persistence_config(path, persistence_name)
-        except NotPersistentError as e:
-            logging.error(e)
-        self.remove_from_persistence_volume(path, persistence_name)
-
-    def remove_from_persistence_volume(self, path, persistence_name):
-        try:
-            sh.umount(path)
-        except sh.ErrorReturnCode_32 as e:
-            logging.error(e)
-
-        try:
-            if os.path.isdir(path):
-                os.rmdir(path)
-            else:
-                os.remove(path)
-        except FileNotFoundError as e:
-            logging.error(e)
-
-        try:
-            # shutil.move doesn't preserve ownership, so we use sh.mv here instead
-            sh.mv(os.path.join(self.persistence_dir, persistence_name), path)
-        except FileNotFoundError as e:
-            logging.error(e)
-
-    def remove_from_persistence_config(self, path, persistence_name):
-        line = "%s source=%s\n" % (
-            path, os.path.join(PERSISTENCE_DIR_NAME, self.service.name, persistence_name))
-        self.remove_line_from_persistence_config(line)
-
-    def remove_line_from_persistence_config(self, line):
-        logging.debug("Removing line %r from persistence.conf", line)
-        removed = file_util.remove_line_if_present(PERSISTENCE_CONFIG, line)
-        if not removed:
-            raise NotPersistentError(
-                "Service %r seems to have no entry in persistence config file %r. "
-                "Line not found: %r" % (self.service.name, PERSISTENCE_CONFIG, line))
-
-    def remove_config_files_from_persistence(self):
-        for path in self.service.persistent_paths:
-            self.remove_from_persistence(path)

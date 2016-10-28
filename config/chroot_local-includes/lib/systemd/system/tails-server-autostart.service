@@ -1,6 +1,6 @@
 [Unit]
 Description=Start Tails Server services which have autostart enabled
-After=tails-tor-has-bootstrapped.target
+After=tails-server-persistence.service
 
 [Service]
 Type=oneshot

@@ -3,10 +3,12 @@
 import sys
 import os
 import logging
+import contextlib
 
 from tails_server import argument_parser
 from tails_server import util
 import tails_server.services
+from tails_server.config import OPTIONS_FILE_NAME
 
 service_names = tails_server.services.service_names
 service_module_paths = tails_server.services.service_module_paths
@@ -23,6 +25,29 @@ def list_enabled():
     enabled_services = [service for service in services if service.is_running]
     for service in enabled_services:
         print("-", service.name)
+
+
+@contextlib.contextmanager
+def use_persistent_options_file_if_exists(service):
+    persistent_options_file = os.path.join(service.persistence_dir, OPTIONS_FILE_NAME)
+    if os.path.exists(persistent_options_file):
+        service.options_file = persistent_options_file
+    yield service
+    service.options_file = os.path.join(service.state_dir, OPTIONS_FILE_NAME)
+
+
+def restore_services():
+    """Install packages and restore files of services which have the 'persistence' option set to
+    True"""
+    persistent_services = list()
+    for service in services:
+        with use_persistent_options_file_if_exists(service):
+            if "persistence" in service.options_dict and service.options_dict["persistence"].value:
+                persistent_services.append(service)
+
+    for service in persistent_services:
+        service.install()
+        service.mount_persistent_files()
 
 
 def autostart_services():
@@ -58,6 +83,8 @@ def main():
         list_services()
     elif args.command == "list-enabled":
         list_enabled()
+    elif args.command == "restore":
+        restore_services()
     elif args.command == "autostart":
         autostart_services()
     else:

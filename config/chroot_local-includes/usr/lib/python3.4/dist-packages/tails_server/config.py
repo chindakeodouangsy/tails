@@ -8,6 +8,7 @@ TAILS_SERVER_CLIENT_USER = "tails-server-client"
 DATA_DIR = "/usr/share/tails-server/"
 STATE_DIR = "/var/lib/tails-server/"
 OPTIONS_FILE_NAME = "options"
+PERSISTENCE_CONFIG_NAME = "persistence.conf"
 INSTALLED_FILE_PATH = os.path.join(STATE_DIR, "installed")
 SERVICES_DIR = os.path.join(DATA_DIR, "services")
 CLIENT_LAUNCHERS_DIR = os.path.join(DATA_DIR, "client-launchers")
@@ -21,7 +22,6 @@ TOR_SERVICE = "tor@default.service"
 TOR_BOOTSTRAPPED_TARGET = "tails-tor-has-bootstrapped.target"
 TOR_CONTROL_PORT = 9051
 
-PERSISTENCE_CONFIG = "/live/persistence/TailsData_unlocked/persistence.conf"
 PERSISTENCE_DIR_NAME = "tails-server"
 PERSISTENCE_DIR = os.path.join("/live/persistence/TailsData_unlocked", PERSISTENCE_DIR_NAME)
 
