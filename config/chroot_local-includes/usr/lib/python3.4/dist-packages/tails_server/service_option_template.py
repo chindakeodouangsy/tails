@@ -133,7 +133,12 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
     def apply(self):
         """This function should be overridden if the option will not automatically apply after
         store() is called and the service is restarted (if the option is stored in a config file,
-        it will usually be applied automatically by restarting the service)."""
+        it will usually be applied automatically by restarting the service).
+
+        By default, this is NOT called during option initialization, because some options should
+        not be applied before actually set (e.g. allow-lan and allow-localhost, for which
+        applying the default value would result in removing non-existent iptables rules).
+        If you want to apply the default value, call self.apply() in __init__()."""
         logging.debug("Applying option %s", self.name)
 
     def clean(self):
