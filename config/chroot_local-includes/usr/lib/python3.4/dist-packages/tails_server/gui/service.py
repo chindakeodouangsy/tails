@@ -100,6 +100,5 @@ class ServiceDecorator(object):
         try:
             function(*args)
         except:
+            logging.exception("Got exception on thread handler")
             self.status.emit("update", Status.error)
-            raise
-
