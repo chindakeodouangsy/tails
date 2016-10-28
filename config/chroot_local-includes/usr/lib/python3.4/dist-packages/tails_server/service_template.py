@@ -390,8 +390,7 @@ class TailsService(metaclass=abc.ABCMeta):
             option.clean()
         self.remove_options_file()
         self.remove_state_dir()
-        if os.path.exists(self.hs_dir):
-            self.remove_hs_dir()
+        self.remove_hs_dir()
         self.remove_persistence_dir()
         self.is_installed = False
         logging.info("Service %r uninstalled", self.name)
@@ -460,8 +459,9 @@ class TailsService(metaclass=abc.ABCMeta):
         shutil.chown(self.hs_dir, TOR_USER, TOR_USER)
 
     def remove_hs_dir(self):
-        logging.info("Removing HS directory %r", self.hs_dir)
-        shutil.rmtree(self.hs_dir)
+        if os.path.exists(self.hs_dir):
+            logging.info("Removing HS directory %r", self.hs_dir)
+            shutil.rmtree(self.hs_dir)
 
     def create_persistence_dir(self):
         logging.info("Creating persistence directory %r", self.persistence_dir)
