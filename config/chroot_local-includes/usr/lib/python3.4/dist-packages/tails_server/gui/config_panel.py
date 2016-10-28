@@ -2,6 +2,7 @@ import collections
 import logging
 import os
 import sh
+import threading
 
 from gi.repository import Gtk
 
@@ -67,29 +68,33 @@ class ServiceConfigPanel(object):
 
     def populate_option_rows(self):
         """For each option of this service, add a row to configure the option to the config panel"""
-        if self.options_populated:
-            return
-        self.options_populated = True
-        for widget in (self.onion_address_label,
-                       # self.connection_info_label,
-                       self.onion_address_box,
-                       self.connection_info_box):
-            widget.set_visible(True)
-        self.option_groups = {"connection"} | {
-            option.group for option in self.service.options_dict.values() if option.group
-            }
+        lock = threading.Lock()
+        with lock:
+            if self.options_populated:
+                return
 
-        groups = set()
-        for option in self.service.options_dict.values():
-            if option.group in groups:
-                continue
-            groups.add(option.group)
-            self.add_separator(option.group)
-        logging.debug("Option groups: %r", groups)
+            for widget in (self.onion_address_label,
+                           # self.connection_info_label,
+                           self.onion_address_box,
+                           self.connection_info_box):
+                widget.set_visible(True)
+            self.option_groups = {"connection"} | {
+                option.group for option in self.service.options_dict.values() if option.group
+                }
 
-        for option in self.service.options_dict.values():
-            logging.debug("Adding option %r (value: %r)", option.name, option.value)
-            self.add_option(option)
+            groups = set()
+            for option in self.service.options_dict.values():
+                if option.group in groups:
+                    continue
+                groups.add(option.group)
+                self.add_separator(option.group)
+            logging.debug("Option groups: %r", groups)
+
+            for option in self.service.options_dict.values():
+                logging.debug("Adding option %r (value: %r)", option.name, option.value)
+                self.add_option(option)
+
+            self.options_populated = True
 
     def remove_option_rows(self):
         for widget in (self.onion_address_label,
