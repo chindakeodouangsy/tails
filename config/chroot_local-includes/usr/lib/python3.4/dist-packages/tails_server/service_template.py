@@ -350,20 +350,23 @@ class TailsService(metaclass=abc.ABCMeta):
             self.create_hidden_service()
 
     def install(self):
-        logging.info("Installing packages: %s" % " ".join(self.packages))
+        logging.info("Installing packages: " + ", ".join("%r" % p for p in self.packages))
 
         def update_packages():
             logging.info("Updating packages")
             cache.update()
 
         cache = apt.Cache()
+        logging.debug("Checking if packages are in cache")
         if any([package not in cache for package in self.packages]):
             update_packages()
 
         with util.PolicyNoAutostartOnInstallation():
+            logging.debug("Running apt-get install")
             sh.apt_get("install", "-y", "-o", 'Dpkg::Options::=--force-confold',
                        "--no-install-recommends", self.packages)
 
+        logging.debug("%r installed", self.name)
         self.is_installed = True
         self.configure()
 

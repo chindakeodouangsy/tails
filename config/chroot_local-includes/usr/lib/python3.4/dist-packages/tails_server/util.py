@@ -3,12 +3,14 @@ import os
 import shutil
 import threading
 import re
+import logging
 
 class PolicyNoAutostartOnInstallation(object):
     policy_path = "/usr/sbin/policy-rc.d"
     policy_content = """#!/bin/sh\nexit 101"""
 
     def __enter__(self):
+        logging.debug("Setting policy-rc to prevent autostart of services")
         self.tmp_dir = tempfile.mkdtemp()
         self.old_policy_path = None
         if os.path.exists(self.policy_path):
@@ -19,6 +21,7 @@ class PolicyNoAutostartOnInstallation(object):
         os.chmod(self.policy_path, 700)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        logging.debug("Resetting policy-rc")
         os.remove(self.policy_path)
         if self.old_policy_path:
             shutil.move(self.old_policy_path, self.policy_path)

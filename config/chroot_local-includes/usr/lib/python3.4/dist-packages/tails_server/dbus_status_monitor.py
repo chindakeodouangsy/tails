@@ -40,7 +40,10 @@ def add_unit(unit_name, receiver_function):
 def remove_unit(unit_name):
     logging.debug("Removing %r from D-Bus monitored units", unit_name)
     unit_path = manager.LoadUnit(unit_name)
-    del units[unit_path]
+    try:
+        del units[unit_path]
+    except KeyError:
+        logging.error("Unit %r not monitored")
 
 
 def start_listening():

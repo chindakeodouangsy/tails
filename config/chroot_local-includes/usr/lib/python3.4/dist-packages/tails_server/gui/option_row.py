@@ -97,11 +97,10 @@ class OptionRow(object, metaclass=abc.ABCMeta):
         self.box.show_all()
 
     def get_change(self):
-        logging.debug("Has %r changed? Old value: %r; New value: %r", self.option.name,
-                      self.option.value, self.value)
         if self.option.value != self.edited_value:
+            logging.debug("Option %r has changed. Old value: %r; New value: %r", self.option.name,
+                      self.option.value, self.edited_value)
             return self.option.value, self.edited_value
-
 
 class ClickableLabel(object):
     @property

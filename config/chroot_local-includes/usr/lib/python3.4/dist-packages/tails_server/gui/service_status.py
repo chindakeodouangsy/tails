@@ -97,16 +97,17 @@ class ServiceStatus(Gtk.Widget):
     def get_status_from_substates(self):
         """Extract the status to report to the user from the various substates. """
         if self.tor_status != Status.tor_is_running:
-            logging.debug("Setting status to tor status %r", self.tor_status)
+            logging.debug("Setting overall status to tor status %r", self.tor_status)
             return self.tor_status
         elif self.installation_status != Status.installed:
-            logging.debug("Setting status to installation status %r", self.installation_status)
+            logging.debug("Setting overall status to installation status %r",
+                          self.installation_status)
             return self.installation_status
         elif self.service_status != Status.running:
-            logging.debug("Setting status to service status %r", self.service_status)
+            logging.debug("Setting overall status to service status %r", self.service_status)
             return self.service_status
         else:
-            logging.debug("Setting status to onion status %r", self.onion_status)
+            logging.debug("Setting overall status to onion status %r", self.onion_status)
             return self.onion_status
 
     def update_substates(self, status):

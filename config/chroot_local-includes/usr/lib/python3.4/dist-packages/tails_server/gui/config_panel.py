@@ -125,7 +125,7 @@ class ServiceConfigPanel(object):
             )
 
     def show(self):
-        logging.debug("Showing config panel of service %r", self.service.name)
+        logging.log(5, "Showing config panel of service %r", self.service.name)
         icon = self.builder.get_object("image_service_icon")
         _, size = icon.get_icon_name()
         icon.set_from_icon_name(self.service.icon_name, size)
@@ -167,7 +167,7 @@ class ServiceConfigPanel(object):
         try:
             persistence_row = [r for r in self.option_rows if r.option.name == "persistence"][0]
         except IndexError:
-            logging.warning("No 'persistence' option for service %r", self.service)
+            logging.warning("No 'persistence' option for service %r", self.service.name)
             return
 
         if not self.in_edit_mode:
@@ -188,16 +188,19 @@ class ServiceConfigPanel(object):
             persistence_row.box.pack_end(label, expand=True, fill=True, padding=0)
 
     def update_autorun_checkbox(self):
+        if not self.options_populated:
+            return
+
         try:
             autostart_row = [r for r in self.option_rows if r.option.name == "autostart"][0]
         except IndexError:
-            logging.warning("No 'autostart' option for service %r", self.service)
+            logging.warning("No 'autostart' option for service %r", self.service.name)
             return
 
         try:
             persistence_row = [r for r in self.option_rows if r.option.name == "persistence"][0]
         except IndexError:
-            logging.warning("No 'persistence' option for service %r", self.service)
+            logging.warning("No 'persistence' option for service %r", self.service.name)
             return
 
         if not self.in_edit_mode:

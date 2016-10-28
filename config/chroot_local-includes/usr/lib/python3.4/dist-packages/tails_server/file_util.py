@@ -89,7 +89,6 @@ def delete_section(file_path, section_name):
         lines = f.readlines()
     for i, line in enumerate(lines):
         if line.startswith("[%s]" % section_name):
-            print("in line %s found %s" % (i, line))
             delete_until_next_section(lines[i:])
     with open(file_path, 'w+') as f:
         f.writelines(lines)
