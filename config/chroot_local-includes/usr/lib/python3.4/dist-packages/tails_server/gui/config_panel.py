@@ -264,9 +264,13 @@ class ServiceConfigPanel(object):
             option_row.option.value = option_row.value
 
     def apply_options_with_restarting(self):
-        self.service.disable()
-        self.apply_options()
-        self.service.run_threaded(self.service.enable)
+        self.service.restarting = True
+        try:
+            self.service.disable()
+            self.apply_options()
+            self.service.run_threaded(self.service.enable)
+        finally:
+            self.service.restarting = False
 
     def get_changes(self):
         changes = collections.OrderedDict()
@@ -334,6 +338,9 @@ class ServiceConfigPanel(object):
             self.show()
         elif not status and (is_running or is_published):
             self.service.run_threaded(self.service.disable)
+
+        self.service.status.emit("update",
+                                 Status.switch_active if status else Status.switch_inactive)
 
     def ensure_not_in_edit_mode(self):
         if not self.in_edit_mode:

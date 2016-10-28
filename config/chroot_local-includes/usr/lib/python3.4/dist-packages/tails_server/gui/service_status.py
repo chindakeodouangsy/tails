@@ -21,6 +21,7 @@ class Status(object):
     running = _("Running")
     stopping = _("Stopping")
     stopped = _("Stopped")
+    stopped_unexpectedly = _("Stopped unexpectedly")
 
     publishing = _("Announcing onion address")
     online = _("Online")
@@ -31,6 +32,9 @@ class Status(object):
 
     error = _("An error occurred. See the log for details.")
     invalid = _("The service is in an invalid state. See the log for details.")
+
+    switch_active = "switch_active"
+    switch_inactive = "switch_inactive"
 
 
 systemd_state_to_service_status = {
@@ -75,6 +79,7 @@ class ServiceStatus(Gtk.Widget):
         self.onion_status = str()
         self.tor_status = str()
         self.installation_status = str()
+        self.switch_status = str()
         self.status = str()
 
     def on_update(self, obj, status):
@@ -112,7 +117,10 @@ class ServiceStatus(Gtk.Widget):
 
     def update_substates(self, status):
         """Set the correct substate to the specified status"""
-        if status in [Status.tor_is_running,
+        if status in [Status.switch_active, Status.switch_inactive]:
+            logging.debug("Setting switch status to %r", status)
+            self.switch_status = status
+        elif status in [Status.tor_is_running,
                       Status.tor_is_not_running]:
             logging.debug("Setting tor status to %r", status)
             self.tor_status = status
@@ -125,6 +133,11 @@ class ServiceStatus(Gtk.Widget):
                         Status.running,
                         Status.stopping,
                         Status.stopped]:
+            if status == Status.stopped:
+                logging.debug("Status stopped - Switch status: %r", self.switch_status)
+            if status == Status.stopped and self.switch_status == Status.switch_active and not \
+                    self.service.restarting:
+                status = Status.stopped_unexpectedly
             logging.debug("Setting service status to %r", status)
             self.service_status = status
         elif status in [Status.installing,
@@ -140,7 +153,7 @@ class ServiceStatus(Gtk.Widget):
         switch = builder.get_object("switch_service_start_stop")
         label = builder.get_object("label_status_value")
         label_to_expand_grid = builder.get_object("label_to_expand_grid")
-        visual_widget = self.get_visual_widget(self.status, no_on_off_state=True)
+        visual_widget = self.get_visual_widget_for_config_panel(self.status, switch.get_active())
 
         self.update_switch_state(switch)
 
@@ -155,9 +168,23 @@ class ServiceStatus(Gtk.Widget):
         box.pack_start(label, expand=False, fill=False, padding=0)
         box.pack_end(label_to_expand_grid, expand=True, fill=True, padding=0)
         # XXX: Find out why the status only refreshes after config_panel.show() and do something
-        # more lightweight
+        # more lightweight instead
         if self.service.config_panel.is_active:
             self.service.config_panel.show()
+
+    @staticmethod
+    def get_visual_widget_for_config_panel(status, switch_active):
+        """Get the visual widget to display to the user for the specified signal"""
+        new_builder = Gtk.Builder()
+        new_builder.add_from_file(STATUS_UI_FILE)
+        if status in (Status.starting, Status.stopping, Status.installing, Status.uninstalled,
+                      Status.uninstalling, Status.publishing):
+            return new_builder.get_object("spinner")
+        if status in (Status.error, Status.tor_is_not_running, Status.stopped_unexpectedly):
+            return new_builder.get_object("image_error")
+        if status in (Status.offline, Status.stopped, Status.online):
+                return None
+        raise InvalidStatusError("No visual widget for status %r defined" % status)
 
     def update_switch_state(self, switch):
         if self.status == Status.online:
@@ -177,16 +204,8 @@ class ServiceStatus(Gtk.Widget):
         for child in box.get_children():
             box.remove(child)
 
-        visual_widget = self.get_visual_widget(self.status)
-        label_value = None
-        if self.status in (Status.starting, Status.stopping, Status.installing,
-                           Status.uninstalling, Status.publishing):
-            visual_widget = None
-            label_value = "..."
-        if self.status in (Status.offline, Status.stopped):
-            label_value = _("Off")
-        if self.status in (Status.online,):
-            label_value = _("On")
+        visual_widget = self.get_visual_widget_for_service_list(self.status)
+        label_value = self.get_label(self.status)
 
         if visual_widget:
             box.pack_start(visual_widget, expand=False, fill=False, padding=0)
@@ -194,24 +213,38 @@ class ServiceStatus(Gtk.Widget):
             label.set_label(label_value)
             box.pack_start(label, expand=False, fill=False, padding=0)
 
-    def get_visual_widget(self, status, no_on_off_state=False):
+    @staticmethod
+    def get_visual_widget_for_service_list(status):
         """Get the visual widget to display to the user for the specified signal"""
+        image = None
         new_builder = Gtk.Builder()
         new_builder.add_from_file(STATUS_UI_FILE)
         if status in (Status.starting, Status.stopping, Status.installing, Status.uninstalled,
                       Status.uninstalling, Status.publishing):
-            return new_builder.get_object("spinner")
-        if status in (Status.error, Status.tor_is_not_running):
-            return new_builder.get_object("image_error")
+            return None
+        if status in (Status.error, Status.tor_is_not_running, Status.stopped_unexpectedly):
+            image = new_builder.get_object("image_error")
         if status in (Status.offline, Status.stopped):
-            if no_on_off_state:
-                return None
-            return new_builder.get_object("image_off")
+            image = new_builder.get_object("image_off")
         if status == Status.online:
-            if no_on_off_state:
-                return None
-            return new_builder.get_object("image_on")
-        raise InvalidStatusError("No visual widget for status %r defined" % status)
+            image = new_builder.get_object("image_on")
+        if not image:
+            raise InvalidStatusError("No visual widget for status %r defined" % status)
+        image.set_pixel_size(16)
+        return image
+
+    @staticmethod
+    def get_label(status):
+        if status in (Status.starting, Status.stopping, Status.installing,
+                           Status.uninstalling, Status.publishing):
+            return "..."
+        if status in (Status.offline, Status.stopped):
+            return _("Off")
+        if status in (Status.online,):
+            return _("On")
+        if status in (Status.error, Status.tor_is_not_running, Status.stopped_unexpectedly):
+            return _("Error")
+        return None
 
     def on_service_status_changed(self, active_state, sub_state):
         """Receives systemd status value of the service from dbus and sets the status accordingly.
@@ -225,7 +258,6 @@ class ServiceStatus(Gtk.Widget):
                           self.service.systemd_service)
 
         if service_status != self.service_status:
-            self.service_status = service_status
             self.emit("update", service_status)
 
     def on_tor_status_changed(self, active_state, sub_state):
