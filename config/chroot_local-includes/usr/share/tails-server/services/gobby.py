@@ -38,6 +38,9 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
             file_util.insert_to_section(CONFIG_FILE, "infinoted", "password=%s\n" % self.value)
 
     def load(self):
+        if not os.path.exists(CONFIG_FILE):
+            raise FileNotFoundError("File %r is required but could not be found" % CONFIG_FILE)
+
         value = option_util.get_option(CONFIG_FILE, "password=")
         return value
 
@@ -56,6 +59,9 @@ class AutoSaveInterval(service_option_template.TailsServiceOption):
         file_util.append_to_file(CONFIG_FILE, "interval=%s\n" % self.value)
 
     def load(self):
+        if not os.path.exists(CONFIG_FILE):
+            raise FileNotFoundError("File %r is required but could not be found" % CONFIG_FILE)
+
         value = option_util.get_option(CONFIG_FILE, "interval=")
         return value
 
