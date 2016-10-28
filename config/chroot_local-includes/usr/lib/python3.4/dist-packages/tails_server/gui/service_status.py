@@ -142,6 +142,8 @@ class ServiceStatus(Gtk.Widget):
         label_to_expand_grid = builder.get_object("label_to_expand_grid")
         visual_widget = self.get_visual_widget(self.status, no_on_off_state=True)
 
+        self.update_switch_state(switch)
+
         for child in box.get_children():
             box.remove(child)
 
@@ -156,6 +158,11 @@ class ServiceStatus(Gtk.Widget):
         # more lightweight
         if self.service.config_panel.is_active:
             self.service.config_panel.show()
+
+    def update_switch_state(self, switch):
+        if self.status == Status.online:
+            logging.debug("Setting service switch state to: True")
+            switch.set_state(True)
 
     def update_service_list(self):
         """Update the status widgets of all services in the service list"""

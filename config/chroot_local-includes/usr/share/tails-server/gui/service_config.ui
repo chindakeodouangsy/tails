@@ -369,6 +369,7 @@
                     <property name="valign">center</property>
                     <property name="margin_left">4</property>
                     <property name="margin_right">5</property>
+                    <signal name="notify::active" handler="on_switch_service_start_stop_active_notify" swapped="no"/>
                     <signal name="state-set" handler="on_switch_service_start_stop_state_set" swapped="no"/>
                   </object>
                   <packing>

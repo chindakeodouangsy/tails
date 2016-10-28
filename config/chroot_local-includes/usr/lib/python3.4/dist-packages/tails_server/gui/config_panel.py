@@ -249,9 +249,7 @@ class ServiceConfigPanel(object):
 
     def set_switch_status(self, status):
         logging.debug("Setting switch status to %r", status)
-        # XXX: Use only either set_active or set_status here?
         self.switch.set_active(status)
-        self.switch.set_state(status)
 
     def update_switch_status(self):
         if self.service.status.service_status in [Status.stopped, Status.stopping]:
@@ -307,8 +305,19 @@ class ServiceConfigPanel(object):
         entry.select_region(0, -1)
         entry.copy_clipboard()
 
-    def on_switch_service_start_stop_state_set(self, switch, status):
-        logging.debug("on_switch_service_start_stop_state_set. status: %r", status)
+    def on_switch_service_start_stop_state_set(self, switch, state):
+        logging.log(5, "Service switch state set to: %r", state)
+        if not state:
+            switch.set_state(False)
+        # We have to return True here to prevent the default handler from running, which would
+        # sync the "state" property with the "active" property. We don't want this, because we
+        # want to set "state" only to True when the service is actually "Online".
+        # See https://developer.gnome.org/gtk3/stable/GtkSwitch.html#GtkSwitch-state-set
+        return True
+
+    def on_switch_service_start_stop_active_notify(self, switch, data):
+        status = switch.get_active()
+        logging.log(5, "Service switch active set to: %r", status)
         self.service.run_threaded_when_idle(self.on_switch_state_set, status)
 
     def on_switch_state_set(self, status):
