@@ -4,6 +4,10 @@ import shutil
 import threading
 import re
 import logging
+import yaml
+
+from tails_server.config import INSTALLED_FILE_PATH
+
 
 class PolicyNoAutostartOnInstallation(object):
     policy_path = "/usr/sbin/policy-rc.d"
@@ -43,3 +47,14 @@ def is_valid_port(port):
 
 def is_valid_client_cookie(cookie):
     return re.match("^[A-Za-z0-9+/.]{22}$", cookie)
+
+
+def get_installed_services():
+    try:
+        with open(INSTALLED_FILE_PATH) as f:
+            return set(yaml.load(f.read()))
+    except (FileNotFoundError, TypeError):
+        # create empty "installed" file
+        with open(INSTALLED_FILE_PATH, "w+") as f:
+            f.write(yaml.dump(list(), default_flow_style=False))
+        return set()

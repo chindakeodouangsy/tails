@@ -12,7 +12,6 @@ import apt
 import stem.control
 
 from tails_server import _
-from tails_server import file_util
 from tails_server import tor_util
 from tails_server import util
 from tails_server import argument_parser
@@ -177,28 +176,18 @@ class TailsService(metaclass=abc.ABCMeta):
 
     @property
     def is_installed(self):
-        installed_services = self.get_installed_services()
+        installed_services = util.get_installed_services()
         return self.name in installed_services
 
     @is_installed.setter
     def is_installed(self, value):
-        installed_services = self.get_installed_services()
+        installed_services = util.get_installed_services()
         if value:
             installed_services |= {self.name}
         else:
             installed_services -= {self.name}
         with open(INSTALLED_FILE_PATH, "w+") as f:
             f.write(yaml.dump(list(installed_services), default_flow_style=False))
-
-    def get_installed_services(self):
-        try:
-            with open(INSTALLED_FILE_PATH) as f:
-                return set(yaml.load(f.read()))
-        except (FileNotFoundError, TypeError):
-            # create empty "installed" file
-            with open(INSTALLED_FILE_PATH, "w+") as f:
-                f.write(yaml.dump(list(), default_flow_style=False))
-            return set()
 
     @property
     def is_running(self):
