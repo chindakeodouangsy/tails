@@ -22,5 +22,6 @@ def is_published(address):
         published_service_ids = c.get_info("onions/detached").split("\n")
         return service_id in published_service_ids
     except stem.ProtocolError as e:
-        logging.error(e)
-        return False
+        if e.args != stem.ProtocolError("GETINFO response didn't have an OK status:\nNo onion "
+                                        "services of the specified type.").args:
+            logging.error("Got a ProtocolError from stem", exc_info=True)
