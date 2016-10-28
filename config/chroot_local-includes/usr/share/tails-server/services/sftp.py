@@ -5,6 +5,8 @@ import sh
 import os
 import random
 import string
+import logging
+import time
 
 from tails_server import _
 from tails_server import file_util
@@ -49,9 +51,6 @@ class SFTPServer(service_template.TailsService):
     documentation = "file:///usr/share/doc/tails/website/doc/tails_server/sftp.en.html"
     icon_name = "network"
 
-    chroot_dir="/var/lib/sftp"
-    persistent_paths = [chroot_dir]
-
     options = [
         service_option_template.VirtualPort,
         ServerPasswordOption,
@@ -65,9 +64,14 @@ class SFTPServer(service_template.TailsService):
 
     def __init__(self):
         super().__init__()
+        self.chroot_dir = "/var/lib/sftp"
+        self.chroot_files_dir = os.path.join(self.chroot_dir, "files")
+        self.files_dir = os.path.join(self.state_dir, "files")
         self.config_file = os.path.join(self.state_dir, "config")
         self.secret_key_file = os.path.join(self.state_dir, "ssh_host_ed25519_key")
         self.public_key_file = self.secret_key_file + ".pub"
+
+        self.persistent_paths = [self.files_dir]
 
     @property
     def public_key(self):
@@ -93,10 +97,21 @@ class SFTPServer(service_template.TailsService):
         sh.adduser("--system", "--group", "--home", "/", "--no-create-home", "--shell",
                    "/bin/false", "--disabled-login", self.user_name)
 
+        # Set user password
+        self.options_dict["server-password"].apply()
+
+        # Create files directory
+        sh.install("-o", "sftp", "-g", "nogroup", "-m", "700", "-d", self.files_dir)
+
         # Create chroot directory
-        sh.install("-o", "root", "-g", "sftp", "-m", "770", "-d", self.chroot_dir)
+        sh.install("-o", "root", "-g", "sftp", "-m", "750", "-d", self.chroot_dir)
         # sh.install("-o", "sftp", "-g", "nogroup", "-m", "700", "-d",
         #            os.path.join(self.chroot_dir, "files"))
+
+        # Bind mount files directory into chroot
+        if not os.path.exists(self.chroot_files_dir):
+            os.mkdir(self.chroot_files_dir)
+        sh.mount("--bind", self.files_dir, self.chroot_files_dir)
 
         # Copy sshd_config
         shutil.copy(TEMPLATE_CONFIG_FILE, self.config_file)
@@ -151,9 +166,39 @@ class SFTPServer(service_template.TailsService):
         super().configure()
 
     def uninstall(self):
+        self.delete_user(self.user_name)
+        self.unmount(self.chroot_files_dir)
+        self.remove_dir(self.chroot_dir)
         super().uninstall()
-        sh.deluser(self.user_name)
-        sh.rm("-r", self.chroot_dir)
+
+    @staticmethod
+    def delete_user(user):
+        try:
+            sh.userdel(user)
+        except sh.ErrorReturnCode_6:  # User does not exist
+            logging.error("Could not delete user %r", user, exc_info=True)
+        except sh.ErrorReturnCode_8:  # User is used by a process
+            logging.warning("User %r is still used by processes. "
+                            "Killing all processes running as %r.", user, user)
+            sh.killall("-v", "-u", user)
+            time.sleep(5)
+            sh.killall("-9", "-v", "-u", user)
+            time.sleep(0.1)
+            sh.userdel(user)
+
+    @staticmethod
+    def unmount(dir_):
+        try:
+            sh.umount(dir_)
+        except sh.ErrorReturnCode_32 as e:  # Error: not mounted
+            logging.error(e)
+
+    @staticmethod
+    def remove_dir(dir_):
+        try:
+            sh.rm("-r", dir_)
+        except sh.ErrorReturnCode_1 as e:  # Error: No such file or directory
+            logging.error(e)
 
 
 service_class = SFTPServer
