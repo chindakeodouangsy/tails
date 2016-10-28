@@ -54,7 +54,7 @@ class TailsService(metaclass=abc.ABCMeta):
         else:
             level = 0
         logging.basicConfig(level=level)
-        logging.getLogger('stem').setLevel(level)
+        logging.getLogger('stem').setLevel(level + 5)
         logging.debug("args: %r", args)
 
     @property

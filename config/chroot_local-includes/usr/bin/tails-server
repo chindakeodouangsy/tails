@@ -2,6 +2,8 @@
 
 import argparse
 import logging
+import logging.handlers
+import sys
 
 import sh
 from gi.repository import Gtk
@@ -20,6 +22,10 @@ def parse_args():
 
 
 def init(args):
+    logger = logging.getLogger()
+    logger.setLevel(0)
+    logger.propagate = 0
+
     if not args.verbose:
         level = logging.INFO
     elif args.verbose == 1:
@@ -27,20 +33,32 @@ def init(args):
     else:
         level = 0
     if args.log_file:
-        logging.basicConfig(filename=args.log_file, level=level)
-        logging.getLogger().addHandler(logging.StreamHandler())
-    else:
-        logging.basicConfig(level=level)
-    logging.getLogger('stem').setLevel(level)
+        file_handler = logging.handlers.RotatingFileHandler(args.log_file, mode="w")
+        file_handler.setLevel(logging.DEBUG)
+        format_ = "%(asctime)s %(name)s[%(process)d]: %(levelname)s - %(message)s"
+        file_handler.setFormatter(logging.Formatter(format_))
+        logger.addHandler(file_handler)
+
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(level)
+    format_ = "%(name)s:%(levelname)s: %(message)s"
+    console_handler.setFormatter(logging.Formatter(format_))
+    logger.addHandler(console_handler)
+
+    logging.getLogger('stem').setLevel(level+5)
     logging.debug("args: %r", args)
 
 
 def main():
     args = parse_args()
     init(args)
-    ServiceStatus.register_signal()
-    TailsServerGUI()
-    Gtk.main()
+    try:
+        ServiceStatus.register_signal()
+        TailsServerGUI()
+        Gtk.main()
+    except:
+        logging.exception('Got exception on main handler')
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
