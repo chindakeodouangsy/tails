@@ -23,8 +23,8 @@ from tails_server.exceptions import UnknownOptionError
 from tails_server.exceptions import ServiceNotInstalledError
 from tails_server.exceptions import ServiceAlreadyEnabledError
 
-from tails_server.config import HS_DIR, TOR_USER, TAILS_SERVER_USER, ADDITIONAL_SOFTWARE_CONFIG, \
-    STATE_DIR, OPTIONS_FILE_NAME, PERSISTENCE_CONFIG_NAME, PERSISTENCE_DIR, INSTALLED_FILE_PATH
+from tails_server.config import HS_DIR, TOR_USER, TAILS_SERVER_USER, STATE_DIR, \
+    OPTIONS_FILE_NAME, PERSISTENCE_CONFIG_NAME, PERSISTENCE_DIR, INSTALLED_FILE_PATH
 
 
 class LazyOptionDict(OrderedDict):
@@ -648,16 +648,6 @@ class TailsService(metaclass=abc.ABCMeta):
     def remove_onion_address(self):
         os.remove(self.hs_hostname_file)
         os.remove(self.hs_private_key_file)
-
-    def add_to_additional_software(self):
-        lines = self.packages
-        for line in lines:
-            file_util.append_line_if_not_present(ADDITIONAL_SOFTWARE_CONFIG, line)
-
-    def remove_from_additional_software(self):
-        lines = self.packages
-        for line in lines:
-            file_util.remove_line_if_present(ADDITIONAL_SOFTWARE_CONFIG, line)
 
     def dispatch_command(self, args):
         if args.command == "info":

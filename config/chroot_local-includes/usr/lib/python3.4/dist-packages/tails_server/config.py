@@ -25,8 +25,6 @@ TOR_CONTROL_PORT = 9051
 PERSISTENCE_DIR_NAME = "tails-server"
 PERSISTENCE_DIR = os.path.join("/live/persistence/TailsData_unlocked", PERSISTENCE_DIR_NAME)
 
-ADDITIONAL_SOFTWARE_CONFIG = "/live/persistence/TailsData_unlocked/live-additional-software.conf"
-
 ANSIBLE_PLAYBOOK_DIR = os.path.join(DATA_DIR, "ansible_playbooks")
 ICON_DIR = os.path.join(DATA_DIR, "icons")
 MAIN_UI_FILE = os.path.join(DATA_DIR, "gui", "tails_server.ui")

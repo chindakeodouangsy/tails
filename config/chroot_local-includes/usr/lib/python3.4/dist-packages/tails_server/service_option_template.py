@@ -261,18 +261,6 @@ class AutoStartOption(TailsServiceOption):
     default = False
     group = "generic-checkbox"
 
-    def apply(self):
-        super().apply()
-        if self.value:
-            self.service.add_to_additional_software()
-        else:
-            self.service.remove_from_additional_software()
-
-    def clean(self):
-        super().clean()
-        if self.value:
-            self.service.remove_from_additional_software()
-
 
 class PersistenceOption(TailsServiceOption):
     name = "persistence"
