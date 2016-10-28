@@ -194,7 +194,7 @@ class TailsService(metaclass=abc.ABCMeta):
         try:
             with open(INSTALLED_FILE_PATH) as f:
                 return set(yaml.load(f.read()))
-        except FileNotFoundError:
+        except (FileNotFoundError, TypeError):
             # create empty "installed" file
             with open(INSTALLED_FILE_PATH, "w+") as f:
                 f.write(yaml.dump(list(), default_flow_style=False))
@@ -441,7 +441,10 @@ class TailsService(metaclass=abc.ABCMeta):
 
     def remove_options_file(self):
         logging.info("Removing options file %r", self.options_file)
-        os.remove(self.options_file)
+        try:
+            os.remove(self.options_file)
+        except FileNotFoundError:
+            logging.error("Couldn't remove options file", exc_info=True)
 
     def create_hs_dir(self):
         logging.info("Creating hidden service directory %r", self.hs_dir)
