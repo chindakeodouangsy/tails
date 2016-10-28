@@ -94,6 +94,8 @@ class ServiceConfigPanel(object):
                 logging.debug("Adding option %r (value: %r)", option.name, option.value)
                 self.add_option(option)
 
+            self.edit_button.set_sensitive(True)
+
             self.options_populated = True
 
     def remove_option_rows(self):
