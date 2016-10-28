@@ -48,12 +48,18 @@ class ServiceDecorator(object):
         self.config_panel = None
 
     def enable(self):
-        self.status.emit("update", Status.starting)
-        try:
-            self.service.enable(skip_add_onion=True)
-            self.create_hidden_service()
-        except TorIsNotRunningError:
+        if not tor_util.tor_has_bootstrapped():
             self.status.emit("update", Status.tor_is_not_running)
+            return
+
+        if not self.service.is_running:
+            self.start()
+        if not self.service.is_published:
+            self.create_hidden_service()
+
+    def start(self):
+        self.status.emit("update", Status.starting)
+        self.service.start()
 
     def create_hidden_service(self):
         self.status.emit("update", Status.publishing)
