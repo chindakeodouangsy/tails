@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import os
+
 CONFIG_PATH = "/home/amnesia/.config/gobby/config.xml"
 
 CONFIG_CONTENT = """<?xml version="1.0" encoding="UTF-8"?>
@@ -15,6 +17,8 @@ CONFIG_CONTENT = """<?xml version="1.0" encoding="UTF-8"?>
 
 
 def main():
+    if not os.path.exists(CONFIG_PATH):
+        os.makedirs(os.path.dirname(CONFIG_PATH))
     with open(CONFIG_PATH, "w+") as f:
         f.write(CONFIG_CONTENT)
 
