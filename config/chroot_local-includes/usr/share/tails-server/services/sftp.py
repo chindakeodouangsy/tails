@@ -121,8 +121,11 @@ class SFTPServer(service_template.TailsService):
         shutil.copy(TEMPLATE_CONFIG_FILE, self.config_file)
 
         # Generate new host key
-        sh.ssh_keygen("-N", "", "-t", "ed25519", "-f", self.secret_key_file)
         logging.debug("Generating new host key %r", self.secret_key_file)
+        if os.path.exists(self.secret_key_file):
+            raise FileExistsError("Secret key file %r already exists. Aborting" %
+                                  self.secret_key_file)
+        sh.ssh_keygen(sh.echo("n"), "-N", "", "-t", "ed25519", "-f", self.secret_key_file)
 
         logging.debug("Adjusting config file %r", self.config_file)
         # Only allow sftp user
