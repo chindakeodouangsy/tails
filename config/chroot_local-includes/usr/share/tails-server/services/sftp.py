@@ -101,24 +101,30 @@ class SFTPServer(service_template.TailsService):
         self.options_dict["server-password"].apply()
 
         # Create files directory
+        logging.debug("Creating directory %r", self.files_dir)
         sh.install("-o", "sftp", "-g", "nogroup", "-m", "700", "-d", self.files_dir)
 
         # Create chroot directory
+        logging.debug("Creating directory %r", self.chroot_dir)
         sh.install("-o", "root", "-g", "sftp", "-m", "750", "-d", self.chroot_dir)
         # sh.install("-o", "sftp", "-g", "nogroup", "-m", "700", "-d",
         #            os.path.join(self.chroot_dir, "files"))
 
         # Bind mount files directory into chroot
+        logging.debug("Bind-mounting %r to %r", self.files_dir, self.chroot_files_dir)
         if not os.path.exists(self.chroot_files_dir):
             os.mkdir(self.chroot_files_dir)
         sh.mount("--bind", self.files_dir, self.chroot_files_dir)
 
         # Copy sshd_config
+        logging.debug("Copying %r to %r", TEMPLATE_CONFIG_FILE, self.config_file)
         shutil.copy(TEMPLATE_CONFIG_FILE, self.config_file)
 
         # Generate new host key
         sh.ssh_keygen("-N", "", "-t", "ed25519", "-f", self.secret_key_file)
+        logging.debug("Generating new host key %r", self.secret_key_file)
 
+        logging.debug("Adjusting config file %r", self.config_file)
         # Only allow sftp user
         file_util.delete_lines_starting_with(self.config_file, "AllowUsers")
         file_util.delete_lines_starting_with(self.config_file, "AllowGroups")

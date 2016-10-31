@@ -358,6 +358,7 @@ class TailsService(metaclass=abc.ABCMeta):
         logging.debug("%r installed", self.name)
         self.is_installed = True
         self.configure()
+        logging.debug("%r configured", self.name)
 
     def configure(self):
         """Initial configuration after installing the service"""
