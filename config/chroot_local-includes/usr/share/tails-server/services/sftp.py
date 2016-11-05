@@ -110,12 +110,6 @@ class SFTPServer(service_template.TailsService):
         # sh.install("-o", "sftp", "-g", "nogroup", "-m", "700", "-d",
         #            os.path.join(self.chroot_dir, "files"))
 
-        # Bind mount files directory into chroot
-        logging.debug("Bind-mounting %r to %r", self.files_dir, self.chroot_files_dir)
-        if not os.path.exists(self.chroot_files_dir):
-            os.mkdir(self.chroot_files_dir)
-        sh.mount("--bind", self.files_dir, self.chroot_files_dir)
-
         # Copy sshd_config
         logging.debug("Copying %r to %r", TEMPLATE_CONFIG_FILE, self.config_file)
         shutil.copy(TEMPLATE_CONFIG_FILE, self.config_file)
@@ -171,6 +165,12 @@ class SFTPServer(service_template.TailsService):
         # Allow login via PAM
         file_util.delete_lines_starting_with(self.config_file, "UsePAM")
         file_util.append_to_file(self.config_file, "UsePAM yes\n")
+
+        # Bind mount files directory into chroot
+        logging.debug("Bind-mounting %r to %r", self.files_dir, self.chroot_files_dir)
+        if not os.path.exists(self.chroot_files_dir):
+            os.mkdir(self.chroot_files_dir)
+        sh.mount("--bind", self.files_dir, self.chroot_files_dir)
 
         super().configure()
 
