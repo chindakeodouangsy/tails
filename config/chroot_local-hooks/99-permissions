@@ -18,3 +18,7 @@ chown -R debian-tor:debian-tor /etc/tor
 # in /home/amnesia (that is itself not world-readable), *but* the root
 # of the persistent volume has to be world-readable.
 chmod -R go= /etc/skel/* /etc/skel/.[a-z]*
+
+# Set permissions for Tails Server directories
+chown tails-server:tails-server /var/lib/tails-server
+chown debian-tor:debian-tor /var/lib/tor/hidden_services
