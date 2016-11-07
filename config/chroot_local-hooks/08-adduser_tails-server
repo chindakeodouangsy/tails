@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+# Create the tails-server user.
+#
+# The tails-server program may be run as this user,
+# which is granted some passwordless sudo credentials.
+
+echo "Creating the tails-server user"
+
+adduser --system --quiet --group --disabled-login --shell /bin/false --home /var/lib/tails-server tails-server

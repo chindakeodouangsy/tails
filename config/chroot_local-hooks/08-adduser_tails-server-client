@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+# Create the tails-server-client user.
+#
+# The tails-server-client program may be run as this user,
+# which is granted some passwordless sudo credentials.
+
+echo "Creating the tails-server-client user"
+
+adduser --system --quiet --group --disabled-login --shell /bin/false --no-create-home tails-server-client
