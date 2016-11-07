@@ -155,6 +155,9 @@ def query_unit_state(unit):
     # XXX: This will still result in endless UnitNew events if there are multiple processes
     # doing this same thing, e.g. multiple instances of Tails Server.
     # See https://github.com/systemd/systemd/issues/4095
+    # We can fix this once systemd version 232 is shipped in Tails, because then we only need to
+    # listen to PropertiesChanged, but not UnitNew, because of this commit:
+    # https://github.com/systemd/systemd/commit/0dd99f86addd1f81e24e89807b6bc4aab57d5793
     #
     # XXX: We have to query "SubState" too, because if the systemd unit has
     # "RemainAfterExit" enabled, then the ActiveState will remain "active" after the service
