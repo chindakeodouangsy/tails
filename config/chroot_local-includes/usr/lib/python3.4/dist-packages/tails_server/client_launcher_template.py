@@ -85,11 +85,11 @@ class ClientLauncher(metaclass=abc.ABCMeta):
         """Sanity check the values we are going to use. This should be extended by subclasses
         which use additional details to also check those."""
         if not util.is_valid_onion_address(self.values["address"]):
-            raise InvalidArgumentError("'Address': %r" % self.values["address"])
+            raise InvalidArgumentError("Address", self.values["address"])
         if not util.is_valid_port(self.values["port"]):
-            raise InvalidArgumentError("'Address': %r" % self.values["address"])
+            raise InvalidArgumentError("Address", self.values["address"])
         if not util.is_valid_client_cookie(self.values["client_cookie"]):
-            raise InvalidArgumentError("'Client Cookie': %r" % self.values["client_cookie"])
+            raise InvalidArgumentError("Client Cookie", self.values["client_cookie"])
 
     def set_client_cookie(self):
         cookie = self.values["client_cookie"]

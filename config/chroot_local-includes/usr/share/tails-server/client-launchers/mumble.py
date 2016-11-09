@@ -29,10 +29,21 @@ class MumbleLauncher(ClientLauncher):
         if "fingerprint" in self.values and not \
                 self.is_valid_sha1_fingerprint(self.values["fingerprint"]):
             raise InvalidArgumentError("Certificate SHA-1 Fingerprint", self.values["fingerprint"])
+        if "password" in self.values and not self.is_valid_password(self.values["password"]):
+            raise InvalidArgumentError("Password must not contain colon", self.values["password"])
 
     @staticmethod
     def is_valid_sha1_fingerprint(fingerprint):
         return re.match("^" + "[A-Za-z0-9]{2}:" * 19 + "[A-Za-z0-9]{2}$", fingerprint)
+
+    @staticmethod
+    def is_valid_password(password):
+        if not str.isprintable(password):
+            return False
+        # A colon breaks the URL parsing in the Mumble client (mumble://user:password@...)
+        if ":" in password:
+            return False
+        return True
 
     def prepare(self):
         super().prepare()
