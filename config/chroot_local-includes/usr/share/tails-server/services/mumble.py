@@ -82,6 +82,7 @@ class MumbleServer(service_template.TailsService):
 
     def configure(self):
         super().configure()
+        self.reset_option("server-password")
         self.set_option("allow-localhost", True)
 
     @property
