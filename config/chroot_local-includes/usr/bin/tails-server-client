@@ -52,7 +52,7 @@ class ClientGUI(object):
                 continue
             for detail_row in self.detail_rows.values():
                 name = detail_row.detail.name_in_gui
-                if line.startswith(name):
+                if line.startswith("%s: " % name):
                     value = line.replace("%s: " % name, "", 1).strip()
                     detail_row.entry.set_text(value)
 
