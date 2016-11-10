@@ -27,7 +27,11 @@ from tails_server.config import HS_DIR, TOR_USER, TAILS_SERVER_USER, STATE_DIR, 
 
 
 class LazyOptionDict(OrderedDict):
-    """Expects classes as its values. Returns an instance of the respective class."""
+    """Expects classes as its values. When a value is retrieved, it returns an instance of the
+    respective class.
+    This prevents all of the options being instantiated when Tails Server is started,
+    thus reducing waiting time for the user.
+    XXX: Evaluate how much we really gain from this vs. the complexity it adds"""
     def __init__(self, service, *args, **kwargs):
         self.service = service
         super().__init__(*args, **kwargs)
