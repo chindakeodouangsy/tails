@@ -183,14 +183,14 @@ class ServiceConfigPanel(object):
 
         if os.path.exists("/live/persistence/TailsData_unlocked"):
             persistence_row.sensitive = True
-            label = self.builder.get_object("label_persistence_comment")
+            label = self.builder.get_object("label_autostart_comment")
             if label in persistence_row.box.get_children():
                 persistence_row.box.remove(label)
             return
 
         logging.debug("Setting persistence sensitivity to False")
         persistence_row.sensitive = False
-        label = self.builder.get_object("label_persistence_comment")
+        label = self.builder.get_object("label_autostart_comment")
         if label not in persistence_row.box.get_children():
             persistence_row.box.pack_end(label, expand=True, fill=True, padding=0)
 
@@ -295,6 +295,7 @@ class ServiceConfigPanel(object):
         self.editing_buttonbox.pack_start(self.cancel_edit_button, expand=True, fill=True,
                                           padding=0)
         self.editing_buttonbox.pack_end(self.apply_button,  expand=True, fill=True, padding=0)
+
 
     def exit_edit_mode(self, apply):
         if not self.in_edit_mode:
