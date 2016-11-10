@@ -1,0 +1,10 @@
+#!/bin/sh
+
+CONFIG_DIR="/home/${LIVE_USERNAME}/.config/Mumble"
+CONFIG_PATH="${CONFIG_DIR}/Mumble.conf"
+
+mkdir -p ${CONFIG_DIR}
+
+echo "[General]" > ${CONFIG_PATH}
+echo "lastupdate=2" >> ${CONFIG_PATH}
+
