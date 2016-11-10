@@ -249,7 +249,10 @@ class ServiceStatus(Gtk.Widget):
     def on_service_status_changed(self, active_state, sub_state):
         """Receives systemd status value of the service from dbus and sets the status accordingly.
         valid status values: "active", "activating", "inactive", "deactivating"""
-        service_status = systemd_state_to_service_status[active_state]
+        if sub_state == "running":
+            service_status = Status.running
+        else:
+            service_status = systemd_state_to_service_status[active_state]
         logging.debug("New status: %r, old status: %r", service_status, self.service_status)
 
         if active_state == "failed":
