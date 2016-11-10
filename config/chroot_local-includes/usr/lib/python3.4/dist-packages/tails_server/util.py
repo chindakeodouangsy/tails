@@ -1,12 +1,30 @@
 import tempfile
 import os
-import shutil
+import sh
 import threading
 import re
 import logging
 import yaml
+import time
+from threading import Lock
 
 from tails_server.config import INSTALLED_FILE_PATH
+
+
+class PrepareAptInstallation(object):
+    dpkg_lock_path = "/var/lib/dpkg/lock"
+    policy_no_autostart_on_installation = PolicyNoAutostartOnInstallation()
+    lock = Lock()
+
+    def __enter__(self):
+        self.lock.acquire()
+        while os.path.exists(self.dpkg_lock_path):
+            time.sleep(0.1)
+        self.policy_no_autostart_on_installation.__enter__()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.policy_no_autostart_on_installation.__exit__(exc_type, exc_val, exc_tb)
+        self.lock.release()
 
 
 class PolicyNoAutostartOnInstallation(object):
@@ -16,19 +34,19 @@ class PolicyNoAutostartOnInstallation(object):
     def __enter__(self):
         logging.debug("Setting policy-rc to prevent autostart of services")
         self.tmp_dir = tempfile.mkdtemp()
-        self.old_policy_path = None
+        self.original_policy_path = None
         if os.path.exists(self.policy_path):
-            shutil.move(self.policy_path, self.tmp_dir)
-            self.old_policy_path = os.path.join(self.tmp_dir, self.policy_path)
+            sh.mv(self.policy_path, self.tmp_dir)
+            self.original_policy_path = os.path.join(self.tmp_dir, self.policy_path)
         with open(self.policy_path, "w+") as f:
             f.write(self.policy_content)
         os.chmod(self.policy_path, 700)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        logging.debug("Resetting policy-rc")
+        logging.debug("Restoring policy-rc")
         os.remove(self.policy_path)
-        if self.old_policy_path:
-            shutil.move(self.old_policy_path, self.policy_path)
+        if self.original_policy_path:
+            sh.mv(self.original_policy_path, self.policy_path)
         os.rmdir(self.tmp_dir)
 
 

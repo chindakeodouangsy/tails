@@ -358,7 +358,7 @@ class TailsService(metaclass=abc.ABCMeta):
         if any([package not in cache for package in self.packages]):
             update_packages()
 
-        with util.PolicyNoAutostartOnInstallation():
+        with util.PrepareAptInstallation():
             logging.debug("Running apt-get install")
             sh.apt_get("install", "-y", "-o", 'Dpkg::Options::=--force-confold',
                        "--no-install-recommends", self.packages)
@@ -377,7 +377,7 @@ class TailsService(metaclass=abc.ABCMeta):
         cache = apt.Cache()
         for package in self.packages:
             cache[package].mark_install()
-        with util.PolicyNoAutostartOnInstallation():
+        with util.PrepareAptInstallation():
             cache.commit()
         logging.info("Service %r installed", self.name)
 
