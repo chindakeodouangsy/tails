@@ -2,6 +2,7 @@
 
 import sys
 import os
+import sh
 
 KNOWN_HOSTS_PATH = os.path.expanduser("~/.ssh/known_hosts")
 
@@ -11,6 +12,11 @@ KNOWN_HOSTS_PATH = os.path.expanduser("~/.ssh/known_hosts")
 
 def main():
     key = sys.argv[1]
+
+    ssh_dir = os.path.dirname(KNOWN_HOSTS_PATH)
+    if not os.path.exists(ssh_dir):
+        sh.install("install", "-m700", "-d", ssh_dir)
+
     with open(KNOWN_HOSTS_PATH, 'a') as f:
         f.write("\n" + key)
 
