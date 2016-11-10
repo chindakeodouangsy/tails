@@ -5,6 +5,7 @@
   <object class="GtkEntry" id="entry">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
+    <property name="activates_default">True</property>
     <property name="text" translatable="yes">value</property>
   </object>
   <object class="GtkImage" id="image_edit">

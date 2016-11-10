@@ -295,7 +295,7 @@ class ServiceConfigPanel(object):
         self.editing_buttonbox.pack_start(self.cancel_edit_button, expand=True, fill=True,
                                           padding=0)
         self.editing_buttonbox.pack_end(self.apply_button,  expand=True, fill=True, padding=0)
-
+        self.apply_button.grab_default()
 
     def exit_edit_mode(self, apply):
         if not self.in_edit_mode:
