@@ -5,7 +5,6 @@ import threading
 import re
 import logging
 import yaml
-import time
 from threading import Lock
 
 from tails_server.config import INSTALLED_FILE_PATH
@@ -35,14 +34,11 @@ class PolicyNoAutostartOnInstallation(object):
 
 
 class PrepareAptInstallation(object):
-    dpkg_lock_path = "/var/lib/dpkg/lock"
     policy_no_autostart_on_installation = PolicyNoAutostartOnInstallation()
     lock = Lock()
 
     def __enter__(self):
         self.lock.acquire()
-        while os.path.exists(self.dpkg_lock_path):
-            time.sleep(0.1)
         self.policy_no_autostart_on_installation.__enter__()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
