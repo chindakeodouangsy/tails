@@ -11,22 +11,6 @@ from threading import Lock
 from tails_server.config import INSTALLED_FILE_PATH
 
 
-class PrepareAptInstallation(object):
-    dpkg_lock_path = "/var/lib/dpkg/lock"
-    policy_no_autostart_on_installation = PolicyNoAutostartOnInstallation()
-    lock = Lock()
-
-    def __enter__(self):
-        self.lock.acquire()
-        while os.path.exists(self.dpkg_lock_path):
-            time.sleep(0.1)
-        self.policy_no_autostart_on_installation.__enter__()
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.policy_no_autostart_on_installation.__exit__(exc_type, exc_val, exc_tb)
-        self.lock.release()
-
-
 class PolicyNoAutostartOnInstallation(object):
     policy_path = "/usr/sbin/policy-rc.d"
     policy_content = """#!/bin/sh\nexit 101"""
@@ -48,6 +32,22 @@ class PolicyNoAutostartOnInstallation(object):
         if self.original_policy_path:
             sh.mv(self.original_policy_path, self.policy_path)
         os.rmdir(self.tmp_dir)
+
+
+class PrepareAptInstallation(object):
+    dpkg_lock_path = "/var/lib/dpkg/lock"
+    policy_no_autostart_on_installation = PolicyNoAutostartOnInstallation()
+    lock = Lock()
+
+    def __enter__(self):
+        self.lock.acquire()
+        while os.path.exists(self.dpkg_lock_path):
+            time.sleep(0.1)
+        self.policy_no_autostart_on_installation.__enter__()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.policy_no_autostart_on_installation.__exit__(exc_type, exc_val, exc_tb)
+        self.lock.release()
 
 
 def run_threaded(function, *args):
