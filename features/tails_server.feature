@@ -1,4 +1,4 @@
-@product
+@product @check_tor_leaks
 Feature: Tails Server
   As a Tails user
   when using Tails Server
@@ -14,8 +14,6 @@ Feature: Tails Server
   Background:  
     Given I have started Tails from DVD and logged in with an administration password and the network is connected
 
-
-  @check_tor_leaks
   Scenario: Installing a service
     When I start Tails Server and enter the sudo password
     # Then there are no services in the main window

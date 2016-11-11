@@ -492,7 +492,7 @@ Given /^I enter the "([^"]*)" password in the pkexec prompt$/ do |password|
 end
 
 Given /^I enter the "([^"]*)" password in the gksudo prompt$/ do |password|
-  deal_with_password_prompt('GksudoAuthPrompt.png', password)
+  deal_with_password_prompt('GksuAuthPrompt.png', password)
 end
 
 Given /^process "([^"]+)" is (not )?running$/ do |process, not_running|
