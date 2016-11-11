@@ -476,7 +476,11 @@ Given /^I enter the sudo password in the pkexec prompt$/ do
   step "I enter the \"#{@sudo_password}\" password in the pkexec prompt"
 end
 
-def deal_with_polkit_prompt (image, password)
+Given /^I enter the sudo password in the gksudo prompt$/ do
+  step "I enter the \"#{@sudo_password}\" password in the gksudo prompt"
+end
+
+def deal_with_password_prompt (image, password)
   @screen.wait(image, 60)
   @screen.type(password)
   @screen.type(Sikuli::Key.ENTER)
@@ -484,7 +488,11 @@ def deal_with_polkit_prompt (image, password)
 end
 
 Given /^I enter the "([^"]*)" password in the pkexec prompt$/ do |password|
-  deal_with_polkit_prompt('PolicyKitAuthPrompt.png', password)
+  deal_with_password_prompt('PolicyKitAuthPrompt.png', password)
+end
+
+Given /^I enter the "([^"]*)" password in the gksudo prompt$/ do |password|
+  deal_with_password_prompt('GksudoAuthPrompt.png', password)
 end
 
 Given /^process "([^"]+)" is (not )?running$/ do |process, not_running|
