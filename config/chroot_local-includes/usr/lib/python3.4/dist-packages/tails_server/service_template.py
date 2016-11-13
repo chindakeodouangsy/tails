@@ -43,8 +43,11 @@ class LazyOptionDict(OrderedDict):
             self.__setitem__(key, item(self.service))
         return super(LazyOptionDict, self).__getitem__(key)
 
-    def instantiated(self):
-        items = super(LazyOptionDict, self).values()
+    def get_items(self):
+        return [super(LazyOptionDict, self).__getitem__(key) for key in self.keys()]
+
+    def get_instantiated(self):
+        items = self.get_items()
         return [item for item in items if not inspect.isclass(item)]
 
 
@@ -384,7 +387,7 @@ class TailsService(metaclass=abc.ABCMeta):
     def uninstall(self):
         if self.is_running:
             self.disable()
-        for option in self.options_dict.instantiated():
+        for option in self.options_dict.get_instantiated():
             option.clean()
         self.remove_options_file()
         self.remove_state_dir()
