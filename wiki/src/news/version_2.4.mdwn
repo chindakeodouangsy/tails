@@ -61,7 +61,7 @@ upgrade as soon as possible.
 
 - Remove our custom ciphers and MACs settings for SSH. This should fix
   connectivity issues with other distributions such as OpenBSD.
-  ([[!tails_ticket #7315]])
+  ([[!tails_ticket 7315]])
 
 - Fix the translations of *Tails Upgrader*. ([[!tails_ticket 10221]])
 
@@ -83,6 +83,10 @@ For more details, read our [changelog](https://git-tails.immerda.ch/tails/plain/
 - The update of the *Mesa* graphical library introduce new problems at
   least on AMD HD 7770 and nVidia GT 930M.
 
+- In the PDF Viewer the Download button doesn't work. This can be
+  worked around by right-clicking anywhere in the document and
+  selecting *Save Page As*.
+
 See the list of [[long-standing issues|support/known_issues]].
 
 # Get Tails 2.4
@@ -103,5 +107,5 @@ Tails 2.5 is [[scheduled|contribute/calendar]] for August 2.
 Have a look at our [[!tails_roadmap]] to see where we are heading to.
 
 We need your help and there are many ways to [[contribute to
-Tails|contribute]] ([[donating|contribute/how/donate]] is only one of
+Tails|contribute]] ([[donating|donate]] is only one of
 them). Come [[talk to us|about/contact#tails-dev]]!

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-06-07 19:39+0200\n"
+"POT-Creation-Date: 2016-09-25 21:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -144,7 +144,7 @@ msgstr ""
 msgid ""
 "Remove our custom ciphers and MACs settings for SSH. This should fix "
 "connectivity issues with other distributions such as OpenBSD.  ([[!"
-"tails_ticket #7315]])"
+"tails_ticket 7315]])"
 msgstr ""
 
 #. type: Plain text
@@ -186,6 +186,13 @@ msgstr ""
 msgid ""
 "The update of the *Mesa* graphical library introduce new problems at least "
 "on AMD HD 7770 and nVidia GT 930M."
+msgstr ""
+
+#. type: Bullet: '- '
+msgid ""
+"In the PDF Viewer the Download button doesn't work. This can be worked "
+"around by right-clicking anywhere in the document and selecting *Save Page "
+"As*."
 msgstr ""
 
 #. type: Plain text
@@ -232,6 +239,6 @@ msgstr ""
 #. type: Plain text
 msgid ""
 "We need your help and there are many ways to [[contribute to Tails|"
-"contribute]] ([[donating|contribute/how/donate]] is only one of them). Come "
-"[[talk to us|about/contact#tails-dev]]!"
+"contribute]] ([[donating|donate]] is only one of them). Come [[talk to us|"
+"about/contact#tails-dev]]!"
 msgstr ""
