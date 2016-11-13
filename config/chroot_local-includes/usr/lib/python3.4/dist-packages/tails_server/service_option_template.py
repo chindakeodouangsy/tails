@@ -82,7 +82,7 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
         try:
             self._value = self.load()
         except OptionNotFoundError as e:
-            logging.debug("OptionNotFoundError: " + str(e))
+            logging.debug(str(e))
             self._value = self.default
             self.store()
 
