@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
-Name=Tails Server Client
-Comment=Connect to Tails Server
+Name=Connect to Tails Server
 Icon=network-transmit-receive.svg
 Exec=tails-server-client
 Terminal=false
