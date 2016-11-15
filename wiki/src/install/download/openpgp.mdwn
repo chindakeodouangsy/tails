@@ -115,8 +115,8 @@ signing key through the OpenPGP Web of Trust</a>.
    If the following warning appears:
 
    <pre>
-Untrusted Valid Signature
-Valid but untrusted signature by on 2016-09-20.
+   Untrusted Valid Signature
+   Valid but untrusted signature by on 2016-09-20.
    </pre>
 
    Then the ISO image is still correct according to the signing key that you
