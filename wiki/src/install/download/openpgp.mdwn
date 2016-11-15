@@ -107,13 +107,21 @@ signing key through the OpenPGP Web of Trust</a>.
 
    [[!img install/inc/screenshots/verifying_in_tails.png link="no"]]
 
-1. After the verification finishes, click on the notification counter in
-   the bottom-right corner and on the notification with a transparent
-   background on the right of the notification area:
-
-   [[!img install/inc/screenshots/notification_in_tails.png link="no"]]
+1. After the verification finishes, a notification appears near the
+   system menu in the top-right corner.
 
    Verify the date of the signature to make sure that you downloaded the latest version.
+
+   If the following warning appears:
+
+   <pre>
+Untrusted Valid Signature
+Valid but untrusted signature by on 2016-09-20.
+   </pre>
+
+   Then the ISO image is still correct according to the signing key that you
+   downloaded. To remove this warning you need to <a href="#wot">authenticate the
+   signing key through the OpenPGP Web of Trust</a>.
 
 <a id="command-line"></a>
 
