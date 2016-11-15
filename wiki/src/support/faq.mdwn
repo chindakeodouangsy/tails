@@ -366,8 +366,12 @@ LUKS is a very popular standard for disk encryption in Linux. LUKS is the
 default technique for full-disk encryption proposed by many distribution,
 including Debian and Ubuntu, when installing a regular system.
 
-Currently the default cipher is `aes-cbc-essiv:sha256` with a key size of 256
-bits.
+The default settings are:
+
+  - Cipher name: aes
+  - Cipher mode: xts-plain64
+  - Hash: sha256
+  - Master key bits: 256
 
 To understand better how persistence work, see our [[design
 document|contribute/design/persistence]].
