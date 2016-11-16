@@ -361,10 +361,10 @@ msgstr "[[!img gnome-terminal.png link=no]]\n"
 #. type: Plain text
 #, no-wrap
 msgid ""
-"<div class=\"text\"><strong>GNOME Terminal</strong>: use the command line</div>\n"
+"<div class=\"text\"><strong>Terminal</strong>: use the command line</div>\n"
 "</div>\n"
 msgstr ""
-"<div class=\"text\"><strong>GNOME Terminal</strong>: use a linha de comando</div>\n"
+"<div class=\"text\"><strong>Terminal</strong>: use a linha de comando</div>\n"
 "</div>\n"
 
 #. type: Plain text

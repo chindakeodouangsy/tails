@@ -52,9 +52,8 @@ The <span class="guimenu">Applications</span> menu provides shortcuts to the
 <div class="tip">
 
 <p>To learn about the many keyboard shortcuts in GNOME, click on
-<span class="guilabel">Keyboard</span> from the <span class="guilabel">System
-Settings</span> and open the <span class="guilabel">Shortcuts</span>
-tab.</p>
+<span class="guilabel">Keyboard</span> from <span class="guilabel">
+Settings</span>.</p>
 
 </div>
 
@@ -119,7 +118,7 @@ shortcuts allow you to launch the most frequently used applications:
 
 <div class="icon">
 [[!img gnome-terminal.png link=no]]
-<div class="text"><strong>GNOME Terminal</strong>: use the command line</div>
+<div class="text"><strong>Terminal</strong>: use the command line</div>
 </div>
 
 <a id="places"></a>
