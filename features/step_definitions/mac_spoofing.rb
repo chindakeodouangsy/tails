@@ -18,16 +18,19 @@ Then /^the network device has (its default|a spoofed) MAC address configured$/ d
   nic_current_mac = $vm.execute_successfully(
     "get_current_mac_of_nic #{nic}", :libs => 'hardware'
   ).stdout.chomp
-  if is_spoofed
-    if nic_real_mac == nic_current_mac
-      @sniffer.save_pcap_file
-      raise "The MAC address was expected to be spoofed but wasn't"
+  begin
+    if is_spoofed
+      if nic_real_mac == nic_current_mac
+        raise "The MAC address was expected to be spoofed but wasn't"
+      end
+    else
+      if nic_real_mac != nic_current_mac
+        raise "The MAC address is spoofed but was expected to not be"
+      end
     end
-  else
-    if nic_real_mac != nic_current_mac
-      @sniffer.save_pcap_file
-      raise "The MAC address is spoofed but was expected to not be"
-    end
+  rescue Exception => e
+    save_failure_artifact("Network capture", @sniffer.pcap_file)
+    raise e
   end
 end
 

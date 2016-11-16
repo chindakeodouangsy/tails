@@ -24,4 +24,4 @@ For example, to export an OpenPGP secret key using <span class="application">pap
 the following command, replacing <span class="command">[keyid]</span> with the ID of the key that
 you want to export:
 
-    gpg --export-secret-key [keyid] | paperkey | gedit
+    gpg --export-secret-key [keyid] | paperkey | gedit -

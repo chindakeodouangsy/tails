@@ -1,3 +1,8 @@
+Explanation: 2.22.0-4 fixes a crash on start in at-spi-bus-launcher, but Stretch only has -3 in our 2016111502 snapshot.
+Package: at-spi2-core
+Pin: release o=Debian,n=sid
+Pin-Priority: 999
+
 Package: b43-fwcutter
 Pin: release o=Debian,n=sid
 Pin-Priority: 999
@@ -32,9 +37,17 @@ Package: icedove* iceowl* calendar-google-provider
 Pin: origin deb.tails.boum.org
 Pin-Priority: 999
 
+Package: seahorse-nautilus
+Pin: release o=Debian,n=sid
+Pin-Priority: 999
+
 Package: obfs4proxy
 Pin: release o=TorProject,n=obfs4proxy
 Pin-Priority: 990
+
+Package: open-vm-tools
+Pin: release o=Debian,n=sid
+Pin-Priority: 999
 
 Package: tails-installer
 Pin: origin deb.tails.boum.org
