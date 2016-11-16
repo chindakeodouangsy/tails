@@ -1099,7 +1099,7 @@ div.bug pre, div.caution pre, div.next pre, div.note pre, div.tip pre, div.troph
 img.symbolic {
   display: inline-block;
   position: relative;
-  top: 1px;
+  top: 3px;
 }
 
 /* Trail */
