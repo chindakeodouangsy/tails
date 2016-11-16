@@ -60,4 +60,4 @@ fingerprinting|doc/about/fingerprint]].
 
 For more information, open
 <span class="application">[[GNOME Help|first_steps/introduction_to_gnome_and_the_tails_desktop#help]]</span>
-and choose <span class="guilabel">Networking, web, email & chat</span>.
+and choose <span class="guilabel">Networking, web & email</span>.
