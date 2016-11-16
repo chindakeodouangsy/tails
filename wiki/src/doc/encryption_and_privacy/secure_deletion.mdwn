@@ -133,6 +133,9 @@ sticks.</p>
 The disk or the folder may or may not contain other files. Those files will not
 be deleted during the operation.
 
+  1. When starting Tails, [[set up an administration
+  password|doc/first_steps/startup_options/administration_password]].
+
   1. Open the file browser, either from the <span class="guimenu">Places</span> menu or
   the <span class="guilabel">home</span> icon on the desktop.
 
