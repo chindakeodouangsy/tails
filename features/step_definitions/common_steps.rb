@@ -321,14 +321,6 @@ Given /^I log in to a new session(?: in )?(|German)$/ do |lang|
     raise "Unsupported language: #{lang}"
   end
   step 'Tails Greeter has applied all settings'
-
-  # XXX: Workaround while Tails/Stretch is affected by #11694.
-  retry_times(3) do
-    $vm.spawn('chvt 2')
-    desktop_started_picture = "GnomeApplicationsMenu#{@language}.png"
-    @screen.wait(desktop_started_picture, 60)
-  end
-
   step 'the Tails desktop is ready'
 end
 
@@ -355,7 +347,7 @@ Given /^Tails Greeter has applied all settings$/ do
   # a logind session is opened for LIVE_USER.
   try_for(120) {
     $vm.execute_successfully("loginctl").stdout
-      .match(/^\s*\S+\s+\d+\s+#{LIVE_USER}\s+seat\d+\s*$/) != nil
+      .match(/^\s*\S+\s+\d+\s+#{LIVE_USER}\s+seat\d+\s+\S+\s*$/) != nil
   }
 end
 
@@ -536,7 +528,7 @@ Then /^Tails eventually (shuts down|restarts)$/ do |mode|
       end
     else
       if mode == 'restarts'
-        @screen.find('TailsBootSplash.png')
+        @screen.find(boot_menu_tab_msg_image)
         true
       else
         ! $vm.is_running?
