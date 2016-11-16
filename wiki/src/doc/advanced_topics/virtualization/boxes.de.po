@@ -136,8 +136,8 @@ msgstr "Klicken Sie auf die Schaltfläche"
 
 #. type: Plain text
 #, no-wrap
-msgid "     [[!img preferences-system-symbolic.png alt=\"Preferences\" class=symbolic link=no]]\n"
-msgstr "     [[!img preferences-system-symbolic.png alt=\"Einstellungen\" class=symbolic link=no]]\n"
+msgid "     [[!img lib/preferences-system.png alt=\"Preferences\" class=symbolic link=no]]\n"
+msgstr "     [[!img lib/preferences-system.png alt=\"Einstellungen\" class=symbolic link=no]]\n"
 
 #. type: Plain text
 #, no-wrap
@@ -154,8 +154,8 @@ msgstr ""
 
 #. type: Plain text
 #, no-wrap
-msgid "     [[!img go-previous-symbolic.png alt=\"Previous\" class=symbolic link=no]]\n"
-msgstr "     [[!img go-previous-symbolic.png alt=\"Vorherige\" class=symbolic link=no]]\n"
+msgid "     [[!img lib/go-previous.png alt=\"Previous\" class=symbolic link=no]]\n"
+msgstr "     [[!img lib/go-previous.png alt=\"Vorherige\" class=symbolic link=no]]\n"
 
 #. type: Plain text
 #, no-wrap

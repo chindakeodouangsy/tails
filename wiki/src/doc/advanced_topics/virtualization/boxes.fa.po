@@ -126,7 +126,7 @@ msgstr ""
 #. type: Plain text
 #, no-wrap
 msgid ""
-"     [[!img preferences-system-symbolic.png alt=\"Preferences\" "
+"     [[!img lib/preferences-system.png alt=\"Preferences\" "
 "class=symbolic link=no]]\n"
 msgstr ""
 
@@ -142,7 +142,7 @@ msgstr ""
 #. type: Plain text
 #, no-wrap
 msgid ""
-"     [[!img go-previous-symbolic.png alt=\"Previous\" class=symbolic "
+"     [[!img lib/go-previous.png alt=\"Previous\" class=symbolic "
 "link=no]]\n"
 msgstr ""
 

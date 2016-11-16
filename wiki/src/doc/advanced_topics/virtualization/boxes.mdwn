@@ -47,10 +47,10 @@ versa.</p>
 To disable the shared clipboard:
 
   1. Click on the
-     [[!img preferences-system-symbolic.png alt="Preferences" class=symbolic link=no]]
+     [[!img lib/preferences-system.png alt="Preferences" class=symbolic link=no]]
      button on the top-right corner of the window.
   2. Select the **Display** screen in the left pane.
   3. Deactivate **Share clipboard** in the right pane.
   4. Click on the
-     [[!img go-previous-symbolic.png alt="Previous" class=symbolic link=no]]
+     [[!img lib/go-previous.png alt="Previous" class=symbolic link=no]]
      button to go back to the display of the virtual machine.
