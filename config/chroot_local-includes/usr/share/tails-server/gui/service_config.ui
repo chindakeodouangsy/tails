@@ -290,31 +290,23 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button_help">
+              <object class="GtkLinkButton" id="linkbutton_help">
+                <property name="label" translatable="yes">Documentation</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="halign">start</property>
+                <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="margin_left">10</property>
                 <property name="relief">none</property>
-                <signal name="clicked" handler="on_button_help_clicked" swapped="no"/>
-                <child>
-                  <object class="GtkImage" id="image_help">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="icon_name">tails-help</property>
-                  </object>
-                </child>
+                <property name="uri">http://glade.gnome.org</property>
+                <signal name="activate-link" handler="on_button_help_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">2</property>
+                <property name="pack_type">end</property>
+                <property name="position">3</property>
               </packing>
-            </child>
-            <child>
-              <placeholder/>
             </child>
           </object>
           <packing>
