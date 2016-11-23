@@ -1,0 +1,3 @@
+[[!meta title="Collaborative text editing with Gobby"]]
+
+Sorry, this is not documented yet.

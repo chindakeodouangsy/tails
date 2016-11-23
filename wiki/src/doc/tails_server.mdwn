@@ -1,0 +1,29 @@
+[[!meta title="Tails Server"]]
+
+<span class="application">Tails Server</span> allows hosting various online services, to which others can securely connect through Tor. 
+
+To start <span class="application">Tails Server</span>, choose
+<span class="menuchoice">
+  <span class="guimenu">Applications</span>&nbsp;▸
+  <span class="guisubmenu">Tails</span>&nbsp;▸
+  <span class="guimenuitem">Tails Server</span>
+</span>.
+
+
+Available Services
+==================
+
+  - [[Gobby|tails_server/gobby]] - a collaborative text editor
+  - [[Mumble|tails_server/mumble]] - a voice chat server
+  - [[SFTP|tails_server/sftp]] - a file sharing service
+
+
+Connecting to a service
+=======================
+
+Currently, Tails Server enforces the use of Tor's [client authentication](https://www.torproject.org/docs/tor-manual.html.en#HiddenServiceAuthorizeClient). This allows only clients with a so called client cookie to connect to the onion service. This cookie has to be [added to the client's Tor configuration](https://www.torproject.org/docs/tor-manual.html.en#HidServAuth). To make this more user friendly, Tails includes an [[application to connect to Tails Server|tails_server/client_app]], which takes care of the client cookie, and for some services it also takes care of some other things.
+
+
+Client Authentication Background
+----------
+The client authentication protects from deanonymization attacks against onion services, which are easier to perform against Tails, because [Tails doesn't use stable guard nodes](https://labs.riseup.net/code/issues/11732). We plan to make the client authentication optional once the stable guard nodes issue is fixed.
