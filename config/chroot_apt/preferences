@@ -146,7 +146,7 @@ Pin: release o=TorProject,n=sid
 Pin-Priority: 999
 
 Package: tor tor-geoipdb
-Pin: release o=TorProject,n=tor-experimental-0.2.9.x-jessie
+Pin: release o=TorProject,n=tor-nightly-master-jessie
 Pin-Priority: 999
 
 Package: torsocks
