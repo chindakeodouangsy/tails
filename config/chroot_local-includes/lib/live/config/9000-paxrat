@@ -1,0 +1,10 @@
+#!/bin/sh
+
+Configure_pax_flags ()
+{
+
+	/sbin/paxrat -c /etc/paxrat/paxrat.conf
+
+}
+
+Configure_pax_flags
