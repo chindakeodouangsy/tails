@@ -408,7 +408,14 @@ leaks issue, in addition to other reasons for being discarded:
   by Dan William), that is, after network activity (e.g.
   DHCP requests) has already occurred.
 
-* systemd integration: We don't use this yet.
+* NetworkManager's own support for MAC address randomization: see
+  [[!tails_ticket 11293]] for details. We explicitly disable
+  `cloned-mac-address` handling, as the default on Debian Stretch
+  is to reset the MAC address to the permanent one:
+  [[!tails_gitweb config/chroot_local-includes/etc/NetworkManager/conf.d/spoof-mac.conf]].
+
+* systemd integration: We did not use systemd yet back when we made
+  this design decision.
 
 * NetworkManager plugin: While this certainly would have a nice impact
   outside of Tails, the added maintenance burden makes it less

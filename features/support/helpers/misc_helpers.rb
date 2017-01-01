@@ -1,4 +1,6 @@
 require 'date'
+require 'io/console'
+require 'pry'
 require 'timeout'
 require 'test/unit'
 
@@ -125,6 +127,10 @@ def retry_action(max_retries, options = {}, &block)
     begin
       block.call
       return
+    rescue NameError => e
+      # NameError most likely means typos, and hiding that is rarely
+      # (never?) a good idea, so we rethrow them.
+      raise e
     rescue Exception => e
       if retries <= max_retries
         debug_log("#{options[:operation_name]} failed (Try #{retries} of " +
@@ -140,6 +146,8 @@ def retry_action(max_retries, options = {}, &block)
     end
   end
 end
+
+alias :retry_times :retry_action
 
 def wait_until_tor_is_working
   try_for(270) { $vm.execute('/usr/local/sbin/tor-has-bootstrapped').success? }
@@ -266,6 +274,16 @@ end
 
 def pause(message = "Paused")
   STDERR.puts
-  STDERR.puts "#{message} (Press ENTER to continue!)"
-  STDIN.gets
+  STDERR.puts message
+  STDERR.puts
+  loop do
+    STDERR.puts "Return: Continue; d: Debugging REPL"
+    c = STDIN.getch
+    case c
+    when "\r"
+      return
+    when "d"
+      binding.pry(quiet: true)
+    end
+  end
 end

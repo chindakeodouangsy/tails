@@ -5,10 +5,6 @@ Feature: The Tor enforcement is effective
   And as a Tails developer
   I want to ensure that the automated test suite detects firewall leaks reliably
 
-  Scenario: Tails' Tor binary is configured to use the expected Tor authorities
-    Given I have started Tails from DVD and logged in and the network is connected
-    Then the Tor binary is configured to use the expected Tor authorities
-
   Scenario: The firewall configuration is very restrictive
     Given I have started Tails from DVD and logged in and the network is connected
     Then the firewall's policy is to drop all IPv4 traffic
@@ -49,21 +45,20 @@ Feature: The Tor enforcement is effective
   @check_tor_leaks
   Scenario: The Tor enforcement is effective at blocking untorified TCP connection attempts
     Given I have started Tails from DVD and logged in and the network is connected
-    When I open an untorified TCP connections to 1.2.3.4 on port 42 that is expected to fail
+    When I open an untorified TCP connection to 1.2.3.4 on port 42
     Then the untorified connection fails
     And the untorified connection is logged as dropped by the firewall
 
   @check_tor_leaks
   Scenario: The Tor enforcement is effective at blocking untorified UDP connection attempts
     Given I have started Tails from DVD and logged in and the network is connected
-    When I open an untorified UDP connections to 1.2.3.4 on port 42 that is expected to fail
-    Then the untorified connection fails
+    When I open an untorified UDP connection to 1.2.3.4 on port 42
     And the untorified connection is logged as dropped by the firewall
 
   @check_tor_leaks @fragile
   Scenario: The Tor enforcement is effective at blocking untorified ICMP connection attempts
     Given I have started Tails from DVD and logged in and the network is connected
-    When I open an untorified ICMP connections to 1.2.3.4 that is expected to fail
+    When I open an untorified ICMP connection to 1.2.3.4
     Then the untorified connection fails
     And the untorified connection is logged as dropped by the firewall
 

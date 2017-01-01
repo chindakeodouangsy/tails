@@ -5,7 +5,7 @@ tails-iuk
 tails-persistence-setup
 whisperback
 # profiling => squashfs optimization
-python-pyinotify
+python3-pyinotify
 # contains mkpasswd, needed in chroot_local-hooks/01-password
 whois
 # needed by getTorBrowserUserAgent
@@ -26,6 +26,7 @@ curl
 libdatetime-perl
 libdatetime-format-dateparse-perl
 libgetopt-long-descriptive-perl
+# needed by htpdate and tails-security-check
 libtry-tiny-perl
 # needed by readahead
 pv
@@ -33,14 +34,6 @@ pv
 live-build
 # needed by tordate
 inotify-tools
-# needed by gpgApplet
-libany-moose-perl
-libencode-perl
-libglib-perl
-libgnupg-interface-perl
-libgtk2-perl
-liblocale-gettext-perl
-xclip
 # needed by 20-time.sh
 libnotify-bin
 # needed by tails-documentation
@@ -53,11 +46,19 @@ zenity
 gksu
 # Needed by tails-htp-notify-user and others
 libdesktop-notify-perl
+# Needed by /lib/live/config/2010-pidgin
+bc
 # Needed by tails-transform-mirror-url
 nodejs
+# Needed by SSH's ProxyCommand
+netcat-openbsd
+# Needed by Tails Installer when running on Tails
+libc6-i386
 
 ### Software
 
+adwaita-qt
+adwaita-qt4
 aircrack-ng
 alsa-utils
 apparmor
@@ -71,63 +72,55 @@ cups-pk-helper
 cryptsetup
 rsync
 bash-completion
-bookletimposer
-connect-proxy
 cracklib-runtime
 desktop-base
 dmz-cursor-theme
 dosfstools
-eatmydata
-ekeyd
 electrum
 enigmail
 eog
 evince
+exfat-fuse
+exfat-utils
 exiv2
 file-roller
 florence
 fonts-cantarell
 fonts-liberation
 fonts-linuxlibertine
-gcalctool
 gdm3
 gedit
 gimp
 git
 gkbd-capplet
+gnome-calculator
 gnome-control-center
 gnome-disk-utility
-gnome-flashback
-gnome-media
+gnome-menus
 gnome-power-manager
 gnome-search-tool
 gnome-screenshot
 gnome-session
-gnome-session-flashback
+gnome-shell-extension-top-icons-plus
 gnome-shell-extensions
 gnome-system-log
 gnome-system-monitor
 gnome-terminal
-gnome-themes
 gnome-themes-standard
 gnome-user-guide
 gnupg-agent
-gnupg-curl
 gnupg2
 gobi-loader
-gobby-0.5
+gobby
 ## breaks lb because of desktop-base.postinst (see Debian bug #467620)
-#if ARCHITECTURE i386 amd64
+#if ARCHITECTURE amd64
 # grub
 grub-efi-ia32
 #endif
-gstreamer0.10-plugins-base
-gstreamer0.10-plugins-good
-gstreamer0.10-plugins-ugly
-gstreamer0.10-pulseaudio
 gstreamer1.0-libav
 # Needed for audio in DVD playback
 gstreamer1.0-plugins-ugly
+gtk2-engines-pixbuf
 gvfs-backends
 hardlink
 haveged
@@ -172,6 +165,7 @@ obfs4proxy
 libreoffice-calc
 libreoffice-draw
 libreoffice-gnome
+libreoffice-gtk3
 libreoffice-impress
 libreoffice-math
 libreoffice-writer
@@ -186,6 +180,7 @@ libreoffice-l10n-ru
 libreoffice-l10n-vi
 libreoffice-l10n-zh-cn
 onioncircuits
+openpgp-applet
 openssh-client
 paperkey
 parted
@@ -199,6 +194,7 @@ pulseaudio
 pulseaudio-utils
 pwgen
 p7zip-full
+rng-tools
 rfkill
 sane-utils
 scdaemon
@@ -215,7 +211,7 @@ syslinux-common
 syslinux-efi
 # ships isohybrid in syslinux 6.x packaging
 syslinux-utils
-system-config-printer
+system-config-printer-common
 synaptic
 torsocks
 totem-plugins
@@ -229,26 +225,27 @@ sound-juicer
 ssss
 tor-arm
 totem
-ttdnsd
 unar
 usbutils
 vim-nox
 virtualbox-guest-utils
+virtualbox-guest-x11
 wireless-tools
+xdg-user-dirs-gtk
 xsel
 xul-ext-torbirdy
 # needed for initramfs-tools' COMPRESS=xz
 xz-utils
 
-#if ARCHITECTURE i386 amd64
+#if ARCHITECTURE amd64
 open-vm-tools
-xserver-xorg-input-vmmouse
 #endif
 
 ### Firmwares
 firmware-amd-graphics
 firmware-atheros
 firmware-brcm80211
+firmware-intel-sound
 firmware-ipw2x00
 firmware-iwlwifi
 firmware-libertas
@@ -257,6 +254,7 @@ firmware-linux-free
 firmware-linux-nonfree
 firmware-misc-nonfree
 firmware-realtek
+firmware-ti-connectivity
 firmware-zd1211
 b43-fwcutter
 firmware-b43-installer
@@ -265,10 +263,10 @@ firmware-b43legacy-installer
 ### Xorg
 xorg
 xserver-xorg-input-all
-#if ARCHITECTURE i386
-xserver-xorg-video-geode
-#endif
 xserver-xorg-video-all
+xserver-xorg-video-cirrus
+xserver-xorg-video-modesetting
+xserver-xorg-video-amdgpu
 
 ### Input methods
 ibus-gtk
@@ -293,7 +291,8 @@ fonts-farsiweb
 xfonts-intl-chinese
 fonts-arphic-ukai
 fonts-arphic-uming
-xfonts-wqy
+fonts-wqy-microhei
+fonts-wqy-zenhei
 ## Hebrew support
 culmus
 libfribidi0
@@ -337,12 +336,12 @@ intel-microcode
 hunspell-ar
 hunspell-de-de
 hunspell-en-us
-myspell-es
+hunspell-es
 myspell-fa
 hunspell-fr
-myspell-it
-myspell-pt
-myspell-ru
+hunspell-it
+hunspell-pt-pt
+hunspell-ru
 hunspell-vi
 
 ### Mobile broadband devices support (GSM, 3G...)
@@ -394,14 +393,16 @@ wireless-regdb
 python-dogtail
 python3-serial
 python3-systemd
+xclip
 xdotool
 
 i2p
 # Prevent java 6 from being installed
-openjdk-7-jre
+openjdk-8-jre
 
-# Enable Electrum's Qt GUI
+# Enable Electrum's Qt GUI & TREZOR support
 python-qt4
+python-trezor
 
 # Provide gnome-open (used to open e.g. URLs in KeePassX, Icedove, Electrum...)
 libgnome2-bin

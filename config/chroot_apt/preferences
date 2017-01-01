@@ -1,24 +1,4 @@
-Package: apparmor-profiles-extra
-Pin: release o=Debian,n=jessie-backports
-Pin-Priority: 999
-
 Package: b43-fwcutter
-Pin: release o=Debian,n=sid
-Pin-Priority: 999
-
-Package: bumblebee
-Pin: release o=Debian,n=jessie-backports
-Pin-Priority: 999
-
-Package: electrum
-Pin: release o=Debian,n=stretch
-Pin-Priority: 999
-
-Package: firmware-amd-graphics
-Pin: release o=Debian,n=sid
-Pin-Priority: 999
-
-Package: firmware-atheros
 Pin: release o=Debian,n=sid
 Pin-Priority: 999
 
@@ -30,39 +10,7 @@ Package: firmware-b43legacy-installer
 Pin: release o=Debian,n=sid
 Pin-Priority: 999
 
-Package: firmware-brcm80211
-Pin: release o=Debian,n=sid
-Pin-Priority: 999
-
-Package: firmware-ipw2x00
-Pin: release o=Debian,n=sid
-Pin-Priority: 999
-
-Package: firmware-iwlwifi
-Pin: release o=Debian,n=sid
-Pin-Priority: 999
-
-Package: firmware-libertas
-Pin: release o=Debian,n=sid
-Pin-Priority: 999
-
-Package: firmware-linux
-Pin: release o=Debian,n=sid
-Pin-Priority: 999
-
 Package: firmware-linux-free
-Pin: release o=Debian,n=sid
-Pin-Priority: 999
-
-Package: firmware-linux-nonfree
-Pin: release o=Debian,n=sid
-Pin-Priority: 999
-
-Package: firmware-misc-nonfree
-Pin: release o=Debian,n=sid
-Pin-Priority: 999
-
-Package: firmware-realtek
 Pin: release o=Debian,n=sid
 Pin-Priority: 999
 
@@ -70,85 +18,21 @@ Package: firmware-zd1211
 Pin: release o=Debian,n=sid
 Pin-Priority: 999
 
-Package: grub-common
+Explanation: We ship our custom-built Icedove for now, see #6156
+Package: icedove* iceowl* calendar-google-provider
 Pin: origin deb.tails.boum.org
-Pin-Priority: 999
-
-Package: grub-efi-ia32
-Pin: origin deb.tails.boum.org
-Pin-Priority: 999
-
-Package: grub-efi-ia32-bin
-Pin: origin deb.tails.boum.org
-Pin-Priority: 999
-
-Package: grub2-common
-Pin: origin deb.tails.boum.org
-Pin-Priority: 999
-
-Explanation: src:hplip
-Package: hplip* hpijs-ppds libhpmud* libsane-hpaio printer-driver-hpcups printer-driver-hpijs printer-driver-postscript-hp
-Pin: release o=Debian,n=jessie-backports
-Pin-Priority: 999
-
-Package: libdvd-pkg
-Pin: release o=Debian,n=jessie-backports
-Pin-Priority: 999
-
-Package: libnet-dbus-perl
-Pin: release o=Debian,n=jessie-backports
-Pin-Priority: 999
-
-Package: monkeysphere
-Pin: release o=Debian,n=stretch
-Pin-Priority: 999
-
-Package: lib*-mesa*
-Pin: release o=Debian,n=jessie-backports
-Pin-Priority: 1006
-
-Package: libdrm*
-Pin: release o=Debian,n=jessie-backports
-Pin-Priority: 999
-
-Package: monkeysphere
-Pin: release o=Debian,n=stretch
 Pin-Priority: 999
 
 Package: obfs4proxy
 Pin: release o=TorProject,n=obfs4proxy
 Pin-Priority: 990
 
-Package: onioncircuits
-Pin: release o=Debian,n=jessie-backports
-Pin-Priority: 999
-
-Package: pinentry-gtk2
-Pin: release o=Debian,n=jessie-backports
-Pin-Priority: 999
-
-Package: python-electrum
-Pin: release o=Debian,n=stretch
-Pin-Priority: 999
-
 Package: tails-installer
 Pin: origin deb.tails.boum.org
 Pin-Priority: 999
 
-Package: ttdnsd
-Pin: release o=TorProject,n=sid
-Pin-Priority: 999
-
-Package: torsocks
-Pin: release o=Debian,n=jessie-backports
-Pin-Priority: 999
-
-Package: xserver-xorg-video-intel
-Pin: release o=Debian,n=jessie-backports
-Pin-Priority: 999
-
-Package: xul-ext-torbirdy
-Pin: release o=Debian,n=jessie-backports
+Package: virtualbox*
+Pin: release o=Debian,n=sid
 Pin-Priority: 999
 
 Explanation: weirdness in chroot_apt install-binary
@@ -161,19 +45,19 @@ Pin: origin deb.tails.boum.org
 Pin-Priority: 990
 
 Package: *
-Pin: release o=Debian,n=jessie-updates
+Pin: release o=Debian,n=stretch-updates
 Pin-Priority: 990
 
 Package: *
-Pin: release l=Debian-Security,n=jessie/updates
+Pin: release l=Debian-Security,n=stretch/updates
 Pin-Priority: 990
 
 Package: *
-Pin: release o=Debian,n=jessie
+Pin: release o=Debian,n=stretch
 Pin-Priority: 990
 
 Package: *
-Pin: release o=TorProject,n=jessie
+Pin: release o=TorProject,n=stretch
 Pin-Priority: 990
 
 Package: *

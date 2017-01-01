@@ -1,7 +1,6 @@
 [[!meta title="Introduction to GNOME and the Tails desktop"]]
 
-The desktop environment used in Tails is [GNOME](https://www.gnome.org),
-more precisely [GNOME Classic](https://help.gnome.org/users/gnome-help/stable/gnome-classic.html) version 3.14.
+The desktop environment used in Tails is [GNOME](https://www.gnome.org).
 This page describes some important features of the desktop in the context of
 Tails.
 
@@ -258,7 +257,7 @@ Nautilus is GNOME's file manager, FTP, SFTP client and more.
 [[!img nautilus.png link=no]]
 
 To manage local files, follow links on the desktop or from the **Places** menu
-at top right corner of the screen. To move files or folders, you can drag them
+at top left corner of the screen. To move files or folders, you can drag them
 from one window and drop them to another.
 
 To connect to a remote FTP or SFTP server choose

@@ -1,7 +1,3 @@
-Then /^I see the (Unsafe|I2P) Browser start notification and wait for it to close$/ do |browser_type|
-  robust_notification_wait("#{browser_type}BrowserStartNotification.png", 60)
-end
-
 Then /^the (Unsafe|I2P) Browser has started$/ do |browser_type|
   case browser_type
   when 'Unsafe'
@@ -18,16 +14,12 @@ end
 When /^I successfully start the (Unsafe|I2P) Browser$/ do |browser_type|
   step "I start the #{browser_type} Browser"
   step "I see and accept the Unsafe Browser start verification" unless browser_type == 'I2P'
-  step "I see the #{browser_type} Browser start notification and wait for it to close"
+  step "I see the \"Starting the #{browser_type} Browser...\" notification after at most 60 seconds"
   step "the #{browser_type} Browser has started"
 end
 
 When /^I close the (?:Unsafe|I2P) Browser$/ do
   @screen.type("q", Sikuli::KeyModifier.CTRL)
-end
-
-Then /^I see the (Unsafe|I2P) Browser stop notification$/ do |browser_type|
-  robust_notification_wait("#{browser_type}BrowserStopNotification.png", 60)
 end
 
 def xul_application_info(application)
@@ -116,14 +108,21 @@ end
 # This step is limited to the Tor Browser due to #7502 since dogtail
 # uses the same interface.
 Then /^"([^"]+)" has loaded in the Tor Browser$/ do |title|
-  expected_title = "#{title} - Tor Browser"
+  if @language == 'German'
+    browser_name = 'Tor-Browser'
+    reload_action = 'Aktuelle Seite neu laden'
+  else
+    browser_name = 'Tor Browser'
+    reload_action = 'Reload current page'
+  end
+  expected_title = "#{title} - #{browser_name}"
   app = Dogtail::Application.new('Firefox')
   app.child(expected_title, roleName: 'frame').wait(60)
   # The 'Reload current page' button (graphically shown as a looping
   # arrow) is only shown when a page has loaded, so once we see the
   # expected title *and* this button has appeared, then we can be sure
   # that the page has fully loaded.
-  app.child('Reload current page', roleName: 'push button').wait(60)
+  app.child(reload_action, roleName: 'push button').wait(60)
 end
 
 Then /^the (.*) has no plugins installed$/ do |browser|
@@ -221,8 +220,7 @@ Then /^Tails homepage loads in the Unsafe Browser$/ do
 end
 
 Then /^the Tor Browser shows the "([^"]+)" error$/ do |error|
-  firefox = Dogtail::Application.new('Firefox')
-  page = firefox.child("Problem loading page", roleName: "document frame")
+  page = @torbrowser.child("Problem loading page", roleName: "document frame")
   # Important to wait here since children() won't retry but return the
   # immediate results
   page.wait

@@ -1,20 +1,568 @@
-tails (2.6) UNRELEASED; urgency=medium
+tails (3.0) UNRELEASED; urgency=medium
 
   * Dummy entry.
 
- -- anonym <anonym@riseup.net>  Tue, 07 Jun 2016 09:07:40 +0200
+ -- intrigeri <intrigeri@boum.org>  Sat, 19 Nov 2016 20:30:16 +0000
 
-tails (2.5) UNRELEASED; urgency=medium
-
-  * Dummy entry.
-
- -- anonym <anonym@riseup.net>  Tue, 07 Jun 2016 09:07:40 +0200
-
-tails (2.4.1) UNRELEASED; urgency=medium
+tails (2.9.2) UNRELEASED; urgency=medium
 
   * Dummy entry.
 
- -- anonym <anonym@riseup.net>  Tue, 07 Jun 2016 02:19:45 +0200
+ -- Tails developers <tails@boum.org>  Wed, 14 Dec 2016 21:04:55 +0100
+
+tails (2.9.1) unstable; urgency=medium
+
+  * Security fixes
+    - Upgrade Tor Browser to 6.0.8 based on Firefox 45.6. If you pay
+      close attention you'll see that we import -build1 but there was
+      a -build2. The only change is Tor Button 1.9.5.13 which makes
+      some changes to the donation campaign banner in `about:tor`,
+      which we safely can skip. (Closes: #12028)
+    - Upgrade Icedove to 45.5.1-1~deb8u1+tails1. (Closes: #12029)
+    - Upgrade APT-related packages to 1.0.9.8.4.
+
+  * Minor improvements
+    - Switch to DuckDuckGo as the default search engine in the tor
+      Browser. This is what Tor Browser has, and Disconnect.me (the
+      previous default) has been re-directing to DDG for some time,
+      which has been confusing users. In addition, we localize the DDG
+      user interface for the locales with availablelangpacks. (Closes:
+      #11913)
+    - Improve the display name for the Wikipedia search plugin.
+    - Enable contrib and non-free for our own APT repos.
+    - Upgrade Tor to 0.2.8.10. (Closes: #12015)
+    - Upgrade obfs4proxy to 0.0.7-1~tpo1.
+
+  * Bugfixes
+    - AppArmor Totem profile: add permissions needed to avoid warning
+      on startup. (Closes: #11984)
+    - Upgrade the VirtualBox Guest additions and modules to version
+      5.1.8. This should prevent Xorg from crashing unless the video
+      memory for the VMs are significantly bumped. (Closes: #11965)
+      Users will still have to enable I/O APIC due to a bug in Linux.
+    - Drop unwanted search plugins from the Tor Browser langpacks.
+      Otherwise they are only removed from English locales. Note that
+      the langpacks contain copies of the English plugins, not
+      localized versions, so we actually lose nothing.
+
+  * Test suite
+    - Add support for SikuliX, which recently hit Debian Unstable,
+      while still supporting Sikuli for Jessie users. (Closes: #11991)
+    - Fix some instances where we were trying to use the mouse outside
+      of the Sikuli screen.
+    - Use "TorBirdy" instead of "amnesia branding" as the "anchor"
+      addon.  I.e. the addon that we use to find the other ones. The
+      "amnesia branding" addon has been removed, so we must use
+      something else. (Fixup: #11906)
+    - Dogtailify "the support documentation page opens in Tor Browser"
+      step. We previously relied on Sikuli, and the image was made
+      outdated thanks to our donation campaign. No more! (Closes:
+      #11911)
+    - Resolve dl.amnesia.boum.org instead of picking a static address.
+      Just hours after updating the dustri.org IP address, its web
+      server went down => test suite failures. Let's make this test as
+      robust as actually downloading the Tails ISO image -- if that
+      fails, we probably have more serious problems on our hands than
+      a failing test suite. (Closes: #11960)
+    - Switch MAT scenario from testing PDFs to PNGs. Also add
+      anti-test and test using using a tool *different* from MAT, the
+      tool being tested here. (Closes: #11901)
+
+ -- Tails Developers <tails@boum.org>  Wed, 14 Dec 2016 13:19:16 +0100
+
+tails (2.7.1) unstable; urgency=medium
+
+  * Security fixes
+    - Upgrade Tor Browser to 6.0.7 (build3) based on Firefox 45.5.1.
+    - Upgrade gstreamer0.10-based packages to 0.10.31-3+nmu4+deb8u2.
+    - Upgrade imagemagick-based packages to 8:6.8.9.9-5+deb8u6.
+    - Upgrade libicu52 to 52.1-8+deb8u4.
+    - Upgrade vim-based packages to 2:7.4.488-7+deb8u1.
+
+  * Minor improvements
+    - Reserve 64 MiB for the kernel and 128 MiB for privileged
+      processes before the memory is wiped. We hope that this might
+      help (but not solve, sadly) some crashes experienced while
+      wiping the memory.
+
+  * Build system
+    - Make the wiki shipped inside Tails build deterministically
+      (Closes: #11966):
+      * Enable ikiwiki's "deterministic" option, and require it when
+        building.
+      * Use our custom backport of discount (2.2.1-1~bpo8+1~0.tails1),
+        to fix reproducibility issues (Debian#782315). This can be
+        dropped once our ISO builders use Stretch.
+      * Install ikiwiki from our builder-jessie APT suite, to make the
+        pagestats plugin output deterministic.
+    - refresh-translations: don't update PO files unless something
+      other than POT-Creation-Date was changed. (Closes: #11967)
+    - Fix Vagrant's is_release? check. Per auto/build, we consider it
+      a release when we build from detached head, and HEAD is tagged.
+    - Enforce `cleanall` when building a release. I.e. don't allow the
+      user supplied options to override this behaviour. This is
+      important since Vagrant caches wiki builds, and we do not want
+      leftovers from a previous builds ending up in a release. Also,
+      this is required for making Tails images build reproducibly.
+    - Make the build system's `cleanall` option really clean
+      everything.  At the moment it doesn't clean the cached wiki
+      build (which basically was its only job).
+    - import-package: support contrib and non-free sections.
+
+  * Test suite
+    - Wait a bit between opening the shutdown applet menu, and
+      clicking one of its widgets. (Closes: #11616).
+    - Adapt Icedove test after removing the amnesia branding add-on.
+      (Closes: #11906)
+    - Replace --pause-on-fail with --interactive-debugging. It does
+      the same thing, but also offers an interactive Ruby shell, via
+      pry, with the Cucumber world context.
+
+ -- Tails developers <tails@boum.org>  Wed, 30 Nov 2016 17:27:37 +0100
+
+tails (3.0~alpha1) experimental; urgency=medium
+
+  * Major new features and changes
+    - Upgrade to a snapshot of Debian 9 (Stretch) from 2016-11-15.
+    - Switch userpace from 32-bit to 64-bit (Closes: #8183), and accordingly:
+      · Memory erasure: drop the "one instance of sdmem per 2 GiB of RAM" tweak,
+        that is not needed on x86-64.
+      · Display a "sorry!" message when trying to boot on a 32-bit BIOS system
+        (refs: #11638).
+    - Switch GNOME Shell to its default black theme (Closes: #11789).
+
+  * Minor improvements
+    - Install the cirrus and modesetting X.Org drivers (Closes: #10962).
+    - Install the 'amdgpu' driver for the AMD Radeon cards (refs: #11850).
+    - Stop disabling kernel modesetting for QXL (refs: #11518).
+    - Replace TopIcons with gnome-shell-extension-top-icons-plus.
+      The former causes plenty of trouble and is apparently abandoned
+      upstream. The latter is actively maintained upstream, and packaged
+      in Debian. (refs: #10576)
+    - Use torsocks to torify Git, and drop tsocks entirely. tsocks has been
+      unmaintained for years in Debian, and was removed from testing
+      for a while (Closes: #10955).
+    - Replace Florence's "systray" icon with the Florence Indicator GNOME Shell
+      extension (refs: #8312). And then, don't automatically start Florence:
+      the Florence Indicator GNOME Shell extension will start it the first time
+      one tries to display it. This should save a tiny bit of RAM.
+    - Harden AppArmor Totem profiles.
+    - Switch to the Debian-packaged aufs kernel module (Closes: #11829).
+    - Configure the firewall to not allow root to connect to Tor at all,
+      which is possible now that APT uses a dedicated user for network
+      operations.
+    - Fix firewall startup during early boot, by referring to the "amnesia"
+      user via its UID (refs: #7018).
+    - Install hunspell dictionaries instead of myspell ones, for a few more
+      languages: Spanish, Italian, Portuguese and Russian. Only Farsi keeps
+      using a myspell dictionary for now.
+
+  * Removed features
+    - Stop installing BookletImposer PDF imposition toolkit.
+      It's unmaintained upstream and thus won't be part of Debian Stretch.
+    - Stop installing ekeyd:  it's unmaintained, very rarely used, poorly
+      designed (dedicated daemon), and security sensitive (Closes: #7687).
+    - Stop shipping ttdnsd. It was only useful for developers and power-users
+      who can install it themselves as needed. It's been unmaintained upstream
+      for many years. It's very buggy so we had to remove it from the DNS
+      resolution loop years ago. It's not in Debian. And it's one of the only
+      two bits of Tails that still relied on tsocks, that is RC-buggy,
+      unmaintained in Debian, and not in Stretch at the moment. So it has
+      become clear that the cost of keeping ttdnsd now outweighs the benefits
+      it brought (refs: #10959).
+
+  * Build system
+    - Bump disk space (and memory for in-RAM builds) requirements.
+    - Support new live-config configuration directory naming, again and again.
+    - Use the lowest compression level for the SquashFS when compressing it
+      with gzip. This makes our development builds faster, and the resulting
+      ISO image only a little bit bigger (Closes: #9788).
+    - Configure initramfs compression later, to make the build faster.
+
+  * Test suite
+    - Various refactoring while we were at it.
+    - Port tests to Dogtail: installation, upgrade, notification detection,
+      Synaptic, Gobby, and some of Tor Browser.
+    - Workaround GNOME Shell being buggy for Dogtail (refs: #11718).
+    - Update a bunch of test suite images for Stretch.
+    - Mark created disk as temporary when we don't need to keep it around.
+    - Simplify adding NetworkManager connections, and rely more on the defaults.
+      Not providing the complete configuration file makes us test something
+      closer to what happens when a user adds a Wi-Fi connection themselves.
+    - Adjust the minimum allowed memory pattern coverage before wiping.
+    - Always sync the time from the host when restoring from a snapshot.
+      Previously we wouldn't do it when the network was plugged but Tor wasn't
+      running, which can cause issues if we *then* start Tor since the time
+      may be off.
+    - Adjust to the fact that we now support running as a 64-bit guest
+      in VirtualBox, and simplify code since we now include a 64-bit userland.
+    - Improve how we restart Tor/I2P after restoring from a snapshot.
+    - Adjust PolicyKit tests for Stretch.
+    - Work around Tails stopping on shut down due to #11730.
+      This should be reverted once #11730 is fixed properly.
+    - Update the screenshot scenario.
+    - Fix pcap file saving on MAC spoofing failure (Closes: #11698).
+    - Test that notifications are actually shown.
+    - Drop obsolete workaround for Florence sometimes not being hidden
+      on startup (#11398).
+    - Avoid remote shell deadlock.
+    - Install at-spi2-core from Debian Sid.
+      With the current version in Stretch, at-spi-bus-launcher crashes on
+      start, breaking parts of GNOME's accessibility, and Dogtail.
+      For details, see https://bugs.debian.org/840618.
+    - Check that the MAC address is spoofed for manually added persistent
+      NetworkManager connections created on Jessie and Stretch (refs: #11931).
+    - Use nc.traditional in tests that rely on its behaviour.
+    - Adjust expected notification text to cope with #11941.
+
+  * Adjustments for Debian 9 (Stretch) with no or very little user-visible impact
+    - Adjust APT sources and pinning for Stretch.
+    - Don't install gnome-media, which is not part of testing/sid anymore.
+      We already install the only bits it was providing or depending on.
+    - Don't install gnome-themes: it's gone in Stretch.
+    - Stop installing GStreamer 0.10 explicitly: it won't be in Stretch,
+      and some bits are gone already.
+    - Refresh and unfuzzy patches for Stretch. Replace some of them with
+      programmatic patching, as patches break the build whenever
+      they become fuzzy.
+    - Drop start_AppArmor_earlier.diff: on Stretch, AppArmor starts much earlier
+      already.
+    - Accept iceweasel-l10n-* that don't provide any search engine:
+      on Stretch, at least iceweasel-l10n-ar_1%3a43.0.4-1_all.deb doesn't.
+    - Stop deleting 75-persistent-net-generator.rules: obsolete in Stretch.
+      It was removed in systemd (220-7).
+    - Tell live-boot we're still using aufs: recent live-boot defaults
+      to overlayfs, which we don't use yet.
+    - Don't remove imagemagick in 11-localize_browser: cups-filters depends on it
+      (Closes: #10960).
+    - Explicitly install bc: needed by our 2010-pidgin live-config hook.
+    - Remove gcc-4.9-base and gcc-5 via a chroot hook, taking into account
+      that GCC 5 is the default on Stretch.
+    - Switch to openjdk-8-jre: openjdk-7-jre is not in Stretch anymore.
+    - gcalctool was renamed to gnome-calculator.
+    - Don't try to delete non-existing AppArmor profile for ntpd: it was moved
+      to the ntp package in Stretch.
+    - Build DKMS modules with GCC 5: Stretch hasn't 4.8 anymore.
+    - Don't try to reload or disable an initscript that we don't patch,
+      and that doesn't exist anymore.
+    - Support the case when /usr/src/libdvd-pkg does not exist.
+      Apparently this can happen on Stretch.
+    - Adjust to the move of /etc/gnome/defaults.list in Stretch
+      (Closes: #11440).
+    - Stop installing xserver-xorg-input-vmmouse. It's obsolete and conflicts
+      with recent kernels: https://bugs.debian.org/831420
+    - Install open-vm-tools from sid: it's been removed from testing.
+    - Install the gobby package, instead of the (now gone) transitional
+      gobby-0.5 one.
+    - apparmor-adjust-tor-profile.diff: drop bits that are useless, and
+      prevent Tor from starting, on Stretch.
+    - Tor Daemon Status: declare compatibility with GNOME Shell 3.20.
+    - Shutdown helper: declare compatibility with GNOME Shell 3.20.
+    - Drop 43-adjust_path_to_ibus-unikey_binaries hook: it was a workaround
+      for a bug (Debian#714932) that was fixed.
+    - Use netcat-openbsd instead of connect-proxy for torifying SSH.
+      connect-proxy seems barely maintained in Debian and was removed from
+      testing due to https://bugs.debian.org/830423.
+    - Don't disable gdomap service: we don't include it anymore.
+      unar in Jessie depended on gnustep-base-runtime (that ships gdomap),
+      but this is not the case in Stretch anymore.
+    - Install system-config-printer-common instead of system-config-printer,
+      and drop customization that were needed only for the latter:
+      system-config-printer (1.5.7-2) extracts into a new -common package
+      the bits needed by gnome-control-center (Closes: #11505).
+    - Adjust haveged AppArmor profile to work with Linux 4.x on Stretch.
+    - cupsd AppArmor profile: update list of backends, and add aufs-specific
+      tweak that Stretch needs (refs: #11699).
+    - Revert to GNOME's default font antialiasing/hinting.
+      We fixed on rgba/slight when converting some manual fontconfig stuff
+      to GNOME's layer on top of it, but at least from a fresh Stretch
+      install (2016-08-24) we got grayscale/slight. It could be that some
+      auto-detection is involved, so the values would be different depending
+      on the actual hardware. Any way, let's try to decrease our delta here.
+    - Adjust haveged arguments customization for Stretch (Closes: 11522).
+    - Display the date in the desktop top bar, as we did in Jessie and older.
+      (Closes: #11696)
+    - Drop patch to keep haveged, saned, spice-vdagent and laptop-mode running
+      on shutdown. These patches are no-ops on Stretch, where these services
+      have native systemd unit files. It's not worth porting these patches:
+      saned is socket-activated so in most cases it does not have to be shut
+      down, and we expect that the other ones can be stopped pretty quickly.
+      Let's bring back this kind of optimization if, and only if, we identify
+      an actual problem to fix in this area :)
+    - Don't delete downloaded debs after install: apt(8) >= 1.2~exp1 deletes
+      them by default, which is not nice for users who use it to preseed
+      their persistent APT cache. (Closes: #10958)
+    - Hide "OpenJDK Java 8 Policy Tool" from the Applications menu.
+    - Don't ship GCC 6: we don't ship compilers in Tails usually.
+    - Don't ship gcc-5-base: on Stretch we ship gcc-6-base instead.
+    - Don't start shipping libdvdcss2-dbgsym nor paxctld.
+    - Adjust default web browser customization: GNOME in Debian now defaults
+      to Firefox ESR (refs: #11440).
+    - Install libreoffice-gtk3: on Stretch this is needed to have Gtk+ 3 widgets
+      and a Gtk/GNOMEish print dialog.
+    - Explicitly install gtk2-engines-pixbuf, as it's not pulled automatically
+      on Stretch, and it's needed to theme GTK+ 2 applications in a nice way
+      (Closes: #11715).
+    - AppArmor gnome abstraction: allow reading /etc/xdg/*-mimeapps.list
+      (refs: #11440).
+    - Drop obsolete disabling of GNOME Keyring's GnuPG agent feature.
+      That feature was removed upstream.
+    - Explicitly select pinentry-gtk2 as our preferred pinentry program.
+      On Stretch, gnome-keyring depends on pinentry-gnome3, and then that one
+      is selected by default. It does not feel worth it to introduce a hackish
+      solution such as a fake pinentry-gnome3 package, so let's ignore it and
+      just make sure we are using the pinentry program we prefer
+      (Closes: #11713).
+    - Drop keep_memlockd_on_shutdown.diff: it's been a no-op since Tails 2.0
+      (Closes: #11708).
+    - Drop custom NetworkManager plugin configuration: these tweaks are not
+      needed on Stretch anymore.
+    - Disable new style network interface naming scheme.
+      It has little value for a live system, so let's stick to what we are
+      used to, and avoid having to adjust code/config/test suite
+      (Closes: #11721).
+    - Drop obsolete NM configuration wrt. sending hostname in DHCP requests
+      (Closes: #11720).
+    - Update APT pinning to cover all binary packages built from src:mesa
+      (refs: #11853).
+    - Don't try to install gnupg-curl: it doesn't exist anymore in Stretch.
+    - Install seahorse-nautilus from sid. It's been removed from testing.
+    - Drop workaround for Debian bug #645466, that was fixed in 2014
+      (Closes: #11534).
+    - Allow the "_apt" user to use Tor: in Stretch, APT network operations
+      are performed with the "_apt" user and not root.
+    - Make sure that 'localhost' points to the IPv4 loopback address.
+    - Make desktop launchers executable (Closes: #11927).
+    - Disable Wayland usage in GDM (Closes: #11923).
+    - Fix AppArmor profile for gst-plugin-scanner (Closes: #11928).
+    - Change Nautilus' default zoom level to 'small' (Closes: #11716).
+      The icons in GNOME Files and on the desktop are too huge otherwise. With
+      this new setting, they are similar in size to what we had in Jessie.
+    - Fix broken symlink preventing Enigmail from being enabled.
+    - Configure NetworkManager to not touch MAC addresses (refs: #11931).
+      Its default behaviour on Debian Stretch is to reset the MAC address to the
+      permanent one, and we did not make up our mind yet wrt. replacing
+      our custom MAC spoofing system with NM's own one (refs: #11293).
+    - Patch NetworkManager so that it does not leak the hostname in DHCP
+      requests (Closes: #11720).
+    - Deal with the fact that the NetworkManager dispatcher scripts are now
+      sometimes called with an empty first argument (Closes: #11938).
+    - Upgrade to GnuPG 2.1.15-9, and accordingly:
+      · Remove the CA certificate for sks-keyservers.net, that we installed
+        in the system-wide CAs directory: it is now included in the dirmngr
+        package. Stop trusting it for non-GnuPG operations.
+      · Make dirmngr use the sks-keyservers.net CA certificate from Debian.
+      · Move keyserver proxy configuration to dirmngr.conf, and drop the
+        keyserver-options that are obsolete or now the default.
+
+ -- intrigeri <intrigeri@boum.org>  Thu, 17 Nov 2016 16:19:21 +0000
+
+tails (2.7) unstable; urgency=medium
+
+  * Security fixes
+    - Upgrade to Linux 4.7. (Closes: #11885, #11818)
+    - Upgrade to Tor 0.2.8.9. (Closes: #11832, #11891)
+    - Upgrade Tor Browser to 6.0.6 based on Firefox 45.5. (Closes: #11910)
+    - Upgrade Icedove to 1:45.4.0-1~deb8u1+tails1. (Closes: #11854,
+      #11860)
+    - Upgrade imagemagick to 8:6.8.9.9-5+deb8u5.
+    - Upgrade openssl to 1.0.1t-1+deb8u5.
+    - Upgrade libarchive to 3.1.2-11+deb8u3.
+    - Upgrade bind9 to 1:9.9.5.dfsg-9+deb8u8.
+    - Upgrade libav to 6:11.8-1~deb8u1.
+    - Upgrade ghostscript to 9.06~dfsg-2+deb8u3.
+    - Upgrade c-ares to 1.10.0-2+deb8u1.
+    - Upgrade nspr to 2:4.12-1+debu8u1.
+    - Upgrade nss to 2:3.26-1+debu8u1.
+    - Upgrade tar to 1.27.1-2+deb8u1.
+    - Upgrade curl to 7.38.0-4+deb8u5.
+    - Upgrade libgd3 to 2.1.0-5+deb8u7.
+    - Upgrade opendjk-7 to 7u111-2.6.7-2~deb8u1.
+    - Upgrade mat to 0.5.2-3+deb8u1.
+    - Upgrade libxslt to 1.1.28-2+deb8u2.
+    - Upgrade pillow to 2.6.1-2+deb8u3.
+
+  * Minor improvements
+    - Ship Let's encrypt intermediate certificate to prepare the
+      the next certificate renewal of our website. Also unify the
+      way our upgrades and security checkers verify this SSL
+      certificate using our dedicated perl lib code. (Closes: #11810)
+
+  * Bugfixes
+    - Fix multiarch support in Synaptic. (Closes: #11820)
+    - Set default spelling language to en_US in Icedove. (Closes: #11037)
+
+  * Build system
+    - Disable debootstrap merged-usr option. (Closes: #11903)
+
+  * Test suite
+    - Add test for incremental upgrades. (Closes: #6309)
+    - Add tests for Icedove. (Closes: #6304)
+    - Decrease timeout to Tails Greeter to speed up testing of branches
+      where it is broken. (Closes: #11449)
+    - Add a ID field to the remote shell responses to filter out
+      unrelated ones. (Closes: #11846)
+    - Reliabily wait for the Greeter PostLogin script. (Closes: #5666)
+    - Reliabily type the kernel command line in the prompt at the boot
+      menu to ensure the remote shell is started. (Closes: #10777)
+    - Remove DVDROM device when not used, to workaround QEMU/Libvirt
+      compatibility issue. (Closes: #11874)
+
+ -- Tails developers <tails@boum.org>  Sun, 13 Nov 2016 14:46:04 +0100
+
+tails (2.6) unstable; urgency=medium
+
+  * Major new features and changes
+    - Install Tor 0.2.8.7. (Closes: #11351)
+    - Enable kASLR in the Linux kernel. (Closes: #11281)
+    - Upgrade Icedove to 1:45.2.0-1~deb8u1+tails1: (Closes: #11714)
+      · Drop auto-fetched configurations using Oauth2.  They do not
+        work together with Torbirdy since it disables needed
+        functionality (like JavaScript and cookies) in the embedded
+        browser. This should make auto-configuration work for GMail
+        again, for instance.  (Closes: ##11536)
+      · Pin Icedove to be installed from our APT repo. Debian's
+        Icedove packages still do not have our secure Icedove
+        autoconfig wizard patches applied, so installing them would be
+        a serious security regression. (Closes: #11613)
+      · Add missing icedove-l10n-* packages to our custom APT
+        repository (Closes: #11550)
+    - Upgrade to Linux 4.6: (Closes: #10298)
+      · Install the 686 kernel flavour instead of the obsolete 586
+        one.
+      · APT, dpkg: add amd64 architecture. The amd64 kernel flavour is
+        not built anymore for the i386 architecture, so we need to use
+        multiarch now.
+      · Build and install the out-of-tree aufs4 module. (Closes: #10298)
+      · Disable kernel modesetting for QXL: it's not compatible with
+        Jessie's QXL X.Org driver.
+
+  * Security fixes
+    - Hopefully fixed an issue which would sometimes make the Greeter
+      ignore the "disable networking" or "bridge mode"
+      options. (Closes: #11593)
+
+  * Minor improvements
+    - Install firmware-intel-sound and firmware-ti-connectivity.  This
+      adds support for some sound cards and Wi-Fi adapters.  (Closes:
+      #11502)
+    - Install OpenPGP Applet from Debian. (Closes: #10190)
+    - Port the "About Tails" dialog to python3.
+    - Run our initramfs memory erasure hook earlier (Closes:
+      #10733). The goal here is to:
+      · save a few seconds on shutdown (it might matter especially for
+        the emergency one);
+      · work in a less heavily multitasking / event-driven
+        environment, for more robust operation.
+    - Install rngd, and make rng-tools initscript return success when
+      it can't find any hardware RNG device. Most Tails systems around
+      probably have no such device, and we don't want systemd to
+      believe they failed to boot properly. (Closes: #5650)
+    - Don't force using the vboxvideo X.Org driver. According to our
+      tests, this forced setting is:
+       · harmful: it breaks X startup when the vboxvideo *kernel*
+         driver is loaded;
+       · useless: X.Org now autodetects the vboxvideo X.Org driver and
+         uses it when running in VirtualBox and the vboxvideo kernel
+         is not present.
+    - Port boot-profile to python3 (Closes: #10083). Thanks to
+      heartsucker <heartsucker@autistici.org> for the patch!
+    - Include /proc/cmdline and the content of persistent APT sources
+      in WhisperBack bug reports. (Closes: #11675, #11635)
+    - Disable non-free APT sources at boot time. (Closes: #10130)
+    - Have a dedicated page for the homepage of Tor Browser in
+      Tails. (Closes: # 11725)
+    - Only build the VirtualBox kernel modules for the 32-bit kernel.
+      It's both hard and useless to build it for 64-bit in the current
+      state of things, as long as we're shipping a 32-bit userspace.
+      Also, install virtualbox-* from jessie-backports, since the
+      version in Jessie is not compatible with Linux 4.x.
+
+  * Build system
+    - Don't install+remove dpatch during the build. It's not been
+      needed in this hook for ages.
+    - Bump BUILD_SPACE_REQUIREMENT: at least one of us needed that to
+      build feature/10298-linux-4.x-aufs with the gzipcomp option.
+
+  * Test suite
+    - Send Tails Installer's debug log to the Cucumber debug log on
+      failure. This is meant to debug #10720 since I can't
+      reproduce it locally.
+    - Give the system under testing 2 vCPUs. (Closes: #6729)
+    - Split scenarios from checks.feature. (Closes: #5707)
+    - Add retry-logic to the Synaptic tests. (Closes: #10412, #10441,
+      #10991)
+    - Run usb_upgrade.feature earlier, when there is enough free disk
+      space left. (Closes: #11582)
+    - Use more recent virtual hardware in the system under test,
+      i.e. USB 3.0 (nec-xhci) on a pc-i440fx-2.5 machine. Switching
+      USB controllers has helped with problems we see on Jenkins when
+      booting from USB (#11588). Also, there are chances that more
+      recent virtual hardware sees more testing these days, so it
+      sounds potentially useful to "upgrade".
+    - Add support for Cucumber 2.4. (Closes: #11690)
+    - Always write {pretty,debug} logs and JSON output to the artifact
+      directory.
+    - Disable info level logging on Chutney nodes to save disk
+      space. For our network all these add up to > 1 GiB and we didn't
+      take this into account when budgeting RAM to the isotesters on
+      Jenkins.
+
+ -- Tails developers <tails@boum.org>  Tue, 20 Sep 2016 04:16:33 +0200
+
+tails (2.5) unstable; urgency=medium
+
+  * Major new features and changes
+    - Upgrade Icedove to 1:45.1.0-1~deb8u1+tails2. (Closes: #11530)
+      · Fix long delay causing bad UX in the autoconfig wizard,
+        when it does not manage to guess proper settings on some domains.
+        (Closes: #11486)
+      · Better support sending email through some ISPs, such as Riseup.
+        (Closes: #10933)
+      · Fix spurious error message when creating an account and providing
+        its password. (Closes: #11550)
+
+  * Security fixes
+    - Upgrade Tor Browser to 6.0.3 based on Firefox 45.3. (Closes: #11611)
+    - Upgrade GIMP to 2.8.14-1+deb8u1.
+    - Upgrade libav to 6:11.7-1~deb8u1.
+    - Upgrade expat to 2.1.0-6+deb8u3.
+    - Upgrade libgd3 to 2.1.0-5+deb8u6.
+    - Upgrade libmodule-build-perl to 0.421000-2+deb8u1.
+    - Upgrade perl to 5.20.2-3+deb8u6.
+    - Upgrade Pidgin to 2.11.0-0+deb8u1.
+    - Upgrade LibreOffice to 1:4.3.3-2+deb8u5.
+    - Upgrade libxslt1.1 to 1.1.28-2+deb8u1.
+    - Upgrade Linux to 3.16.7-ckt25-2+deb8u3.
+    - Upgrade OpenSSH to 1:6.7p1-5+deb8u3.
+    - Upgrade p7zip to 9.20.1~dfsg.1-4.1+deb8u2.
+
+  * Minor improvements
+    - htpdate: replace obsolete and unreliable URIs in HTP pools, and decrease
+      timeout for HTTP operations for more robust time synchronization.
+      (Closes: #11577)
+    - Hide settings panel for the Online Accounts component of GNOME,
+      that we don't support. (Closes: #11545)
+    - Vastly improve graphics performance in KVM guest with QXL driver.
+      (Closes: #11500)
+    - Fix graphics artifacts in Tor Browser in KVM guest with QXL driver.
+      (Closes: #11489)
+
+  * Build system
+    - Wrap Pidgin in a more maintainable way. (Closes: #11567)
+
+  * Test suite
+    - Add a test scenario for the persistence "dotfiles" feature.
+      (Closes: #10840)
+    - Improve robustness of most APT, Git, SFTP and SSH scenarios,
+      enough to enable them on Jenkins. (Closes: #10444, #10496, #10498)
+    - Improve robustness of checking for persistence partition. (Closes: #11558)
+    - Treat Tails booting from /dev/sda as OK, to support all cases
+      including a weird one caused by hybrid ISO images. (Closes: #10504)
+    - Bump a bunch of timeouts to cope with the occasional slowness on Jenkins.
+    - Only query A records when exercising DNS lookups, to improve robustness.
+
+ -- Tails developers <tails@boum.org>  Sun, 31 Jul 2016 16:50:35 +0000
 
 tails (2.4) unstable; urgency=medium
 

@@ -288,10 +288,6 @@ Given /^Pidgin has the expected accounts configured with random nicknames$/ do
          "#{expected}")
 end
 
-When /^I start Pidgin through the GNOME menu$/ do
-  step 'I start "Pidgin Internet Messenger" via the GNOME "Internet" applications menu'
-end
-
 When /^I open Pidgin's account manager window$/ do
   @screen.wait_and_click('PidginMenuAccounts.png', 20)
   @screen.wait_and_click('PidginMenuManageAccounts.png', 20)
@@ -433,7 +429,7 @@ end
 
 def pidgin_add_certificate_from (cert_file)
   # Here, we need a certificate that is not already in the NSS database
-  step "I copy \"/usr/share/ca-certificates/spi-inc.org/spi-cacert-2008.crt\" to \"#{cert_file}\" as user \"amnesia\""
+  step "I copy \"/usr/share/ca-certificates/mozilla/CNNIC_ROOT.crt\" to \"#{cert_file}\" as user \"amnesia\""
 
   $vm.focus_window('Buddy List')
   @screen.wait_and_click('PidginToolsMenu.png', 10)
