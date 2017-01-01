@@ -76,7 +76,7 @@ $RUN_LB_CONFIG \
    --iso-application="The Amnesic Incognito Live System" \
    --iso-publisher="https://tails.boum.org/" \
    --iso-volume="TAILS ${AMNESIA_FULL_VERSION}" \
-   --linux-flavours amd64-unsigned \
+   --linux-flavours amd64 \
    --memtest none \
    --mirror-binary              "$DEBIAN_MIRROR" \
    --mirror-bootstrap           "$DEBIAN_MIRROR" \
@@ -85,7 +85,7 @@ $RUN_LB_CONFIG \
    --mirror-chroot-security     "$DEBIAN_SECURITY_MIRROR" \
    --packages-lists="standard" \
    --tasks="standard" \
-   --linux-packages="linux-image-${KERNEL_VERSION}" \
+   --linux-packages="linux-image-${KERNEL_VERSION}-grsec" \
    --syslinux-menu vesamenu \
    --syslinux-splash data/splash.png \
    --syslinux-timeout 4 \
