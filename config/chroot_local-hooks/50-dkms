@@ -12,8 +12,7 @@ MODULES="bbswitch virtualbox-guest"
 # the -dkms package must be installed *after* dkms to be properly registered
 apt-get install --yes \
    build-essential \
-   dkms \
-   gcc-${gcc_version}
+   dkms
 
 # Installing the headers triggers the building of the modules for that kernel
 apt-get install --yes \
