@@ -184,6 +184,8 @@ openpgp-applet
 openssh-client
 paperkey
 parted
+paxctl
+paxrat
 pidgin
 pidgin-otr
 pinentry-gtk2
