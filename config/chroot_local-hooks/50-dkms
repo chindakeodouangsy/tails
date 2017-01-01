@@ -13,7 +13,6 @@ MODULES="bbswitch virtualbox-guest"
 apt-get install --yes \
    build-essential \
    dkms \
-   dpatch \
    gcc-${gcc_version}
 
 # Installing the headers triggers the building of the modules for that kernel
