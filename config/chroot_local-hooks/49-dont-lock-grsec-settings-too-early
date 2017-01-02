@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e
+
+echo "Don't lock grsec settings too early"
+
+# We have our own /etc/sysctl.d/tails-grsec.conf, that needs to override
+# some of the settings from /etc/sysctl.d/grsec.conf, and that will lock
+# it itself.
+
+perl -pi -E \
+     's{\A(kernel\.grsecurity\.grsec_lock)\s*=.*}{$1 = 0}' \
+     /etc/sysctl.d/grsec.conf
