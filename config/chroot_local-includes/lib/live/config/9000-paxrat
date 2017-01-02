@@ -4,7 +4,7 @@ Configure_pax_flags ()
 {
 
 	/sbin/paxrat -c /etc/paxrat/paxrat.conf
-        /sbin/paxrat -s m -b /usr/bin/totem
+	/sbin/paxrat -s m -b /usr/bin/totem
 	/sbin/paxrat -s m -b /usr/local/lib/tor-browser/firefox
 
 }
