@@ -45,6 +45,8 @@ class ServiceConfigPanel(object):
         self.cancel_edit_button = self.builder.get_object("button_cancel_edit")
         self.apply_button = self.builder.get_object("button_apply")
         self.options_grid = self.builder.get_object("grid_options")
+        self.linkbutton = self.builder.get_object("linkbutton_help")
+        self.linkbutton.set_uri(self.service.documentation)
         self.option_rows = list()
         self.option_groups = set()
         self.group_separators = collections.OrderedDict()
@@ -435,3 +437,4 @@ class ServiceConfigPanel(object):
 
     def on_button_help_clicked(self, button):
         sh.sudo("-u", "amnesia", "xdg-open", self.service.documentation)
+        return True
