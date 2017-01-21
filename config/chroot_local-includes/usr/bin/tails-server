@@ -18,6 +18,13 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--log-file", "-l", default="/var/log/tails-server.log")
     parser.add_argument("--verbose", "-v", action="count")
+    parser.add_argument("--no-client-auth", action="store_true",
+                        help="Disables use of client authentication. This makes deanonymization "
+                             "attacks possible, which have a much higher chance to succeed "
+                             "against onion services running in Tails than against onion services "
+                             "running with default Tor configuration. \n"
+                             "So this option is currently considered INSECURE.\n"
+                             "See ")
     return parser.parse_args()
 
 
@@ -52,6 +59,11 @@ def init(args):
 def main():
     args = parse_args()
     init(args)
+
+    if args.no_client_auth:
+        from tails_server import service_template
+        service_template.USE_CLIENT_AUTH = False
+
     try:
         ServiceStatus.register_signal()
         TailsServerGUI()

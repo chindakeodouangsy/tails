@@ -21,9 +21,12 @@ from tails_server.exceptions import TorIsNotRunningError
 from tails_server.exceptions import UnknownOptionError
 from tails_server.exceptions import ServiceNotInstalledError
 from tails_server.exceptions import ServiceAlreadyEnabledError
+from tails_server.exceptions import OptionNotInitializedError
 
 from tails_server.config import HS_DIR, TOR_USER, TAILS_SERVER_USER, STATE_DIR, \
     OPTIONS_FILE_NAME, PERSISTENCE_CONFIG_NAME, PERSISTENCE_DIR, INSTALLED_FILE_PATH
+
+USE_CLIENT_AUTH = True
 
 
 class LazyOptionDict(OrderedDict):
@@ -211,7 +214,7 @@ class TailsService(metaclass=abc.ABCMeta):
     @property
     def is_persistent(self):
         if "persistence" not in self.options_dict:
-            return False
+            raise OptionNotInitializedError(option="persistence")
         return self.options_dict["persistence"].value
 
     @property
@@ -219,6 +222,13 @@ class TailsService(metaclass=abc.ABCMeta):
         if not self.address:
             return False
         return tor_util.is_published(self.address)
+
+    @property
+    def use_client_auth(self):
+        return USE_CLIENT_AUTH
+        # if "client-auth" not in self.options_dict:
+        #     raise OptionNotInitializedError(option="client-auth")
+        # return self.options_dict["client-auth"].value
 
     @property
     def address(self):
@@ -525,12 +535,10 @@ class TailsService(metaclass=abc.ABCMeta):
             key_type = "NEW"
             key_content = "RSA1024"
 
-        # We make client authentication non-optional until we have stable entry guards in Tails
-        # if "client-authentication" in self.options_dict:
-        #     client_auth = self.options_dict["client-authentication"].value
-        # else:
-        #     client_auth = None
-        client_auth = {"client": self.client_cookie}
+        if self.use_client_auth:
+            client_auth = {"client": self.client_cookie}
+        else:
+            client_auth = None
 
         controller = stem.control.Controller.from_socket_file()
         controller.authenticate()
@@ -544,7 +552,6 @@ class TailsService(metaclass=abc.ABCMeta):
             discard_key=False,
             detached=True,
             await_publication=True,
-            # XXX: This option will be available in stem 1.5.0
             basic_auth=client_auth
         )
 
@@ -552,7 +559,6 @@ class TailsService(metaclass=abc.ABCMeta):
             self.set_onion_address(response.service_id)
         if response.private_key:
             self.set_hs_private_key(response.private_key)
-        # XXX: Set client authentication
         if response.client_auth:
             self.set_client_auth(response.client_auth)
 
