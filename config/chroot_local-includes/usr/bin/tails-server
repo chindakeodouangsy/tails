@@ -23,8 +23,9 @@ def parse_args():
                              "attacks possible, which have a much higher chance to succeed "
                              "against onion services running in Tails than against onion services "
                              "running with default Tor configuration. \n"
-                             "So this option is currently considered INSECURE.\n"
-                             "See ")
+                             "So this option is currently considered insecure.\n"
+                             "For more information, "
+                             "see https://tails.boum.org/blueprint/tails_server.")
     return parser.parse_args()
 
 
