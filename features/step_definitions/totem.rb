@@ -32,6 +32,39 @@ When /^I close Totem$/ do
   step 'I kill the process "totem"'
 end
 
+When /^I add "([^"]+)" as a local video in Totem$/ do |filename|
+  totem = Dogtail::Application.new('totem')
+  totem_main = totem.child('Videos', roleName: 'frame')
+  totem_main.child('Menu', roleName: 'toggle button').click
+  # Dogtail has a unicode issue in it's logging machinery (against the
+  # "...", which actually is the unicode character for "Three dots",
+  # so we avoid the logging by playing with coordinates instead. I
+  # believe this will be fixed once we run Dogtail >= 1.0 under Python3.
+  x, y = totem_main.child('Add Local Video...', roleName: 'push button').position
+  @screen.click_point(x, y)
+  totem_file_chooser = totem.child('Add Videos', roleName: 'file chooser')
+  totem_file_chooser.child('Enter Location', roleName: 'table cell').click()
+  totem_file_chooser.child('Location:', roleName: 'label')
+    .parent.child(roleName: 'text').text = filename
+  totem_file_chooser.child('Add', roleName: 'push button').click()
+end
+
+Then /^"([^"]+)" is added as a local video in Totem$/ do |filename|
+  totem = Dogtail::Application.new('totem')
+  totem_file_chooser = totem.child('Add Videos', roleName: 'file chooser')
+  name = File.basename(filename).sub(/\.[^.]+$/, '')
+  # Some elements of role 'icon' seem to set the `showing` attribute
+  # incorrectly, including the one we are looking for.
+  video = totem.children(roleName: 'icon', showingOnly: false).find do |n|
+    begin
+      n.text == name
+    rescue
+      false
+    end
+  end
+  assert_not_nil(video)
+end
+
 Then /^I can watch a WebM video over HTTPs$/ do
   test_url = 'https://tails.boum.org/lib/test_suite/test.webm'
   recovery_on_failure = Proc.new do

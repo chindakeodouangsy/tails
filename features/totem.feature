@@ -13,6 +13,15 @@ Feature: Using Totem
     And I plug and mount a USB drive containing sample videos
     And I copy the sample videos to "/home/amnesia" as user "amnesia"
     And the file "/home/amnesia/video.mp4" exists
+    When I start "Videos" via the GNOME "Sound & Video" applications menu
+    And I add "/home/amnesia/video.mp4" as a local video in Totem
+    Then "/home/amnesia/video.mp4" is added as a local video in Totem
+
+  Scenario: Watching a MP4 video stored on the non-persistent filesystem
+    Given I have started Tails from DVD without network and logged in
+    And I plug and mount a USB drive containing sample videos
+    And I copy the sample videos to "/home/amnesia" as user "amnesia"
+    And the file "/home/amnesia/video.mp4" exists
     Given I start monitoring the AppArmor log of "/usr/bin/totem"
     When I open "/home/amnesia/video.mp4" with Totem
     Then I see "SampleLocalMp4VideoFrame.png" after at most 40 seconds
