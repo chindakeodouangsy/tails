@@ -192,7 +192,7 @@ module Dogtail
         more_init_lines = [
           "from dogtail import predicate",
           "node = None",
-          "for n in #{build_line}.findChildren(predicate.GenericPredicate()):",
+          "for n in #{build_line}.findChildren(predicate.GenericPredicate()#{findChildren_opts}):",
           "    if str(n.path) == '#{path}':",
           "        node = n",
           "        break",
