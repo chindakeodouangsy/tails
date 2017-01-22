@@ -56,6 +56,7 @@ module Dogtail
       @app_name = app_name
       @opts = opts
       @init_lines = @opts[:init_lines] || [
+        "import json",
         "from dogtail import tree",
         "from dogtail.config import config",
         "config.logDebugToFile = False",
@@ -208,7 +209,13 @@ module Dogtail
     end
 
     def get_field(key)
-      run("print(#{build_line}.#{key})").stdout.chomp
+      script = [
+        "val = #{build_line}.#{key}",
+        "if hasattr(val, '__iter__') and not isinstance(val, str):",
+        "    val = list(val)",
+        "print(json.dumps(val))",
+      ]
+      JSON.load(run(script.join("\n")).stdout.chomp)
     end
 
     def set_field(key, value)
