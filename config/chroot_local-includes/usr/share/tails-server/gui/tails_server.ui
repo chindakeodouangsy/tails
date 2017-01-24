@@ -23,127 +23,32 @@
     <property name="icon_name">network-workgroup</property>
     <signal name="destroy" handler="on_window1_destroy" swapped="no"/>
     <child>
-      <object class="GtkBox" id="box29">
+      <object class="GtkBox" id="outer_box">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
         <child>
-          <object class="GtkBox" id="box30">
+          <object class="GtkBox" id="service_list_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_left">10</property>
+            <property name="margin_top">10</property>
+            <property name="margin_bottom">10</property>
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkBox" id="box31">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_left">10</property>
-                <property name="margin_top">10</property>
-                <property name="margin_bottom">10</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkScrolledWindow" id="scrolledwindow1">
-                    <property name="width_request">120</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="shadow_type">in</property>
-                    <child>
-                      <object class="GtkViewport" id="viewport1">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <object class="GtkListBox" id="listbox_service_status">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <signal name="row-activated" handler="on_listbox_service_status_row_activated" swapped="no"/>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkToolbar" id="toolbar1">
-                    <property name="width_request">80</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="icon_size">2</property>
-                    <child>
-                      <object class="GtkToolButton" id="toolbutton_add_service">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Add</property>
-                        <property name="use_underline">True</property>
-                        <property name="icon_name">list-add-symbolic</property>
-                        <signal name="clicked" handler="on_button_add_service_clicked" swapped="no"/>
-                        <style>
-                          <class name="suggested-action"/>
-                        </style>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="homogeneous">True</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkToolButton" id="toolbutton_remove_service">
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Remove</property>
-                        <property name="use_underline">True</property>
-                        <property name="icon_name">list-remove-symbolic</property>
-                        <signal name="clicked" handler="on_button_remove_service_clicked" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="homogeneous">True</property>
-                      </packing>
-                    </child>
-                    <style>
-                      <class name="inline-toolbar"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkScrolledWindow" id="scrolledwindow_service_config">
+              <object class="GtkScrolledWindow" id="scrolledwindow1">
+                <property name="width_request">120</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">never</property>
-                <property name="min_content_width">100</property>
-                <property name="min_content_height">160</property>
+                <property name="shadow_type">in</property>
                 <child>
-                  <object class="GtkViewport" id="viewport_service_config_placeholder">
+                  <object class="GtkViewport" id="viewport1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkLabel" id="label1">
+                      <object class="GtkListBox" id="listbox_service_status">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">20</property>
-                        <property name="margin_right">20</property>
-                        <property name="label" translatable="yes">Tails Server allows you to create online services in Tails to which other people can connect through Tor. For example, you can create a Mumble service to organize group calls.
-
-Click '+' to create a new service.
-
-Read the &lt;a href="/usr/share/doc/tails/website/doc/tails_server.html"&gt;documentation&lt;/a&gt; to learn more about Tails Server.</property>
-                        <property name="use_markup">True</property>
-                        <property name="wrap">True</property>
+                        <signal name="row-activated" handler="on_listbox_service_status_row_activated" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -154,6 +59,87 @@ Read the &lt;a href="/usr/share/doc/tails/website/doc/tails_server.html"&gt;docu
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
+            </child>
+            <child>
+              <object class="GtkToolbar" id="toolbar1">
+                <property name="width_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="icon_size">2</property>
+                <child>
+                  <object class="GtkToolButton" id="toolbutton_add_service">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Add</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon_name">list-add-symbolic</property>
+                    <signal name="clicked" handler="on_button_add_service_clicked" swapped="no"/>
+                    <style>
+                      <class name="suggested-action"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToolButton" id="toolbutton_remove_service">
+                    <property name="visible">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Remove</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon_name">list-remove-symbolic</property>
+                    <signal name="clicked" handler="on_button_remove_service_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <style>
+                  <class name="inline-toolbar"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="scrolledwindow_service_config">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">never</property>
+            <property name="min_content_width">100</property>
+            <property name="min_content_height">160</property>
+            <child>
+              <object class="GtkViewport" id="viewport_service_config_placeholder">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="label1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">Tails Server allows you to create online services in Tails to which other people can connect through Tor. For example, you can create a Mumble service to organize group calls.
+
+Click '+' to create a new service.
+
+Read the &lt;a href="/usr/share/doc/tails/website/doc/tails_server.html"&gt;documentation&lt;/a&gt; to learn more about Tails Server.</property>
+                    <property name="use_markup">True</property>
+                    <property name="wrap">True</property>
+                  </object>
+                </child>
+              </object>
             </child>
           </object>
           <packing>
