@@ -6,20 +6,30 @@ def tails_server_main
   tails_server_app.child('Tails Server', roleName: 'frame')
 end
 
-outer_box = tails_server_main.child(roleName: 'filler', recursive: false)
-service_outer_box = outer_box.child(roleName: 'filler', recursive: false)
-service_scrolledwindow = service_outer_box.child(roleName: 'scroll pane', recursive: false)
-service_viewport = service_scrolledwindow.child(roleName: 'viewport', recursive: false)
-service_listbox = service_viewport.child(roleName: 'list box', recursive: false)
+def outer_box
+  tails_server_main.child(roleName: 'filler', recursive: false)
+end
 
-service_tool_bar = service_outer_box.child(roleName: 'tool bar', recursive: false)
-add_service_button = service_tool_bar.child(roleName: 'panel', recursive: false).child('Add')
-remove_service_button = service_tool_bar.child(roleName: 'panel', recursive: false).child('Remove')
+def service_outer_box
+  outer_box.child(roleName: 'filler', recursive: false)
+end
 
-service_config_scrolledwindow = outer_box.child(roleName: 'scroll pane', recursive: false)
-service_config_viewport = service_config_scrolledwindow.child(roleName: 'viewport', recursive: false) 
-service_config_outer_box = service_config_viewport.child(roleName: 'filler', recursive: false)
-options_grid = service_config_outer_box.child(roleName: 'panel', recursive: false)
+def service_listbox
+  service_scrolledwindow = service_outer_box.child(roleName: 'scroll pane', recursive: false)
+  service_viewport = service_scrolledwindow.child(roleName: 'viewport', recursive: false)
+  service_viewport.child(roleName: 'list box', recursive: false)
+end
+
+def service_toolbar
+  service_outer_box.child(roleName: 'tool bar', recursive: false)
+end
+
+def options_grid
+  service_config_scrolledwindow = outer_box.child(roleName: 'scroll pane', recursive: false)
+  service_config_viewport = service_config_scrolledwindow.child(roleName: 'viewport', recursive: false) 
+  service_config_outer_box = service_config_viewport.child(roleName: 'filler', recursive: false)
+  service_config_outer_box.child(roleName: 'panel', recursive: false)
+end
 
 def add_service_window
   tails_server_app.child('Add Service', roleName: 'frame')
@@ -38,6 +48,18 @@ def add_service_list_item(service)
   $stderr.puts "Could not find service '#{service}'"
 end
 
+
+def client_app
+  Dogtail::Application.new('tails-server-client')
+end
+
+def client_app_textview
+  client_app.child(roleName: 'frame', recursive: false).
+    child(roleName: 'filler', recursive: false).
+    child(roleName: 'text', recursive: false)
+end
+
+
 When /^I start Tails Server and enter the sudo password$/ do
   step 'I start "Tails Server" via the GNOME "Internet" applications menu'
   step 'I enter the sudo password in the gksudo prompt'
@@ -54,7 +76,7 @@ Then /^I see ([^"]+) in the service list$/ do |service|
 end
 
 When /^I add ([^"]+) service in Tails Server$/ do |service|
-  add_service_button.click()
+  service_toolbar.child('Add').click()
   add_service_list_item(service).click()
 end
 
@@ -67,5 +89,27 @@ When /^I start the service$/ do
 end
 
 Then /^the service starts successfully$/ do
-  options_grid.child(name: 'Online').wait(60)
+  options_grid.child(name: 'Online').wait(1200)
 end
+
+When /^I copy the connection information to the clipboard$/ do
+  options_grid.child(name: 'Connection Info').click()
+  # XXX: Continue
+end
+
+When /^I start the client app$/ do
+  $vm.execute("QT_ACCESSIBILITY=1")
+  $vm.execute("tails-server-client")
+end
+
+When /^I paste the clipboard in the client app and click connect$/ do
+  client_app_textview.typeText($vm.get_clipboard)
+  sleep(2)  # Give the client app some time to process the pasted data
+  client_app.child(name: 'Connect').click()
+end
+
+Then /^The Mumble client starts and connects$/ do
+  # XXX
+end
+
+
