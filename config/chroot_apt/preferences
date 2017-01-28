@@ -51,6 +51,11 @@ Package: grub2-common
 Pin: origin deb.tails.boum.org
 Pin-Priority: 999
 
+Explanation: required by openpgp-applet
+Package: libgtk3-simplelist-perl
+Pin: release o=Debian,n=jessie-backports
+Pin-Priority: 999
+
 Explanation: src:hplip
 Package: hplip* hpijs-ppds libhpmud* libsane-hpaio printer-driver-hpcups printer-driver-hpijs printer-driver-postscript-hp
 Pin: release o=Debian,n=jessie-backports
@@ -119,6 +124,10 @@ Package: onioncircuits
 Pin: release o=Debian,n=jessie-backports
 Pin-Priority: 999
 
+Package: onionshare
+Pin: release o=Debian,n=jessie-backports
+Pin-Priority: 999
+
 Package: openpgp-applet
 Pin: release o=Debian,n=jessie-backports
 Pin-Priority: 999
@@ -136,6 +145,7 @@ Package: python-electrum
 Pin: release o=Debian,n=stretch
 Pin-Priority: 999
 
+Explanation: version >= 1.4 required for ADD_ONION support in onionshare
 Package: python3-stem
 Pin: release o=Debian,n=jessie-backports
 Pin-Priority: 999
@@ -146,10 +156,6 @@ Pin-Priority: 999
 
 Package: ttdnsd
 Pin: release o=TorProject,n=sid
-Pin-Priority: 999
-
-Package: tor
-Pin: release o=TorProject,n=tor-experimental-0.2.9.x-jessie
 Pin-Priority: 999
 
 Package: torsocks
@@ -172,6 +178,10 @@ Package: xul-ext-torbirdy
 Pin: release o=Debian,n=jessie-backports
 Pin-Priority: 999
 
+Package: xul-ext-ublock-origin
+Pin: release o=Debian,n=jessie-backports
+Pin-Priority: 999
+
 Explanation: weirdness in chroot_apt install-binary
 Package: *
 Pin: release o=chroot_local-packages
@@ -187,6 +197,10 @@ Pin-Priority: 990
 
 Package: *
 Pin: release l=Debian-Security,n=jessie/updates
+Pin-Priority: 990
+
+Package: *
+Pin: release o=Debian,n=jessie-proposed-updates
 Pin-Priority: 990
 
 Package: *

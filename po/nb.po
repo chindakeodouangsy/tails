@@ -4,7 +4,7 @@
 #
 # Translators:
 # Allan Nordhøy <epost@anotheragency.no>, 2014-2015
-# Allan Nordhøy <epost@anotheragency.no>, 2015-2016
+# Allan Nordhøy <epost@anotheragency.no>, 2015-2017
 # David Gutierrez <david.gutierrez.abreu@gmail.com>, 2014
 # Erik Matson, 2015
 # Harald H. <haarektrans@gmail.com>, 2015
@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-13 08:15+0100\n"
-"PO-Revision-Date: 2016-11-08 15:01+0000\n"
+"POT-Creation-Date: 2017-01-12 19:30+0100\n"
+"PO-Revision-Date: 2017-01-20 13:56+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål (http://www.transifex.com/otf/torproject/"
 "language/nb/)\n"
@@ -208,7 +208,7 @@ msgstr "Kjente sikkerhetsproblemer"
 #: config/chroot_local-includes/usr/local/lib/tails-spoof-mac:52
 #, sh-format
 msgid "Network card ${nic} disabled"
-msgstr "Nettverkskort ${nic} deaktivert"
+msgstr "Nettverkskort ${nic} skrudd av"
 
 #: config/chroot_local-includes/usr/local/lib/tails-spoof-mac:53
 #, sh-format
@@ -218,12 +218,12 @@ msgid ""
 "You might prefer to restart Tails and disable MAC spoofing."
 msgstr ""
 "MAC-simulering mislyktes for nettverkskortet ${nic_name} (${nic}) så det er "
-"midlertidig deaktivert.\n"
-"Du foretrekker kanskje å starte Tails på nytt og deaktivere MAC-simulering. "
+"midlertidig avskrudd.\n"
+"Du foretrekker kanskje å starte Tails på nytt og skru av MAC-simulering. "
 
 #: config/chroot_local-includes/usr/local/lib/tails-spoof-mac:62
 msgid "All networking disabled"
-msgstr "Alt nettverk deaktivert"
+msgstr "All nettverkstilknytning avskrudd"
 
 #: config/chroot_local-includes/usr/local/lib/tails-spoof-mac:63
 #, sh-format
@@ -233,8 +233,9 @@ msgid ""
 "You might prefer to restart Tails and disable MAC spoofing."
 msgstr ""
 "MAC-simulering mislyktes for nettverkskortet ${nic_name} (${nic}). "
-"Feilgjenopprettingen mislyktes også, så alt nettverk er deaktivert. \n"
-"Du foretrekker kanskje å starte Tails på nytt og deaktivere MAC-simulering."
+"Feilgjenopprettingen mislyktes også, så all nettverkstilknytning er "
+"avskrudd. \n"
+"Du foretrekker kanskje å starte Tails på nytt og skru avMAC-simulering."
 
 #: config/chroot_local-includes/usr/local/bin/tails-upgrade-frontend-wrapper:24
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:27
@@ -463,7 +464,7 @@ msgstr "Lær mer om Tails"
 
 #: ../config/chroot_local-includes/usr/share/applications/tor-browser.desktop.in.h:1
 msgid "Tor Browser"
-msgstr "Tor Nettleser"
+msgstr "Tor-nettleseren"
 
 #: ../config/chroot_local-includes/usr/share/applications/tor-browser.desktop.in.h:2
 msgid "Anonymous Web Browser"

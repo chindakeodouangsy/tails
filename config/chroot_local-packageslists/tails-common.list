@@ -76,6 +76,8 @@ electrum
 enigmail
 eog
 evince
+exfat-fuse
+exfat-utils
 exiv2
 file-roller
 florence
@@ -152,8 +154,6 @@ macchanger
 mat
 monkeysign
 monkeysphere
-# our onioncircuits-wrapper needs lckdo
-moreutils
 msva-perl
 mumble
 nautilus
@@ -163,6 +163,7 @@ network-manager
 network-manager-gnome
 ntfs-3g
 obfs4proxy
+onionshare
 libreoffice-calc
 libreoffice-draw
 libreoffice-gnome
@@ -223,7 +224,6 @@ tor
 tor-geoipdb
 sound-juicer
 ssss
-tor-arm
 totem
 ttdnsd
 unar
@@ -415,4 +415,7 @@ python3-gi
 python3-openssl
 python3-sh
 python3-stem
+
+# tor-controlport-filter
+python3-psutil
 python3-yaml
