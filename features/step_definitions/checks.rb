@@ -101,11 +101,6 @@ When /^Tails has booted a 64-bit kernel$/ do
          "Tails has not booted a 64-bit kernel.")
 end
 
-Then /^the VirtualBox guest modules are available$/ do
-  assert($vm.execute("modinfo vboxguest").success?,
-         "The vboxguest module is not available.")
-end
-
 Then /^the support documentation page opens in Tor Browser$/ do
   if @language == 'German'
     expected_title = 'Tails - Hilfe & Support'

@@ -1281,8 +1281,7 @@ for an improved user experience in that environment. Due to the
 closed-source nature of VMWare we try to encourage users of open VMs,
 like [VirtualBox](http://virtualbox.org/) and
 [QEMU](http://www.qemu.org/), by making sure that
-these also work. In the case of VirtualBox both video and input
-drivers are included, as well as the guest utilities.
+these also work.
 
 ### 3.7.2 Security concerns
 
