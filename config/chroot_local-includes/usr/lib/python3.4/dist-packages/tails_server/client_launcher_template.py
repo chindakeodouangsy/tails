@@ -52,7 +52,7 @@ class ClientLauncher(metaclass=abc.ABCMeta):
     details = [
         ClientLauncherDetail("address", _("Address"), str),
         ClientLauncherDetail("port", _("Port"), int),
-        ClientLauncherDetail("client_cookie", _("Client Cookie"), str),
+        ClientLauncherDetail("client_cookie", _("Client Cookie"), str, required=False),
     ]
 
     @abc.abstractmethod

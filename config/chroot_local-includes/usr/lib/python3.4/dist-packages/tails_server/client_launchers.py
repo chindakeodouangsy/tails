@@ -1,6 +1,7 @@
 import os
 import collections
 import importlib.machinery
+import logging
 
 from tails_server.config import CLIENT_LAUNCHERS_DIR
 
@@ -34,9 +35,14 @@ def import_client_launcher_modules():
     """Import the modules in the package"""
     modules = collections.OrderedDict()
     for client_name in client_names:
+        logging.debug("Importing client launcher %r", client_name)
         module_path = module_paths[client_name]
-        source_file_loader = importlib.machinery.SourceFileLoader(client_name, module_path)
-        modules[client_name] = source_file_loader.load_module()
+        try:
+            source_file_loader = importlib.machinery.SourceFileLoader(client_name, module_path)
+            modules[client_name] = source_file_loader.load_module()
+        except:
+            logging.error("Error: Couldn't import module %r", module_path)
+            raise
     return modules
 
 load_client_names()
