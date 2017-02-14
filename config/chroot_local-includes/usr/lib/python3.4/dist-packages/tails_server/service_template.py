@@ -22,9 +22,16 @@ from tails_server.exceptions import UnknownOptionError
 from tails_server.exceptions import ServiceNotInstalledError
 from tails_server.exceptions import ServiceAlreadyEnabledError
 from tails_server.exceptions import OptionNotInitializedError
+from tails_server.exceptions import AlreadyMountedError
 
 from tails_server.config import HS_DIR, TOR_USER, TAILS_SERVER_USER, STATE_DIR, \
     OPTIONS_FILE_NAME, PERSISTENCE_CONFIG_NAME, PERSISTENCE_DIR, INSTALLED_FILE_PATH
+
+
+class PersistenceRecord(object):
+    def __init__(self, target_path, persistence_path):
+        self.target_path = target_path
+        self.persistence_path = persistence_path
 
 
 class LazyOptionDict(OrderedDict):
@@ -273,17 +280,25 @@ class TailsService(metaclass=abc.ABCMeta):
         print(yaml.dump(*args, Dumper=OrderedDictDumper, default_flow_style=False, **kwargs))
 
     @property
-    def default_persistence_map(self):
+    def default_persistence_records(self):
         return [
-            (self.hs_dir, os.path.join(self.persistence_dir, "hidden_service")),
-            (self.options_file, os.path.join(self.persistence_dir, OPTIONS_FILE_NAME))
+            PersistenceRecord(
+                target_path=self.hs_dir,
+                persistence_path=os.path.join(self.persistence_dir, "hidden_service")
+            ),
+            PersistenceRecord(
+                target_path=self.options_file,
+                persistence_path=os.path.join(self.persistence_dir, OPTIONS_FILE_NAME)
+            )
         ]
 
     @property
-    def persistence_map(self):
-        return self.default_persistence_map + [
-            (path, os.path.join(self.persistence_dir, os.path.basename(path))) for path in
-            self.persistent_paths
+    def persistence_records(self):
+        return self.default_persistence_records + [
+            PersistenceRecord(
+                target_path=path,
+                persistence_path=os.path.join(self.persistence_dir, os.path.basename(path))
+            ) for path in self.persistent_paths
         ]
 
     def __init__(self):
@@ -367,7 +382,7 @@ class TailsService(metaclass=abc.ABCMeta):
         if self.is_running:
             self.disable()
         for option in self.options_dict.get_instantiated():
-            option.clean()
+            option.clean_up()
         self.remove_options_file()
         self.remove_state_dir()
         self.remove_hs_dir()
@@ -376,30 +391,36 @@ class TailsService(metaclass=abc.ABCMeta):
         logging.info("Service %r uninstalled", self.name)
 
     def mount_persistent_files(self):
-        for dest, source in self.persistence_map:
-            self.ensure_dest_exists(dest, source)
-            sh.mount("--bind", source, dest)
+        logging.info("Bind-mounting persistent files of service %r", self.name)
+        for record in self.persistence_records:
+            logging.debug("Bind-mounting %r to %r", record.persistence_path, record.target_path)
+            if util.is_mounted(record.target_path):
+                raise AlreadyMountedError("%r is already mounted" % record.target_path)
+            self.ensure_target_exists(record)
+            sh.mount("--bind", record.persistence_path, record.target_path)
 
     def unmount_persistent_files(self):
-        for dest, source in self.persistence_map:
-            sh.umount(dest)
-            self.remove_dest(dest, source)
+        logging.info("Unmounting persistent files of service %r", self.name)
+        for record in self.persistence_records:
+            logging.debug("Unmounting %r", record.target_path)
+            sh.umount(record.target_path)
+            self.remove_target(record)
 
     @staticmethod
-    def ensure_dest_exists(dest, source):
-        if os.path.exists(dest):
+    def ensure_target_exists(persistence_record):
+        if os.path.exists(persistence_record.target_path):
             return
-        if os.path.isdir(source):
-            sh.mkdir(dest)
+        if os.path.isdir(persistence_record.persistence_path):
+            sh.mkdir(persistence_record.target_path)
         else:
-            sh.touch(dest)
+            sh.touch(persistence_record.target_path)
 
     @staticmethod
-    def remove_dest(dest, source):
-        if os.path.isdir(source):
-            sh.rmdir(dest)
+    def remove_target(persistence_record):
+        if os.path.isdir(persistence_record.persistence_path):
+            sh.rmdir(persistence_record.target_path)
         else:
-            sh.rm(dest)
+            sh.rm(persistence_record.target_path)
 
     def create_state_dir(self):
         if not os.path.exists(self.state_dir):

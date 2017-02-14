@@ -68,3 +68,11 @@ def get_installed_services():
         with open(INSTALLED_FILE_PATH, "w+") as f:
             f.write(yaml.dump(list(), default_flow_style=False))
         return set()
+
+
+def is_mounted(path):
+    try:
+        sh.findmnt("--target", path)
+    except sh.ErrorReturnCode_1:
+        return False
+    return True

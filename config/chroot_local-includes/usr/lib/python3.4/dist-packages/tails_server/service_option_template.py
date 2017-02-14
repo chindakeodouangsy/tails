@@ -59,7 +59,7 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
                 self.service.arg_parser.error("Invalid value %r for option %r. Possible values: %r"
                                               % (value, self.name, choices))
             value = value.lower() == "true"
-        logging.debug("New value: %r, old value: %r", self._value, value)
+
         if self._value != value:
             self._value = value
             self.on_value_changed()
@@ -141,7 +141,7 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
         If you want to apply the default value, call self.apply() in __init__()."""
         logging.debug("Applying option %s", self.name)
 
-    def clean(self):
+    def clean_up(self):
         """This function should be overridden if something needs to be cleaned up for this option
         when the service is uninstalled."""
         logging.debug("Cleaning option %s", self.name)
@@ -198,8 +198,8 @@ class AllowLocalhostOption(TailsServiceOption):
         except sh.ErrorReturnCode_1:
             return False
 
-    def clean(self):
-        super().clean()
+    def clean_up(self):
+        super().clean_up()
         if self.value:
             self.reject_localhost_connections()
 
@@ -247,8 +247,8 @@ class AllowLanOption(TailsServiceOption):
         except sh.ErrorReturnCode_1:
             return False
 
-    def clean(self):
-        super().clean()
+    def clean_up(self):
+        super().clean_up()
         if self.value:
             self.reject_lan_connections()
 
@@ -276,35 +276,37 @@ class PersistenceOption(TailsServiceOption):
         else:
             self.remove_persistence()
 
-    def clean(self):
-        super().clean()
+    def clean_up(self):
+        super().clean_up()
         if self.value:
             self.remove_persistence()
 
     def make_persistent(self):
+        logging.info("Making %r persistent", self.service.name)
         self.service.create_persistence_dir()
         self.service.create_hs_dir()
-        for path, persistent_path in self.service.persistence_map:
-            self.move(path, persistent_path)
+        for record in self.service.persistence_records:
+            self.move(record.target_path, record.persistence_path)
         self.service.mount_persistent_files()
 
     def remove_persistence(self):
+        logging.info("Removing persistence of %r", self.service.name)
         try:
             self.service.unmount_persistent_files()
         except sh.ErrorReturnCode_32:
             logging.error("Error while unmounting persistent files", exc_info=True)
 
         try:
-            for (path, persistent_path) in self.service.persistence_map:
-                self.move(persistent_path, path)
+            for record in self.service.persistence_records:
+                self.move(record.persistence_path, record.target_path)
         except (sh.ErrorReturnCode_1, FileExistsError):
             logging.error("Error while moving persistent files", exc_info=True)
 
     @staticmethod
     def move(src, dest):
+        logging.debug("Moving %r to %r", src, dest)
         if os.path.exists(dest):
             raise FileExistsError("Couldn't move %r to %r, destination %r already exists" %
                                   (src, dest, dest))
 
         sh.mv(src, dest)
-        logging.debug("Moved %r to %r", src, dest)

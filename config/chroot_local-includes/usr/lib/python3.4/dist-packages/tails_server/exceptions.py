@@ -18,6 +18,10 @@ class InvalidStatusError(Exception):
     pass
 
 
+class AlreadyMountedError(Exception):
+    pass
+
+
 class OptionNotInitializedError(Exception):
     def __init__(self, option=None):
         msg = "Option %r accessed before it was initialized" % option if option else None

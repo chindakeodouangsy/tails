@@ -31,6 +31,7 @@ def list_enabled():
 def use_persistent_options_file_if_exists(service):
     persistent_options_file = os.path.join(service.persistence_dir, OPTIONS_FILE_NAME)
     if os.path.exists(persistent_options_file):
+        logging.debug("Using persistent options file %r", persistent_options_file)
         service.options_file = persistent_options_file
     yield service
     service.options_file = os.path.join(service.state_dir, OPTIONS_FILE_NAME)
@@ -46,6 +47,7 @@ def restore_services():
                 persistent_services.append(service)
 
     for service in persistent_services:
+        logging.info("Restoring service %r", service.name)
         service.install()
         service.mount_persistent_files()
 
