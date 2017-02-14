@@ -118,7 +118,6 @@ class GobbyServer(service_template.TailsService):
         s += _("Application: Gobby\n")
         s += _("Address: %s\n") % self.address
         s += _("Port: %s\n") % self.virtual_port
-        s += _("Client Cookie: %s\n") % self.client_cookie
         s += _("Password: %s") % self.options_dict["server-password"].value
         return s
 

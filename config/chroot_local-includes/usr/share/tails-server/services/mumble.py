@@ -103,7 +103,6 @@ class MumbleServer(service_template.TailsService):
         s += _("Application: %s\n") % self.client_application_in_gui
         s += _("Address: %s\n") % self.address
         s += _("Port: %s\n") % self.virtual_port
-        s += _("Client Cookie: %s\n") % self.client_cookie
         s += _("Password: %s\n") % self.options_dict["server-password"].value
         s += _("Certificate SHA-1 Fingerprint: %s") % self.fingerprint
         return s

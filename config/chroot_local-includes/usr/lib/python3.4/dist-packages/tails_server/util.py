@@ -59,10 +59,6 @@ def is_valid_port(port):
     return re.match("^[0-9]{0,5}$", port)
 
 
-def is_valid_client_cookie(cookie):
-    return re.match("^[A-Za-z0-9+/.]{22}$", cookie)
-
-
 def get_installed_services():
     try:
         with open(INSTALLED_FILE_PATH) as f:

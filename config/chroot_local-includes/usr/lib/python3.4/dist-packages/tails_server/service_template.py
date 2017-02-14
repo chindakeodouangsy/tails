@@ -26,8 +26,6 @@ from tails_server.exceptions import OptionNotInitializedError
 from tails_server.config import HS_DIR, TOR_USER, TAILS_SERVER_USER, STATE_DIR, \
     OPTIONS_FILE_NAME, PERSISTENCE_CONFIG_NAME, PERSISTENCE_DIR, INSTALLED_FILE_PATH
 
-USE_CLIENT_AUTH = True
-
 
 class LazyOptionDict(OrderedDict):
     """Expects classes as its values. When a value is retrieved, it returns an instance of the
@@ -147,7 +145,6 @@ class TailsService(metaclass=abc.ABCMeta):
             s = str()
             s += _("Application: %s") % self.client_application_in_gui
             s += _("Address: %s:%s\n") % (self.address, self.virtual_port)
-            s += _("Client Cookie: %s\n") % self.client_cookie
         return None
 
     @property
@@ -224,13 +221,6 @@ class TailsService(metaclass=abc.ABCMeta):
         return tor_util.is_published(self.address)
 
     @property
-    def use_client_auth(self):
-        return USE_CLIENT_AUTH
-        # if "client-auth" not in self.options_dict:
-        #     raise OptionNotInitializedError(option="client-auth")
-        # return self.options_dict["client-auth"].value
-
-    @property
     def address(self):
         """
         The hidden service hostname aka onion address of this service.
@@ -239,17 +229,6 @@ class TailsService(metaclass=abc.ABCMeta):
         try:
             with open(self.hs_hostname_file, 'r') as f:
                 return f.read().split()[0].strip()
-        except FileNotFoundError:
-            return None
-
-    @property
-    def client_cookie(self):
-        """The authentication cookie required to connect to this service.
-        :return: client authentication cookie
-        """
-        try:
-            with open(self.hs_client_auth_file, 'r') as f:
-                return f.read()
         except FileNotFoundError:
             return None
 
@@ -313,7 +292,6 @@ class TailsService(metaclass=abc.ABCMeta):
         self.hs_dir = os.path.join(HS_DIR, self.name)
         self.hs_hostname_file = os.path.join(self.hs_dir, "hostname")
         self.hs_private_key_file = os.path.join(self.hs_dir, "private_key")
-        self.hs_client_auth_file = os.path.join(self.hs_dir, "client_auth")
         self.options_file = os.path.join(self.state_dir, OPTIONS_FILE_NAME)
         self.persistence_config = os.path.join(self.state_dir, PERSISTENCE_CONFIG_NAME)
         self.persistence_dir = os.path.join(PERSISTENCE_DIR, self.name)
@@ -535,11 +513,6 @@ class TailsService(metaclass=abc.ABCMeta):
             key_type = "NEW"
             key_content = "RSA1024"
 
-        if self.use_client_auth:
-            client_auth = {"client": self.client_cookie}
-        else:
-            client_auth = None
-
         controller = stem.control.Controller.from_socket_file()
         controller.authenticate()
         # We have to use create_ephemeral_hidden_service() here instead of create_hidden_service(),
@@ -551,16 +524,13 @@ class TailsService(metaclass=abc.ABCMeta):
             key_content=key_content,
             discard_key=False,
             detached=True,
-            await_publication=True,
-            basic_auth=client_auth
+            await_publication=True
         )
 
         if response.service_id:
             self.set_onion_address(response.service_id)
         if response.private_key:
             self.set_hs_private_key(response.private_key)
-        if response.client_auth:
-            self.set_client_auth(response.client_auth)
 
     def set_onion_address(self, address):
         with open(self.hs_hostname_file, 'w+') as f:
@@ -569,10 +539,6 @@ class TailsService(metaclass=abc.ABCMeta):
     def set_hs_private_key(self, key):
         with open(self.hs_private_key_file, 'w+') as f:
             f.write(key)
-
-    def set_client_auth(self, client_auth):
-        with open(self.hs_client_auth_file, 'w+') as f:
-            f.write(client_auth["client"])
 
     def remove_hidden_service(self):
         logging.info("Removing hidden service")
