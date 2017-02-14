@@ -2,8 +2,6 @@
 
 import argparse
 import logging
-import subprocess
-import re
 
 from gi.repository import Gtk, Gdk, GdkPixbuf
 
@@ -13,10 +11,6 @@ from tails_server import util
 from tails_server.config import CLIENT_UI_FILE, ICON_DIR
 
 APP_NAME = "tails-server-client"
-
-# import tails_server.services
-# service_modules_dict = tails_server.services.import_service_modules()
-# services = [module.service_class()for module in service_modules_dict.values()]
 
 client_launcher_modules_dict = None
 clients = None
@@ -133,7 +127,7 @@ class ClientGUI(object):
         self.clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
 
         self.window.connect("delete-event", Gtk.main_quit)
-        self.window.set_title("Tails Server Client")
+        self.window.set_title("Connect to Tails Server")
         self.window.show_all()
 
     def add_clients_to_app_combobox(self):
