@@ -9,6 +9,7 @@ from tails_server.options.allow_localhost import AllowLocalhostOption
 from tails_server.options.allow_lan import AllowLanOption
 
 CONFIG_DIR = "/etc/lighttpd"
+DOCUMENT_ROOT = "/var/www/html"
 
 
 class LighttpdServer(service_template.TailsService):
@@ -20,7 +21,7 @@ class LighttpdServer(service_template.TailsService):
     packages = ["lighttpd"]
     default_target_port = 80
     documentation = "file:///usr/share/doc/tails/website/doc/tails_server/lighttpd.en.html"
-    persistent_paths = [CONFIG_DIR]
+    persistent_paths = [CONFIG_DIR, DOCUMENT_ROOT]
     icon_name = "lighttpd"
 
     options = [
