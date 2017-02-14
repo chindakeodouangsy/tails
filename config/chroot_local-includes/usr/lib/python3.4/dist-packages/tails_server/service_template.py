@@ -113,7 +113,7 @@ class TailsService(metaclass=abc.ABCMeta):
     def client_application_in_gui(self):
         """The name of the application which can connect to this service, as displayed in the
         GUI."""
-        return self.client_application.capitalize()
+        return self.client_application.replace("-", " ").replace("_", " ").title()
 
     @property
     @abc.abstractmethod
@@ -125,7 +125,7 @@ class TailsService(metaclass=abc.ABCMeta):
     @property
     def systemd_service(self):
         """The name of the service's systemd service"""
-        return self.name
+        return "%s.service" % self.name
 
     @property
     @abc.abstractmethod
@@ -158,11 +158,16 @@ class TailsService(metaclass=abc.ABCMeta):
     @property
     def connection_info(self):
         """A summary of all information necessary to connect to the service"""
-        if self.address:
-            s = str()
-            s += _("Application: %s") % self.client_application_in_gui
+        if not self.address:
+            return None
+
+        s = str()
+        s += _("Application: %s\n") % self.client_application_in_gui
+        if self.virtual_port == 80:
+            s += _("Address: %s\n") % self.address
+        else:
             s += _("Address: %s:%s\n") % (self.address, self.virtual_port)
-        return None
+        return s
 
     @property
     def connection_info_in_gui(self):
@@ -173,7 +178,7 @@ class TailsService(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def icon_name(self):
         """Name of the icon to use for this service in the GUI"""
-        return str()
+        return self.name
 
     documentation = str()
     persistent_paths = list()
