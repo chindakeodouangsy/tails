@@ -37,7 +37,7 @@ class ClientLauncher(metaclass=abc.ABCMeta):
     @property
     def name_in_gui(self):
         """The name of the client, as displayed in the GUI."""
-        return self.name.capitalize()
+        return self.name.replace("-", " ").replace("_", " ").title()
 
     @property
     @abc.abstractmethod

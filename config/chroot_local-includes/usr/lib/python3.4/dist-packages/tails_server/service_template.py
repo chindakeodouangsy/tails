@@ -95,7 +95,7 @@ class TailsService(metaclass=abc.ABCMeta):
     @property
     def name_in_gui(self):
         """The name of the service, as displayed in the GUI."""
-        return self.name.capitalize()
+        return self.name.replace("-", " ").replace("_", " ").title()
 
     @property
     @abc.abstractmethod
@@ -123,6 +123,7 @@ class TailsService(metaclass=abc.ABCMeta):
         return list()
 
     @property
+    @abc.abstractmethod
     def systemd_service(self):
         """The name of the service's systemd service"""
         return "%s.service" % self.name
@@ -163,10 +164,7 @@ class TailsService(metaclass=abc.ABCMeta):
 
         s = str()
         s += _("Application: %s\n") % self.client_application_in_gui
-        if self.virtual_port == 80:
-            s += _("Address: %s\n") % self.address
-        else:
-            s += _("Address: %s:%s\n") % (self.address, self.virtual_port)
+        s += _("Address: %s:%s") % (self.address, self.virtual_port)
         return s
 
     @property

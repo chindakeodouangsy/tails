@@ -16,10 +16,12 @@ class LighttpdServer(service_template.TailsService):
     name_in_gui = "lighttpd"
     description = _("A lightweight web server")
     client_application = "tor-browser"
+    systemd_service = "lighttpd.service"
     packages = ["lighttpd"]
     default_target_port = 80
     documentation = "file:///usr/share/doc/tails/website/doc/tails_server/lighttpd.en.html"
     persistent_paths = [CONFIG_DIR]
+    icon_name = "lighttpd"
 
     options = [
         VirtualPort,
