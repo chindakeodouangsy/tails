@@ -8,7 +8,12 @@ from tails_server import _
 from tails_server import file_util
 from tails_server import option_util
 from tails_server import service_template
-from tails_server import service_option_template
+from tails_server import option_template
+from tails_server.options.virtual_port import VirtualPort
+from tails_server.options.persistence import PersistenceOption
+from tails_server.options.autostart import AutoStartOption
+from tails_server.options.allow_localhost import AllowLocalhostOption
+from tails_server.options.allow_lan import AllowLanOption
 
 CONFIG_FILE = "/etc/xdg/infinoted.conf"
 DATA_DIR = "/var/lib/infinoted"
@@ -16,7 +21,7 @@ DOCS_DIR = os.path.join(DATA_DIR, "docs")
 LOG_FILE = os.path.join(DATA_DIR, "infinoted.log")
 
 
-class ServerPasswordOption(service_option_template.TailsServiceOption):
+class ServerPasswordOption(option_template.TailsServiceOption):
     DEFAULT_LENGTH = 20
     name = "server-password"
     name_in_gui = "Password"
@@ -45,7 +50,7 @@ class ServerPasswordOption(service_option_template.TailsServiceOption):
         return value
 
 
-class AutoSaveInterval(service_option_template.TailsServiceOption):
+class AutoSaveInterval(option_template.TailsServiceOption):
     name = "autosave-interval"
     name_in_gui = "Autosave Interval (Sec)"
     description = "Interval in seconds to automatically save all open documents"
@@ -79,12 +84,12 @@ class GobbyServer(service_template.TailsService):
     group_order = ["connection", "generic-checkbox", "advanced"]
 
     options = [
-        service_option_template.VirtualPort,
+        VirtualPort,
         ServerPasswordOption,
-        service_option_template.PersistenceOption,
-        service_option_template.AutoStartOption,
-        service_option_template.AllowLocalhostOption,
-        service_option_template.AllowLanOption,
+        PersistenceOption,
+        AutoStartOption,
+        AllowLocalhostOption,
+        AllowLanOption,
         AutoSaveInterval,
     ]
 

@@ -15,7 +15,12 @@ from tails_server import _
 from tails_server import tor_util
 from tails_server import util
 from tails_server import argument_parser
-from tails_server import service_option_template
+
+from tails_server.options.virtual_port import VirtualPort
+from tails_server.options.persistence import PersistenceOption
+from tails_server.options.autostart import AutoStartOption
+from tails_server.options.allow_localhost import AllowLocalhostOption
+from tails_server.options.allow_lan import AllowLanOption
 
 from tails_server.exceptions import TorIsNotRunningError
 from tails_server.exceptions import UnknownOptionError
@@ -39,7 +44,12 @@ class LazyOptionDict(OrderedDict):
     respective class.
     This prevents all of the options being instantiated when Tails Server is started,
     thus reducing waiting time for the user.
-    XXX: Evaluate how much we really gain from this vs. the complexity it adds"""
+
+    XXX: Evaluate how much we really gain from this vs. the complexity it adds.
+         Update: Tried to replace this with a normal OrderedDict, but this caused circular
+         dependencies between options, which I could not resolve. So maybe it's easier to just
+         keep this."""
+
     def __init__(self, service, *args, **kwargs):
         self.service = service
         super().__init__(*args, **kwargs)
@@ -169,11 +179,11 @@ class TailsService(metaclass=abc.ABCMeta):
     persistent_paths = list()
 
     options = [
-        service_option_template.VirtualPort,
-        service_option_template.PersistenceOption,
-        service_option_template.AutoStartOption,
-        service_option_template.AllowLocalhostOption,
-        service_option_template.AllowLanOption,
+        VirtualPort,
+        PersistenceOption,
+        AutoStartOption,
+        AllowLocalhostOption,
+        AllowLanOption,
     ]
 
     _options_dict = None

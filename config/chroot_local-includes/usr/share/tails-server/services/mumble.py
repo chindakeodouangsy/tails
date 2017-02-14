@@ -9,12 +9,17 @@ from tails_server import _
 from tails_server import file_util
 from tails_server import option_util
 from tails_server import service_template
-from tails_server import service_option_template
+from tails_server import option_template
+from tails_server.options.virtual_port import VirtualPort
+from tails_server.options.persistence import PersistenceOption
+from tails_server.options.autostart import AutoStartOption
+from tails_server.options.allow_localhost import AllowLocalhostOption
+from tails_server.options.allow_lan import AllowLanOption
 
 CONFIG_FILE = "/etc/mumble-server.ini"
 
 
-class WelcomeMessageOption(service_option_template.TailsServiceOption):
+class WelcomeMessageOption(option_template.TailsServiceOption):
     name = "welcome-message"
     name_in_gui = _("Welcome Message")
     description = _("Welcome message sent to clients when they connect")
@@ -32,7 +37,7 @@ class WelcomeMessageOption(service_option_template.TailsServiceOption):
         return value
 
 
-class ServerPasswordOption(service_option_template.TailsServiceOption):
+class ServerPasswordOption(option_template.TailsServiceOption):
     DEFAULT_LENGTH = 20
     name = "server-password"
     name_in_gui = _("Password")
@@ -69,12 +74,12 @@ class MumbleServer(service_template.TailsService):
     icon_name = "mumble"
 
     options = [
-        service_option_template.VirtualPort,
+        VirtualPort,
         ServerPasswordOption,
-        service_option_template.PersistenceOption,
-        service_option_template.AutoStartOption,
-        service_option_template.AllowLocalhostOption,
-        service_option_template.AllowLanOption,
+        PersistenceOption,
+        AutoStartOption,
+        AllowLocalhostOption,
+        AllowLanOption,
         WelcomeMessageOption,
     ]
 

@@ -54,11 +54,11 @@ def restore_services():
 
 def autostart_services():
     """Start services with the autostart option set to True"""
-    autostart_services = [
+    services_to_autostart = [
         service for service in services
         if "autostart" in service.options_dict and service.options_dict["autostart"].value
     ]
-    for service in autostart_services:
+    for service in services_to_autostart:
         logging.info("Starting service %r", service.name)
         util.run_threaded(service.enable)
 

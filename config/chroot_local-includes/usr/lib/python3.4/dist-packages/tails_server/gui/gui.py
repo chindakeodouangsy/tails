@@ -1,5 +1,4 @@
 import sh
-import logging
 from gi.repository import Gtk, GLib, Gdk
 
 from tails_server import services

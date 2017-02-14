@@ -11,12 +11,17 @@ import time
 from tails_server import _
 from tails_server import file_util
 from tails_server import service_template
-from tails_server import service_option_template
+from tails_server import option_template
+from tails_server.options.virtual_port import VirtualPort
+from tails_server.options.persistence import PersistenceOption
+from tails_server.options.autostart import AutoStartOption
+from tails_server.options.allow_localhost import AllowLocalhostOption
+from tails_server.options.allow_lan import AllowLanOption
 
 TEMPLATE_CONFIG_FILE = "/etc/ssh/sshd_config"
 
 
-class ServerPasswordOption(service_option_template.TailsServiceOption):
+class ServerPasswordOption(option_template.TailsServiceOption):
     # We don't use a super long password here, because the user has to type it. This should still
     # be far beyond crackable via SSH.
     DEFAULT_LENGTH = 10
@@ -52,12 +57,12 @@ class SFTPServer(service_template.TailsService):
     icon_name = "network"
 
     options = [
-        service_option_template.VirtualPort,
+        VirtualPort,
         ServerPasswordOption,
-        service_option_template.PersistenceOption,
-        service_option_template.AutoStartOption,
-        service_option_template.AllowLocalhostOption,
-        service_option_template.AllowLanOption,
+        PersistenceOption,
+        AutoStartOption,
+        AllowLocalhostOption,
+        AllowLanOption,
     ]
 
     user_name = "sftp"

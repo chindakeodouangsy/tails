@@ -121,7 +121,7 @@ def remove_properties_changed_receiver(unit_path):
     )
 
 
-def on_unit_loaded(id, unit_path, member, **kwargs):
+def on_unit_loaded(_id, unit_path, member, **kwargs):
     if unit_path not in units:
         return
     unit = units[unit_path]
@@ -136,7 +136,7 @@ def on_properties_changed(interface_name, changed_properties, invalidated_proper
                           member, **kwargs):
     if path not in units:
         return
-    if not 'ActiveState' in changed_properties and not 'SubState' in changed_properties:
+    if 'ActiveState' not in changed_properties and 'SubState' not in changed_properties:
         return
     unit = units[path]
 

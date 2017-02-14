@@ -14,7 +14,7 @@ from tails_server.config import STATUS_UI_FILE
 class Status(object):
     installing = _("Installing")
     installed = _("Installed")
-    uninstalling =_("Uninstalling")
+    uninstalling = _("Uninstalling")
     uninstalled = _("Not installed")
 
     starting = _("Starting")
@@ -121,7 +121,7 @@ class ServiceStatus(Gtk.Widget):
             logging.debug("Setting switch status to %r", status)
             self.switch_status = status
         elif status in [Status.tor_is_running,
-                      Status.tor_is_not_running]:
+                        Status.tor_is_not_running]:
             logging.debug("Setting tor status to %r", status)
             self.tor_status = status
         elif status in [Status.online,
@@ -236,7 +236,7 @@ class ServiceStatus(Gtk.Widget):
     @staticmethod
     def get_label(status):
         if status in (Status.starting, Status.stopping, Status.installing,
-                           Status.uninstalling, Status.publishing):
+                      Status.uninstalling, Status.publishing):
             return "..."
         if status in (Status.offline, Status.stopped):
             return _("Off")
