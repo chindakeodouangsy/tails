@@ -28,23 +28,36 @@ class ClientGUI(object):
     application = str()
     address = str()
     port = str()
-    client_cookie = str()
 
     def on_combobox_application_changed(self, combobox):
         self.add_details_to_grid()
 
     def on_window1_focus_in_event(self, window, data):
+        self.parse_clipboard()
+
+    def parse_clipboard(self):
         clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         text = clipboard.wait_for_text()
+        if text == self.previous_clipboard_text:
+            return
+        else:
+            self.previous_clipboard_text = None
+
         lines = [line.strip() for line in text.split("\n")]
+        lines_contained_details = False
         for line in lines:
-            self.parse_line(line)
+            contained_detail = self.parse_line(line)
+            if contained_detail:
+                lines_contained_details = True
+
+        if lines_contained_details:
+            self.previous_clipboard_text = text
 
     def parse_line(self, line):
         if line.startswith("Application: "):
             app_name = line.replace("Application: ", "").strip()
             self.app_combobox_choose(app_name)
-            return
+            return True
 
         if line.startswith("Address: "):
             address = line.split()[-1]
@@ -54,13 +67,17 @@ class ClientGUI(object):
                     self.set_port(port)
             if util.is_valid_onion_address(address):
                 self.set_address(address)
-            return
+            return True
 
+        contained_detail = False
         for detail_row in self.detail_rows.values():
             name = detail_row.detail.name_in_gui
             if line.startswith("%s: " % name):
                 value = line.replace("%s: " % name, "", 1).strip()
                 detail_row.entry.set_text(value)
+                contained_detail = True
+
+        return contained_detail
 
     def set_address(self, address):
         self.detail_rows[self.get_detail("address")].entry.set_text(address)
@@ -125,6 +142,8 @@ class ClientGUI(object):
         self.label_status = self.builder.get_object("label_status")
         self.service_viewport_container = self.builder.get_object("box2")
         self.clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+
+        self.previous_clipboard_text = None
 
         self.window.connect("delete-event", Gtk.main_quit)
         self.window.set_title("Connect to Tails Server")
