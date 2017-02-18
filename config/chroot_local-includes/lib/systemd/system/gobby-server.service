@@ -3,4 +3,6 @@ Description=Gobby Server Daemon
 After=network.target
 
 [Service]
+User=infinoted
+Group=infinoted
 ExecStart=/usr/bin/infinoted

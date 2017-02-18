@@ -3,6 +3,7 @@
 import os
 import random
 import string
+import sh
 
 from tails_server import _
 from tails_server import file_util
@@ -101,6 +102,10 @@ class GobbyServer(service_template.TailsService):
             f.write("root-directory=%s\n" % DATA_DIR)
             f.write("log-file=%s\n" % LOG_FILE)
             f.write("security-policy=no-tls\n")
+
+        sh.chown("root:infinoted", CONFIG_FILE)
+        sh.chmod("640", CONFIG_FILE)
+
         if not os.path.isdir(DATA_DIR):
             os.mkdir(DATA_DIR, mode=0o700)
 
