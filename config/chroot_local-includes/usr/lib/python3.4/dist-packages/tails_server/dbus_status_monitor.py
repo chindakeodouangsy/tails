@@ -184,5 +184,5 @@ def run():
 def stop():
     logging.debug("Stopping D-Bus status monitor")
     stop_listening()
-    if loop.is_running:
+    if loop.is_running():
         loop.quit()
