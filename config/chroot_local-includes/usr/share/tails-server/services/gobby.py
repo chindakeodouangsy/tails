@@ -37,8 +37,6 @@ class ServerPasswordOption(option_template.TailsServiceOption):
                        range(self.DEFAULT_LENGTH))
 
     def store(self):
-        import logging
-        logging.warning("Storing gobby server password %r", self.value)
         file_util.delete_lines_starting_with(CONFIG_FILE, "password=")
         if self.value:
             file_util.insert_to_section(CONFIG_FILE, "infinoted", "password=%s\n" % self.value)
