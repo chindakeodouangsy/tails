@@ -1,0 +1,1 @@
+amnesia                 ALL = (root)   NOPASSWD: /usr/local/sbin/tails-server
