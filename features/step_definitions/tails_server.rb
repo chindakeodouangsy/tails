@@ -60,9 +60,8 @@ def client_app_textview
 end
 
 
-When /^I start Tails Server and enter the sudo password$/ do
+When /^I start Tails Server$/ do
   step 'I start "Tails Server" via the GNOME "Internet" applications menu'
-  step 'I enter the sudo password in the gksudo prompt'
   tails_server_app.wait(60)
 end
 

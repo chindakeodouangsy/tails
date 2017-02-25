@@ -13,11 +13,11 @@ Feature: Tails Server
 
   Background:  
     # Given I have started Tails from DVD without network and logged in with an administration password
-    Given I have started Tails from DVD and logged in with an administration password and the network is connected
+    Given I have started Tails from DVD and the network is connected
     And I configure APT to use non-onion sources
 
   Scenario: Installing a service
-    When I start Tails Server and enter the sudo password
+    When I start Tails Server
     Then I see no services in the service list
     When I add Mumble service in Tails Server
     Then I see Mumble in the service list
