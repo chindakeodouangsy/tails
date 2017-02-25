@@ -155,7 +155,7 @@ class SFTPServer(service_template.TailsService):
 
         # Set sftp Subsystem to internal-sftp (this makes sftp work without using the shell,
         # so we can set the sftp users shell to /bin/false)
-        file_util.delete_lines_starting_with(self.config_file, "Subsystem sftp")
+        file_util.delete_lines_starting_with(self.config_file, "Subsystem")
         file_util.append_to_file(self.config_file, "Subsystem sftp internal-sftp\n")
 
         # Disable commands other than sftp-server
