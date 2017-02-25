@@ -61,6 +61,12 @@ class LazyOptionDict(OrderedDict):
             self.__setitem__(key, item(self.service))
         return super(LazyOptionDict, self).__getitem__(key)
 
+    def values(self):
+        """ The new dictionary view object returned by dict.values() does not call __getitem__,
+        so we have to override dict.values() here.
+        """
+        return [self[key] for key in self.keys()]
+
     def get_items(self):
         return [super(LazyOptionDict, self).__getitem__(key) for key in self.keys()]
 
