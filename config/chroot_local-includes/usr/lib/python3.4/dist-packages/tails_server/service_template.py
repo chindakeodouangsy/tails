@@ -224,7 +224,7 @@ class TailsService(metaclass=abc.ABCMeta):
     def is_running(self):
         try:
             sh.systemctl("is-active", self.systemd_service)
-        except sh.ErrorReturnCode_3:
+        except sh.ErrorReturnCode_3:  # inactive
             return False
         return True
 

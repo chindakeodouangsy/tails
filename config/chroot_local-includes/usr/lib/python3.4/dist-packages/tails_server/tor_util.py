@@ -6,8 +6,8 @@ import logging
 
 def tor_has_bootstrapped():
     try:
-        sh.systemctl("status", "tails-tor-has-bootstrapped.target")
-    except sh.ErrorReturnCode_3:
+        sh.systemctl("is-active", "tails-tor-has-bootstrapped.target")
+    except sh.ErrorReturnCode_3:  # inactive
         return False
     return True
 
