@@ -32,7 +32,7 @@ class GobbyLauncher(ClientLauncher):
         super().launch()
         # XXX: The connection string is user controlled, but because subprocess
         # handles escaping and quoting of arguments, this should still be secure.
-        subprocess.Popen(["sudo", "-u", "amnesia", "gobby", "-c", "%s:%s" %
+        subprocess.Popen(["sudo", "-u", "amnesia", "gobby", "infinote://%s:%s" %
                           (self.values["address"], self.values["port"])])
 
 
