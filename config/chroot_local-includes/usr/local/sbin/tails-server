@@ -46,6 +46,7 @@ def init(args):
     logger.addHandler(console_handler)
 
     logging.getLogger('stem').setLevel(level+5)
+    logging.getLogger('sh').setLevel(level+5)
     logging.debug("args: %r", args)
 
 

@@ -118,7 +118,6 @@ service_class = MumbleServer
 def main():
     service = service_class()
     args = service.arg_parser.parse_args()
-    service.set_up_logging(args)
     service.dispatch_command(args)
 
 if __name__ == "__main__":

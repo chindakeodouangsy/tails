@@ -73,18 +73,6 @@ class TailsService(metaclass=abc.ABCMeta):
 
     arg_parser = argument_parser.ServiceParser()
 
-    @classmethod
-    def set_up_logging(cls, args):
-        if not args.verbose:
-            level = logging.INFO
-        elif args.verbose == 1:
-            level = logging.DEBUG
-        else:
-            level = 0
-        logging.basicConfig(level=level)
-        logging.getLogger('stem').setLevel(level + 5)
-        logging.debug("args: %r", args)
-
     @property
     @abc.abstractmethod
     def name(self):
