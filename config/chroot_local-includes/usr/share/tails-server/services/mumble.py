@@ -30,10 +30,12 @@ class WelcomeMessageOption(option_template.TailsServiceOption):
         super().apply()
         file_util.delete_lines_starting_with(CONFIG_FILE, "welcometext=")
         if self.value:
-            file_util.prepend_to_file(CONFIG_FILE, "welcometext=%s\n" % self.value)
+            value = '"%s"' % self.value
+            file_util.prepend_to_file(CONFIG_FILE, "welcometext=%s\n" % value)
 
     def load(self):
         value = option_util.get_option(CONFIG_FILE, "welcometext=")
+        value = value.strip('"')
         return value
 
 
