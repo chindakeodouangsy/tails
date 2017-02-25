@@ -83,8 +83,6 @@ class OptionRow(object, metaclass=abc.ABCMeta):
     def __init__(self, config_panel, option):
         self.config_panel = config_panel
         self.option = option
-        logging.debug("Adding option %r to GUI", option.name)
-        logging.debug("%r.value: %r", option.name, option.value)
         if self.option.masked:
             self.masked_value = self.option.value
         self.value_widget = None

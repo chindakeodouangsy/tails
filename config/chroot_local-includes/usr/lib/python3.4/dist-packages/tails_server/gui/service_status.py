@@ -73,14 +73,21 @@ class ServiceStatus(Gtk.Widget):
         super().__init__()
         self.service = service
         self.connect("update", self.on_update)
-        dbus_status_monitor.add_unit(self.service.systemd_service, self.on_service_status_changed)
-        dbus_status_monitor.add_unit(TOR_BOOTSTRAPPED_TARGET, self.on_tor_status_changed)
         self.service_status = str()
         self.onion_status = str()
         self.tor_status = str()
         self.installation_status = str()
         self.switch_status = str()
         self.status = str()
+
+    def start_monitoring(self):
+        dbus_status_monitor.add_unit(self.service.systemd_service, self.on_service_status_changed)
+        dbus_status_monitor.add_unit(TOR_BOOTSTRAPPED_TARGET, self.on_tor_status_changed)
+        dbus_status_monitor.run()
+
+    def stop_monitoring(self):
+        dbus_status_monitor.remove_unit(self.service.systemd_service)
+        self.emit("update", Status.offline)
 
     def on_update(self, obj, status):
         logging.debug("New status for service %r: %r", self.service.name, status)

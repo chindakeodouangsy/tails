@@ -42,7 +42,7 @@ class ServiceList(object):
         service.status.guess_status()
         service.config_panel.update_switch_status()
         service.status.make_states_consistent()
-        service.activate_status_monitor()
+        service.status.start_monitoring()
 
     def remove_service(self, service):
         service_row = self.service_row_dict[service]

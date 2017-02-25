@@ -1,3 +1,4 @@
+import logging
 import sh
 from gi.repository import Gtk, GLib, Gdk
 
@@ -18,7 +19,7 @@ class TailsServerGUI(object):
 
     def on_window1_destroy(self, obj, data=None):
         for service in self.services:
-            service.stop_status_monitor()
+            service.status.stop_monitoring()
         Gtk.main_quit()
 
     def on_close_clicked(self, button):
@@ -78,6 +79,7 @@ class TailsServerGUI(object):
         return dialog.result
 
     def __init__(self):
+        logging.debug("Initializing GUI")
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP_NAME)
         self.builder.add_from_file(MAIN_UI_FILE)
@@ -88,6 +90,8 @@ class TailsServerGUI(object):
 
         self.service_list = ServiceList(self)
         self.install_persistent_services()
+
+        logging.debug("Adding installed services to service list")
         for service in [service for service in self.services if service.is_installed]:
             self.service_list.add_service(service)
         if self.service_list:
@@ -105,8 +109,8 @@ class TailsServerGUI(object):
         self.window.show_all()
 
     def install_persistent_services(self):
-        persistent_services = [service for service in self.services
-                               if service.options_dict["persistence"].value]
+        logging.debug("Installing persistent services")
+        persistent_services = [service for service in self.services if service.is_persistent]
         for service in [service for service in persistent_services if not service.is_installed]:
             service.install()
 

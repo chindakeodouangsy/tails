@@ -42,7 +42,7 @@ class ServiceDecorator(object):
 
     def uninstall(self):
         self.status.emit("update", Status.uninstalling)
-        self.stop_status_monitor()
+        self.status.stop_monitoring()
         self.service.uninstall()
         self.config_panel = None
 
@@ -72,13 +72,6 @@ class ServiceDecorator(object):
 
     def disable(self):
         self.service.disable()
-        self.status.emit("update", Status.offline)
-
-    def activate_status_monitor(self):
-        dbus_status_monitor.run()
-
-    def stop_status_monitor(self):
-        dbus_status_monitor.remove_unit(self.service.systemd_service)
         self.status.emit("update", Status.offline)
 
     def run_threaded(self, function, *args):
