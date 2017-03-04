@@ -5,7 +5,6 @@ import time
 from gi.repository import GLib
 
 from tails_server import tor_util
-from tails_server import dbus_status_monitor
 from tails_server.gui.config_panel import ServiceConfigPanel
 from tails_server.gui.service_status import Status, ServiceStatus
 
