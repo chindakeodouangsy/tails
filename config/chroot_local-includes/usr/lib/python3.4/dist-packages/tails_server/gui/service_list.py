@@ -5,6 +5,11 @@ from gi.repository import Gtk
 
 from tails_server.config import APP_NAME, SERVICE_LIST_UI_FILE
 
+# Only required for type hints
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from tails_server.gui.service import ServiceDecorator
+
 
 class ServiceList(object):
 
@@ -28,11 +33,11 @@ class ServiceList(object):
                 return service
         raise KeyError(listboxrow)
 
-    def get_selected_service(self):
+    def get_selected_service(self) -> "ServiceDecorator":
         listboxrow = self.listbox.get_selected_row()
         return self.listboxrow_to_service(listboxrow)
 
-    def add_service(self, service):
+    def add_service(self, service: "ServiceDecorator"):
         logging.debug("Adding service %r to service list", service.name)
         service_list_row = ServiceListRow(service)
         self.service_row_dict[service] = service_list_row
@@ -44,7 +49,7 @@ class ServiceList(object):
         service.status.make_states_consistent()
         service.status.start_monitoring()
 
-    def remove_service(self, service):
+    def remove_service(self, service: "ServiceDecorator"):
         service_row = self.service_row_dict[service]
         del self.service_row_dict[service]
         self.listbox.remove(service_row.listboxrow)
@@ -58,16 +63,16 @@ class ServiceList(object):
         service = self.listboxrow_to_service(listboxrow)
         self.service_selected(service)
 
-    def select_service(self, service):
+    def select_service(self, service: "ServiceDecorator"):
         self.listbox.select_row(self.service_row_dict[service].listboxrow)
         self.service_selected(service)
 
-    def service_selected(self, service):
+    def service_selected(self, service: "ServiceDecorator"):
         service.config_panel.show()
 
 
 class ServiceListRow(object):
-    def __init__(self, service):
+    def __init__(self, service: "ServiceDecorator"):
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP_NAME)
         self.builder.add_from_file(SERVICE_LIST_UI_FILE)

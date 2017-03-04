@@ -8,6 +8,11 @@ from tails_server.exceptions import InvalidStatusError
 from tails_server.config import TOR_BOOTSTRAPPED_TARGET
 from tails_server.config import STATUS_UI_FILE
 
+# Only required for type hints
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from tails_server.gui.service import ServiceDecorator
+
 
 # This would be prettier as an Enum, mapped to the corresponding strings by a function,
 # but Widget.emit only allows strings as args
@@ -69,7 +74,7 @@ class ServiceStatus(Gtk.Widget):
         received the function is called"""
         super().connect(signal_name, function)
 
-    def __init__(self, service):
+    def __init__(self, service: "ServiceDecorator"):
         super().__init__()
         self.service = service
         self.connect("update", self.on_update)
@@ -89,11 +94,11 @@ class ServiceStatus(Gtk.Widget):
         dbus_status_monitor.remove_unit(self.service.systemd_service)
         self.emit("update", Status.offline)
 
-    def on_update(self, obj, status):
+    def on_update(self, obj, status: str):
         logging.debug("New status for service %r: %r", self.service.name, status)
         GLib.idle_add(self.update, status)
 
-    def update(self, status):
+    def update(self, status: str):
         self.update_substates(status)
 
         if status in [Status.error, Status.invalid]:
@@ -122,7 +127,7 @@ class ServiceStatus(Gtk.Widget):
             logging.debug("Setting overall status to onion status %r", self.onion_status)
             return self.onion_status
 
-    def update_substates(self, status):
+    def update_substates(self, status: str):
         """Set the correct substate to the specified status"""
         if status in [Status.switch_active, Status.switch_inactive]:
             logging.debug("Setting switch status to %r", status)

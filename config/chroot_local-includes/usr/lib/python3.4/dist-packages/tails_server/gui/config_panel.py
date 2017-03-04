@@ -11,10 +11,17 @@ from tails_server.gui.service_status import Status
 
 from tails_server.config import APP_NAME, CONFIG_UI_FILE, CONNECTION_INFO_UI_FILE
 
+# Only required for type hints
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from tails_server.gui.service import ServiceDecorator
+    from tails_server.option_template import TailsServiceOption
+    from tails_server.gui.gui import TailsServerGUI
+
 
 class ServiceConfigPanel(object):
 
-    def __init__(self, gui, service):
+    def __init__(self, gui: "TailsServerGUI", service: "ServiceDecorator"):
         logging.debug("Instantiating config panel for service %r", service.name)
         self.gui = gui
         self.service = service
@@ -110,7 +117,7 @@ class ServiceConfigPanel(object):
             row.box.set_visible(False)
             row.label.set_visible(False)
 
-    def add_separator(self, group):
+    def add_separator(self, group: str):
         logging.debug("Inserting separator for group %r", group)
         # self.group_separators[group] = Gtk.Separator()
         self.group_separators[group] = Gtk.Box()
@@ -222,7 +229,7 @@ class ServiceConfigPanel(object):
         else:
             autostart_row.sensitive = True
 
-    def add_option(self, option):
+    def add_option(self, option: "TailsServiceOption"):
         try:
             option_row = OptionRow.create(self, option)
         except TypeError as e:
@@ -237,7 +244,7 @@ class ServiceConfigPanel(object):
         self.options_grid.attach_next_to(option_row.box, option_row.label,
                                          Gtk.PositionType.RIGHT, width=1, height=1)
 
-    def add_row_to_group(self, option_row, group):
+    def add_row_to_group(self, option_row: OptionRow, group: str):
         logging.debug("Inserting option_row %r above separator of group %r",
                       option_row.option.name, group)
         self.options_grid.insert_next_to(
@@ -408,7 +415,7 @@ class ServiceConfigPanel(object):
         builder.add_from_file(CONNECTION_INFO_UI_FILE)
         builder.connect_signals(self)
         textbuffer = builder.get_object("textbuffer")
-        # XXX: Do we have to set a length here? Make sure this is overflow resistant.
+        # XXX: I hope the Python GTK implementation prevents overflows here without setting a length
         textbuffer.set_text(text, length=-1)
         # textview = builder.get_object("textview")
         window = builder.get_object("dialog")

@@ -10,6 +10,7 @@ from tails_server.gui import question_dialog
 
 from tails_server.config import APP_NAME, ICON_DIR, MAIN_UI_FILE
 
+
 service_modules_dict = services.import_service_modules()
 
 
@@ -35,13 +36,13 @@ class TailsServerGUI(object):
             return
         service.run_threaded(self.uninstall_service, service)
 
-    def uninstall_service(self, service):
+    def uninstall_service(self, service: ServiceDecorator):
         service.run_threaded(GLib.idle_add, service.config_panel.on_service_removal)
         service.uninstall()
         GLib.idle_add(self.reset_service, service)
         GLib.idle_add(self.service_list.remove_service, service)
 
-    def reset_service(self, service):
+    def reset_service(self, service: ServiceDecorator):
         i = self.services.index(service)
         new_service = service_modules_dict[service.name].service_class()
         self.services[i] = ServiceDecorator(self, new_service)

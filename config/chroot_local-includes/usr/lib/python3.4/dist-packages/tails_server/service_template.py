@@ -32,6 +32,11 @@ from tails_server.exceptions import AlreadyMountedError
 from tails_server.config import HS_DIR, TOR_USER, TAILS_SERVER_USER, STATE_DIR, \
     OPTIONS_FILE_NAME, PERSISTENCE_CONFIG_NAME, PERSISTENCE_DIR, INSTALLED_FILE_PATH
 
+# Only required for type hints
+from typing import TYPE_CHECKING, List, Union
+if TYPE_CHECKING:
+    from tails_server.option_template import TailsServiceOption
+
 
 class PersistenceRecord(object):
     def __init__(self, target_path, persistence_path):
@@ -50,27 +55,29 @@ class LazyOptionDict(OrderedDict):
          dependencies between options, which I could not resolve. So maybe it's easier to just
          keep this."""
 
-    def __init__(self, service, *args, **kwargs):
+    def __init__(self, service: "TailsService", *args, **kwargs):
         self.service = service
         super().__init__(*args, **kwargs)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key) -> "TailsServiceOption":
         item = super(LazyOptionDict, self).__getitem__(key)
         if inspect.isclass(item):
             logging.debug("Instantiating %r", item)
             self.__setitem__(key, item(self.service))
         return super(LazyOptionDict, self).__getitem__(key)
 
-    def values(self):
-        """ The new dictionary view object returned by dict.values() does not call __getitem__,
-        so we have to override dict.values() here.
-        """
+    def values(self) -> List["TailsServiceOption"]:
+        """Returns all stored values, which automatically instantiates them.
+        The new dictionary view object returned by dict.values() in Python 3.5 does not call
+        __getitem__, so we have to override dict.values() here."""
         return [self[key] for key in self.keys()]
 
-    def get_items(self):
+    def get_items(self) -> List[Union[type, "TailsServiceOption"]]:
+        """Get the stored values *without* instantiating them"""
         return [super(LazyOptionDict, self).__getitem__(key) for key in self.keys()]
 
-    def get_instantiated(self):
+    def get_instantiated(self) -> List["TailsServiceOption"]:
+        """Returns only the already instantiated values"""
         items = self.get_items()
         return [item for item in items if not inspect.isclass(item)]
 
@@ -186,7 +193,7 @@ class TailsService(metaclass=abc.ABCMeta):
     _options_dict = None
 
     @property
-    def options_dict(self):
+    def options_dict(self) -> LazyOptionDict:
         """A LazyOptionDict mapping the names of this service's options to the options' classes.
         The LazyOptionDict automatically instantiates an option the first time it is accessed,
         so then the dict maps the option's name to the option object.
@@ -248,17 +255,21 @@ class TailsService(metaclass=abc.ABCMeta):
 
     @property
     def info_attributes(self):
-        return OrderedDict([
+        attributes = OrderedDict([
             ("description", self.description),
             ("installed", self.is_installed),
-            ("running", self.is_running),
-            ("address", self.address),
-            ("local-port", self.target_port),
-            ("remote-port", self.virtual_port),
-            ("persistent-paths", self.persistent_paths),
-            ("options", OrderedDict([(option.name, option.value) for option in
-                                     self.options_dict.values()])),
         ])
+        if self.is_installed:
+            attributes.update(OrderedDict([
+                ("running", self.is_running),
+                ("address", self.address),
+                ("local-port", self.target_port),
+                ("remote-port", self.virtual_port),
+                ("persistent-paths", self.persistent_paths),
+                ("options", OrderedDict([(option.name, option.value) for option in
+                                         self.options_dict.values()])),
+            ]))
+        return attributes
 
     @property
     def info_attributes_all(self):
@@ -300,7 +311,7 @@ class TailsService(metaclass=abc.ABCMeta):
         ]
 
     @property
-    def persistence_records(self):
+    def persistence_records(self) -> List[PersistenceRecord]:
         return self.default_persistence_records + [
             PersistenceRecord(
                 target_path=path,
@@ -560,7 +571,7 @@ class TailsService(metaclass=abc.ABCMeta):
         if response.private_key:
             self.set_hs_private_key(response.private_key)
 
-    def set_onion_address(self, address):
+    def set_onion_address(self, address: str):
         with open(self.hs_hostname_file, 'w+') as f:
             f.write(address + ".onion")
 

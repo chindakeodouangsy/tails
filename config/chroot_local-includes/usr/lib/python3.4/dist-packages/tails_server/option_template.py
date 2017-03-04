@@ -2,6 +2,12 @@ import abc
 import logging
 import yaml
 
+# Only required for type hints
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from tails_server.service_template import TailsService
+
+
 PERSISTENT_TORRC = "/usr/share/tor/tor-service-defaults-torrc"
 CONFIG_DIR_PREFIX = "config_"
 
@@ -70,10 +76,14 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
             "value": self.value,
         }
 
-    group = None
+    # options with the same group are grouped together in the GUI
+    # XXX: This is implemented, but currently not used (all options have group = str())
+    group = str()
+
+    # the value of a masked option will not be displayed in cleartext in the GUI and CLI
     masked = False
 
-    def __init__(self, service):
+    def __init__(self, service: "TailsService"):
         self.service = service        
         try:
             self._value = self.load()

@@ -8,6 +8,11 @@ from tails_server import tor_util
 from tails_server.gui.config_panel import ServiceConfigPanel
 from tails_server.gui.service_status import Status, ServiceStatus
 
+# Only required for type hints
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from tails_server.service_template import TailsService
+
 
 class ServiceDecorator(object):
     """Service class extended by functions used in the GUI"""
@@ -15,7 +20,7 @@ class ServiceDecorator(object):
     status_row = None
     restarting = False
 
-    def __init__(self, gui, service):
+    def __init__(self, gui, service: "TailsService"):
         self.gui = gui
         self.service = service
         self.status = ServiceStatus(self)
