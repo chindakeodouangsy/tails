@@ -262,9 +262,10 @@ class UnknownTextOptionRow(UnknownOptionRow, TextOptionRow):
         self.builder.add_from_file(SERVICE_OPTION_UI_FILE)
         self.builder.connect_signals(self)
         self.value_widget = self.builder.get_object("value_label")
+        self.value_widget.set_size_request(-1, 21)
         self.set_text(str(self.option.value))
         self.entry = self.builder.get_object("entry")
-        self.box.pack_start(self.value_widget, expand=True, fill=True, padding=9)
+        self.box.pack_start(self.value_widget, expand=True, fill=True, padding=0)
         if self.option.masked:
             self.togglebutton_show = self.builder.get_object("togglebutton_show")
             self.box.pack_end(self.togglebutton_show, expand=False, fill=False, padding=0)
