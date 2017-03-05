@@ -2,7 +2,7 @@ import logging
 import sh
 from gi.repository import Gtk, GLib, Gdk
 
-from tails_server import services
+from tails_server import import_services
 from tails_server.gui.service import ServiceDecorator
 from tails_server.gui.service_list import ServiceList
 from tails_server.gui.service_chooser import ServiceChooser
@@ -11,7 +11,7 @@ from tails_server.gui import question_dialog
 from tails_server.config import APP_NAME, ICON_DIR, MAIN_UI_FILE
 
 
-service_modules_dict = services.import_service_modules()
+service_modules_dict = import_services.service_modules_dict
 
 
 class TailsServerGUI(object):

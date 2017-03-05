@@ -7,13 +7,12 @@ import contextlib
 
 from tails_server import argument_parser
 from tails_server import util
-import tails_server.services
+from tails_server import import_services
 from tails_server.config import OPTIONS_FILE_NAME
 
-service_names = tails_server.services.service_names
-service_module_paths = tails_server.services.service_module_paths
-service_modules_dict = tails_server.services.import_service_modules()
-services = [module.service_class() for module in service_modules_dict.values()]
+service_names = import_services.service_names
+services = import_services.services
+service_module_paths = import_services.service_module_paths
 
 
 def list_services():
@@ -64,10 +63,15 @@ def autostart_services():
 
 
 def init(args):
-    if args.verbose:
-        logging.basicConfig(level=logging.DEBUG)
+    if not args.verbose:
+        level = logging.INFO
+    elif args.verbose == 1:
+        level = logging.DEBUG
     else:
-        logging.basicConfig(level=logging.INFO)
+        level = 0
+    logging.basicConfig(level=level)
+    logging.getLogger('stem').setLevel(level+5)
+    logging.getLogger('sh').setLevel(level+5)
     logging.debug("args: %r", args)
 
 

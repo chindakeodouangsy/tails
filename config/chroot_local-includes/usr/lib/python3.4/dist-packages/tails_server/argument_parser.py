@@ -1,9 +1,7 @@
 import argparse
 import sys
 
-import tails_server.services
-
-service_names = tails_server.services.service_names
+from tails_server import import_services
 
 
 class HelpfulParser(argparse.ArgumentParser):
@@ -79,7 +77,8 @@ class WrapperParser(CommandParser):
 
     def add_service_command(self, command_name, *arguments):
         command = super().add_service_command(command_name, *arguments)
-        command.add_argument(dest="SERVICE", type=str, metavar="SERVICE", choices=service_names)
+        command.add_argument(dest="SERVICE", type=str, metavar="SERVICE",
+                             choices=import_services.service_names)
         return command
 
 
