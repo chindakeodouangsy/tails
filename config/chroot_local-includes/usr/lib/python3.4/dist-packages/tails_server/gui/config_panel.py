@@ -30,6 +30,7 @@ class ServiceConfigPanel(object):
         self.builder.add_from_file(CONFIG_UI_FILE)
         self.builder.connect_signals(self)
         self.switch = self.builder.get_object("switch_service_start_stop")
+        self.status_label = self.builder.get_object("label_status")
         self.onion_address_label = self.builder.get_object("label_onion_address")
         self.onion_address_box = self.builder.get_object("box_onion_address")
         onion_address_button = self.builder.get_object("button_onion_address")
@@ -44,9 +45,7 @@ class ServiceConfigPanel(object):
             onion_address_refresh_image
         )
         self.onion_address_clickable_label.clickable = False
-        # self.connection_info_label = self.builder.get_object("label_connection_info")
-        self.connection_info_box = self.builder.get_object("box_connection_info")
-        self.connection_info_button = self.builder.get_object("button_connection_info")
+        self.copy_to_clipboard_button = self.builder.get_object("copy_to_clipboard_button")
         self.editing_buttonbox = self.builder.get_object("buttonbox_editing")
         self.edit_button = self.builder.get_object("button_edit")
         self.cancel_edit_button = self.builder.get_object("button_cancel_edit")
@@ -73,6 +72,8 @@ class ServiceConfigPanel(object):
 
     def on_service_removal(self):
         self.remove_option_rows()
+        self.onion_address_box.set_visible(False)
+        self.onion_address_label.set_visible(False)
         self.switch.set_sensitive(False)
 
     def populate_option_rows(self):
@@ -82,11 +83,6 @@ class ServiceConfigPanel(object):
             if self.options_populated:
                 return
 
-            for widget in (self.onion_address_label,
-                           # self.connection_info_label,
-                           self.onion_address_box,
-                           self.connection_info_box):
-                widget.set_visible(True)
             self.option_groups = {"connection"} | {
                 option.group for option in self.service.options_dict.values() if option.group
                 }
@@ -99,36 +95,35 @@ class ServiceConfigPanel(object):
                 self.add_separator(option.group)
             logging.debug("Option groups: %r", groups)
 
-            for option in self.service.options_dict.values():
+            for option in reversed(list(self.service.options_dict.values())):
                 logging.debug("Adding option %r (value: %r)", option.name, option.value)
                 self.add_option(option)
+
+            self.add_onion_address_row()
+
+            self.add_copy_to_clipboard_button()
 
             self.edit_button.set_sensitive(True)
 
             self.options_populated = True
 
     def remove_option_rows(self):
-        for widget in (self.onion_address_label,
-                       # self.connection_info_label,
-                       self.onion_address_box,
-                       self.connection_info_box):
-            widget.set_visible(False)
         for row in self.option_rows:
             row.box.set_visible(False)
             row.label.set_visible(False)
 
     def add_separator(self, group: str):
         logging.debug("Inserting separator for group %r", group)
-        # self.group_separators[group] = Gtk.Separator()
-        self.group_separators[group] = Gtk.Box()
+        self.group_separators[group] = Gtk.Separator()
+        # self.group_separators[group] = Gtk.Box()
         if group == "connection":
             self.options_grid.insert_next_to(
-                self.onion_address_label,
+                self.status_label,
                 Gtk.PositionType.BOTTOM
             )
             self.options_grid.attach_next_to(
                 self.group_separators[group],
-                self.onion_address_label,
+                self.status_label,
                 Gtk.PositionType.BOTTOM,
                 width=2, height=1
             )
@@ -139,6 +134,70 @@ class ServiceConfigPanel(object):
                 Gtk.PositionType.BOTTOM,
                 width=2, height=1
             )
+        self.group_separators[group].set_visible(True)
+
+    def add_option(self, option: "TailsServiceOption"):
+        try:
+            option_row = OptionRow.create(self, option)
+        except TypeError as e:
+            logging.error(e)
+            return
+        option_row.show()
+        self.option_rows.append(option_row)
+        if option.group:
+            self.add_row_to_group(option_row, option.group)
+        else:
+            self.options_grid.add(option_row.label)
+            self.options_grid.attach_next_to(option_row.box, option_row.label,
+                                             Gtk.PositionType.RIGHT, width=1, height=1)
+
+    def add_row_to_group(self, option_row: OptionRow, group: str):
+        logging.debug("Inserting option_row %r below separator of group %r",
+                      option_row.option.name, group)
+        self.options_grid.insert_next_to(
+            self.group_separators[group],
+            Gtk.PositionType.BOTTOM
+        )
+        self.options_grid.attach_next_to(
+            option_row.label,
+            self.group_separators[group],
+            Gtk.PositionType.BOTTOM,
+            width=1, height=1
+        )
+        self.options_grid.attach_next_to(option_row.box, option_row.label,
+                                         Gtk.PositionType.RIGHT, width=1, height=1)
+
+    def add_onion_address_row(self):
+        """The onion address is not an option, so we don't use OptionRow for it"""
+        group = "connection"
+        logging.debug("Inserting onion address below separator of group %r", group)
+        self.options_grid.insert_next_to(
+            self.group_separators[group],
+            Gtk.PositionType.BOTTOM
+        )
+        self.options_grid.attach_next_to(
+            self.onion_address_label,
+            self.group_separators[group],
+            Gtk.PositionType.BOTTOM,
+            width=1, height=1
+        )
+        self.options_grid.attach_next_to(self.onion_address_box, self.onion_address_label,
+                                         Gtk.PositionType.RIGHT, width=1, height=1)
+
+    def add_copy_to_clipboard_button(self):
+        groups = list(self.group_separators.keys())
+        group_after_connection = groups[groups.index('connection')+1]
+        group_separator_after_connection = self.group_separators[group_after_connection]
+        self.options_grid.insert_next_to(
+            group_separator_after_connection,
+            Gtk.PositionType.TOP
+        )
+        self.options_grid.attach_next_to(
+            self.copy_to_clipboard_button,
+            group_separator_after_connection,
+            Gtk.PositionType.TOP,
+            width=2, height=1
+        )
 
     def show(self):
         logging.log(5, "Showing config panel of service %r", self.service.name)
@@ -173,11 +232,9 @@ class ServiceConfigPanel(object):
 
     def set_connection_info_sensitivity(self):
         if self.service.address:
-            self.connection_info_button.set_sensitive(True)
-            # self.connection_info_label.set_visible(True)
+            self.copy_to_clipboard_button.set_sensitive(True)
         else:
-            self.connection_info_button.set_sensitive(False)
-            # self.connection_info_label.set_visible(False)
+            self.copy_to_clipboard_button.set_sensitive(False)
 
     def update_persistence_checkbox(self):
         try:
@@ -229,35 +286,6 @@ class ServiceConfigPanel(object):
         else:
             autostart_row.sensitive = True
 
-    def add_option(self, option: "TailsServiceOption"):
-        try:
-            option_row = OptionRow.create(self, option)
-        except TypeError as e:
-            logging.error(e)
-            return
-        option_row.show()
-        self.option_rows.append(option_row)
-        if option.group:
-            self.add_row_to_group(option_row, option.group)
-        else:
-            self.options_grid.add(option_row.label)
-        self.options_grid.attach_next_to(option_row.box, option_row.label,
-                                         Gtk.PositionType.RIGHT, width=1, height=1)
-
-    def add_row_to_group(self, option_row: OptionRow, group: str):
-        logging.debug("Inserting option_row %r above separator of group %r",
-                      option_row.option.name, group)
-        self.options_grid.insert_next_to(
-            self.group_separators[group],
-            Gtk.PositionType.TOP
-        )
-        self.options_grid.attach_next_to(
-            option_row.label,
-            self.group_separators[group],
-            Gtk.PositionType.TOP,
-            width=1, height=1
-        )
-
     def set_switch_status(self, status):
         logging.debug("Setting switch status to %r", status)
         self.switch.set_active(status)
@@ -296,7 +324,8 @@ class ServiceConfigPanel(object):
             return
         self.in_edit_mode = True
         for option_row in self.option_rows:
-            option_row.start_editing()
+            if not option_row.option.read_only:
+                option_row.start_editing()
         self.onion_address_clickable_label.clickable = True
         self.update_persistence_checkbox()
         self.update_autorun_checkbox()
@@ -403,32 +432,9 @@ class ServiceConfigPanel(object):
     def on_checkbutton_persistence_toggled(self, checkbutton):
         self.update_autorun_checkbox()
 
-    def on_button_copy_connection_info_clicked(self, button):
+    def on_copy_to_clipboard_button_clicked(self, button):
         text = self.service.connection_info
         self.gui.clipboard.set_text(text, len(text))
-
-    def on_button_connection_info_clicked(self, button):
-        text = self.service.connection_info
-
-        builder = Gtk.Builder()
-        builder.set_translation_domain(APP_NAME)
-        builder.add_from_file(CONNECTION_INFO_UI_FILE)
-        builder.connect_signals(self)
-        textbuffer = builder.get_object("textbuffer")
-        # XXX: I hope the Python GTK implementation prevents overflows here without setting a length
-        textbuffer.set_text(text, length=-1)
-        # textview = builder.get_object("textview")
-        window = builder.get_object("dialog")
-        window.set_transient_for(self.gui.window)
-        window.show_all()
-
-    def on_close_connection_info_button_clicked(self, window):
-        window.close()
-
-    def on_copy_connection_info_button_clicked(self, window):
-        text = self.service.connection_info
-        self.gui.clipboard.set_text(text, len(text))
-        window.close()
 
     def on_button_onion_address_clicked(self, button):
         confirmed = self.gui.obtain_confirmation(

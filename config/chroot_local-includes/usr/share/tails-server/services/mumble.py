@@ -17,6 +17,7 @@ from tails_server.options.allow_localhost import AllowLocalhostOption
 from tails_server.options.allow_lan import AllowLanOption
 
 CONFIG_FILE = "/etc/mumble-server.ini"
+DB_PATH = "/var/lib/mumble-server/mumble-server.sqlite"
 
 
 class WelcomeMessageOption(option_template.TailsServiceOption):
@@ -64,6 +65,27 @@ class ServerPasswordOption(option_template.TailsServiceOption):
         return value
 
 
+class SSLFingerprintOption(option_template.TailsServiceOption):
+    name = "ssl-fingerprint"
+    name_in_gui = _("TLS Fingerprint")
+    description = _("SHA-1 digest of the servers TLS certificate")
+    type = str
+    group = "connection"
+    read_only = True
+    default = ""
+
+    def store(self):
+        pass
+
+    def load(self):
+        connection = sqlite3.connect(DB_PATH)
+        c = connection.cursor()
+        c.execute("SELECT value FROM config WHERE key = 'certificate'")
+        cert_string = c.fetchone()[0]
+        cert = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, cert_string)
+        return cert.digest("sha1").decode()
+
+
 class MumbleServer(service_template.TailsService):
     name = "mumble"
     description = _("A voice chat server")
@@ -83,23 +105,13 @@ class MumbleServer(service_template.TailsService):
         AllowLocalhostOption,
         AllowLanOption,
         WelcomeMessageOption,
+        SSLFingerprintOption,
     ]
-
-    db_path = "/var/lib/mumble-server/mumble-server.sqlite"
 
     def configure(self):
         super().configure()
         self.reset_option("server-password")
         self.set_option("allow-localhost", True)
-
-    @property
-    def fingerprint(self):
-        connection = sqlite3.connect(self.db_path)
-        c = connection.cursor()
-        c.execute("SELECT value FROM config WHERE key = 'certificate'")
-        cert_string = c.fetchone()[0]
-        cert = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, cert_string)
-        return cert.digest("sha1").decode()
 
     @property
     def connection_info(self):
@@ -111,7 +123,7 @@ class MumbleServer(service_template.TailsService):
         s += _("Address: %s\n") % self.address
         s += _("Port: %s\n") % self.virtual_port
         s += _("Password: %s\n") % self.options_dict["server-password"].value
-        s += _("Certificate SHA-1 Fingerprint: %s") % self.fingerprint
+        s += _("Certificate SHA-1 Fingerprint: %s") % self.options_dict["ssl-fingerprint"].value
         return s
 
 service_class = MumbleServer

@@ -77,11 +77,13 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
         }
 
     # options with the same group are grouped together in the GUI
-    # XXX: This is implemented, but currently not used (all options have group = str())
     group = str()
 
     # the value of a masked option will not be displayed in cleartext in the GUI and CLI
     masked = False
+
+    # read-only options can not be edited
+    read_only = False
 
     def __init__(self, service: "TailsService"):
         self.service = service        

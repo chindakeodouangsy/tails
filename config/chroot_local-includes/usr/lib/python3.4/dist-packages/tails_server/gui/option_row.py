@@ -265,7 +265,7 @@ class UnknownTextOptionRow(UnknownOptionRow, TextOptionRow):
         self.value_widget.set_size_request(-1, 21)
         self.set_text(str(self.option.value))
         self.entry = self.builder.get_object("entry")
-        self.box.pack_start(self.value_widget, expand=True, fill=True, padding=0)
+        self.box.pack_start(self.value_widget, expand=True, fill=True, padding=9)
         if self.option.masked:
             self.togglebutton_show = self.builder.get_object("togglebutton_show")
             self.box.pack_end(self.togglebutton_show, expand=False, fill=False, padding=0)
