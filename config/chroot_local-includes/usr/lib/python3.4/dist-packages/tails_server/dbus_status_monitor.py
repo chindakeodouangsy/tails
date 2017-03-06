@@ -36,6 +36,11 @@ def add_unit(unit_name, receiver_function):
     unit = SystemdUnit(unit_name, receiver_function)
     units[unit.path] = unit
 
+    global listening
+    if listening:
+        # PropertiesChanged event needs to be added per unit
+        add_properties_changed_receiver(unit.path)
+
 
 def remove_unit(unit_name):
     logging.debug("Removing %r from D-Bus monitored units", unit_name)
