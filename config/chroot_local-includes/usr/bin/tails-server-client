@@ -91,7 +91,7 @@ class ClientGUI(object):
 
     def get_connection_info(self):
         return dict([(detail_row.detail.name, detail_row.value) for detail_row in
-                     self.detail_rows.values()])
+                     self.detail_rows.values() if detail_row.value])
 
     @property
     def app(self):
