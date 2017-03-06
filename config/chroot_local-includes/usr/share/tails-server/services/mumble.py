@@ -80,7 +80,10 @@ class SSLFingerprintOption(option_template.TailsServiceOption):
     def load(self):
         connection = sqlite3.connect(DB_PATH)
         c = connection.cursor()
-        c.execute("SELECT value FROM config WHERE key = 'certificate'")
+        try:
+            c.execute("SELECT value FROM config WHERE key = 'certificate'")
+        except sqlite3.OperationalError:
+            return ""
         cert_string = c.fetchone()[0]
         cert = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, cert_string)
         return cert.digest("sha1").decode()

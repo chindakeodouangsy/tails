@@ -164,7 +164,6 @@ class ServiceStatus(Gtk.Widget):
         box = builder.get_object("box_status")
         switch = builder.get_object("switch_service_start_stop")
         label = builder.get_object("label_status_value")
-        label_to_expand_grid = builder.get_object("label_to_expand_grid")
         visual_widget = self.get_visual_widget_for_config_panel(self.status, switch.get_active())
 
         self.update_switch_state(switch)
@@ -178,7 +177,6 @@ class ServiceStatus(Gtk.Widget):
         if visual_widget:
             box.pack_start(visual_widget, expand=False, fill=False, padding=0)
         box.pack_start(label, expand=False, fill=False, padding=0)
-        box.pack_end(label_to_expand_grid, expand=True, fill=True, padding=0)
         # XXX: Find out why the status only refreshes after config_panel.show() and do something
         # more lightweight instead
         if self.service.config_panel.is_active:

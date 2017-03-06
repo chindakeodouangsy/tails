@@ -188,6 +188,7 @@ class ServiceConfigPanel(object):
         groups = list(self.group_separators.keys())
         group_after_connection = groups[groups.index('connection')+1]
         group_separator_after_connection = self.group_separators[group_after_connection]
+
         self.options_grid.insert_next_to(
             group_separator_after_connection,
             Gtk.PositionType.TOP
