@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import logging
 import string
 import random
 import sqlite3
@@ -65,8 +66,8 @@ class ServerPasswordOption(option_template.TailsServiceOption):
         return value
 
 
-class SSLFingerprintOption(option_template.TailsServiceOption):
-    name = "ssl-fingerprint"
+class TLSFingerprintOption(option_template.TailsServiceOption):
+    name = "tls-fingerprint"
     name_in_gui = _("TLS Fingerprint")
     description = _("SHA-1 digest of the servers TLS certificate")
     type = str
@@ -108,7 +109,7 @@ class MumbleServer(service_template.TailsService):
         AllowLocalhostOption,
         AllowLanOption,
         WelcomeMessageOption,
-        SSLFingerprintOption,
+        TLSFingerprintOption,
     ]
 
     def configure(self):

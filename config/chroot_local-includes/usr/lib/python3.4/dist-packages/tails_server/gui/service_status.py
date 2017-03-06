@@ -129,7 +129,8 @@ class ServiceStatus(Gtk.Widget):
 
     def update_substates(self, status: str):
         """Set the correct substate to the specified status"""
-        if status in [Status.switch_active, Status.switch_inactive]:
+        if status in [Status.switch_active,
+                      Status.switch_inactive]:
             logging.debug("Setting switch status to %r", status)
             self.switch_status = status
         elif status in [Status.tor_is_running,
