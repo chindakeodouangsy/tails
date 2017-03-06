@@ -85,8 +85,16 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
     # read-only options can not be edited
     read_only = False
 
+    # the option value will be reloaded in the GUI after the service was successfully started (
+    # i.e. systemd unit started, the onion service started, and the descriptor was uploaded).
+    # This is useful for options which change when the service starts.
+    reload_after_service_started = False
+
     def __init__(self, service: "TailsService"):
         self.service = service        
+        self.reload()
+
+    def reload(self):
         try:
             self._value = self.load()
         except OptionNotFoundError as e:

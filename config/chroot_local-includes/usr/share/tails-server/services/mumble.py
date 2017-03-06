@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import logging
+import os
 import string
 import random
 import sqlite3
@@ -75,16 +76,20 @@ class TLSFingerprintOption(option_template.TailsServiceOption):
     read_only = True
     default = ""
 
+    # Mumble automatically generates a certificate when started, so we reload the option in the GUI
+    reload_after_service_started = True
+
     def store(self):
         pass
 
     def load(self):
+        if not os.path.isfile(DB_PATH):
+            logging.debug("Could not load TLS certificate of service %r", self.service.name)
+            return ""
+
         connection = sqlite3.connect(DB_PATH)
         c = connection.cursor()
-        try:
-            c.execute("SELECT value FROM config WHERE key = 'certificate'")
-        except sqlite3.OperationalError:
-            return ""
+        c.execute("SELECT value FROM config WHERE key = 'certificate'")
         cert_string = c.fetchone()[0]
         cert = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, cert_string)
         return cert.digest("sha1").decode()
@@ -127,7 +132,7 @@ class MumbleServer(service_template.TailsService):
         s += _("Address: %s\n") % self.address
         s += _("Port: %s\n") % self.virtual_port
         s += _("Password: %s\n") % self.options_dict["server-password"].value
-        s += _("Certificate SHA-1 Fingerprint: %s") % self.options_dict["ssl-fingerprint"].value
+        s += _("Certificate SHA-1 Fingerprint: %s") % self.options_dict["tls-fingerprint"].value
         return s
 
 service_class = MumbleServer

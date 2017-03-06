@@ -98,6 +98,9 @@ class ServiceStatus(Gtk.Widget):
         logging.debug("New status for service %r: %r", self.service.name, status)
         GLib.idle_add(self.update, status)
 
+        if status == Status.online:
+            self.service.on_started()
+
     def update(self, status: str):
         self.update_substates(status)
 

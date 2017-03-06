@@ -64,6 +64,13 @@ class ServiceDecorator(object):
         self.status.emit("update", Status.starting)
         self.service.start()
 
+    def on_started(self):
+        for option_row in self.config_panel.option_rows:
+            if option_row.option.reload_after_service_started:
+                logging.info("Reloading option %r because service %r was successfully started",
+                             option_row.option.name, self.service.name)
+                option_row.reload_value()
+
     def create_hidden_service(self):
         self.status.emit("update", Status.publishing)
         self.service.create_hidden_service()

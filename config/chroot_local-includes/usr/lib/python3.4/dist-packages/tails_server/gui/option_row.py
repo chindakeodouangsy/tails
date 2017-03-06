@@ -5,6 +5,10 @@ from gi.repository import Gtk
 
 from tails_server.config import APP_NAME, SERVICE_OPTION_UI_FILE
 
+# Only required for type hints
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from tails_server.option_template import TailsServiceOption
 
 class OptionRow(object, metaclass=abc.ABCMeta):
     known_options_widgets = {
@@ -80,7 +84,7 @@ class OptionRow(object, metaclass=abc.ABCMeta):
             return UnknownBooleanOptionRow(config_panel, option)
         raise TypeError("Can't display option %r of type %r", option.name, option.type)
 
-    def __init__(self, config_panel, option):
+    def __init__(self, config_panel, option: "TailsServiceOption"):
         self.config_panel = config_panel
         self.option = option
         if self.option.masked:
@@ -162,6 +166,9 @@ class BooleanOptionRow(OptionRow):
     def value(self):
         return self.value_widget.get_active()
 
+    def load_value(self):
+        self.value_widget.set_active(self.option.value)
+
     def start_editing(self):
         logging.log(5, "Entering start editing")
         self.value_widget.set_sensitive(True)
@@ -183,6 +190,13 @@ class TextOptionRow(OptionRow):
 
     entry = None
     togglebutton_show = None
+
+    def load_value(self):
+        self.set_text(str(self.option.value))
+
+    def reload_value(self):
+        self.option.reload()
+        self.set_text(str(self.option.value))
 
     @property
     def edited_value(self):
@@ -227,13 +241,13 @@ class KnownOptionRow(OptionRow):
 class KnownBooleanOptionRow(KnownOptionRow, BooleanOptionRow):
     def __init__(self, config_panel, option):
         super().__init__(config_panel, option)
-        self.value_widget.set_active(option.value)
+        self.load_value()
 
 
 class KnownTextOptionRow(KnownOptionRow, TextOptionRow):
     def __init__(self, config_panel, option):
         super().__init__(config_panel, option)
-        self.value_widget.set_text(option.value)
+        self.load_value()
 
 
 class UnknownOptionRow(OptionRow):
@@ -249,9 +263,9 @@ class UnknownBooleanOptionRow(UnknownOptionRow, BooleanOptionRow):
     def __init__(self, config_panel, option):
         super().__init__(config_panel, option)
         self.value_widget = Gtk.CheckButton()
-        self.value_widget.set_active(option.value)
         self.value_widget.set_sensitive(False)
         self.box.pack_end(self.value_widget, expand=True, fill=True, padding=5)
+        self.load_value()
 
 
 class UnknownTextOptionRow(UnknownOptionRow, TextOptionRow):
@@ -263,12 +277,13 @@ class UnknownTextOptionRow(UnknownOptionRow, TextOptionRow):
         self.builder.connect_signals(self)
         self.value_widget = self.builder.get_object("value_label")
         self.value_widget.set_size_request(-1, 21)
-        self.set_text(str(self.option.value))
         self.entry = self.builder.get_object("entry")
         self.box.pack_start(self.value_widget, expand=True, fill=True, padding=9)
         if self.option.masked:
             self.togglebutton_show = self.builder.get_object("togglebutton_show")
             self.box.pack_end(self.togglebutton_show, expand=False, fill=False, padding=0)
+        self.load_value()
+
 
     def on_togglebutton_show_toggled(self, button):
         if self.editable:
