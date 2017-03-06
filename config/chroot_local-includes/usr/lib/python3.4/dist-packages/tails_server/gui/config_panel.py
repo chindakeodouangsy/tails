@@ -342,7 +342,8 @@ class ServiceConfigPanel(object):
         self.in_edit_mode = False
         self.onion_address_clickable_label.clickable = False
         for option_row in self.option_rows:
-            option_row.stop_editing(apply)
+            if not option_row.option.read_only:
+                option_row.stop_editing(apply)
         self.editing_buttonbox.remove(self.cancel_edit_button)
         self.editing_buttonbox.remove(self.apply_button)
         self.editing_buttonbox.pack_end(self.edit_button, expand=True, fill=True, padding=0)
