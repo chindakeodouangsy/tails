@@ -177,7 +177,6 @@ class ServiceStatus(Gtk.Widget):
 
         label.set_label(self.status)
 
-        box.pack_start(switch, expand=False, fill=False, padding=0)
         if visual_widget:
             box.pack_start(visual_widget, expand=False, fill=False, padding=0)
         box.pack_start(label, expand=False, fill=False, padding=0)
