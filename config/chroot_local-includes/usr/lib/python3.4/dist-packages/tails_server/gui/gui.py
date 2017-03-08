@@ -19,8 +19,7 @@ class TailsServerGUI(object):
     current_service = None
 
     def on_window1_destroy(self, obj, data=None):
-        for service in self.services:
-            service.status.stop_monitoring()
+        dbus_status_monitor.stop()
         Gtk.main_quit()
 
     def on_close_clicked(self, button):

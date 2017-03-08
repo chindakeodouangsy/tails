@@ -23,7 +23,7 @@ class SystemdUnit(object):
         self.properties = dbus.Interface(self.proxy,
                                          dbus_interface='org.freedesktop.DBus.Properties')
 
-units = dict()
+monitored_units = dict()
 loop = GLib.MainLoop()
 bus = dbus.SystemBus()
 systemd = bus.get_object('org.freedesktop.systemd1', '/org/freedesktop/systemd1')
@@ -34,7 +34,7 @@ listening = False
 def add_unit(unit_name, receiver_function):
     logging.debug("Adding %r to D-Bus monitored units", unit_name)
     unit = SystemdUnit(unit_name, receiver_function)
-    units[unit.path] = unit
+    monitored_units[unit.path] = unit
 
     global listening
     if listening:
@@ -46,9 +46,9 @@ def remove_unit(unit_name):
     logging.debug("Removing %r from D-Bus monitored units", unit_name)
     unit_path = manager.LoadUnit(unit_name)
     try:
-        del units[unit_path]
+        del monitored_units[unit_path]
     except KeyError:
-        logging.error("Unit %r not monitored")
+        logging.error("Unit %r not monitored", unit_name)
 
 
 def start_listening():
@@ -57,7 +57,7 @@ def start_listening():
         raise ReceiverAlreadyAddedError()
     add_unit_loaded_receiver()
 
-    for unit_path in units:
+    for unit_path in monitored_units:
         add_properties_changed_receiver(unit_path)
 
     listening = True
@@ -69,7 +69,7 @@ def stop_listening():
     global listening
     remove_unit_loaded_receiver()
 
-    for unit_path in units:
+    for unit_path in monitored_units:
         # This does nothing if there is no receiver added for this unit
         remove_properties_changed_receiver(unit_path)
 
@@ -127,9 +127,9 @@ def remove_properties_changed_receiver(unit_path):
 
 
 def on_unit_loaded(_id, unit_path, member, **kwargs):
-    if unit_path not in units:
+    if unit_path not in monitored_units:
         return
-    unit = units[unit_path]
+    unit = monitored_units[unit_path]
     active_state, sub_state = query_unit_state(unit)
     logging.debug("Got %r event for unit %r. ActiveState: %r, SubState: %r",
                   member, unit.name, active_state, sub_state)
@@ -139,11 +139,11 @@ def on_unit_loaded(_id, unit_path, member, **kwargs):
 
 def on_properties_changed(interface_name, changed_properties, invalidated_properties, path,
                           member, **kwargs):
-    if path not in units:
+    if path not in monitored_units:
         return
     if 'ActiveState' not in changed_properties and 'SubState' not in changed_properties:
         return
-    unit = units[path]
+    unit = monitored_units[path]
 
     active_state, sub_state = query_unit_state(unit)
     logging.debug("Got %r event for unit %r. ActiveState: %r, SubState: %r",
