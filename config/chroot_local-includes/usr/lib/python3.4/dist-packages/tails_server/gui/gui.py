@@ -3,9 +3,10 @@ import sh
 from gi.repository import Gtk, GLib, Gdk
 
 from tails_server import import_services
+from tails_server import dbus_status_monitor
 from tails_server.gui.service import ServiceDecorator
 from tails_server.gui.service_list import ServiceList
-from tails_server.gui.service_chooser import ServiceChooser
+from tails_server.gui.service_chooser import ServiceChooserDialog
 from tails_server.gui import question_dialog
 
 from tails_server.config import APP_NAME, ICON_DIR, MAIN_UI_FILE
@@ -26,7 +27,7 @@ class TailsServerGUI(object):
         Gtk.main_quit()
 
     def on_button_add_service_clicked(self, button):
-        ServiceChooser(self).show()
+        ServiceChooserDialog(self).run()
 
     def on_button_remove_service_clicked(self, button):
         service = self.service_list.get_selected_service()
@@ -94,19 +95,22 @@ class TailsServerGUI(object):
         logging.debug("Adding installed services to service list")
         for service in [service for service in self.services if service.is_installed]:
             self.service_list.add_service(service)
-        if self.service_list:
-            self.service_list.select_service(self.service_list[0])
 
         icon_theme = Gtk.IconTheme.get_default()
         icon_theme.prepend_search_path(ICON_DIR)
 
         self.window = self.builder.get_object("window1")
-        self.service_viewport_container = self.builder.get_object("box2")
+        self.service_list_box = self.builder.get_object("service_list_box")
         self.clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
 
         self.window.connect("delete-event", Gtk.main_quit)
         self.window.set_title("Tails Server")
         self.window.show_all()
+
+        if self.service_list:
+            self.service_list.select_service(self.service_list[0])
+        else:
+            self.show_config_panel_placeholder()
 
     def install_persistent_services(self):
         logging.debug("Installing persistent services")
@@ -115,7 +119,19 @@ class TailsServerGUI(object):
             service.install()
 
     def show_config_panel_placeholder(self):
+        self.service_list_box.set_visible(False)
         config_panel_container = self.builder.get_object("scrolledwindow_service_config")
         for child in config_panel_container.get_children():
             config_panel_container.remove(child)
         config_panel_container.add(self.builder.get_object("viewport_service_config_placeholder"))
+
+    def on_placeholder_add_service_button_clicked(self, button, data=None):
+        response = ServiceChooserDialog(self).run()
+        if response == "install":
+            self.service_list_box.set_visible(True)
+
+    def disable_main_window(self):
+        self.window.set_sensitive(False)
+
+    def enable_main_window(self):
+        self.window.set_sensitive(True)

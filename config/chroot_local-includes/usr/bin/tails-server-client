@@ -140,7 +140,6 @@ class ClientGUI(object):
         self.window = self.builder.get_object("window1")
         self.connect_button = self.builder.get_object("connect_button")
         self.label_status = self.builder.get_object("label_status")
-        self.service_viewport_container = self.builder.get_object("box2")
         self.clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
 
         self.previous_clipboard_text = None

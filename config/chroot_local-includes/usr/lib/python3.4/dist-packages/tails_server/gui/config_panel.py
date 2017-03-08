@@ -35,7 +35,7 @@ class ServiceConfigPanel(object):
         self.onion_address_box = self.builder.get_object("box_onion_address")
         onion_address_button = self.builder.get_object("button_onion_address")
         onion_address_button_box = self.builder.get_object("box_button_onion_address")
-        onion_address_refresh_image = self.builder.get_object("image_refresh")
+        onion_address_refresh_image = self.builder.get_object("image_delete")
         onion_address_value_label = self.builder.get_object("label_onion_address_value")
         self.onion_address_clickable_label = ClickableLabel(
             self.onion_address_box,
@@ -440,10 +440,11 @@ class ServiceConfigPanel(object):
 
     def on_button_onion_address_clicked(self, button):
         confirmed = self.gui.obtain_confirmation(
-            title="Generate new onion address",
-            text="This will irrevocably change this service's onion address. Are you sure you "
-                 "want to proceed?",
-            ok_label="Generate new address"
+            title="Delete onion address",
+            text="This will irrevocably delete this service's onion address.\n"
+                 "A new onion address wil be generated the next time this service is started.\n"
+                 "Are you sure you want to proceed?",
+            ok_label="Delete onion address"
         )
         if not confirmed:
             return

@@ -126,16 +126,53 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkLabel" id="label1">
+                  <object class="GtkAlignment" id="placeholder_alignment">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Tails Server allows you to create online services in Tails to which other people can connect through Tor. For example, you can create a Mumble service to organize group calls.
-
-Click '+' to create a new service.
+                    <property name="can_focus">False</property>
+                    <property name="yscale">0</property>
+                    <child>
+                      <object class="GtkBox" id="placeholder_box">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">50</property>
+                        <child>
+                          <object class="GtkLabel" id="placeholder_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">Tails Server allows you to create online services in Tails to which other people can connect through Tor. For example, you can create a Mumble service to organize group calls.
 
 Read the &lt;a href="/usr/share/doc/tails/website/doc/tails_server.html"&gt;documentation&lt;/a&gt; to learn more about Tails Server.</property>
-                    <property name="use_markup">True</property>
-                    <property name="wrap">True</property>
+                            <property name="use_markup">True</property>
+                            <property name="wrap">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="placeholder_add_service_button">
+                            <property name="label" translatable="yes">Add a Service</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="halign">center</property>
+                            <property name="valign">start</property>
+                            <signal name="clicked" handler="on_placeholder_add_service_button_clicked" swapped="no"/>
+                            <style>
+                              <class name="suggested-action"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
