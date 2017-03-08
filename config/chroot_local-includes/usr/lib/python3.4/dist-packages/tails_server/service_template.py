@@ -25,6 +25,7 @@ from tails_server.options.allow_lan import AllowLanOption
 from tails_server.exceptions import TorIsNotRunningError
 from tails_server.exceptions import UnknownOptionError
 from tails_server.exceptions import ServiceNotInstalledError
+from tails_server.exceptions import ServiceAlreadyInstalledError
 from tails_server.exceptions import ServiceAlreadyEnabledError
 from tails_server.exceptions import OptionNotInitializedError
 from tails_server.exceptions import AlreadyMountedError
@@ -83,6 +84,8 @@ class LazyOptionDict(OrderedDict):
 
 
 class TailsService(metaclass=abc.ABCMeta):
+
+    connection_info_format = "1.0"
 
     arg_parser = argument_parser.ServiceParser()
 
@@ -164,7 +167,8 @@ class TailsService(metaclass=abc.ABCMeta):
             return None
 
         s = str()
-        s += _("Application: %s\n") % self.client_application_in_gui
+        s += _("Application: %s (format %s)\n") % (self.client_application_in_gui,
+                                                   self.connection_info_format)
         s += _("Address: %s:%s") % (self.address, self.virtual_port)
         return s
 

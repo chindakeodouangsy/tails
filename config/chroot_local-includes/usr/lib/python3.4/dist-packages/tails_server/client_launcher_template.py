@@ -26,6 +26,8 @@ class ClientLauncherDetail(object):
 
 class ClientLauncher(metaclass=abc.ABCMeta):
 
+    connection_info_format = "1.0"
+
     values = dict()
 
     @property

@@ -88,7 +88,8 @@ class SFTPServer(service_template.TailsService):
             return None
 
         s = str()
-        s += _("Application: %s\n") % self.client_application_in_gui
+        s += _("Application: %s (format: %s)\n") % (self.client_application_in_gui,
+                                                    self.connection_info_format)
         s += _("Address: %s:%s\n") % (self.address, self.virtual_port)
         s += _("Password: %s\n") % self.options_dict["server-password"].value
         s += _("SSH Public Key: %s") % self.public_key

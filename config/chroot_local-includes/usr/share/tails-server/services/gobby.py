@@ -121,7 +121,8 @@ class GobbyServer(service_template.TailsService):
             return None
 
         s = str()
-        s += _("Application: Gobby\n")
+        s += _("Application: %s (format: %s)\n") % (self.client_application_in_gui,
+                                                    self.connection_info_format)
         s += _("Address: %s\n") % self.address
         s += _("Port: %s\n") % self.virtual_port
         s += _("Password: %s") % self.options_dict["server-password"].value

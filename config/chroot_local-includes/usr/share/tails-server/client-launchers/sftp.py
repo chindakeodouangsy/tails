@@ -15,7 +15,6 @@ class NautilusLauncher(ClientLauncher):
     name = "nautilus"
     name_in_gui = "Files"
     icon_name = "network"
-
     user_name = "sftp"
 
     @property
