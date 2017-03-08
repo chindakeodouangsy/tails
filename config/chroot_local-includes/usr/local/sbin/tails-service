@@ -3,6 +3,7 @@
 import sys
 import os
 import logging
+import logging.handlers
 import contextlib
 
 from tails_server import argument_parser
@@ -10,18 +11,14 @@ from tails_server import util
 from tails_server import import_services
 from tails_server.config import OPTIONS_FILE_NAME
 
-service_names = import_services.service_names
-services = import_services.services
-service_module_paths = import_services.service_module_paths
-
 
 def list_services():
-    for service in service_names:
+    for service in import_services.service_names:
         print("-", service)
 
 
 def list_enabled():
-    enabled_services = [service for service in services if service.is_running]
+    enabled_services = [service for service in import_services.services if service.is_running]
     for service in enabled_services:
         print("-", service.name)
 
@@ -40,7 +37,7 @@ def restore_services():
     """Install packages and restore files of services which have the 'persistence' option set to
     True"""
     persistent_services = list()
-    for service in services:
+    for service in import_services.services:
         with use_persistent_options_file_if_exists(service):
             if "persistence" in service.options_dict and service.options_dict["persistence"].value:
                 persistent_services.append(service)
@@ -54,7 +51,7 @@ def restore_services():
 def autostart_services():
     """Start services with the autostart option set to True"""
     services_to_autostart = [
-        service for service in services
+        service for service in import_services.services
         if "autostart" in service.options_dict and service.options_dict["autostart"].value
     ]
     for service in services_to_autostart:
@@ -63,26 +60,68 @@ def autostart_services():
 
 
 def init(args):
+    logger = logging.getLogger()
+    logger.setLevel(0)
+    logger.propagate = 0
+
     if not args.verbose:
         level = logging.INFO
     elif args.verbose == 1:
         level = logging.DEBUG
     else:
         level = 0
-    logging.basicConfig(level=level)
+    if args.log_file:
+        file_handler = logging.handlers.RotatingFileHandler(args.log_file, mode="w")
+        file_handler.setLevel(logging.DEBUG)
+        format_ = "%(asctime)s %(name)s[%(process)d]: %(levelname)s - %(message)s"
+        file_handler.setFormatter(logging.Formatter(format_))
+        logger.addHandler(file_handler)
+
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(level)
+    format_ = "%(name)s:%(levelname)s: %(message)s"
+    console_handler.setFormatter(logging.Formatter(format_))
+    logger.addHandler(console_handler)
+
     logging.getLogger('stem').setLevel(level+5)
     logging.getLogger('sh').setLevel(level+5)
     logging.debug("args: %r", args)
 
 
-def exec_service(args):
-    service_module_path = service_module_paths[args.SERVICE]
-    del args.SERVICE
-    os.execv(service_module_path, [service_module_path] + sys.argv[1:-1])
+def exec_service_command(args):
+    service_module = import_services.service_modules_dict[args.SERVICE]
+    service = service_module.service_class()
+
+    # Delete service name from arguments
+    del sys.argv[-1]
+
+    # args = service.arg_parser.parse_args()
+    dispatch_service_command(service, args)
+
+
+def dispatch_service_command(service, args):
+        if args.command == "info":
+            return service.print_info(detailed=args.details)
+        elif args.command == "status":
+            return service.print_status()
+        elif args.command == "install":
+            return service.install()
+        elif args.command == "uninstall":
+            return service.uninstall()
+        elif args.command == "enable":
+            return service.enable()
+        elif args.command == "disable":
+            return service.disable()
+        elif args.command == "get-option":
+            return service.get_option(args.OPTION)
+        elif args.command == "set-option":
+            return service.set_option(args.OPTION, args.VALUE)
+        elif args.command == "reset-option":
+            return service.reset_option(args.OPTION)
 
 
 def main():
-    args = argument_parser.WrapperParser().parse_args()
+    args = argument_parser.CommandParser().parse_args()
     init(args)
 
     if args.command == "list":
@@ -96,7 +135,7 @@ def main():
     else:
         if os.geteuid() != 0:
             exit("This command requires root")
-        exec_service(args)
+        exec_service_command(args)
 
 
 if __name__ == "__main__":

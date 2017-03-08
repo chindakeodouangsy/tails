@@ -6,6 +6,10 @@ class ServiceAlreadyEnabledError(Exception):
     pass
 
 
+class ServiceAlreadyInstalledError(Exception):
+    pass
+
+
 class ServiceNotInstalledError(Exception):
     pass
 
@@ -19,6 +23,10 @@ class InvalidStatusError(Exception):
 
 
 class AlreadyMountedError(Exception):
+    pass
+
+
+class ReadOnlyOptionError(Exception):
     pass
 
 

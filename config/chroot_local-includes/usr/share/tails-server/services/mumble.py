@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import logging
 import os
 import string
@@ -12,6 +10,7 @@ from tails_server import file_util
 from tails_server import option_util
 from tails_server import service_template
 from tails_server import option_template
+from tails_server.exceptions import ReadOnlyOptionError
 from tails_server.options.virtual_port import VirtualPort
 from tails_server.options.persistence import PersistenceOption
 from tails_server.options.autostart import AutoStartOption
@@ -80,7 +79,7 @@ class TLSFingerprintOption(option_template.TailsServiceOption):
     reload_after_service_started = True
 
     def store(self):
-        pass
+        raise ReadOnlyOptionError("Option %r can't be modified" % self.name)
 
     def load(self):
         if not os.path.isfile(DB_PATH):
@@ -136,12 +135,3 @@ class MumbleServer(service_template.TailsService):
         return s
 
 service_class = MumbleServer
-
-
-def main():
-    service = service_class()
-    args = service.arg_parser.parse_args()
-    service.dispatch_command(args)
-
-if __name__ == "__main__":
-    main()

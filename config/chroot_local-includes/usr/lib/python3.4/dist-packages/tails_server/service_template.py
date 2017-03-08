@@ -262,6 +262,7 @@ class TailsService(metaclass=abc.ABCMeta):
         if self.is_installed:
             attributes.update(OrderedDict([
                 ("running", self.is_running),
+                ("published", self.is_running),
                 ("address", self.address),
                 ("local-port", self.target_port),
                 ("remote-port", self.virtual_port),
@@ -295,7 +296,7 @@ class TailsService(metaclass=abc.ABCMeta):
                 return True
 
         OrderedDictDumper.add_representer(OrderedDict, _dict_representer)
-        print(yaml.dump(*args, Dumper=OrderedDictDumper, default_flow_style=False, **kwargs))
+        print(yaml.dump(*args, Dumper=OrderedDictDumper, default_flow_style=False, **kwargs), end="")
 
     @property
     def default_persistence_records(self):
@@ -333,7 +334,7 @@ class TailsService(metaclass=abc.ABCMeta):
 
     def get_status(self):
         return {"installed": self.is_installed,
-                "enabled": self.is_running,
+                "running": self.is_running,
                 "published": self.is_published}
 
     def print_status(self):
@@ -347,6 +348,9 @@ class TailsService(metaclass=abc.ABCMeta):
         self.print_yaml(attributes)
 
     def enable(self):
+        if not self.is_installed:
+            raise ServiceNotInstalledError("Service %r is not installed" % self.name)
+
         if self.is_running and self.is_published:
             raise ServiceAlreadyEnabledError("Service %r is already enabled" % self.name)
         logging.info("Enabling service %r" % self.name)
@@ -354,14 +358,15 @@ class TailsService(metaclass=abc.ABCMeta):
         if not tor_util.tor_has_bootstrapped():
             raise TorIsNotRunningError()
 
-        if not self.is_installed:
-            self.install()
         if not self.is_running:
             self.start()
         if not self.is_published:
             self.create_hidden_service()
 
     def install(self):
+        if self.is_installed:
+            raise ServiceAlreadyInstalledError("Service %r is already installed" % self.name)
+
         logging.info("Installing packages: " + ", ".join("%r" % p for p in self.packages))
 
         def update_packages():
@@ -397,6 +402,9 @@ class TailsService(metaclass=abc.ABCMeta):
         logging.info("Service %r installed", self.name)
 
     def uninstall(self):
+        if not self.is_installed:
+            raise ServiceNotInstalledError("Service %r is not installed" % self.name)
+
         if self.is_running:
             self.disable()
         for option in self.options_dict.get_instantiated():
@@ -505,10 +513,14 @@ class TailsService(metaclass=abc.ABCMeta):
         sh.systemctl("stop", self.systemd_service)
 
     def get_option(self, option_name):
+        if not self.is_installed:
+            raise ServiceNotInstalledError("Service %r is not installed" % self.name)
+
         try:
             option = self.options_dict[option_name]
         except KeyError:
             raise UnknownOptionError("Service %r has no option %r" % (self.name, option_name))
+
         self.print_yaml({option.name: option.value})
 
     def set_option(self, option_name, value):
@@ -525,10 +537,14 @@ class TailsService(metaclass=abc.ABCMeta):
         return
 
     def reset_option(self, option_name):
+        if not self.is_installed:
+            raise ServiceNotInstalledError("Service %r is not installed" % self.name)
+
         try:
             option = self.options_dict[option_name]
         except KeyError:
             raise UnknownOptionError("Service %r has no option %r" % (self.name, option_name))
+
         option.value = option.default
         option.apply()
         logging.debug("Option %r reset to %r", option_name, option.value)
@@ -593,23 +609,3 @@ class TailsService(metaclass=abc.ABCMeta):
     def remove_onion_address(self):
         os.remove(self.hs_hostname_file)
         os.remove(self.hs_private_key_file)
-
-    def dispatch_command(self, args):
-        if args.command == "info":
-            return self.print_info(detailed=args.details)
-        elif args.command == "status":
-            return self.print_status()
-        elif args.command == "install":
-            return self.install()
-        elif args.command == "uninstall":
-            return self.uninstall()
-        elif args.command == "enable":
-            return self.enable()
-        elif args.command == "disable":
-            return self.disable()
-        elif args.command == "get-option":
-            return self.get_option(args.OPTION)
-        elif args.command == "set-option":
-            return self.set_option(args.OPTION, args.VALUE)
-        elif args.command == "reset-option":
-            return self.reset_option(args.OPTION)

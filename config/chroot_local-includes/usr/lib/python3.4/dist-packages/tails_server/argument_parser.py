@@ -18,8 +18,8 @@ class CommandParser(HelpfulParser):
         'status': "Print whether the service is installed and running",
         'install': "Install the service",
         'uninstall': "Uninstall the service",
-        'enable': "Install, configure, and start the service",
-        'disable': "Stop the service",
+        'enable': "Enables the service",
+        'disable': "Disables the service",
         'get-option': "Print the current value of an option",
         'set-option': "Set an option. If the service is running, the option will be applied "
                       "immediately and, if necessary, the service will be restarted!",
@@ -35,16 +35,29 @@ class CommandParser(HelpfulParser):
                                              description=self.descriptions[command_name])
         for argument in arguments:
             command.add_argument(**argument)
+
+        command.add_argument(dest="SERVICE", type=str, metavar="SERVICE",
+                             choices=import_services.service_names)
         return command
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.add_argument("--verbose", "-v", action="count")
+        self.add_argument("--log-file")
 
         self.subparsers = self.add_subparsers(dest="command", parser_class=HelpfulParser)
+
+        # Add general commands
+        self.subparsers.add_parser("list", help="Print list of available services")
+        self.subparsers.add_parser("list-enabled", help="Print list of enabled services")
+        self.subparsers.add_parser("restore", help="Install packages and restore files of services "
+                                                   "which have the 'persistence' option set to True")
+        self.subparsers.add_parser("autostart", help="Enable the services which have the "
+                                                     "'autostart' option set to True")
+
+        # Add service commands
         info_parser = self.add_service_command("info")
         info_parser.add_argument("--details", action="store_true")
-
         self.add_service_command("status")
         self.add_service_command("install")
         self.add_service_command("uninstall")
@@ -55,6 +68,8 @@ class CommandParser(HelpfulParser):
                                  {"dest": "VALUE", "type": str})
         self.add_service_command("reset-option", {"dest": "OPTION", "type": str})
 
+
+
     def parse_args(self, **kwargs):
         args = super().parse_args(**kwargs)
 
@@ -63,23 +78,6 @@ class CommandParser(HelpfulParser):
             self.exit()
 
         return args
-
-
-class WrapperParser(CommandParser):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.subparsers.add_parser("list", help="Print list of available services")
-        self.subparsers.add_parser("list-enabled", help="Print list of enabled services")
-        self.subparsers.add_parser("restore", help="Install packages and restore files of services "
-                                                   "which have the 'persistence' option set to True")
-        self.subparsers.add_parser("autostart", help="Enable the services which have the "
-                                                     "'autostart' option set to True")
-
-    def add_service_command(self, command_name, *arguments):
-        command = super().add_service_command(command_name, *arguments)
-        command.add_argument(dest="SERVICE", type=str, metavar="SERVICE",
-                             choices=import_services.service_names)
-        return command
 
 
 class ServiceParser(CommandParser):

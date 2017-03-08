@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import os
 import random
 import string
@@ -131,12 +129,3 @@ class GobbyServer(service_template.TailsService):
 
 
 service_class = GobbyServer
-
-
-def main():
-    service = service_class()
-    args = service.arg_parser.parse_args()
-    service.dispatch_command(args)
-
-if __name__ == "__main__":
-    main()

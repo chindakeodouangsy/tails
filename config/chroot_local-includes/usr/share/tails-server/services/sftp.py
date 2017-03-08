@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import shutil
 import sh
 import os
@@ -215,12 +213,3 @@ class SFTPServer(service_template.TailsService):
 
 
 service_class = SFTPServer
-
-
-def main():
-    service = service_class()
-    args = service.arg_parser.parse_args()
-    service.dispatch_command(args)
-
-if __name__ == "__main__":
-    main()

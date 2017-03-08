@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from tails_server import _
 from tails_server import service_template
 from tails_server.options.virtual_port import VirtualPort
@@ -33,12 +31,3 @@ class LighttpdServer(service_template.TailsService):
     ]
 
 service_class = LighttpdServer
-
-
-def main():
-    service = service_class()
-    args = service.arg_parser.parse_args()
-    service.dispatch_command(args)
-
-if __name__ == "__main__":
-    main()
