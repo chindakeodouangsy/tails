@@ -33,23 +33,17 @@ tor_control_setconf() {
 	tor_control_send "SETCONF ${1}" >/dev/null
 }
 
-tor_bootstrap_progress() {
-	RES=$(grep -o "\[notice\] Bootstrapped [[:digit:]]\+%:" ${TOR_LOG} | \
-	    tail -n1 | sed "s|\[notice\] Bootstrapped \([[:digit:]]\+\)%:|\1|")
-	if [ -z "${RES:-}" ] ; then
-		RES=0
-	fi
-	echo -n "$RES"
-}
-
+# XXX ?
 # Potential Tor bug: it seems like using this version makes Tor get
 # stuck at "Bootstrapped 5%" quite often. Is Tor sensitive to opening
 # control ports and/or issuing "getinfo status/bootstrap-phase" during
 # early bootstrap? Because of this we fallback to greping the log.
-#tor_bootstrap_progress() {
-#	tor_control_getinfo status/bootstrap-phase | \
-#	    sed 's/^.* BOOTSTRAP PROGRESS=\([[:digit:]]\+\) .*$/\1/'
-#}
+tor_bootstrap_progress() {
+	local res
+	res=$(tor_control_getinfo status/bootstrap-phase | \
+	             sed 's/^.* BOOTSTRAP PROGRESS=\([[:digit:]]\+\) .*$/\1/')
+	echo ${res:-0}
+}
 
 tor_is_working() {
 	[ -e $TOR_DESCRIPTORS ] || [ -e $NEW_TOR_DESCRIPTORS ] || return 1
