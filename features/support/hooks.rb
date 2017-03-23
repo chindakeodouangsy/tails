@@ -125,8 +125,8 @@ def add_after_scenario_hook(&block)
   @after_scenario_hooks << block
 end
 
-def save_failure_artifact(type, path)
-  $failure_artifacts << [type, path]
+def save_failure_artifact(type, path, tag = nil)
+  $failure_artifacts << [type, path, tag]
 end
 
 # Due to Tails' Tor enforcement, we only allow contacting hosts that
@@ -249,9 +249,25 @@ After('@product') do |scenario|
         save_failure_artifact("Network capture", pcap_file)
       end
     end
+    begin
+      tor_debug_log = "#{$config["TMPDIR"]}/tor_debug.log"
+      open(tor_debug_log, 'w') do |f|
+        f.write($vm.file_content("/var/log/tor/debug.log"))
+      end
+      save_failure_artifact("Tor debug log", tor_debug_log)
+    rescue
+      # $vm.file_content will fail if the remote shell is down
+    end
+    if $use_chutney
+      Dir.glob("#{$config['TMPDIR']}/chutney-data/nodes/*/debug.log") do |f|
+        name = File.basename(File.dirname(f))
+        save_failure_artifact("Tor debug log #{name}", tor_debug_log, name)
+      end
+    end
     $failure_artifacts.sort!
-    $failure_artifacts.each do |type, file|
-      artifact_name = sanitize_filename("#{elapsed}_#{scenario.name}#{File.extname(file)}")
+    $failure_artifacts.each do |type, file, tag|
+      tag = "_#{tag}" if tag
+      artifact_name = sanitize_filename("#{elapsed}_#{scenario.name}#{tag}#{File.extname(file)}")
       artifact_path = "#{ARTIFACTS_DIR}/#{artifact_name}"
       assert(File.exist?(file))
       FileUtils.mv(file, artifact_path)

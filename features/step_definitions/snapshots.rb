@@ -6,7 +6,8 @@ def checkpoints
       :steps => [
         'the network is unplugged',
         'I start the computer',
-        'the computer boots Tails'
+        'the computer boots Tails',
+        'Tor has debug logging enabled',
       ],
     },
 
@@ -49,9 +50,7 @@ def checkpoints
       :parent_checkpoint => "no-network-logged-in",
       :steps => [
         'the network is plugged',
-        'Tor is ready',
-        'all notifications have disappeared',
-        'available upgrades have been checked',
+        'Tor eventually bootstraps',
       ],
     },
 

@@ -70,11 +70,11 @@ def post_snapshot_restore_hook
   if $vm.has_network?
     if $vm.execute("systemctl --quiet is-active tor@default.service").success?
       $vm.execute("systemctl stop tor@default.service")
-      $vm.execute("rm -f /var/log/tor/log")
+      #$vm.execute("rm -f /var/log/tor/log")
       $vm.execute("systemctl --no-block restart tails-tor-has-bootstrapped.target")
       $vm.host_to_guest_time_sync
       $vm.execute("systemctl restart tor@default.service")
-      wait_until_tor_is_working
+#      wait_until_tor_is_working
       if $vm.file_content('/proc/cmdline').include?(' i2p')
         $vm.execute_successfully('/usr/local/sbin/tails-i2p stop')
         # we "killall tails-i2p" to prevent multiple
@@ -123,10 +123,6 @@ Then /^drive "([^"]+)" is detected by Tails$/ do |name|
   try_for(10, :msg => "Drive '#{name}' is not detected by Tails") do
     $vm.disk_detected?(name)
   end
-end
-
-Given /^the network is plugged$/ do
-  $vm.plug_network
 end
 
 Given /^the network is unplugged$/ do
@@ -312,7 +308,7 @@ Given /^the computer (re)?boots Tails$/ do |reboot|
                Sikuli::Key.ENTER)
   @screen.wait('TailsGreeter.png', 5*60)
   $vm.wait_until_remote_shell_is_up
-  step 'I configure Tails to use a simulated Tor network'
+#  step 'I configure Tails to use a simulated Tor network'
 end
 
 Given /^I log in to a new session(?: in )?(|German)$/ do |lang|
@@ -1001,4 +997,34 @@ def share_host_files(files)
   $vm.execute_successfully("mount #{partition} #{mount_dir}")
   $vm.execute_successfully("chmod -R a+rX '#{mount_dir}'")
   return mount_dir
+end
+
+When /^I pause$/ do
+  pause
+end
+
+Given /^the network is plugged$/ do
+  $use_chutney = true
+  if $use_chutney
+    step 'I configure Tails to use a simulated Tor network'
+  end
+  $vm.plug_network
+end
+
+Given /^Tor has debug logging enabled$/ do
+  $vm.execute_successfully("echo 'Log debug file /var/log/tor/debug.log' >> /etc/tor/torrc")
+  $vm.execute_successfully("sync")
+end
+
+Then /^Tor eventually (?:re)?bootstraps$/ do
+  try_for(30, delay: 0) { $vm.has_process?('tor') }
+  $vm.execute_successfully('touch /time_is_synced')
+  t0 = Time.now
+  try_for(60) do
+    progress = $vm.execute_successfully(
+      'tor_bootstrap_progress', :libs => 'tor'
+    ).stdout.chomp.to_i
+    debug_log "Bootstrap progress: #{progress} : #{Time.now - t0}"
+    progress == 100
+  end
 end
