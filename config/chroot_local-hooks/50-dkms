@@ -14,7 +14,8 @@ apt-get install --yes build-essential dkms
 apt-get install --yes \
     "linux-headers-${KERNEL_VERSION}-amd64" \
     aufs-dkms \
-    virtualbox-guest-dkms
+    virtualbox-guest-dkms \
+    qubes-kernel-vm-support
 
 MODULES_VERSION="$(dpkg-query -W -f='${Version}\n' virtualbox-guest-dkms \
 		       | sed -E 's,-.*,,')"
@@ -24,6 +25,36 @@ dkms build \
 dkms install \
     -a amd64 -k "${KERNEL_VERSION}-amd64" \
     -m virtualbox-guest -v "$MODULES_VERSION"
+
+MODULES_VERSION="$(dpkg-query -W -f='${Version}\n' qubes-kernel-vm-support \
+		       | sed -E 's,[-+].*,,')"
+(
+    cd "/usr/src/u2mfn-${MODULES_VERSION}"
+    patch -p1 <<EOF
+--- a/u2mfn.c	2017-03-26 23:45:32.417520134 +0200
++++ b/u2mfn.c	2017-03-26 23:44:06.615915088 +0200
+@@ -75,7 +75,10 @@
+ 	switch (cmd) {
+ 	case U2MFN_GET_MFN_FOR_PAGE:
+ 		down_read(&current->mm->mmap_sem);
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 6, 0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 9, 0)
++		ret = get_user_pages
++			(data, 1, (FOLL_WRITE | FOLL_FORCE), &user_page, 0);
++#elif LINUX_VERSION_CODE >= KERNEL_VERSION(4, 6, 0)
+ 		ret = get_user_pages
+ 		    (data, 1, 1, 0, &user_page, 0);
+ #else
+EOF
+)
+
+dkms build \
+    -a amd64 -k "${KERNEL_VERSION}-amd64" \
+    -m u2mfn -v "${MODULES_VERSION}" && \
+dkms install \
+    -a amd64 -k "${KERNEL_VERSION}-amd64" \
+    -m u2mfn -v "${MODULES_VERSION}" || \
+           ( echo ; echo ; cat /var/lib/dkms/u2mfn/3.2.3/build/make.log ; echo ; echo ; bash ; false )
 
 # clean the build directory
 # rm -r /var/lib/dkms/virtualbox-guest/

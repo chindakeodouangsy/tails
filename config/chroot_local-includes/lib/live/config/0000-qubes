@@ -1,0 +1,6 @@
+# Qubes magic :)
+
+# This should be done as a build hook, but then we need to cleanup
+# 'user' from some statoverride file blah.
+deluser user || :
+rm -rf /home/user
