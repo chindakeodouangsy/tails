@@ -407,3 +407,13 @@ libgnome2-bin
 # tor-controlport-filter
 python3-psutil
 python3-yaml
+
+# Qubes OS guest-support
+qubes-core-agent
+qubes-gui-agent
+# Less sure about the ones below
+libxvmc1
+x11-session-utils
+xfonts-100dpi
+xfonts-75dpi
+xfonts-scalable
