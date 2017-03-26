@@ -33,7 +33,6 @@ apt-get --yes purge  \
    '^exim4*' \
    m4 \
    mlocate \
-   ncurses-term \
    nfs-common \
    procmail \
    python3-reportbug \
@@ -49,7 +48,6 @@ apt-get --yes purge  \
     krb5-locales \
     libdvdcss2-dbgsym \
     live-build \
-    locales \
     rpcbind \
     tasksel \
     tasksel-data \
