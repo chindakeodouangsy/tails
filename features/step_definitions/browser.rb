@@ -53,7 +53,7 @@ def xul_application_info(application)
     chroot = "/var/lib/i2p-browser/chroot"
     new_tab_button_image = "I2PBrowserNewTabButton.png"
   when "Tor Launcher"
-    user = "tor-launcher"
+    user = LIVE_USER
     # We do not enable AppArmor confinement for the Tor Launcher.
     binary = "#{binary}-unconfined"
     tor_launcher_install = $vm.execute_successfully(

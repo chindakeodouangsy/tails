@@ -2,7 +2,7 @@
 - exe-paths:
     - '/usr/local/lib/tor-browser/firefox-unconfined'
   users:
-    - 'tor-launcher'
+    - 'amnesia'
   commands:
     SAVECONF:
       - ''
