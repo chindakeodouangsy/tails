@@ -6,6 +6,9 @@ set -e
 # and configure_best_tor_launcher_locale()
 . /usr/local/lib/tails-shell-library/tor-browser.sh
 
+# Import export_gnome_env().
+. /usr/local/lib/tails-shell-library/gnome.sh
+
 unset TOR_CONTROL_PASSWD
 unset TOR_FORCE_NET_CONFIG
 export TOR_CONFIGURE_ONLY=1
@@ -22,6 +25,9 @@ if [ ! -d "${PROFILE}" ]; then
   configure_best_tor_launcher_locale "${PROFILE}"
 fi
 
+# This script is normally run from an environment where none of the
+# GNOME/Xorg session variables are set, so let's explicitly set them.
+export_gnome_env
 exec_unconfined_firefox \
     -app "${TOR_LAUNCHER_INSTALL}/application.ini" \
     -profile "${PROFILE}"
