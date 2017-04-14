@@ -70,7 +70,7 @@ class AutoSaveInterval(option_template.TailsServiceOption):
 
 class GobbyServer(service_template.TailsService):
     name = "gobby"
-    description = _("A collaborative text editor")
+    description = _("A collaborative text editing service")
     systemd_service = "gobby-server.service"
     client_application = "gobby"
     packages = ["infinoted"]
