@@ -1,3 +1,5 @@
   - [[!traillink Tails Server|tails_server]]
     - [[!traillink Collaborative text-editing with Gobby|tails_server/gobby]]
     - [[!traillink Voice-chatting with Mumble|tails_server/mumble]]
+    - [[!traillink Sharing files with SFTP|tails_server/sftp]]
+    - [[!traillink Serving a web site with lighttpd|tails_server/lighttpd]]

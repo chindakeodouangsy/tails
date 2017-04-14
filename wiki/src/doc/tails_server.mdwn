@@ -1,6 +1,6 @@
 [[!meta title="Tails Server"]]
 
-<span class="application">Tails Server</span> allows hosting various online services, to which others can securely connect through Tor. 
+<span class="application">Tails Server</span> allows hosting various online services, to which others can securely connect through Tor.
 
 To start <span class="application">Tails Server</span>, choose
 <span class="menuchoice">
@@ -13,17 +13,60 @@ To start <span class="application">Tails Server</span>, choose
 Available Services
 ==================
 
-  - [[Gobby|tails_server/gobby]] - a collaborative text editor
-  - [[Mumble|tails_server/mumble]] - a voice chat server
+  - [[Mumble Server|tails_server/mumble]] - a voice chat server
+  - [[Gobby Server|tails_server/gobby]] - a collaborative text editor service
   - [[SFTP|tails_server/sftp]] - a file sharing service
+  - [[lighttpd|tails_server/lighttpd]] - a lightweight web server
+
+
+Installing a service
+====================
+
+When starting Tails Server for the first time, you can add a service with the **Add a Service** button. Then choose the service from the list and click **Install**. Tails Server will automatically install the required packages and configure the service. You can install additional services using the **+** button on the bottom left. You can uninstall the current service using the **-** button on the bottom left.
+
+<div class="tip">
+   <p>The first time you install a service, the APT package lists need to be updated. This happens automatically in the background, but it causes the installation of the service to take up to 10 minutes longer.</p>
+   </div>
+
+
+Configuring a service
+=====================
+Depending on the service, Tails Server provides some configuration options. Click the **Edit** button on the bottom right to edit the options, then click **Apply**.
+
+
+Enabling a service
+==================
+To enable or disable a service, click the on/off swich on the top right. This will automatically start the service and create a Tor onion service for connecting to it.
+
+<div class="tip">
+   <p>Due to limitations in Tor, the announcement of the onion address currently takes 30 seconds.</p>
+   </div>
+
+
+Providing connection information to clients
+===========================================
+For a client to connect to the service, they need to know the onion address and port, and, depending on the service, maybe some other connection information like a password. You have to transfer these to the client through a secure channel, for example [[Pidgin with OTR|anonymous_internet/pidgin]] or [[PGP-encrypted email|anonymous_internet/icedove]]. Once the service was enabled, all the required connection information can be conveniently copied to the clipboard with the **Copy to Clipboard** button on the right.
 
 
 Connecting to a service
 =======================
+To connect to the service remotely, see [[connect to Tails Server|tails_server/connect_to_tails_server]].
 
-Currently, Tails Server enforces the use of Tor's [client authentication](https://www.torproject.org/docs/tor-manual.html.en#HiddenServiceAuthorizeClient). This allows only clients with a so called client cookie to connect to the onion service. This cookie has to be [added to the client's Tor configuration](https://www.torproject.org/docs/tor-manual.html.en#HidServAuth). To make this more user friendly, Tails includes an [[application to connect to Tails Server|tails_server/client_app]], which takes care of the client cookie, and for some services it also takes care of some other things.
+You can connect to the service locally if you enabled the **Allow localhost** option in Tails Server. You have to use the corresponding client application to the service and use *localhost* as the address.
+
+You can connect to the service from your local area network (LAN) if you enabled the **Allow LAN** option in Tails Server. You will have to find out which IP address your computer is assigned to on your local network. You can look this up in the <span class="application">Network</span> application. To start <span class="application">Network</span>, open <span class="menuchoice">
+     <span class="guimenu">Applications</span>&nbsp;▸
+     <span class="guisubmenu">System Tools</span>&nbsp;▸
+     <span class="guimenuitem">Settings</span>
+   </span>, and then choose <span class="guimenuitem">Network</span>.
+   </p></div>
 
 
-Client Authentication Background
-----------
-The client authentication protects from deanonymization attacks against onion services, which are easier to perform against Tails, because [Tails doesn't use stable guard nodes](https://labs.riseup.net/code/issues/11732). We plan to make the client authentication optional once the stable guard nodes issue is fixed.
+You will **not** be able to use the <span class="application">Connect to Tails Server</span> application for connecting to localhost or from LAN.
+
+
+Store service configuration and data persistently
+=================================================
+If you enabled the Tails [[persistent partition|first_steps/persistence]], you can store the service's configuration and data on the persistent partition by enabling the **Persistence** option in Tails Server. In contrast to other applications, this is **not** configured in the <span class="application">Configure persistent volume</span> application.
+
+If you additionally enable the **Autostart** option in Tails Server, the service will be started automatically after the system startup of Tails.

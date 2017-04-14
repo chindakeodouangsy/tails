@@ -1,0 +1,12 @@
+[[!meta title="Connect to Tails Server"]]
+
+To connect to Tails Server, you need to know the onion address and port, and, depending on the service, maybe some other connection information like a password. You have to obtain these from the Tails Server administrator through a secure channel, for example [[Pidgin with OTR|anonymous_internet/pidgin]] or [[PGP-encrypted email|anonymous_internet/icedove]].
+
+You can connect to the service with the correct client application, which depends on the service. If you are using Tails, you can use the <span class="application">Connect to Tails Server</span> application for convenience. Open
+<span class="menuchoice">
+  <span class="guimenu">Applications</span>&nbsp;▸
+  <span class="guisubmenu">Internet</span>&nbsp;▸
+  <span class="guimenuitem">Connect to Tails Server</span>
+</span>.
+
+The <span class="application">Connect to Tails Server</span> application automatically parses the clipboard for Tails Server connection information. It then allows to connect to the service by automatically starting the client application with the provided information. Depending on the service, the application also deals with some other inconveniences (for example when used with Mumble, it automatically adds the specified TLS fingerprint to the known fingerprints, so you don't get prompted about the TLS certificate and you don't have to compare the fingerprints by hand).

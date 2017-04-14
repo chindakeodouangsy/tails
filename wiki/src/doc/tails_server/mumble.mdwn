@@ -1,51 +1,40 @@
 [[!meta title="Voice chatting with Mumble"]]
 
 For voice chatting, <span class="application">Tails Server</span> includes <span
-class="application">Mumble-Server</span>. 
+class="application">Mumble-Server</span>.
 
 For more detailed documentation, refer to the [official
 <span class="application">Mumble</span>
 documentation](http://wiki.mumble.info/wiki/FAQ).
 
+
 Configure the Service
 =====================
 
-The <span class="application">Mumble-Server</span> is preconfigured in <span class="application">Tails Server</span>, so you are able to start it without additional configuration. You might still want to configure some of the service's options:
+The <span class="application">Mumble-Server</span> is preconfigured in <span class="application">Tails Server</span>, so you are able to start it without additional configuration. You can edit the configuration options by clicking the **Edit** button on the bottom right.
 
+Mumble specific options:
 1. Password: The password required to connect to the service. This is preset to a 20 character random string.
+2. TLS Fingerprint: This is the SHA-1 digest of the TLS certificate used by the Mumble server. You should provide this to the clients so they can verify the certificate when they connect. This option can't be modified.
+3. Welcome Message: This message will be displayed to clients when they connect to the service.
 
-1. Persistence: Stores the service's configuration persistently (i.e. it will not be reset after rebooting Tails). This is only available if you enabled [[Tails' persistence feature|first_steps/persistence]].
-
-1. Autostart: Starts this service automatically after boot.
-
-1. Allow LAN: Allows connection from your local area network (LAN) to the service. 
-
-   <div class="tip">
-   <p>To connect locally, you will have to find out which IP address your computer is assigned to on your local network. You can look this up in the <span class="application">Network</span> application. To start <span class="application">Network</span>, open <span class="menuchoice">
-     <span class="guimenu">Applications</span>&nbsp;▸
-     <span class="guisubmenu">System Tools</span>&nbsp;▸
-     <span class="guimenuitem">Settings</span>
-   </span>, and then choose <span class="guimenuitem">Network</span>.
-   </div>
+The other options are explained in the [[Tails Server main documentation|tails_server/tails_server]].
 
 
 Connect to the Service
 ======================
 
-You can connect to the <span class="application">Mumble-Server</span> service using the <span class="application">Mumble</span> client. To start <span class="application">Mumble</span>, open
-<span class="menuchoice">
+If you are using Tails, you can use the <span class="application">Connect to Tails Server</span> application. Open <span class="menuchoice">
   <span class="guimenu">Applications</span>&nbsp;▸
   <span class="guisubmenu">Internet</span>&nbsp;▸
-  <span class="guimenuitem">Mumble</span>
+  <span class="guimenuitem">Connect to Tails Server</span>
 </span>.
-In order to connect to the service, you will need the onion address, the port, and the password. This information can be easily distributed by the service administrator by copying the <em>Connection Info</em> displayed in <span class="application">Tails Server</span>.
 
-To connect to the service, choose <span class="menuchoice">
+You can also connect by using the <span class="application">Mumble</span> client and entering the address, port and password manually. To connect to the service, start <span class="application">Mumble</span> and choose <span class="menuchoice">
   <span class="guimenu">Server</span>&nbsp;▸
   <span class="guimenuitem">Connect</span>
 </span>, and then click <span class="guimenuitem">Add New</span>. Now you need to enter the onion address and the port (defaults to 64738). You will also need to choose a label for the service and a username. When you click OK, the client will try to connect to the service and will ask you to enter the service's password.
 
 Verify Certificate
 ==================
-When connecting to the service for the first time, there will be a prompt informing you that there are errors with the certificate (it's host name doesn't match and it is self-signed) and asking you if you want to accept the certificate. You should compare the displayed certificate fingerprint with the fingerprint in the <em>Connection Info</em> in <span class="application">Tails Server</span> and only accept the certificate if they match. If you do not have this <em>Connection Info</em>, ask the <span class="application">Tails Server</span> administrator for it.
-
+When connecting to the service manually, there will be a prompt informing you that there are errors with the TLS certificate (it's host name doesn't match and it is self-signed) and asking you if you want to accept the certificate. You should compare the displayed certificate fingerprint with the fingerprint in the in <span class="application">Tails Server</span> and only accept the certificate if they match. If you do not have the TLS fingerprint, ask the <span class="application">Tails Server</span> administrator for it.
