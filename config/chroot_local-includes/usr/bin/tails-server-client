@@ -71,7 +71,7 @@ class ClientGUI(object):
 
     def parse_line(self, line):
         if line.startswith("Application: "):
-            match = re.match(r"Application: (.+) \(format (\S+)\)", line)
+            match = re.match(r"Application: (.+) \(format: (\S+)\)", line)
             if not match:
                 return False
             app_name = match.group(1)
@@ -131,7 +131,8 @@ class ClientGUI(object):
         if not self.app:
             return None
         for client in clients:
-            if client.name_in_gui == self.app:
+            app_identifier = self.get_app_identifier(client.name_in_gui, client.connection_info_format)
+            if app_identifier == self.app:
                 return client
 
     @property
@@ -178,7 +179,7 @@ class ClientGUI(object):
 
     @staticmethod
     def get_app_identifier(app_name, app_format):
-        return "%s (format %s)" % (app_name, app_format)
+        return "%s (format: %s)" % (app_name, app_format)
 
     def add_clients_to_app_combobox(self):
         for client in clients:
@@ -196,7 +197,7 @@ class ClientGUI(object):
         self.app_combobox.add_attribute(renderer, "text", 1)
 
     def add_client_to_app_combobox(self, client: ClientLauncher):
-        logging.info("Adding client %r to applications", client.name)
+        logging.info("Adding client %r (format: %r) to applications", client.name, client.connection_info_format)
         size = 32
         pixbuf = self.icon_theme.load_icon(client.icon_name, size, 0)
         self.app_names.append(client.name_in_gui)

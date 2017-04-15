@@ -167,7 +167,7 @@ class TailsService(metaclass=abc.ABCMeta):
             return None
 
         s = str()
-        s += _("Application: %s (format %s)\n") % (self.client_application_in_gui,
+        s += _("Application: %s (format: %s)\n") % (self.client_application_in_gui,
                                                    self.connection_info_format)
         s += _("Address: %s:%s") % (self.address, self.virtual_port)
         return s
