@@ -245,7 +245,7 @@ class ClientGUI(object):
 
     def got_wrong_format_version(self, app_name, format_version):
         title = _("Can't connect to this service")
-        msg = _("The connection information for app %r is in incompatible format version %r.\n")\
+        msg = _("The connection information for app %r is in incompatible format version %r.\n\n")\
               % (app_name, format_version)
         assert(self.app_format[app_name] != format_version)
         if self.app_format[app_name] < format_version:
