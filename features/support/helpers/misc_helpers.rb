@@ -99,11 +99,11 @@ end
 def force_new_tor_circuit()
   debug_log("Forcing new Tor circuit...")
   # Tor rate limits NEWNYM to at most one per 10 second period.
-  rate = 10
+  interval = 10
   if $__last_newnym
     elapsed = Time.now - $__last_newnym
     # We sleep an extra second to avoid tight timings.
-    sleep rate - elapsed + 1 if 0 < elapsed &&  elapsed < rate
+    sleep interval - elapsed + 1 if 0 < elapsed && elapsed < interval
   end
   $vm.execute_successfully('tor_control_send "signal NEWNYM"', :libs => 'tor')
   $__last_newnym = Time.now
@@ -123,11 +123,6 @@ def retry_tor(recovery_proc = nil, &block)
   retry_action($config['MAX_NEW_TOR_CIRCUIT_RETRIES'],
                :recovery_proc => tor_recovery_proc,
                :operation_name => 'Tor operation', &block)
-end
-
-def retry_i2p(recovery_proc = nil, &block)
-  retry_action(15, :recovery_proc => recovery_proc,
-               :operation_name => 'I2P operation', &block)
 end
 
 def retry_action(max_retries, options = {}, &block)

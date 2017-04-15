@@ -38,14 +38,6 @@ def post_snapshot_restore_hook
     $vm.spawn("restart-tor")
     wait_until_tor_is_working
   end
-  # ... and the same goes for I2P's tunnel state.
-  if $vm.execute("systemctl --quiet is-active i2p.service").success?
-    $vm.execute_successfully('/usr/local/sbin/tails-i2p stop')
-    # We "killall tails-i2p" to prevent multiple copies of the script
-    # from running, which seems to happen for strange reasons.
-    $vm.execute_successfully('killall tails-i2p')
-    $vm.spawn('/usr/local/sbin/tails-i2p start')
-  end
 end
 
 Given /^a computer$/ do
@@ -347,8 +339,9 @@ When /^I see the "(.+)" notification(?: after at most (\d+) seconds)?$/ do |titl
   notification_list = gnome_shell.child(
     'No Notifications', roleName: 'label', showingOnly: false
   ).parent.parent
-  notification_list.child(title, roleName: 'label', showingOnly: false)
-    .wait(timeout)
+  try_for(timeout) do
+    notification_list.child?(title, roleName: 'label', showingOnly: false)
+  end
 end
 
 Given /^Tor is ready$/ do
@@ -365,14 +358,14 @@ Given /^Tor has built a circuit$/ do
 end
 
 Given /^the time has synced$/ do
-  ["/var/run/tordate/done", "/var/run/htpdate/success"].each do |file|
+  ["/run/tordate/done", "/run/htpdate/success"].each do |file|
     try_for(300) { $vm.execute("test -e #{file}").success? }
   end
 end
 
 Given /^available upgrades have been checked$/ do
   try_for(300) {
-    $vm.execute("test -e '/var/run/tails-upgrader/checked_upgrades'").success?
+    $vm.execute("test -e '/run/tails-upgrader/checked_upgrades'").success?
   }
 end
 
@@ -381,13 +374,18 @@ When /^I start the Tor Browser( in offline mode)?$/ do |offline|
   if offline
     offline_prompt = Dogtail::Application.new('zenity')
                      .dialog('Tor is not ready')
-    offline_prompt.wait(10)
     offline_prompt.button('Start Tor Browser').click
   end
-  @torbrowser = Dogtail::Application.new('Firefox').child('', roleName: 'frame')
-  @torbrowser.wait(60)
+  step "the Tor Browser has started#{offline}"
   if offline
     step 'the Tor Browser shows the "The proxy server is refusing connections" error'
+  end
+end
+
+Given /^the Tor Browser has started( in offline mode)?$/ do |offline|
+  try_for(60) do
+    @torbrowser = Dogtail::Application.new('Firefox')
+    @torbrowser.child?(roleName: 'frame', recursive: false)
   end
 end
 
@@ -434,10 +432,10 @@ Given /^all notifications have disappeared$/ do
   gnome_shell = Dogtail::Application.new('gnome-shell')
   retry_action(10, recovery_proc: Proc.new { @screen.type(Sikuli::Key.ESC) }) do
     @screen.click_point(x, y)
-    unless gnome_shell.child('No Notifications', roleName: 'label').exist?
+    unless gnome_shell.child?('No Notifications', roleName: 'label')
       @screen.click('GnomeCloseAllNotificationsButton.png')
     end
-    gnome_shell.child('No Notifications', roleName: 'label').exist?
+    gnome_shell.child?('No Notifications', roleName: 'label')
   end
   @screen.type(Sikuli::Key.ESC)
 end
@@ -722,8 +720,14 @@ When /^(no|\d+) application(?:s?) (?:is|are) playing audio(?:| after (\d+) secon
   assert_equal(nb.to_i, pulseaudio_sink_inputs)
 end
 
-When /^I double-click on the "Tails documentation" link on the Desktop$/ do
-  @screen.wait_and_double_click("DesktopTailsDocumentationIcon.png", 10)
+When /^I double-click on the (Tails documentation|Report an Error) launcher on the desktop$/ do |launcher|
+  image = 'Desktop' + launcher.split.map { |s| s.capitalize } .join + '.png'
+  info = xul_application_info('Tor Browser')
+  # Sometimes the double-click is lost (#12131).
+  retry_action(10) do
+    @screen.wait_and_double_click(image, 10) if $vm.execute("pgrep --uid #{info[:user]} --full --exact '#{info[:cmd_regex]}'").failure?
+    step 'the Tor Browser has started'
+  end
 end
 
 When /^I click the blocked video icon$/ do
