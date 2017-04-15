@@ -2,7 +2,7 @@
 
 import os
 
-CONFIG_PATH = "/home/amnesia/.config/gobby/config.xml"
+CONFIG_PATH = os.path.expanduser("~/.config/gobby/config.xml")
 
 CONFIG_CONTENT = """<?xml version="1.0" encoding="UTF-8"?>
 <gobby-config>

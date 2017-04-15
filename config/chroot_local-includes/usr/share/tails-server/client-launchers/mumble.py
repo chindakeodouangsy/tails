@@ -6,7 +6,7 @@ import os
 from tails_server import _
 from tails_server.client_launcher_template import \
     ClientLauncher, ClientLauncherDetail, InvalidArgumentError
-from tails_server.config import HELPER_SCRIPTS_DIR
+from tails_server.config import HELPER_SCRIPTS_DIR, TAILS_USER
 
 ADD_FINGERPRINT_SCRIPT = os.path.join(HELPER_SCRIPTS_DIR, "add-mumble-fingerprint")
 
@@ -57,7 +57,7 @@ class MumbleLauncher(ClientLauncher):
         fingerprint = self.values["fingerprint"].replace(":", "").lower()
         # XXX: fingerprint, address and port are user controlled, but because subprocess
         # handles escaping and quoting of arguments, this should still be secure.
-        subprocess.check_call(["sudo", "-u", "amnesia", ADD_FINGERPRINT_SCRIPT,
+        subprocess.check_call(["sudo", "-u", TAILS_USER, ADD_FINGERPRINT_SCRIPT,
                                self.values["address"], self.values["port"], fingerprint])
 
     def launch(self):
@@ -67,7 +67,7 @@ class MumbleLauncher(ClientLauncher):
         user = "client"
         url = "mumble://%s:%s@%s:%s" % (user, self.values["password"], self.values["address"],
                                         self.values["port"])
-        subprocess.Popen(["sudo", "-u", "amnesia", "mumble", url])
+        subprocess.Popen(["sudo", "-u", TAILS_USER, "mumble", url])
 
 
 client_launcher_class = MumbleLauncher

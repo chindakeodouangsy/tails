@@ -3,7 +3,7 @@ import os
 
 from tails_server import _
 from tails_server.client_launcher_template import ClientLauncher, ClientLauncherDetail
-from tails_server.config import HELPER_SCRIPTS_DIR
+from tails_server.config import HELPER_SCRIPTS_DIR, TAILS_USER
 
 CREATE_CONFIG_SCRIPT = os.path.join(HELPER_SCRIPTS_DIR, "create-gobby-config")
 
@@ -26,13 +26,13 @@ class GobbyLauncher(ClientLauncher):
 
     @staticmethod
     def create_config_file():
-        subprocess.check_call(["sudo", "-u", "amnesia", CREATE_CONFIG_SCRIPT])
+        subprocess.check_call(["sudo", "-u", TAILS_USER, CREATE_CONFIG_SCRIPT])
 
     def launch(self):
         super().launch()
         # XXX: The connection string is user controlled, but because subprocess
         # handles escaping and quoting of arguments, this should still be secure.
-        subprocess.Popen(["sudo", "-u", "amnesia", "gobby", "infinote://%s:%s" %
+        subprocess.Popen(["sudo", "-u", TAILS_USER, "gobby", "infinote://%s:%s" %
                           (self.values["address"], self.values["port"])])
 
 
