@@ -9,7 +9,7 @@ from gi.repository import Gtk
 from tails_server.gui.option_row import OptionRow, ClickableLabel
 from tails_server.gui.service_status import Status
 
-from tails_server.config import APP_NAME, CONFIG_UI_FILE, CONNECTION_INFO_UI_FILE
+from tails_server.config import APP_NAME, CONFIG_UI_FILE, CONNECTION_INFO_UI_FILE, TAILS_USER
 
 # Only required for type hints
 from typing import TYPE_CHECKING
@@ -452,5 +452,5 @@ class ServiceConfigPanel(object):
         self.show()
 
     def on_button_help_clicked(self, button):
-        sh.sudo("-u", "amnesia", "xdg-open", self.service.documentation)
+        sh.sudo("-u", TAILS_USER, "xdg-open", self.service.documentation)
         return True

@@ -3,6 +3,8 @@ PACKAGE_PATH = os.path.dirname(os.path.realpath(__file__))
 
 APP_NAME = "tails-server"
 
+TAILS_USER = "amnesia"
+
 TAILS_SERVER_USER = "tails-server"
 TAILS_SERVER_CLIENT_USER = "tails-server-client"
 DATA_DIR = "/usr/share/tails-server/"
