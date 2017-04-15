@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+# Create the infinoted user.
+#
+# The infinoted service (gobby server) is run as this user. The debian package 
+# currently does not create this user, so we have to do this ourselves.
+
+echo "Creating the infinoted user"
+
+adduser --system --quiet --group --disabled-login --shell /bin/false --home /var/lib/infinoted infinoted
