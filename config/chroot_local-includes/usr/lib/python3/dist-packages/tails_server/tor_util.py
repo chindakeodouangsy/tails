@@ -3,10 +3,12 @@ import stem
 import stem.control
 import logging
 
+from tails_server.config import TOR_BOOTSTRAPPED_TARGET
+
 
 def tor_has_bootstrapped():
     try:
-        sh.systemctl("is-active", "tails-tor-has-bootstrapped.target")
+        sh.systemctl("is-active", TOR_BOOTSTRAPPED_TARGET)
     except sh.ErrorReturnCode_3:  # inactive
         return False
     return True
