@@ -284,17 +284,16 @@ class UnknownTextOptionRow(UnknownOptionRow, TextOptionRow):
             self.box.pack_end(self.togglebutton_show, expand=False, fill=False, padding=0)
         self.load_value()
 
-
     def on_togglebutton_show_toggled(self, button):
+        self.show_unmasked = button.get_active()
+
         if self.editable:
             self.entry.set_visibility(button.get_active())
             return
 
         if button.get_active():
-            self.show_unmasked = True
             self.set_unmasked_text(self.masked_value)
         else:
-            self.show_unmasked = False
             self.set_masked_text(self.masked_value)
 
 
