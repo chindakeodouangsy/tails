@@ -16,7 +16,7 @@ from tails_server.options.autostart import AutoStartOption
 from tails_server.options.allow_localhost import AllowLocalhostOption
 from tails_server.options.allow_lan import AllowLanOption
 
-TEMPLATE_CONFIG_FILE = "/etc/ssh/sshd_config"
+TEMPLATE_CONFIG_FILE = "/usr/share/openssh/sshd_config"
 
 
 class ServerPasswordOption(option_template.TailsServiceOption):
