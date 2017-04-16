@@ -14,7 +14,7 @@ Available Services
 ==================
 
   - [[Mumble Server|tails_server/mumble]] - a voice chat server
-  - [[Gobby Server|tails_server/gobby]] - a collaborative text editor service
+  - [[Gobby Server|tails_server/gobby]] - a collaborative text editing service
   - [[SFTP|tails_server/sftp]] - a file sharing service
   - [[lighttpd|tails_server/lighttpd]] - a lightweight web server
 
@@ -36,7 +36,7 @@ Depending on the service, Tails Server provides some configuration options. Clic
 
 Enabling a service
 ==================
-To enable or disable a service, click the on/off swich on the top right. This will automatically start the service and create a Tor onion service for connecting to it.
+To enable or disable a service, click the on/off swich on the top right. This will automatically start the service and create a Tor onion service for it.
 
 <div class="tip">
    <p>Due to limitations in Tor, the announcement of the onion address currently takes 30 seconds.</p>
@@ -45,7 +45,7 @@ To enable or disable a service, click the on/off swich on the top right. This wi
 
 Providing connection information to clients
 ===========================================
-For a client to connect to the service, they need to know the onion address and port, and, depending on the service, maybe some other connection information like a password. You have to transfer these to the client through a secure channel, for example [[Pidgin with OTR|anonymous_internet/pidgin]] or [[PGP-encrypted email|anonymous_internet/icedove]]. Once the service was enabled, all the required connection information can be conveniently copied to the clipboard with the **Copy to Clipboard** button on the right.
+A client who wants to connect to the service needs to know the onion address and port, and, depending on the service, maybe some other connection information like a password. You have to transfer this information to the client through a secure channel, for example [[Pidgin with OTR|anonymous_internet/pidgin]] or [[PGP-encrypted email|anonymous_internet/icedove]]. Once the service was enabled, all the required connection information can be conveniently copied to the clipboard with the **Copy to Clipboard** button on the right.
 
 
 Connecting to a service
