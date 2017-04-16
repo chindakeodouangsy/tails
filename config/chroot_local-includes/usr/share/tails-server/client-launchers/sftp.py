@@ -49,7 +49,7 @@ class NautilusLauncher(ClientLauncher):
         super().launch()
         # XXX: The connection string is user controlled, but because subprocess
         # handles escaping and quoting of arguments, this should still be secure.
-        url = "sftp://%s@%s:%s" % (self.user_name, self.values["address"], self.values["port"])
+        url = "sftp://%s@%s:%s/files" % (self.user_name, self.values["address"], self.values["port"])
         command = ["sudo", "-u", TAILS_USER, "nautilus", url]
         logging.info("Executing %r", " ".join(command))
         subprocess.Popen(command)
