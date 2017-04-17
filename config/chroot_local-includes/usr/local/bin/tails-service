@@ -4,7 +4,4 @@ set -e
 
 RUN_AS_USER=root
 
-cd /
-xhost +SI:localuser:"$RUN_AS_USER"
 sudo -u "$RUN_AS_USER" /usr/local/sbin/tails-service $@
-xhost -SI:localuser:"$RUN_AS_USER"
