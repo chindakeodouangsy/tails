@@ -72,7 +72,7 @@ def get_installed_services():
 
 def is_mounted(path):
     try:
-        sh.findmnt("--target", path)
+        sh.findmnt("--mountpoint", path)
     except sh.ErrorReturnCode_1:
         return False
     return True
