@@ -20,7 +20,7 @@ class PolicyNoAutostartOnInstallation(object):
         self.original_policy_path = None
         if os.path.exists(self.policy_path):
             sh.mv(self.policy_path, self.tmp_dir)
-            self.original_policy_path = os.path.join(self.tmp_dir, self.policy_path)
+            self.original_policy_path = self.tmp_dir + self.policy_path
         with open(self.policy_path, "w+") as f:
             f.write(self.policy_content)
         os.chmod(self.policy_path, 700)
