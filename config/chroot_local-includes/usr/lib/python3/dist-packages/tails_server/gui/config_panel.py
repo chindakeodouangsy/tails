@@ -3,6 +3,7 @@ import logging
 import os
 import sh
 import threading
+import subprocess
 
 from gi.repository import Gtk
 
@@ -449,5 +450,5 @@ class ServiceConfigPanel(object):
         self.show()
 
     def on_button_help_clicked(self, button):
-        sh.sudo("-u", TAILS_USER, "xdg-open", self.service.documentation)
+        subprocess.Popen(["sudo", "-u", TAILS_USER, "xdg-open", self.service.documentation])
         return True
