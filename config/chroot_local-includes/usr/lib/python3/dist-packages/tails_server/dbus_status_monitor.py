@@ -147,7 +147,8 @@ def on_properties_changed(interface_name, changed_properties, invalidated_proper
         return
     unit = monitored_units[path]
 
-    active_state, sub_state = query_unit_state(unit)
+    active_state = changed_properties['ActiveState']
+    sub_state = changed_properties['SubState']
     logging.debug("Got %r event for unit %r. ActiveState: %s, SubState: %s",
                   member, unit.name, active_state, sub_state)
 
