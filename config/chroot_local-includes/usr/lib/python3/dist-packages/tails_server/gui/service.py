@@ -18,7 +18,6 @@ class ServiceDecorator(object):
     """Service class extended by functions used in the GUI"""
 
     status_row = None
-    restarting = False
 
     def __init__(self, gui, service: "TailsService"):
         self.gui = gui

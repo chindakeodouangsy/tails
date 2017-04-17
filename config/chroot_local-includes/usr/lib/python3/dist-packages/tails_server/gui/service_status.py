@@ -41,6 +41,9 @@ class Status(object):
     switch_active = "switch_active"
     switch_inactive = "switch_inactive"
 
+    restarting = "restarting"
+    not_restarting = "not restarting"
+
 
 systemd_state_to_service_status = {
     "activating": Status.starting,
@@ -84,6 +87,7 @@ class ServiceStatus(Gtk.Widget):
         self.installation_status = str()
         self.switch_status = str()
         self.status = str()
+        self.restarting = False
 
     def start_monitoring(self):
         dbus_status_monitor.add_unit(self.service.systemd_service, self.on_service_status_changed)
@@ -133,6 +137,9 @@ class ServiceStatus(Gtk.Widget):
 
     def update_substates(self, status: str):
         """Set the correct substate to the specified status"""
+        if status in [Status.restarting,
+                      Status.not_restarting]:
+            self.restarting = True if status == Status.restarting else False
         if status in [Status.switch_active,
                       Status.switch_inactive]:
             logging.debug("Setting switch status to %r", status)
@@ -152,9 +159,10 @@ class ServiceStatus(Gtk.Widget):
                         Status.stopped]:
             if status == Status.stopped:
                 logging.debug("Status stopped - Switch status: %r", self.switch_status)
-            if status == Status.stopped and self.switch_status == Status.switch_active and not \
-                    self.service.restarting:
+            if status == Status.stopped and self.switch_status == Status.switch_active and not self.restarting:
                 status = Status.stopped_unexpectedly
+            if status == Status.running and self.restarting:
+                self.restarting = False
             logging.debug("Setting service status to %r", status)
             self.service_status = status
         elif status in [Status.installing,

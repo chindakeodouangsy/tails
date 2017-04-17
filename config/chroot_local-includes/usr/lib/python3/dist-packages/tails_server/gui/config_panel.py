@@ -304,13 +304,10 @@ class ServiceConfigPanel(object):
             option_row.option.value = option_row.value
 
     def apply_options_with_restarting(self):
-        self.service.restarting = True
-        try:
-            self.service.disable()
-            self.apply_options()
-            self.service.run_threaded(self.service.enable)
-        finally:
-            self.service.restarting = False
+        self.service.status.emit("update", Status.restarting)
+        self.service.disable()
+        self.apply_options()
+        self.service.run_threaded(self.service.enable)
 
     def get_changes(self):
         changes = collections.OrderedDict()
