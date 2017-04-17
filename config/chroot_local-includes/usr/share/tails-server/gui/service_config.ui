@@ -25,7 +25,7 @@
       <object class="GtkBox" id="box_autostart">
         <property name="sensitive">False</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">5</property>
+        <property name="margin_left">9</property>
         <child>
           <object class="GtkCheckButton" id="checkbutton_autostart">
             <property name="visible">True</property>
@@ -248,7 +248,7 @@
     <child>
       <object class="GtkBox" id="box_persistence">
         <property name="can_focus">False</property>
-        <property name="margin_left">5</property>
+        <property name="margin_left">9</property>
         <child>
           <object class="GtkCheckButton" id="checkbutton_persistence">
             <property name="visible">True</property>
@@ -312,7 +312,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="margin_right">10</property>
-                <property name="margin_bottom">10</property>
+                <property name="margin_bottom">20</property>
                 <property name="xalign">1</property>
                 <property name="pixel_size">48</property>
                 <property name="icon_name">mumble</property>
@@ -381,6 +381,10 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="receives_default">True</property>
+                    <property name="halign">center</property>
+                    <property name="valign">start</property>
+                    <property name="margin_left">8</property>
+                    <property name="margin_top">11</property>
                     <property name="relief">none</property>
                     <signal name="activate-link" handler="on_button_help_clicked" swapped="no"/>
                     <child>
@@ -446,6 +450,7 @@
                       <object class="GtkLabel" id="label_status_value">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">9</property>
                         <property name="label" translatable="yes">Not Installed</property>
                       </object>
                       <packing>

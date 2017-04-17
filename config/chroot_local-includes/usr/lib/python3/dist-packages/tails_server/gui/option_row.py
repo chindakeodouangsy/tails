@@ -264,7 +264,7 @@ class UnknownBooleanOptionRow(UnknownOptionRow, BooleanOptionRow):
         super().__init__(config_panel, option)
         self.value_widget = Gtk.CheckButton()
         self.value_widget.set_sensitive(False)
-        self.box.pack_end(self.value_widget, expand=True, fill=True, padding=5)
+        self.box.pack_end(self.value_widget, expand=True, fill=True, padding=9)
         self.load_value()
 
 
