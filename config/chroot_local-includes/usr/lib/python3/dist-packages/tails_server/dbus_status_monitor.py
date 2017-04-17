@@ -77,7 +77,7 @@ def stop_listening():
 
 
 def add_unit_loaded_receiver():
-    logging.debug("Adding UnitNew receiver")
+    logging.log(5, "Adding UnitNew receiver")
     bus.add_signal_receiver(
         handler_function=on_unit_loaded,
         signal_name="UnitNew",
@@ -93,6 +93,7 @@ def add_unit_loaded_receiver():
 
 
 def remove_unit_loaded_receiver():
+    logging.log(5, "Removing UnitNew receiver")
     bus.remove_signal_receiver(
         handler_or_match=on_unit_loaded,
         signal_name="UnitNew",
@@ -102,7 +103,7 @@ def remove_unit_loaded_receiver():
 
 
 def add_properties_changed_receiver(unit_path):
-    logging.debug("Adding PropertiesChanged receiver for unit %r", unit_path)
+    logging.log(5, "Adding PropertiesChanged receiver for unit %r", unit_path)
     bus.add_signal_receiver(
         handler_function=on_properties_changed,
         signal_name=None,
@@ -118,6 +119,7 @@ def add_properties_changed_receiver(unit_path):
 
 
 def remove_properties_changed_receiver(unit_path):
+    logging.log(5, "Removing PropertiesChanged receiver for unit %r", unit_path)
     bus.remove_signal_receiver(
         handler_or_match=on_properties_changed,
         signal_name=None,
@@ -131,7 +133,7 @@ def on_unit_loaded(_id, unit_path, member, **kwargs):
         return
     unit = monitored_units[unit_path]
     active_state, sub_state = query_unit_state(unit)
-    logging.debug("Got %r event for unit %r. ActiveState: %r, SubState: %r",
+    logging.debug("Got %r event for unit %r. ActiveState: %s, SubState: %s",
                   member, unit.name, active_state, sub_state)
 
     unit.receiver_function(active_state, sub_state)
@@ -146,7 +148,7 @@ def on_properties_changed(interface_name, changed_properties, invalidated_proper
     unit = monitored_units[path]
 
     active_state, sub_state = query_unit_state(unit)
-    logging.debug("Got %r event for unit %r. ActiveState: %r, SubState: %r",
+    logging.debug("Got %r event for unit %r. ActiveState: %s, SubState: %s",
                   member, unit.name, active_state, sub_state)
 
     unit.receiver_function(active_state, sub_state)

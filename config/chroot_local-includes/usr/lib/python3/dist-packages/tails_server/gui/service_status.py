@@ -95,13 +95,14 @@ class ServiceStatus(Gtk.Widget):
         self.emit("update", Status.offline)
 
     def on_update(self, obj, status: str):
-        logging.debug("New status for service %r: %r", self.service.name, status)
+        logging.debug("Adding status update for service %r to main loop: %r", self.service.name, status)
         GLib.idle_add(self.update, status)
 
         if status == Status.online:
             self.service.on_started()
 
     def update(self, status: str):
+        logging.debug("Updating status for service %r: %r", self.service.name, status)
         self.update_substates(status)
 
         if status in [Status.error, Status.invalid]:
