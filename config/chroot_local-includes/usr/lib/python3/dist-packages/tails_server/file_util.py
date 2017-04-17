@@ -79,17 +79,25 @@ def insert_to_section(file_path, section_name, s):
 
 
 def delete_section(file_path, section_name):
-    def delete_until_next_section(lines):
-        for i, line in enumerate(lines):
+    def get_lines_of_section(lines, offset):
+        i = 0
+        for line in lines[offset+1:]:        
             if line.startswith("["):
-                return
-            del lines[i]
+                break
+            i += 1
+        return list(range(offset, offset+i+1))
 
     with open(file_path, 'r') as f:
         lines = f.readlines()
+    
+    lines_to_delete = list()
+
     for i, line in enumerate(lines):
         if line.startswith("[%s]" % section_name):
-            delete_until_next_section(lines[i:])
+            lines_to_delete += get_lines_of_section(lines, i)
+
+    lines = [line for i, line in enumerate(lines) if i not in lines_to_delete]
+
     with open(file_path, 'w+') as f:
         f.writelines(lines)
 

@@ -57,7 +57,7 @@ class AutoSaveInterval(option_template.TailsServiceOption):
 
     def store(self):
         file_util.delete_section(CONFIG_FILE, "autosave")
-        file_util.append_to_file(CONFIG_FILE, "\n[autosave]\n")
+        file_util.append_to_file(CONFIG_FILE, "[autosave]\n")
         file_util.append_to_file(CONFIG_FILE, "interval=%s\n" % self.value)
 
     def load(self):
