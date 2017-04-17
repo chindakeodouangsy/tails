@@ -282,16 +282,13 @@ class ServiceStatus(Gtk.Widget):
                           "'journalctl -xn' for details", self.service.systemd_service,
                           self.service.systemd_service)
 
-        if service_status != self.service_status:
-            self.emit("update", service_status)
+        self.emit("update", service_status)
 
     def on_tor_status_changed(self, active_state, sub_state):
         """Receives systemd status value of the tor service from dbus and sets the status
         accordingly"""
-        tor_status = systemd_state_to_tor_status[active_state]
-        if tor_status != self.tor_status:
-            self.tor_status = tor_status
-            self.emit("update", tor_status)
+        self.tor_status = systemd_state_to_tor_status[active_state]
+        self.emit("update", self.tor_status)
 
     def guess_status(self):
         """Called after starting the application. Guesses the service's status based on the
