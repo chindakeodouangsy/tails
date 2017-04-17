@@ -194,7 +194,7 @@ class SFTPServer(service_template.TailsService):
                             "Killing all processes running as %r.", user, user)
             sh.killall("-v", "-u", user)
             time.sleep(5)
-            sh.killall("-9", "-v", "-u", user)
+            sh.killall("-9", "-v", "-u", user, _ok_code=[0, 1])
             time.sleep(0.1)
             sh.userdel(user)
 
