@@ -70,3 +70,8 @@ Store service configuration and data persistently
 If you enabled the Tails [[persistent partition|first_steps/persistence]], you can store the service's configuration and data on the persistent partition by enabling the **Persistence** option in Tails Server. In contrast to other applications, this is **not** configured in the <span class="application">Configure persistent volume</span> application.
 
 If you additionally enable the **Autostart** option in Tails Server, the service will be started automatically after the system startup of Tails.
+
+
+Known issues
+===========
+ * Both when connecting to the Gobby server or the SFTP server with <span class="application">Connect to Tails Server</span>, you have to input the server password yourself.
