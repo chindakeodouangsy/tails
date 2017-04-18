@@ -5,9 +5,9 @@ import threading
 import re
 import logging
 import yaml
-from threading import Lock
+import fcntl
 
-from tails_server.config import INSTALLED_FILE_PATH
+from tails_server.config import INSTALLED_FILE_PATH, APT_LOCK_FILE
 
 
 class PolicyNoAutostartOnInstallation(object):
@@ -34,16 +34,31 @@ class PolicyNoAutostartOnInstallation(object):
 
 
 class PrepareAptInstallation(object):
+    apt_lock_fd = None
     policy_no_autostart_on_installation = PolicyNoAutostartOnInstallation()
-    lock = Lock()
 
     def __enter__(self):
-        self.lock.acquire()
+        self.acquire_apt_lock()
         self.policy_no_autostart_on_installation.__enter__()
+
+    def acquire_apt_lock(self):
+        self.ensure_dir_exists()
+        self.apt_lock_fd = open(APT_LOCK_FILE, "w+")
+        fcntl.flock(self.apt_lock_fd, fcntl.LOCK_EX)
+        self.apt_lock_fd.write(str(os.getpid()))
+
+    def ensure_dir_exists(self):
+        apt_lock_file_dir = os.path.dirname(APT_LOCK_FILE)
+        if not os.path.exists(apt_lock_file_dir):
+            sh.install("-m", 700, "-d", apt_lock_file_dir)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.policy_no_autostart_on_installation.__exit__(exc_type, exc_val, exc_tb)
-        self.lock.release()
+        self.release_apt_lock()
+
+    def release_apt_lock(self):
+        fcntl.flock(self.apt_lock_fd, fcntl.LOCK_UN)
+        self.apt_lock_fd.close()
 
 
 def run_threaded(function, *args):

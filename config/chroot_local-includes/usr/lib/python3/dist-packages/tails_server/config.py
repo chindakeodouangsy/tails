@@ -9,12 +9,14 @@ TAILS_SERVER_USER = "tails-server"
 TAILS_SERVER_CLIENT_USER = "tails-server-client"
 DATA_DIR = "/usr/share/tails-server/"
 STATE_DIR = "/var/lib/tails-server/"
+TMP_STATE_DIR = "/tmp/tails-server/"
 OPTIONS_FILE_NAME = "options"
 PERSISTENCE_CONFIG_NAME = "persistence.conf"
 INSTALLED_FILE_PATH = os.path.join(STATE_DIR, "installed")
 SERVICES_DIR = os.path.join(DATA_DIR, "services")
 CLIENT_LAUNCHERS_DIR = os.path.join(DATA_DIR, "client-launchers")
 HELPER_SCRIPTS_DIR = os.path.join(DATA_DIR, "helper-scripts")
+APT_LOCK_FILE = os.path.join(TMP_STATE_DIR, "apt_lock")
 
 TORRC = "/etc/tor/torrc"
 TOR_DIR = "/var/lib/tor"
