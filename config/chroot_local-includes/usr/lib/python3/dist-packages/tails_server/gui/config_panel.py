@@ -457,5 +457,6 @@ class ServiceConfigPanel(object):
         self.show()
 
     def on_button_help_clicked(self, button):
+        logging.debug("Opening documentation for service %r", self.service.name)
         subprocess.Popen(["sudo", "-u", TAILS_USER, "xdg-open", self.service.documentation])
         return True

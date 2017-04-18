@@ -1,5 +1,6 @@
 import logging
 import sh
+import subprocess
 from gi.repository import Gtk, GLib, Gdk
 
 from tails_server import import_services
@@ -9,7 +10,7 @@ from tails_server.gui.service_list import ServiceList
 from tails_server.gui.service_chooser import ServiceChooserDialog
 from tails_server.gui import question_dialog
 
-from tails_server.config import APP_NAME, ICON_DIR, MAIN_UI_FILE
+from tails_server.config import APP_NAME, ICON_DIR, MAIN_UI_FILE, TAILS_USER
 
 
 service_modules_dict = import_services.service_modules_dict
@@ -129,6 +130,11 @@ class TailsServerGUI(object):
         response = ServiceChooserDialog(self).run()
         if response == "install":
             self.service_list_box.set_visible(True)
+
+    def on_placeholder_label_activate_link(self, label, uri):
+        logging.debug("Opening documentation")
+        subprocess.Popen(["sudo", "-u", TAILS_USER, "xdg-open", uri])
+        return True
 
     def disable_main_window(self):
         self.window.set_sensitive(False)

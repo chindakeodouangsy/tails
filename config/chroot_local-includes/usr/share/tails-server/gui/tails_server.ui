@@ -145,6 +145,7 @@
 Read the &lt;a href="file:///usr/share/doc/tails/website/doc/tails_server.en.html"&gt;documentation&lt;/a&gt; to learn more about Tails Server.</property>
                             <property name="use_markup">True</property>
                             <property name="wrap">True</property>
+                            <signal name="activate-link" handler="on_placeholder_label_activate_link" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
