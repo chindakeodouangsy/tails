@@ -23,6 +23,8 @@ class ServiceDecorator(object):
         self.gui = gui
         self.service = service
         self.status = ServiceStatus(self)
+        self.lock = threading.Lock()
+
         try:
             self.config_panel = ServiceConfigPanel(self.gui, self)
         except AttributeError as e:
@@ -60,8 +62,14 @@ class ServiceDecorator(object):
             self.create_hidden_service()
 
     def start(self):
+        logging.debug("Acquiring service lock to start service")
+        self.lock.acquire()
+
         self.status.emit("update", Status.starting)
         self.service.start()
+
+        logging.debug("Releasing service lock after starting service")
+        self.lock.release()
 
     def on_started(self):
         for option_row in self.config_panel.option_rows:
