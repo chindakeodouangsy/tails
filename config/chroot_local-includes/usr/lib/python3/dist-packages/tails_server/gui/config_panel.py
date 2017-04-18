@@ -69,7 +69,8 @@ class ServiceConfigPanel(object):
     def on_service_installed(self):
         self.populate_option_rows()
         self.switch.set_sensitive(True)
-        self.show()
+        if self.is_active:
+            self.show()
 
     def on_service_removal(self):
         self.remove_option_rows()
