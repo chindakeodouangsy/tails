@@ -134,13 +134,16 @@
                       <object class="GtkBox" id="placeholder_box">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
+                        <property name="margin_right">20</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">50</property>
                         <child>
                           <object class="GtkLabel" id="placeholder_label">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Tails Server allows you to create online services in Tails to which other people can connect through Tor. For example, you can create a Mumble service to organize group calls.
+                            <property name="label" translatable="yes">Tails Server allows you to create online services in Tails to which other people can connect through Tor. 
+For example, you can create a Mumble service to organize group calls.
 
 Read the &lt;a href="file:///usr/share/doc/tails/website/doc/tails_server.en.html"&gt;documentation&lt;/a&gt; to learn more about Tails Server.</property>
                             <property name="use_markup">True</property>
