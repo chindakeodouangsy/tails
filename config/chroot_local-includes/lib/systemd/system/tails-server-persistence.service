@@ -3,6 +3,7 @@ Description=Install packages and restore files of persistent Tails services
 After=tails-tor-has-bootstrapped.target
 
 [Service]
+User=amnesia
 Type=oneshot
 ExecStart=/usr/local/bin/tails-service restore
 

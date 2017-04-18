@@ -3,6 +3,7 @@ Description=Start Tails Server services which have autostart enabled
 After=tails-server-persistence.service
 
 [Service]
+User=amnesia
 Type=oneshot
 ExecStart=/usr/local/bin/tails-service autostart
 
