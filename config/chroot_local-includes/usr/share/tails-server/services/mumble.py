@@ -18,7 +18,8 @@ from tails_server.options.allow_localhost import AllowLocalhostOption
 from tails_server.options.allow_lan import AllowLanOption
 
 CONFIG_FILE = "/etc/mumble-server.ini"
-DB_PATH = "/var/lib/mumble-server/mumble-server.sqlite"
+DATA_DIR = "/var/lib/mumble-server/"
+DB_FILE = os.path.join(DATA_DIR, "mumble-server.sqlite")
 
 
 class WelcomeMessageOption(option_template.TailsServiceOption):
@@ -82,11 +83,11 @@ class TLSFingerprintOption(option_template.TailsServiceOption):
         raise ReadOnlyOptionError("Option %r can't be modified" % self.name)
 
     def load(self):
-        if not os.path.isfile(DB_PATH):
+        if not os.path.isfile(DB_FILE):
             logging.debug("Could not load TLS certificate of service %r", self.service.name)
             return ""
 
-        connection = sqlite3.connect(DB_PATH)
+        connection = sqlite3.connect(DB_FILE)
         c = connection.cursor()
         c.execute("SELECT value FROM config WHERE key = 'certificate'")
         cert_string = c.fetchone()[0]
@@ -102,7 +103,7 @@ class MumbleServer(service_template.TailsService):
     packages = ["mumble-server"]
     default_target_port = 64738
     documentation = "file:///usr/share/doc/tails/website/doc/tails_server/mumble.en.html"
-    persistent_paths = [CONFIG_FILE]
+    persistent_paths = [CONFIG_FILE, DATA_DIR]
     icon_name = "mumble"
 
     options = [
