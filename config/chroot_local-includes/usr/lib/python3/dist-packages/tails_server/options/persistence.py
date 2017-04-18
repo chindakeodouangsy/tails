@@ -29,8 +29,13 @@ class PersistenceOption(TailsServiceOption):
         logging.info("Making %r persistent", self.service.name)
         self.service.create_persistence_dir()
         self.service.create_hs_dir()
-        for record in self.service.persistence_records:
-            self.move(record.target_path, record.persistence_path)
+
+        try:
+            for record in self.service.persistence_records:
+                self.move(record.target_path, record.persistence_path)
+        except (sh.ErrorReturnCode_1, FileExistsError):
+            logging.error("Error while moving persistent files", exc_info=True)
+
         self.service.mount_persistent_files()
 
     def remove_persistence(self):
