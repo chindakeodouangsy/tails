@@ -317,12 +317,17 @@ class TailsService(metaclass=abc.ABCMeta):
 
     @property
     def persistence_records(self) -> List[PersistenceRecord]:
-        return self.default_persistence_records + [
-            PersistenceRecord(
-                target_path=path,
-                persistence_path=os.path.join(self.persistence_dir, os.path.basename(path))
-            ) for path in self.persistent_paths
-        ]
+        persistence_records = self.default_persistence_records
+        for persistent_path in self.persistent_paths:
+            path = os.path.normpath(persistent_path)
+            persistence_records.append(
+                PersistenceRecord(
+                    target_path=path,
+                    persistence_path=os.path.join(self.persistence_dir, os.path.basename(path))
+                )
+            )
+
+        return persistence_records
 
     def __init__(self):
         self.state_dir = os.path.join(STATE_DIR, self.name)
