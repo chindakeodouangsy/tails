@@ -43,9 +43,7 @@ def restore_services():
                 persistent_services.append(service)
 
     for service in persistent_services:
-        logging.info("Restoring service %r", service.name)
-        service.install()
-        service.mount_persistent_files()
+        service.restore()
 
 
 def autostart_services():

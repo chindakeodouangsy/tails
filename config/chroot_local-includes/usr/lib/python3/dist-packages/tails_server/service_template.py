@@ -420,6 +420,14 @@ class TailsService(metaclass=abc.ABCMeta):
         self.is_installed = False
         logging.info("Service %r uninstalled", self.name)
 
+    def restore(self):
+        logging.info("Restoring service %r", self.name)
+        self.install()
+        self.mount_persistent_files()
+        for option in self.options_dict:
+            if option != "persistence":
+                self.options_dict[option].apply()
+
     def mount_persistent_files(self):
         logging.info("Bind-mounting persistent files of service %r", self.name)
         for record in self.persistence_records:
