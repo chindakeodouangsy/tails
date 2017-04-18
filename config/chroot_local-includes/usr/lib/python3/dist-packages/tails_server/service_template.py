@@ -368,21 +368,21 @@ class TailsService(metaclass=abc.ABCMeta):
             self.create_hidden_service()
 
     def install(self):
-        if self.is_installed:
-            raise ServiceAlreadyInstalledError("Service %r is already installed" % self.name)
-
-        logging.info("Installing packages: " + ", ".join("%r" % p for p in self.packages))
-
-        def update_packages():
-            logging.info("Updating packages")
+        def update_package_lists():
+            logging.info("Updating package lists")
             cache.update()
 
-        cache = apt.Cache()
-        logging.debug("Checking if packages are in cache")
-        if any([package not in cache for package in self.packages]):
-            update_packages()
-
         with util.PrepareAptInstallation():
+            if self.is_installed:
+                raise ServiceAlreadyInstalledError("Service %r is already installed" % self.name)
+
+            logging.info("Installing packages: " + ", ".join("%r" % p for p in self.packages))
+
+            cache = apt.Cache()
+            logging.debug("Checking if packages are in cache")
+            if any([package not in cache for package in self.packages]):
+                update_package_lists()
+
             logging.debug("Running apt-get install")
             sh.apt_get("install", "-y", "-o", 'Dpkg::Options::=--force-confold',
                        "--no-install-recommends", self.packages)
