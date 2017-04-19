@@ -10,7 +10,7 @@ import fcntl
 from tails_server.config import INSTALLED_FILE_PATH, APT_LOCK_FILE
 
 
-class PolicyNoAutostartOnInstallation(object):
+class prevent_autostart_on_installation(object):
     policy_path = "/usr/sbin/policy-rc.d"
     policy_content = """#!/bin/sh\nexit 101"""
 
@@ -21,7 +21,7 @@ class PolicyNoAutostartOnInstallation(object):
         if os.path.exists(self.policy_path):
             sh.mv(self.policy_path, self.tmp_dir)
             self.original_policy_path = self.tmp_dir + self.policy_path
-        with open(self.policy_path, "w+") as f:
+        with open_locked(self.policy_path, "w+") as f:
             f.write(self.policy_content)
         os.chmod(self.policy_path, 700)
 
@@ -33,32 +33,43 @@ class PolicyNoAutostartOnInstallation(object):
         os.rmdir(self.tmp_dir)
 
 
-class PrepareAptInstallation(object):
+class prepare_apt_installation(object):
     apt_lock_fd = None
-    policy_no_autostart_on_installation = PolicyNoAutostartOnInstallation()
+    prevent_autostart_cm = prevent_autostart_on_installation()
+    open_locked_cm = open_locked(APT_LOCK_FILE, "w+")
 
     def __enter__(self):
-        self.acquire_apt_lock()
-        self.policy_no_autostart_on_installation.__enter__()
+        self.ensure_dir_exists(APT_LOCK_FILE)
+        f = self.open_locked_cm.__enter__()
+        f.write(str(os.getpid()))
+        self.prevent_autostart_cm.__enter__()
 
-    def acquire_apt_lock(self):
-        self.ensure_dir_exists()
-        self.apt_lock_fd = open(APT_LOCK_FILE, "w+")
-        fcntl.flock(self.apt_lock_fd, fcntl.LOCK_EX)
-        self.apt_lock_fd.write(str(os.getpid()))
-
-    def ensure_dir_exists(self):
-        apt_lock_file_dir = os.path.dirname(APT_LOCK_FILE)
-        if not os.path.exists(apt_lock_file_dir):
-            sh.install("-m", 700, "-d", apt_lock_file_dir)
+    def ensure_dir_exists(self, path):
+        dir_ = os.path.dirname(path)
+        if not os.path.exists(dir_):
+            sh.install("-m", 700, "-d", dir_)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.policy_no_autostart_on_installation.__exit__(exc_type, exc_val, exc_tb)
-        self.release_apt_lock()
+        self.prevent_autostart_cm.__exit__(exc_type, exc_val, exc_tb)
+        self.open_locked_cm.__exit__(exc_type, exc_val, exc_tb)
 
-    def release_apt_lock(self):
-        fcntl.flock(self.apt_lock_fd, fcntl.LOCK_UN)
-        self.apt_lock_fd.close()
+
+class open_locked(object):
+    def __init__(self, path, *args, **kwargs):
+        self.path = path
+        self.args = args
+        self.kwargs = kwargs
+
+    def __enter__(self):
+        logging.debug("Acquiring file lock on %r", self.path)
+        self.fd = open(self.path, *self.args, **self.kwargs).__enter__()
+        fcntl.flock(self.fd, fcntl.LOCK_EX)
+        return self.fd
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        logging.debug("Releasing file lock on %r", self.path)
+        fcntl.flock(self.fd, fcntl.LOCK_UN)
+        self.fd.__exit__(exc_type, exc_val, exc_tb)
 
 
 def run_threaded(function, *args):
@@ -76,11 +87,11 @@ def is_valid_port(port):
 
 def get_installed_services():
     try:
-        with open(INSTALLED_FILE_PATH) as f:
+        with open_locked(INSTALLED_FILE_PATH) as f:
             return set(yaml.load(f.read()))
     except (FileNotFoundError, TypeError):
         # create empty "installed" file
-        with open(INSTALLED_FILE_PATH, "w+") as f:
+        with open_locked(INSTALLED_FILE_PATH, "w+") as f:
             f.write(yaml.dump(list(), default_flow_style=False))
         return set()
 

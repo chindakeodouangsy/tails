@@ -2,6 +2,8 @@ import abc
 import logging
 import yaml
 
+from tails_server import util
+
 # Only required for type hints
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -114,7 +116,7 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
 
     def do_load(self):
         logging.debug("Loading option %r", self.name)
-        with open(self.service.options_file) as f:
+        with util.open_locked(self.service.options_file) as f:
             options = yaml.load(f)
             logging.debug("options: %r", options)
         if self.name not in options:
@@ -135,10 +137,10 @@ class TailsServiceOption(metaclass=abc.ABCMeta):
 
     def do_store(self):
         logging.debug("Storing option %r", self.name)
-        with open(self.service.options_file) as f:
+        with util.open_locked(self.service.options_file) as f:
             options = yaml.load(f)
         options[self.name] = self.value
-        with open(self.service.options_file, 'w+') as f:
+        with util.open_locked(self.service.options_file, 'w+') as f:
             yaml.dump(options, f, default_flow_style=False)
 
     def on_value_changed(self):

@@ -222,7 +222,7 @@ class TailsService(metaclass=abc.ABCMeta):
             installed_services |= {self.name}
         else:
             installed_services -= {self.name}
-        with open(INSTALLED_FILE_PATH, "w+") as f:
+        with util.open_locked(INSTALLED_FILE_PATH, "w+") as f:
             f.write(yaml.dump(list(installed_services), default_flow_style=False))
 
     @property
@@ -252,7 +252,7 @@ class TailsService(metaclass=abc.ABCMeta):
         :return: onion address
         """
         try:
-            with open(self.hs_hostname_file, 'r') as f:
+            with util.open_locked(self.hs_hostname_file, 'r') as f:
                 return f.read().split()[0].strip()
         except FileNotFoundError:
             return None
@@ -377,7 +377,7 @@ class TailsService(metaclass=abc.ABCMeta):
             logging.info("Updating package lists")
             cache.update()
 
-        with util.PrepareAptInstallation():
+        with util.prepare_apt_installation():
             if self.is_installed:
                 raise ServiceAlreadyInstalledError("Service %r is already installed" % self.name)
 
@@ -406,7 +406,7 @@ class TailsService(metaclass=abc.ABCMeta):
         cache = apt.Cache()
         for package in self.packages:
             cache[package].mark_install()
-        with util.PrepareAptInstallation():
+        with util.prepare_apt_installation():
             cache.commit()
         logging.info("Service %r installed", self.name)
 
@@ -478,7 +478,7 @@ class TailsService(metaclass=abc.ABCMeta):
 
     def create_options_file(self):
         logging.debug("Creating empty options file for %r", self.name)
-        with open(self.options_file, "w+") as f:
+        with util.open_locked(self.options_file, "w+") as f:
             yaml.dump(dict(), f)
 
     def remove_options_file(self):
@@ -579,7 +579,7 @@ class TailsService(metaclass=abc.ABCMeta):
 
         try:
             key_type = "RSA1024"
-            with open(self.hs_private_key_file, 'r') as f:
+            with util.open_locked(self.hs_private_key_file, 'r') as f:
                 key_content = f.read()
         except FileNotFoundError:
             key_type = "NEW"
@@ -605,11 +605,11 @@ class TailsService(metaclass=abc.ABCMeta):
             self.set_hs_private_key(response.private_key)
 
     def set_onion_address(self, address: str):
-        with open(self.hs_hostname_file, 'w+') as f:
+        with util.open_locked(self.hs_hostname_file, 'w+') as f:
             f.write(address + ".onion")
 
     def set_hs_private_key(self, key):
-        with open(self.hs_private_key_file, 'w+') as f:
+        with util.open_locked(self.hs_private_key_file, 'w+') as f:
             f.write(key)
 
     def remove_hidden_service(self):

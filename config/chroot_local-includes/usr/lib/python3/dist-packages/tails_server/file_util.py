@@ -2,6 +2,7 @@ import os
 import sh
 import json
 
+from tails_server import util
 from tails_server.config import ANSIBLE_PLAYBOOK_DIR
 
 # XXX: Use an existing solution to modify config files, e.g. Ansible
@@ -20,19 +21,19 @@ def ansible_remove_hs_from_torrc(service_name):
 
 
 def append_to_file(file_path, s):
-    with open(file_path, 'a') as f:
+    with util.open_locked(file_path, 'a') as f:
         f.write(s)
 
 
 def prepend_to_file(file_path, s):
-    with open(file_path, 'r') as original:
+    with util.open_locked(file_path, 'r') as original:
         original_content = original.read()
-    with open(file_path, 'w') as f:
+    with util.open_locked(file_path, 'w') as f:
         f.write(s + original_content)
 
 
 def append_line_if_not_present(file_path, line_):
-    with open(file_path, 'r+') as f:
+    with util.open_locked(file_path, 'r+') as f:
         if line_ in f.readlines():
             return False
         f.write(line_)
@@ -41,31 +42,31 @@ def append_line_if_not_present(file_path, line_):
 
 def remove_line_if_present(file_path, line_):
     removed = False
-    with open(file_path, 'r') as f:
+    with util.open_locked(file_path, 'r') as f:
         lines = f.readlines()
     for i, line in enumerate(lines):
         if line == line_:
             del lines[i]
             removed = True
-    with open(file_path, 'w+') as f:
+    with util.open_locked(file_path, 'w+') as f:
         f.writelines(lines)
     return removed
 
 
 def delete_lines_starting_with(file_path, s):
-    with open(file_path, 'r') as f:
+    with util.open_locked(file_path, 'r') as f:
         lines = f.readlines()
     lines = [line for line in lines if not line.startswith(s)]
-    with open(file_path, 'w+') as f:
+    with util.open_locked(file_path, 'w+') as f:
         f.writelines(lines)
 
 
 def insert_to_section(file_path, section_name, s):
     def write_to_file():
-        with open(file_path, 'w+') as f:
+        with util.open_locked(file_path, 'w+') as f:
             f.writelines(lines)
 
-    with open(file_path, 'r') as f:
+    with util.open_locked(file_path, 'r') as f:
         lines = f.readlines()
     for i, line in enumerate(lines):
         if line.startswith("[%s]" % section_name):
@@ -87,7 +88,7 @@ def delete_section(file_path, section_name):
             i += 1
         return list(range(offset, offset+i+1))
 
-    with open(file_path, 'r') as f:
+    with util.open_locked(file_path, 'r') as f:
         lines = f.readlines()
     
     lines_to_delete = list()
@@ -98,12 +99,12 @@ def delete_section(file_path, section_name):
 
     lines = [line for i, line in enumerate(lines) if i not in lines_to_delete]
 
-    with open(file_path, 'w+') as f:
+    with util.open_locked(file_path, 'w+') as f:
         f.writelines(lines)
 
 
 def find_line_starting_with(file_path, s):
-    with open(file_path, 'r') as f:
+    with util.open_locked(file_path, 'r') as f:
         lines = f.readlines()
     for line in lines:
         if line.startswith(s):

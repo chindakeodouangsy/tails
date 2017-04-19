@@ -4,6 +4,7 @@ import string
 import sh
 
 from tails_server import _
+from tails_server import util
 from tails_server import file_util
 from tails_server import option_util
 from tails_server import service_template
@@ -93,7 +94,7 @@ class GobbyServer(service_template.TailsService):
     def configure(self):
         self.set_option("allow-localhost", True)
 
-        with open(CONFIG_FILE, "w+") as f:
+        with util.open_locked(CONFIG_FILE, "w+") as f:
             f.write("[infinoted]\n")
             f.write("root-directory=%s\n" % DATA_DIR)
             f.write("log-file=%s\n" % LOG_FILE)

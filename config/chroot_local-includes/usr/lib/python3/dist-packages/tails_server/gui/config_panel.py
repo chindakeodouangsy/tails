@@ -300,16 +300,11 @@ class ServiceConfigPanel(object):
             self.set_switch_status(True)
 
     def apply_options(self):
-        logging.debug("Acquiring service lock to apply options")
-        self.service.lock.acquire()
-
-        logging.debug("Applying options")
-        for option_row in self.option_rows:
-            logging.debug("Setting option %r to %r", option_row.option.name, option_row.value)
-            option_row.option.value = option_row.value
-
-        logging.debug("Releasing service lock after applying options")
-        self.service.lock.release()
+        with self.service.lock:
+            logging.debug("Applying options")
+            for option_row in self.option_rows:
+                logging.debug("Setting option %r to %r", option_row.option.name, option_row.value)
+                option_row.option.value = option_row.value
 
     def apply_options_with_restarting(self):
         self.service.status.emit("update", Status.restarting)

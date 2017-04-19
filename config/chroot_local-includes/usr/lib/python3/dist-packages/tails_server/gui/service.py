@@ -62,14 +62,9 @@ class ServiceDecorator(object):
             self.create_hidden_service()
 
     def start(self):
-        logging.debug("Acquiring service lock to start service")
-        self.lock.acquire()
-
-        self.status.emit("update", Status.starting)
-        self.service.start()
-
-        logging.debug("Releasing service lock after starting service")
-        self.lock.release()
+        with self.lock:
+            self.status.emit("update", Status.starting)
+            self.service.start()
 
     def on_started(self):
         for option_row in self.config_panel.option_rows:
