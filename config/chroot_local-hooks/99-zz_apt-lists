@@ -1,0 +1,24 @@
+#! /bin/sh
+
+set -e
+
+echo "Ship cached APT lists"
+
+rm -fr /var/lib/apt/lists/*
+cp -a /etc/apt /etc/apt.orig
+/lib/live/config/1500-reconfigure-APT
+sed -i -e 's,tor[+]https\?://,http://,' \
+       -e 's/vwakviie2ienjx6t[.]onion/ftp.us.debian.org/' \
+       -e 's/sgvtcaew4bxjd7ln[.]onion/security.debian.org/' \
+       -e 's/sdscoq7snqtznauu[.]onion/deb.torproject.org/' \
+       -e 's/jenw7xbd6tf7vfhp[.]onion/deb.tails.boum.org/' \
+    /etc/apt/sources.list /etc/apt/sources.list.d/*
+apt update
+rm -fr /etc/apt
+mv /etc/apt.orig /etc/apt
+for expr in 's/ftp[.]us[.]debian[.]org/vwakviie2ienjx6t.onion/' \
+            's/security[.]debian[.]org/sgvtcaew4bxjd7ln.onion/' \
+            's/deb[.]torproject[.]org/sdscoq7snqtznauu.onion/' \
+            's/deb[.]tails[.]boum[.]org/jenw7xbd6tf7vfhp.onion/'; do
+    rename -e "${expr}" /var/lib/apt/lists/*
+done
