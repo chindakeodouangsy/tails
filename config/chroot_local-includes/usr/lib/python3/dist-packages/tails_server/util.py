@@ -10,6 +10,24 @@ import fcntl
 from tails_server.config import INSTALLED_FILE_PATH, APT_LOCK_FILE
 
 
+class open_locked(object):
+    def __init__(self, path, *args, **kwargs):
+        self.path = path
+        self.args = args
+        self.kwargs = kwargs
+
+    def __enter__(self):
+        logging.debug("Acquiring file lock on %r", self.path)
+        self.fd = open(self.path, *self.args, **self.kwargs).__enter__()
+        fcntl.flock(self.fd, fcntl.LOCK_EX)
+        return self.fd
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        logging.debug("Releasing file lock on %r", self.path)
+        fcntl.flock(self.fd, fcntl.LOCK_UN)
+        self.fd.__exit__(exc_type, exc_val, exc_tb)
+
+
 class prevent_autostart_on_installation(object):
     policy_path = "/usr/sbin/policy-rc.d"
     policy_content = """#!/bin/sh\nexit 101"""
@@ -52,24 +70,6 @@ class prepare_apt_installation(object):
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.prevent_autostart_cm.__exit__(exc_type, exc_val, exc_tb)
         self.open_locked_cm.__exit__(exc_type, exc_val, exc_tb)
-
-
-class open_locked(object):
-    def __init__(self, path, *args, **kwargs):
-        self.path = path
-        self.args = args
-        self.kwargs = kwargs
-
-    def __enter__(self):
-        logging.debug("Acquiring file lock on %r", self.path)
-        self.fd = open(self.path, *self.args, **self.kwargs).__enter__()
-        fcntl.flock(self.fd, fcntl.LOCK_EX)
-        return self.fd
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        logging.debug("Releasing file lock on %r", self.path)
-        fcntl.flock(self.fd, fcntl.LOCK_UN)
-        self.fd.__exit__(exc_type, exc_val, exc_tb)
 
 
 def run_threaded(function, *args):
