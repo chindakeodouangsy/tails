@@ -5,6 +5,7 @@ After=tails-server-persistence.service
 [Service]
 User=amnesia
 Type=oneshot
+RemainAfterExit=yes
 ExecStart=/usr/local/bin/tails-service autostart
 
 [Install]
