@@ -42,7 +42,6 @@ class ProsodyServer(service_template.TailsService):
     client_application = 'pidgin'
     systemd_service = 'prosody.service'
     packages = ['prosody']
-    publish_hs_before_starting = True
     default_target_port = 5222
     documentation = 'file:///usr/share/doc/tails/website/doc/tails_server/prosody.en.html'
     persistent_paths = [CONFIG_DIR, DATA_DIR]
@@ -70,6 +69,8 @@ class ProsodyServer(service_template.TailsService):
                 config, flags = re.MULTILINE, count = 1
             )
             f.write(new_config)
+            self.stop()
+            self.start()
 
     def set_onion_address(self, address: str):
         super().set_onion_address(address)
