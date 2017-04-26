@@ -127,6 +127,13 @@ class TailsService(metaclass=abc.ABCMeta):
         return list()
 
     @property
+    def publish_hs_before_starting(self):
+        """Whether to publish the hidden service before starting the service.
+        This is useful for services whose configuration must include the hidden
+        service address."""
+        return False
+
+    @property
     @abc.abstractmethod
     def systemd_service(self):
         """The name of the service's systemd service"""
@@ -367,10 +374,16 @@ class TailsService(metaclass=abc.ABCMeta):
         if not tor_util.tor_has_bootstrapped():
             raise TorIsNotRunningError()
 
-        if not self.is_running:
-            self.start()
-        if not self.is_published:
-            self.create_hidden_service()
+        if self.publish_hs_before_starting:
+            if not self.is_published:
+                self.create_hidden_service()
+            if not self.is_running:
+                self.start()
+        else:
+            if not self.is_running:
+                self.start()
+            if not self.is_published:
+                self.create_hidden_service()
 
     def install(self):
         def update_package_lists():
@@ -570,7 +583,7 @@ class TailsService(metaclass=abc.ABCMeta):
     def create_hidden_service(self):
         """Creating hidden service and setting address and hs_private_key accordingly"""
         logging.info("Creating hidden service")
-        if not self.is_running:
+        if not self.is_running and not self.publish_hs_before_starting:
             logging.warning("Refusing to create hidden service of not-running service %r",
                             self.name)
             return
