@@ -56,23 +56,15 @@ class ServiceDecorator(object):
             self.status.emit("update", Status.tor_is_not_running)
             return
 
-        if self.service.publish_hs_before_starting:
-            if not self.service.is_published:
-                self.create_hidden_service()
-            if not self.service.is_running:
-                self.start()
-        else:
-            if not self.service.is_running:
-                self.start()
-            if not self.service.is_published:
-                self.create_hidden_service()
+        if not self.service.is_running:
+            self.start()
+        if not self.service.is_published:
+            self.create_hidden_service()
 
     def start(self):
         with self.lock:
             self.status.emit("update", Status.starting)
             self.service.start()
-            if self.service.is_running and self.service.is_published:
-                self.status.emit("update", Status.online)
 
     def on_started(self):
         for option_row in self.config_panel.option_rows:
@@ -82,16 +74,14 @@ class ServiceDecorator(object):
                 option_row.reload_value()
 
     def create_hidden_service(self):
-        with self.lock:
-            self.status.emit("update", Status.publishing)
+        self.status.emit("update", Status.publishing)
         self.service.create_hidden_service()
-        if not self.service.publish_hs_before_starting:
+        if self.service.is_running:
+            self.status.emit("update", Status.online)
+        else:
             logging.debug("Removing newly created onion address because service %r stopped",
                           self.name)
             self.remove_hidden_service()
-        with self.lock:
-            if self.service.is_running and self.service.is_published:
-                self.status.emit("update", Status.online)
 
     def disable(self):
         self.service.disable()
