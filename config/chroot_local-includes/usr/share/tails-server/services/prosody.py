@@ -59,18 +59,22 @@ class ProsodyServer(service_template.TailsService):
             f.write(CONFIG)
 
     def set_virtual_host(self, address):
-        with open_locked(CONFIG_FILE, 'r+') as f:
+        with open_locked(CONFIG_FILE, 'r') as f:
             config = f.read()
-            f.seek(0)
+        with open_locked(CONFIG_FILE, 'w') as f:
             # We only replace the first occurrence to allow users
             # adding their own VirtualHost:s (*after* the default one)
-            new_config = re.sub(
-                '^VirtualHost.*$', 'VirtualHost "{}.onion"'.format(address),
-                config, flags = re.MULTILINE, count = 1
+            replacements = (
+                ('^VirtualHost\s.*$',
+                 'VirtualHost "{}.onion"'.format(address)),
             )
-            f.write(new_config)
-            self.stop()
-            self.start()
+            for pattern, replacement in replacements:
+                config = re.sub(
+                    pattern, replacement, config, flags = re.MULTILINE, count = 1
+                )
+            f.write(config)
+        self.stop()
+        self.start()
 
     def set_onion_address(self, address: str):
         super().set_onion_address(address)
