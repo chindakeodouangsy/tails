@@ -1,26 +1,110 @@
 #!/usr/bin/env python3
 
-import sys
 import dbus
+import socks
+import sys
+import time
+
+# Piding has a PurpleAccountRegister DBus method that we could use,
+# but it's messy: it opens a prompt that asks for which username to
+# register but we have already provided it so this is just
+# confusing. In fact, whatever is entered there is ignored. Even if
+# this bug is fixed, it's hard to get feedback about how the
+# registration process went via DBus, so it seems like a dead-end
+# approach.
+def register_xmpp_account(domain, port, username, password):
+    # Under the expected circumstances we'll never receive more than data
+    # than this.
+    MAX_RECV_LENGTH = 4096
+
+    s = socks.socksocket()
+    s.set_proxy(socks.SOCKS5, "127.0.0.1", 9050)
+    s.connect((domain, port))
+
+    # The situation for XMPP libraries for python and other scripting
+    # languages we ship in Tails, like perl, is terrible. python-xmpp
+    # (xmppy) is unmaintained since 10 years back and is not available
+    # for python 3; python3-nbxmpp does not have SOCKS support, and
+    # the way it opens sockets and/or resolves hostnames is not
+    # compatible with torsocks; libnet-xmpp-perl does not support
+    # registering; libnet-jabber-perl seems completely broken; etc...
+    # So, let's start implementing the XMPP protocol... :)
+    s.sendall(bytes(
+        """
+        <stream:stream xmlns="jabber:client" to="{domain}" version="1.0"
+         xmlns:stream="http://etherx.jabber.org/streams">
+        """.format(domain = domain),
+        'utf-8'
+    ))
+    # Make sure in-band registering is available (also implies that we
+    # initiated the handshake successfully)
+    resp = str(s.recv(MAX_RECV_LENGTH), 'utf-8')
+    assert("<register xmlns='http://jabber.org/features/iq-register'/>" in resp)
+    s.sendall(bytes(
+        """
+        <iq to="{domain}" type="set" id="1">
+          <query xmlns="jabber:iq:register">
+          <username>{username}</username>
+          <password>{password}</password>
+          </query>
+        </iq>
+        """.format(domain = domain, username = username, password = password),
+        'utf-8'
+    ))
+    resp = str(s.recv(MAX_RECV_LENGTH), 'utf-8')
+    # If the account already is registered, let's treat it as a
+    # success (which might be wrong in some interpretations, since the
+    # passwords might not match).
+    return 'The requested username already exists' in resp or \
+           resp == "<iq id='1' type='result' from='{domain}'/>"\
+                   .format(domain = domain)
 
 # Main script
 domain = sys.argv[1]
 port = int(sys.argv[2])
 username = sys.argv[3]
+password = sys.argv[4]
 protocol = 'prpl-jabber'
 jid = username + '@' + domain
+purple_service = 'im.pidgin.purple.PurpleService'
+purple_object_path = '/im/pidgin/purple/PurpleObject'
 bus = dbus.SessionBus()
-purple = bus.get_object('im.pidgin.purple.PurpleService',
-                        '/im/pidgin/purple/PurpleObject')
+
+# In case this script is started too early vs Pidgin, let's give
+# the DBus service some time to start up.
+timeout = 10 # seconds
+start = time.time()
+while not bus.name_has_owner(purple_service):
+    if time.time() > start + timeout:
+        raise(RuntimeError("Timed out while waiting for Pidgin's DBus service"))
+    else:
+        time.sleep(0.1)
+
+purple = bus.get_object(purple_service, purple_object_path)
 account = purple.PurpleAccountsFind(jid, protocol)
 if not account:
     account = purple.PurpleAccountNew(jid, protocol)
     purple.PurpleAccountsAdd(account)
     purple.PurpleAccountSetBool(account, 'port', port)
-    purple.PurpleAccountSetUsername(account, jid)
+    # The XMPP server doesn't do SSL, but we have onion transport
+    # encryption so we're good.
     purple.PurpleAccountSetBool(account, 'auth_plain_in_clear', 1)
     purple.PurpleAccountSetString(account, 'connection_security',
                                            'opportunistic_tls')
-    purple.PurpleAccountSetString(account, 'ft_proxies', '')
-    purple.PurpleAccountRegister(account)
-purple.PurpleAccountSetEnabled(account, 'gtk-gaim', 1)
+    # Let's not involve any file transfer proxies. I'd like to
+    # set it to the empty string, but this leads to a segfault
+    # so a space will do.
+    purple.PurpleAccountSetString(account, 'ft_proxies', ' ')
+    purple.PurpleAccountSetPassword(account, password)
+    purple.PurpleAccountSetRememberPassword(account, 1)
+    account_registered = register_xmpp_account(domain, port, username, password)
+    if not account_registered:
+        purple.PurpleAccountsRemove(account)
+        purple.PurpleAccountDestroy(account)
+        raise(RuntimeError("We failed to register the account"))
+
+if purple.PurpleAccountGetEnabled(account, 'gtk-gaim'):
+    if not purple.PurpleAccountIsConnected(account):
+        purple.PurpleAccountConnect(account)
+else:
+    purple.PurpleAccountSetEnabled(account, 'gtk-gaim', 1)
