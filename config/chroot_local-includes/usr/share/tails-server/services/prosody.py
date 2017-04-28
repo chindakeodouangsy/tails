@@ -28,6 +28,7 @@ interfaces = { "localhost" }
 daemonize = true;
 log = { info = "*syslog"; }
 pidfile = "/var/run/prosody/prosody.pid";
+-- The following two entries are controlled by Tails Server -- do not edit!
 Component "conference.localhost" "muc"
 VirtualHost "localhost"
 """
@@ -62,9 +63,11 @@ class ProsodyServer(service_template.TailsService):
         with open_locked(CONFIG_FILE, 'r') as f:
             config = f.read()
         with open_locked(CONFIG_FILE, 'w') as f:
-            # We only replace the first occurrence to allow users
+            # We only replace the first occurrences to allow users
             # adding their own VirtualHost:s (*after* the default one)
             replacements = (
+                ('^Component\s.*\s"muc"$',
+                 'Component "conference.{}" "muc"'.format(address)),
                 ('^VirtualHost\s.*$',
                  'VirtualHost "{}"'.format(address)),
             )
