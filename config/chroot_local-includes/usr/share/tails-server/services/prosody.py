@@ -66,7 +66,7 @@ class ProsodyServer(service_template.TailsService):
             # adding their own VirtualHost:s (*after* the default one)
             replacements = (
                 ('^VirtualHost\s.*$',
-                 'VirtualHost "{}.onion"'.format(address)),
+                 'VirtualHost "{}"'.format(address)),
             )
             for pattern, replacement in replacements:
                 config = re.sub(
@@ -78,7 +78,7 @@ class ProsodyServer(service_template.TailsService):
 
     def set_onion_address(self, address: str):
         super().set_onion_address(address)
-        self.set_virtual_host(address)
+        self.set_virtual_host(address + ".onion")
 
     def remove_onion_address(self):
         super().remove_onion_address()
