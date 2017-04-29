@@ -11,7 +11,7 @@ import os
 
 # Users that add additional VirtualHost entries must list them after
 # the default one which will be used for the hidden service.
-CONFIG = """
+DEFAULT_CONFIG = """
 modules_enabled = {
   "roster";   -- Allow users to have a roster.
   "saslauth"; -- Authentication for clients. Required for clients to log in.
@@ -77,7 +77,7 @@ class ProsodyServer(service_template.TailsService):
     def configure(self):
         super().configure()
         with open_locked(CONFIG_FILE, 'w') as f:
-            f.write(CONFIG)
+            f.write(DEFAULT_CONFIG)
 
     def get_config(self):
         if not os.path.exists(CONFIG_FILE):
