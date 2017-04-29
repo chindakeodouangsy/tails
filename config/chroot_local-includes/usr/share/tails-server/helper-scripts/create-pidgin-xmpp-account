@@ -84,9 +84,14 @@ purple = bus.get_object(purple_service, purple_object_path)
 account = purple.PurpleAccountsFind(jid, protocol)
 if not account:
     account = purple.PurpleAccountNew(jid, protocol)
-    purple.PurpleAccountsAdd(account)
+    account_registered = register_xmpp_account(domain, port, username, password)
+    if not account_registered:
+        purple.PurpleAccountDestroy(account)
+        raise(RuntimeError("We failed to register the account"))
     purple.PurpleAccountSetAlias(account, username)
     purple.PurpleAccountSetBool(account, 'port', port)
+    purple.PurpleAccountSetPassword(account, password)
+    purple.PurpleAccountSetRememberPassword(account, 1)
     # The XMPP server doesn't do SSL, but we have onion transport
     # encryption so we're good.
     purple.PurpleAccountSetBool(account, 'auth_plain_in_clear', 1)
@@ -96,13 +101,7 @@ if not account:
     # set it to the empty string, but this leads to a segfault
     # so a space will do.
     purple.PurpleAccountSetString(account, 'ft_proxies', ' ')
-    purple.PurpleAccountSetPassword(account, password)
-    purple.PurpleAccountSetRememberPassword(account, 1)
-    account_registered = register_xmpp_account(domain, port, username, password)
-    if not account_registered:
-        purple.PurpleAccountsRemove(account)
-        purple.PurpleAccountDestroy(account)
-        raise(RuntimeError("We failed to register the account"))
+    purple.PurpleAccountsAdd(account)
 
 if purple.PurpleAccountGetEnabled(account, 'gtk-gaim'):
     if not purple.PurpleAccountIsConnected(account):
