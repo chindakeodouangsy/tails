@@ -85,6 +85,7 @@ account = purple.PurpleAccountsFind(jid, protocol)
 if not account:
     account = purple.PurpleAccountNew(jid, protocol)
     purple.PurpleAccountsAdd(account)
+    purple.PurpleAccountSetAlias(account, username)
     purple.PurpleAccountSetBool(account, 'port', port)
     # The XMPP server doesn't do SSL, but we have onion transport
     # encryption so we're good.
