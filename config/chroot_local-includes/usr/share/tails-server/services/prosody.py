@@ -4,6 +4,7 @@ from tails_server.options.virtual_port import VirtualPort
 from tails_server.options.persistence import PersistenceOption
 from tails_server.options.autostart import AutoStartOption
 from tails_server.util import open_locked
+from tails_server import option_template
 
 import re
 import os
@@ -20,7 +21,7 @@ modules_enabled = {
   "posix";    -- POSIX functionality, sends server to background, enables syslog, etc.
 };
 modules_disabled = {
-  "offline"; -- Store offline messages
+  --"offline"; -- Store offline messages
   "s2s"; -- Handle server-to-server connections
 };
 allow_registration = true;
@@ -37,6 +38,24 @@ CONFIG_DIR = '/etc/prosody'
 CONFIG_FILE = os.path.join(CONFIG_DIR, 'prosody.cfg.lua')
 DATA_DIR = '/var/lib/prosody'
 
+class OfflineMessaging(option_template.TailsServiceOption):
+    name = "offline-messaging"
+    name_in_gui = "Offline messaging"
+    description = "When enabled, messages sent to an offline user are " + \
+                  "delivered the next time they log in"
+    default = True
+    type = bool
+    group = "advanced"
+
+    def store(self):
+        self.service.update_config(
+            '^\s*(--)?\s*"offline";',
+            '  {}"offline";'.format('--' if self.value else '')
+        )
+
+    def load(self):
+        return bool(re.match('^\s*"offline";', self.service.get_config()))
+
 class ProsodyServer(service_template.TailsService):
     name = 'prosody'
     description = _('Jabber/XMPP server')
@@ -52,6 +71,7 @@ class ProsodyServer(service_template.TailsService):
         VirtualPort,
         PersistenceOption,
         AutoStartOption,
+        OfflineMessaging,
     ]
 
     def configure(self):
@@ -59,25 +79,41 @@ class ProsodyServer(service_template.TailsService):
         with open_locked(CONFIG_FILE, 'w') as f:
             f.write(CONFIG)
 
-    def set_virtual_host(self, address):
-        with open_locked(CONFIG_FILE, 'r') as f:
-            config = f.read()
-        with open_locked(CONFIG_FILE, 'w') as f:
-            # We only replace the first occurrences to allow users
-            # adding their own VirtualHost:s (*after* the default one)
-            replacements = (
-                ('^Component\s.*\s"muc"$',
-                 'Component "conference.{}" "muc"'.format(address)),
-                ('^VirtualHost\s.*$',
-                 'VirtualHost "{}"'.format(address)),
+    def get_config(self):
+        if not os.path.exists(CONFIG_FILE):
+            raise FileNotFoundError(
+                'File %r is required but could not be found'.format(CONFIG_FILE)
             )
+        with open_locked(CONFIG_FILE, 'r') as f:
+            return f.read()
+
+    def update_config(self, *args, count = 1):
+        if len(args) == 2 and all(isinstance(x, str) for x in args):
+            replacements = [args]
+        elif len(args) == 1 and any(isinstance(args[0], t) for t in [tuple, list]):
+            replacements = args[0]
+        else:
+            raise(ValueError('invalid arguments'))
+        config = self.get_config()
+        with open_locked(CONFIG_FILE, 'w') as f:
             for pattern, replacement in replacements:
                 config = re.sub(
-                    pattern, replacement, config, flags = re.MULTILINE, count = 1
+                    pattern, replacement, config,
+                    flags = re.MULTILINE, count = count
                 )
             f.write(config)
-        self.stop()
-        self.start()
+        if self.is_running:
+            self.stop()
+            self.start()
+
+    def set_virtual_host(self, address):
+        replacements = (
+            ('^Component\s.*\s"muc"$',
+             'Component "conference.{}" "muc"'.format(address)),
+            ('^VirtualHost\s.*$',
+             'VirtualHost "{}"'.format(address)),
+        )
+        self.update_config(replacements)
 
     def set_onion_address(self, address: str):
         super().set_onion_address(address)
