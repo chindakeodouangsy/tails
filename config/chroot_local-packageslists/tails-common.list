@@ -419,6 +419,10 @@ python3-openssl
 python3-sh
 python3-stem
 
-# tor-controlport-filter
+# onion-grater
 python3-psutil
 python3-yaml
+
+# needed for "Test speakers"
+libcanberra-pulse
+sound-theme-freedesktop
