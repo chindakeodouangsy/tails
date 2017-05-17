@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-06 21:07+0200\n"
-"PO-Revision-Date: 2017-04-14 14:08+0000\n"
+"POT-Creation-Date: 2017-03-19 12:16+0100\n"
+"PO-Revision-Date: 2017-02-28 16:06+0000\n"
 "Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/otf/torproject/language/"
 "pt/)\n"
@@ -84,9 +84,9 @@ msgid ""
 "Bitcoin wallet. It is strongly recommended to only run Electrum when its "
 "persistence feature is activated."
 msgstr ""
-"Quando reinicia o Tails, todos os dados do Electrum estarão perdidos, "
-"incluindo a sua carteira Bitcoin. Recomenda-se que execute apenas o Electrum "
-"se a funcionalidade de persistência estiver ativada."
+"Ao reiniciar o Tails, todos os dados do Electrum serão perdidos, incluindo a "
+"sua carteira Bitcoin. Recomenda-se que apenas execute o Electrum se a "
+"funcionalidade de persistência estiver ativa."
 
 #: config/chroot_local-includes/usr/local/bin/electrum:21
 msgid "Do you want to start Electrum anyway?"
@@ -136,19 +136,6 @@ msgstr "Reiniciar"
 #: config/chroot_local-includes/usr/share/gnome-shell/extensions/shutdown-helper@tails.boum.org/extension.js:74
 msgid "Power Off"
 msgstr "Encerrar"
-
-#: config/chroot_local-includes/usr/local/lib/tails-32-bit-notify-user:59
-msgid "Warning: Tails 3.0 won't work on this computer!"
-msgstr "Aviso: Tails 3.0 não irá funcionar neste computador!"
-
-#: config/chroot_local-includes/usr/local/lib/tails-32-bit-notify-user:60
-msgid "Tails 3.0 will require a 64-bit processor."
-msgstr "Tails 3.0 irá precisar de um processador de 64 bits."
-
-#: config/chroot_local-includes/usr/local/lib/tails-32-bit-notify-user:63
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:83
-msgid "Learn more"
-msgstr "Saber mais"
 
 #: config/chroot_local-includes/usr/local/bin/tails-about:22
 #: ../config/chroot_local-includes/usr/share/desktop-directories/Tails.directory.in.h:1
@@ -312,17 +299,21 @@ msgstr ""
 "podem monitorizar o que está a fazer no Tails. Apenas o software livre pode "
 "ser considerado como de confiança, para ambos."
 
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:83
+msgid "Learn more"
+msgstr "Saber mais"
+
 #: config/chroot_local-includes/usr/local/bin/tor-browser:43
 msgid "Tor is not ready"
 msgstr "O Tor não está pronto"
 
 #: config/chroot_local-includes/usr/local/bin/tor-browser:44
 msgid "Tor is not ready. Start Tor Browser anyway?"
-msgstr "O Tor não está pronto. Mesmo assim, deseja iniciar o Tor Browser?"
+msgstr "O Tor não está pronto. Mesmo assim, deseja iniciar o Navegador Tor?"
 
 #: config/chroot_local-includes/usr/local/bin/tor-browser:45
 msgid "Start Tor Browser"
-msgstr "Iniciar o Tor Browser"
+msgstr "Iniciar o Navegador Tor"
 
 #: config/chroot_local-includes/usr/local/bin/tor-browser:46
 msgid "Cancel"
@@ -426,7 +417,7 @@ msgstr "Saber mais sobre Tails"
 
 #: ../config/chroot_local-includes/usr/share/applications/tor-browser.desktop.in.h:1
 msgid "Tor Browser"
-msgstr "Tor Browser"
+msgstr "Navegador Tor"
 
 #: ../config/chroot_local-includes/usr/share/applications/tor-browser.desktop.in.h:2
 msgid "Anonymous Web Browser"
@@ -443,3 +434,44 @@ msgstr "Navegador Web não seguro"
 #: ../config/chroot_local-includes/usr/share/desktop-directories/Tails.directory.in.h:2
 msgid "Tails specific tools"
 msgstr "Ferramentas específicas do Tails"
+
+#~ msgid "I2P failed to start"
+#~ msgstr "I2P não conseguiu iniciar."
+
+#~ msgid ""
+#~ "Something went wrong when I2P was starting. Check the logs in /var/log/"
+#~ "i2p for more information."
+#~ msgstr ""
+#~ "Ocorreu algo de mal quando o I2P estava a iniciar. Consulte os registos "
+#~ "em /var/log/i2p para mais informação."
+
+#~ msgid "I2P's router console is ready"
+#~ msgstr "A consola do router do I2P está pronta"
+
+#~ msgid "You can now access I2P's router console in the I2P Browser."
+#~ msgstr "Já pode aceder à consola do router I2P no navegador I2P."
+
+#~ msgid "I2P is not ready"
+#~ msgstr "I2P não está pronto"
+
+#~ msgid ""
+#~ "Eepsite tunnel not built within six minutes. Check the router console in "
+#~ "the I2P Browser or the logs in /var/log/i2p for more information. "
+#~ "Reconnect to the network to try again."
+#~ msgstr ""
+#~ "Túnel Eepsite não foi estabelecido dentro dos seis minutos. Verifique a "
+#~ "consola do router no Navegador I2P ou os registos em /var/log/i2p para "
+#~ "mais informação.\n"
+#~ "Religue à rede para tentar novamente."
+
+#~ msgid "I2P is ready"
+#~ msgstr "I2P está pronto"
+
+#~ msgid "You can now access services on I2P."
+#~ msgstr "Pode agora aceder a serviços no I2P"
+
+#~ msgid "Anonymous overlay network browser"
+#~ msgstr "Navegador Web anónimo"
+
+#~ msgid "I2P Browser"
+#~ msgstr "Navegador I2P"

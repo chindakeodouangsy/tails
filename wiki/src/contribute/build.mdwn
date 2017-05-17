@@ -331,7 +331,6 @@ The following Debian packages need to be installed:
 
       apt-get install \
         dpkg-dev \
-        eatmydata \
         gettext \
         intltool \
         libfile-slurp-perl \
