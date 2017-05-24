@@ -18,8 +18,7 @@ Feature: Installing packages through APT
     And I install "cowsay" using apt
     Then the package "cowsay" is installed
 
-  #12586
-  @check_tor_leaks @fragile
+  @check_tor_leaks
   Scenario: Install packages using Synaptic
     Given I have started Tails from DVD and logged in with an administration password and the network is connected
     When I configure APT to use non-onion sources
