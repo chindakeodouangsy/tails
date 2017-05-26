@@ -61,7 +61,7 @@ $RUN_LB_CONFIG \
    --apt-recommends false \
    --architecture amd64 \
    --backports false \
-   --binary-images iso \
+   --binary-images iso-hybrid \
    --binary-indices false \
    --cache          false \
    --cache-indices  false \
