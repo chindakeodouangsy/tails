@@ -454,12 +454,17 @@ def clean_up_builder_vms
     domain.destroy if domain.active?
     domain.undefine
     begin
-      $virt
-        .lookup_storage_pool_by_name('default')
-        .lookup_volume_by_name("#{domain.name}.img")
-        .delete
+      pool = $virt.lookup_storage_pool_by_name('default')
     rescue Libvirt::RetrieveError
-      # Expected if the pool or disk does not exist
+      # Expected if the pool does not exist
+    else
+      for disk in ["#{domain.name}.img", "#{domain.name}_vagrant_box_image_0.img"] do
+        begin
+          pool.lookup_volume_by_name(disk).delete
+        rescue Libvirt::RetrieveError
+          # Expected if the disk does not exist
+        end
+      end
     end
   end
 
@@ -598,17 +603,6 @@ namespace :basebox do
 
   def clean_up_basebox(box)
     run_vagrant('box', 'remove', '--force', box)
-    begin
-      $virt = Libvirt::open("qemu:///system")
-      $virt
-        .lookup_storage_pool_by_name('default')
-        .lookup_volume_by_name("#{box}_vagrant_box_image_0.img")
-        .delete
-    rescue Libvirt::RetrieveError
-      # Expected if the pool or disk does not exist
-    ensure
-      $virt.close
-    end
   end
 
   desc 'Remove all base boxes'
