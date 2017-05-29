@@ -446,12 +446,41 @@ def domain_name
   "#{box_name}_default"
 end
 
+def is_tails_builder?(domain)
+  !!/^tails-builder-[^-]+-[^-]+-\d{8}-[0-9a-f]+_default$/.match(domain.name)
+end
+
 def clean_up_builder_vms
   $virt = Libvirt::open("qemu:///system")
 
-  clean_up_domain = Proc.new do |domain|
-    next if domain.nil?
-    domain.destroy if domain.active?
+  # This is the domain tracked by Vagrant (if any) at the moment,
+  # i.e. the one that is potentially running and that we can control
+  # via Vagrant.
+  current_vagrant_domain_uuid =
+    begin
+      open('vagrant/.vagrant/machines/default/libvirt/id', 'r') { |f| f.read } .strip
+    rescue Errno::ENOENT
+      # Expected if we don't have vagrant/.vagrant.
+      nil
+    end
+
+  $virt.list_all_domains.find_all { |d| is_tails_builder?(d) } .each do |domain|
+    if domain.active?
+      if domain.uuid == current_vagrant_domain_uuid
+        # Let's unmount any shared disk to avoid data corruption
+        begin
+          run_vagrant_ssh("mountpoint -q /var/cache/apt-cacher-ng")
+        rescue VagrantCommandError
+          # Nothing to unmount, or the Vagrant communication channel
+          # (SSH) is broken so we cannot do it any way.
+        else
+          run_vagrant_ssh("sudo systemctl stop apt-cacher-ng.service")
+          run_vagrant_ssh("sudo umount /var/cache/apt-cacher-ng")
+          run_vagrant_ssh("sudo sync")
+        end
+      end
+      domain.destroy
+    end
     domain.undefine
     begin
       pool = $virt.lookup_storage_pool_by_name('default')
@@ -467,36 +496,6 @@ def clean_up_builder_vms
       end
     end
   end
-
-  # Let's ensure that the VM we are about to create is cleaned up ...
-  previous_domain = $virt.list_all_domains.find { |d| d.name == domain_name }
-  if previous_domain && previous_domain.active?
-    begin
-      run_vagrant_ssh("mountpoint -q /var/cache/apt-cacher-ng")
-    rescue VagrantCommandError
-    # Nothing to unmount.
-    else
-      run_vagrant_ssh("sudo systemctl stop apt-cacher-ng.service")
-      run_vagrant_ssh("sudo umount /var/cache/apt-cacher-ng")
-      run_vagrant_ssh("sudo sync")
-    end
-  end
-  clean_up_domain.call(previous_domain)
-
-  # ... and the same for any residual VM based on another box (=>
-  # another domain name) that Vagrant still keeps track of.
-  old_domain =
-    begin
-      old_domain_uuid =
-        open('vagrant/.vagrant/machines/default/libvirt/id', 'r') { |f| f.read }
-        .strip
-      $virt.lookup_domain_by_uuid(old_domain_uuid)
-    rescue Errno::ENOENT, Libvirt::RetrieveError
-      # Expected if we don't have vagrant/.vagrant, or if the VM was
-      # undefined for other reasons (e.g. manually).
-      nil
-    end
-  clean_up_domain.call(old_domain)
 
   # We could use `vagrant destroy` here but due to vagrant-libvirt's
   # upstream issue #746 we then risk losing the apt-cacher-ng data.
