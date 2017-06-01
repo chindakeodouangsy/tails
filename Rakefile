@@ -487,7 +487,8 @@ def clean_up_builder_vms
     rescue Libvirt::RetrieveError
       # Expected if the pool does not exist
     else
-      for disk in ["#{domain.name}.img", "#{domain.name}_vagrant_box_image_0.img"] do
+      snapshot_name = domain.name.sub(/_default$/, '')
+      for disk in ["#{domain.name}.img", "#{snapshot_name}_vagrant_box_image_0.img"] do
         begin
           pool.lookup_volume_by_name(disk).delete
         rescue Libvirt::RetrieveError
