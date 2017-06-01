@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Tails\n"
-"POT-Creation-Date: 2017-05-26 12:49+0200\n"
+"POT-Creation-Date: 2017-06-01 09:11+0200\n"
 "PO-Revision-Date: 2017-04-07 12:02-0000\n"
 "Last-Translator: \n"
 "Language-Team: Tails translators <tails@boum.org>\n"
@@ -161,18 +161,13 @@ msgid "</div>\n"
 msgstr "</div>\n"
 
 #. type: Plain text
-#, fuzzy, no-wrap
-#| msgid ""
-#| "<p>The screen reader does not work with <span class=\"application\">Tails\n"
-#| "Installer</span> nor with the <span class=\"application\">Unsafe\n"
-#| "Web Browser</span> and <span class=\"application\">I2P Browser</span>.</p>\n"
+#, no-wrap
 msgid ""
 "<p>The screen reader does not work with the <span class=\"application\">Unsafe\n"
 "Browser</span>.</p>\n"
 msgstr ""
-"<p>Le lecteur d'écran ne marche pas avec l'<span class=\"application\">installeur\n"
-"de Tails</span> ni avec le <span class=\"application\">Navigateur\n"
-"Web Non-sécurisé</span>.</p>\n"
+"<p>Le lecteur d'écran ne marche pas avec le <span class=\"application\">Navigateur\n"
+"web non-sécurisé</span>.</p>\n"
 
 #. type: Title =
 #, no-wrap
