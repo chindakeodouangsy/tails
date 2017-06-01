@@ -482,17 +482,17 @@ def clean_up_builder_vms
       domain.destroy
     end
     domain.undefine
-  end
-  begin
-    pool = $virt.lookup_storage_pool_by_name('default')
-  rescue Libvirt::RetrieveError
-    # Expected if the pool does not exist
-  else
-    for disk in pool.list_volumes do
-      begin
-        pool.lookup_volume_by_name(disk).delete
-      rescue Libvirt::RetrieveError
-        # Expected if the disk does not exist
+    begin
+      pool = $virt.lookup_storage_pool_by_name('default')
+    rescue Libvirt::RetrieveError
+      # Expected if the pool does not exist
+    else
+      for disk in ["#{domain.name}.img", "#{domain.name}_vagrant_box_image_0.img"] do
+        begin
+          pool.lookup_volume_by_name(disk).delete
+        rescue Libvirt::RetrieveError
+          # Expected if the disk does not exist
+        end
       end
     end
   end
