@@ -510,6 +510,26 @@ ensure
   $virt.close
 end
 
+desc "Remove all libvirt volumes"
+task :clean_up_libvirt_volumes do
+  $virt = Libvirt::open("qemu:///system")
+  begin
+    pool = $virt.lookup_storage_pool_by_name('default')
+  rescue Libvirt::RetrieveError
+    # Expected if the pool does not exist
+  else
+    for disk in pool.list_volumes do
+      begin
+        pool.lookup_volume_by_name(disk).delete
+      rescue Libvirt::RetrieveError
+        # Expected if the disk does not exist
+      end
+    end
+  ensure
+    $virt.close
+  end
+end
+
 def on_jenkins?
   !!ENV['JENKINS_URL']
 end
