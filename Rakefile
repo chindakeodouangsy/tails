@@ -510,7 +510,7 @@ ensure
   $virt.close
 end
 
-desc "Remove all libvirt volumes"
+desc "Remove all libvirt volumes named tails-buidler-*"
 task :clean_up_libvirt_volumes do
   $virt = Libvirt::open("qemu:///system")
   begin
@@ -519,10 +519,12 @@ task :clean_up_libvirt_volumes do
     # Expected if the pool does not exist
   else
     for disk in pool.list_volumes do
-      begin
-        pool.lookup_volume_by_name(disk).delete
-      rescue Libvirt::RetrieveError
-        # Expected if the disk does not exist
+      if /^tails-builder-/.match(disk)
+        begin
+          pool.lookup_volume_by_name(disk).delete
+        rescue Libvirt::RetrieveError
+          # Expected if the disk does not exist
+        end
       end
     end
   ensure
