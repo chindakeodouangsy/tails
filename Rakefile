@@ -510,7 +510,7 @@ ensure
   $virt.close
 end
 
-desc "Remove all libvirt volumes named tails-buidler-*"
+desc "Remove all libvirt volumes named tails-builder-*"
 task :clean_up_libvirt_volumes do
   $virt = Libvirt::open("qemu:///system")
   begin
