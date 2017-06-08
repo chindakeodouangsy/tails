@@ -1,4 +1,4 @@
-tails (3.0~fake1) unstable; urgency=medium
+tails (3.0~rc2) unstable; urgency=medium
 
   * This is a fake release for testing Tails reproducibility.
 
