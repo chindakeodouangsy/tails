@@ -1,6 +1,6 @@
-tails (3.0) UNRELEASED; urgency=medium
+tails (3.0~fake1) unstable; urgency=medium
 
-  * Dummy entry for next release.
+  * This is a fake release for testing Tails reproducibility.
 
  -- Tails developers <tails@boum.org>  Sun, 21 May 2017 18:33:20 +0000
 
