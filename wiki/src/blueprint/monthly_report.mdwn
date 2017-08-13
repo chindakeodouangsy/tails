@@ -22,8 +22,8 @@ beginning of May.
   - April: spriver
   - May: u
   - June: intrigeri
-  - July: spriver
-  - August: sajolida
+  - July: sajolida
+  - August: spriver
   - September: emmapeel
 
 Checklist
@@ -170,5 +170,7 @@ Template
     * Tails has been started more than BOOTS/MONTH times this month. This makes BOOTS/DAY boots a day on average.
     * SIGS downloads of the OpenPGP signature of Tails ISO from our website.
     * WHISPERBACK bug reports were received through WhisperBack.
+
+    [[How do we know this?|support/faq#boot_statistics]]
 
     XXX: Ask tails@boum.org for these numbers.
