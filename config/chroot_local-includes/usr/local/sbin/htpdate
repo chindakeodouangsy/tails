@@ -28,7 +28,6 @@ use Getopt::Long::Descriptive;
 use IPC::System::Simple qw(capturex);
 use List::Util qw( shuffle );
 use open qw{:utf8 :std};
-use POSIX qw( WIFEXITED );
 use threads;
 use Try::Tiny;
 
@@ -40,6 +39,7 @@ my (
     $debug, $useragent, $log, $quiet, $set_date,
     $done_file, $res_file, $usage, $opt, $runas,
     $allowed_per_pool_failure_ratio, $proxy, @pools,
+    $max_try_per_url, $new_tor_circuit_on_retry,
 );
 
 sub done {
@@ -99,6 +99,8 @@ sub parseCommandLine () {
         [ 'neutral_pool=s@', "neutral hostnames" ],
         [ 'foe_pool=s@', "distrusted hostnames" ],
         [ 'allowed_per_pool_failure_ratio:f', "ratio (0.0-1.0) of allowed per-pool failure", { default => 1.0 } ],
+        [ 'max_try_per_url', "Number of times to try to fetch each url", { default => 1 } ],
+        [ 'new_tor_circuit_on_retry', "Use a new Tor circuit each time a url is retried", { default => 0 } ],
         [ 'proxy|p:s', "what to pass to curl's --socks5-hostname (if unset, environment variables may affect curl's behavior -- see curl(1) for details)" ],
     );
 
@@ -115,6 +117,8 @@ sub parseCommandLine () {
     $done_file   = $opt->done_file if $opt->done_file;
     $res_file    = $opt->success_file if $opt->success_file;
     $allowed_per_pool_failure_ratio = $opt->allowed_per_pool_failure_ratio;
+    $max_try_per_url = $opt->max_try_per_url;
+    $new_tor_circuit_on_retry = $opt->new_tor_circuit_on_retry;
     $proxy       = $opt->proxy if $opt->proxy;
     @pools = map {
         [
@@ -200,6 +204,39 @@ sub random_first_with_allowed_failure_ratio {
     return;
 }
 
+sub requestNewTorCircuit {
+    my $newnym_command = ". /usr/local/lib/tails-shell-library/tor.sh" .
+        " && tor_control_send 'NEWNYM' >/dev/null 2>&1";
+
+    debug("Requesting new Tor circuit");
+    system('sh', '-c', $newnym_command);
+}
+
+sub dateWhenRetryGetUrl {
+    my $url = shift;
+    my @curl_options = @_;
+
+    my $tried = 1;
+    my @curl_command = ('curl', @curl_options, $url);
+
+    while ( $tried <= $max_try_per_url ) {
+        $tried++;
+        my $before = DateTime->now->epoch();
+        my $cmd = try {
+            system(@curl_command);
+            die if $? != 0;
+        } catch {
+            debug("Fetching $url failed, trying again");
+            if ( $new_tor_circuit_on_retry ) {
+                requestNewTorCircuit();
+            }
+            $before = DateTime->now->epoch();
+        };
+        return $before if $cmd == 0;
+    }
+    error "Failed to fetch content from $url";
+}
+
 sub getPoolDateDiff {
     my $args = shift;
 
@@ -228,13 +265,10 @@ sub getUrlDateDiff {
     );
     push @curl_options, ('--socks5-hostname', $proxy) if defined $proxy;
 
-    my @cmdline = ('curl', @curl_options, $url);
-
     # fetch (the page and) referenced resources:
     # images, stylesheets, scripts, etc.
-    my $before = DateTime->now->epoch();
-    WIFEXITED(system(@cmdline)) or error "Failed to fetch content from $url: $!";
     my $local = DateTime->now->epoch();
+    my $before = dateWhenRetryGetUrl($url, @curl_options);
     my $newestdt;
     eval { $newestdt = newestDateHeader($tmpdir) };
     if ($EVAL_ERROR =~ m/No downloaded files can be found/) {
