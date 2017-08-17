@@ -227,11 +227,13 @@ sub dateWhenRetryGetUrl {
             system(@curl_command);
             die if $? != 0;
         } catch {
-            debug("Fetching $url failed, trying again");
-            if ( $new_tor_circuit_on_retry ) {
-                requestNewTorCircuit();
-            }
-            $before = DateTime->now->epoch();
+            if ( $tried <= $max_try_per_url ) {
+                debug("Fetching $url failed, trying again");
+                if ( $new_tor_circuit_on_retry ) {
+                    requestNewTorCircuit();
+                }
+                $before = DateTime->now->epoch();
+	    }
         };
         return $before if $cmd == 0;
     }
