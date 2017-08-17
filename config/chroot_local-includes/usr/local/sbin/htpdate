@@ -205,11 +205,12 @@ sub random_first_with_allowed_failure_ratio {
 }
 
 sub requestNewTorCircuit {
-    my $newnym_command = ". /usr/local/lib/tails-shell-library/tor.sh" .
-        " && tor_control_send 'NEWNYM' >/dev/null 2>&1";
+    my @newnym_command = ('.', '/usr/local/lib/tails-shell-library/tor.sh',
+                          '&&', 'tor_control_send', '\'NEWNYM\'',
+                          '>/dev/null', '2>&1');
 
     debug("Requesting new Tor circuit");
-    system('sh', '-c', $newnym_command);
+    system('sh', '-c', @newnym_command);
 }
 
 sub dateWhenRetryGetUrl {
