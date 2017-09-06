@@ -19,9 +19,15 @@ diff_without_pot_creation_date () {
      $(diff "$old" "$new" | grep -Ec '^[<>] "POT-Creation-Date:') -eq 2 ]
 }
 
-diff_pot_only_line_comment_change () {
-    # `tail -n+3` => read from line 3 so we skip the ---/+++ header
-    diff -u "${1}" "${2}" | tail -n+3 | while IFS='' read -r cur; do
+diff_without_pot_creation_date_and_comments () {
+    old="$(tempfile)"
+    new="$(tempfile)"
+    # This is sed for "remove only the first occurrence":
+    sed '/^"POT-Creation-Date:/{x;//!d;x}' "${1}" > "${old}"
+    sed '/^"POT-Creation-Date:/{x;//!d;x}' "${2}" > "${new}"
+    # `tail -n+3` => read from line 3 so we skip the unified diff
+    # header (---/+++, which we otherwise would match)
+    diff -u "${old}" "${new}" | tail -n+3 | while IFS='' read -r cur; do
         if str_grep "${cur}" -q '^-'; then
             IFS='' read -r next
             if ! str_grep "${cur}"  -q '^-#:.*:[0-9]\+$' || \
@@ -32,7 +38,9 @@ diff_pot_only_line_comment_change () {
             return 1
         fi
     done
-    return $?
+    ret="${?}"
+    rm "${old}" "${new}"
+    return ${ret}
 }
 
 intltool_update_po () {
