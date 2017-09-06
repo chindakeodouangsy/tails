@@ -1,5 +1,8 @@
 # This shell library is meant to be used with `set -e` and `set -u`.
 
+# Import str_grep()
+. /usr/local/lib/tails-shell-library/common.sh
+
 po_languages () {
    for po in po/*.po ; do
       rel="${po%.po}"
@@ -17,11 +20,19 @@ diff_without_pot_creation_date () {
 }
 
 diff_pot_only_line_comment_change () {
-   old="$1"
-   new="$2"
-
-   [ $(diff "$old" "$new" | grep -Ec '^> #:') -gt 0 -a \
-     $(diff "$old" "$new" | grep -Ec ':[0-9]*$') -gt 0 ]
+    # `tail -n+3` => read from line 3 so we skip the ---/+++ header
+    diff -u "${1}" "${2}" | tail -n+3 | while IFS='' read -r cur; do
+        if str_grep "${cur}" -q '^-'; then
+            IFS='' read -r next
+            if ! str_grep "${cur}"  -q '^-#:.*:[0-9]\+$' || \
+               ! str_grep "${next}" -q '^+#:.*:[0-9]\+$'; then
+                return 1
+            fi
+        elif str_grep "${cur}" -q '^+'; then
+            return 1
+        fi
+    done
+    return $?
 }
 
 intltool_update_po () {

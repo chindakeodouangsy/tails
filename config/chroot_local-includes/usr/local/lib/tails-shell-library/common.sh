@@ -88,3 +88,9 @@ is_package_installed() {
                       2>/dev/null)"
     [ "${package_status}" = "installed" ]
 }
+
+str_grep() {
+   val="${1}"
+   shift
+   echo "${val}" | grep "${@}"
+}
