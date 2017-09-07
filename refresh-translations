@@ -28,6 +28,10 @@ LOCALE_BASEDIR=config/chroot_local-includes/usr/share/locale
 
 ### Functions
 
+normalize_pot () {
+    sed -i "s@^\"Content-Type: text/plain\; charset=CHARSET\\\n\"@\"Content-Type: text/plain\; charset=UTF-8\\\n\"@" "${@}"
+}
+
 prog_potfile () {
    prog=$1
 
@@ -53,9 +57,21 @@ refresh_pot () {
    mkdir -p "$(dirname $pot)"
 
    if [ -e "${progpath}" ]; then
+      orig="$(dirname ${progpath})/$(basename ${pot}).orig"
+      cp "${pot}" "${orig}"
       xgettext --language="${proglang}" --from-code=UTF-8 \
         -o "${pot}" "${progpath}"
-      sed -i "s@^\"Content-Type: text/plain\; charset=CHARSET\\\n\"@\"Content-Type: text/plain\; charset=UTF-8\\\n\"@" "${pot}"
+      normalize_pot "${pot}" "${orig}"
+      if [ "${FORCE}" = yes ]; then
+        echo "Force-updating '${pot}'."
+        rm "${orig}"
+      elif diff_without_pot_creation_date_and_comments "${pot}" "${orig}" >/dev/null; then
+        echo "Only header or comment changes in '${orig}', restoring the old one."
+        mv "${orig}" "${pot}"
+      else
+        echo "Real changes in ${pot}: keeping the updated one."
+        rm "${orig}"
+      fi
    fi
 }
 
@@ -91,9 +107,13 @@ intltool_update_pot () {
       cd po
       cp -a tails.pot tails.pot.orig
       intltool-update --pot --gettext-package=tails
+      normalize_pot tails.pot tails.pot.orig
 
-      if diff_without_pot_creation_date tails.pot.orig tails.pot ; then
-         echo "Only header changes in tails.pot, restoring the old one."
+      if [ "${FORCE}" = yes ]; then
+        echo "Force-updating 'tails.pot'."
+         rm tails.pot.orig
+      elif diff_without_pot_creation_date_and_comments tails.pot.orig tails.pot >/dev/null; then
+         echo "Only header or comment changes in tails.pot, restoring the old one."
          mv tails.pot.orig tails.pot
       else
          echo "Real changes in tails.pot: keeping the updated one."
@@ -111,6 +131,20 @@ intltool_merge () {
 }
 
 ### Main
+
+FORCE=no
+while [ -n "${@:-}" ]; do
+    case "${1:-}" in
+        '--force')
+            FORCE=yes
+            ;;
+        *)
+            echo "Unknown option: ${1}"
+            exit 1
+            ;;
+    esac
+    shift
+done
 
 # Update POT files
 mkdir -p tmp/pot
