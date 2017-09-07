@@ -1,7 +1,14 @@
 # This shell library is meant to be used with `set -e` and `set -u`.
 
+# Make it possible to source this library outside of Tails, e.g. in
+# the build environment, where the paths are different.
+LIB_PATH=/usr/local/lib/tails-shell-library
+if [ ! -d "${LIB_PATH}" ] && [ -d "config/chroot_local-includes/${LIB_PATH}" ]; then
+    LIB_PATH="config/chroot_local-includes/${LIB_PATH}"
+fi
+
 # Import str_grep()
-. /usr/local/lib/tails-shell-library/common.sh
+. "${LIB_PATH}"/common.sh
 
 po_languages () {
    for po in po/*.po ; do
