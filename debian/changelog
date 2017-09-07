@@ -1,8 +1,8 @@
-tails (3.2~alpha1) UNRELEASED; urgency=medium
+tails (3.2~alpha1) unstable; urgency=medium
 
   * Fake release, only to be used for testing reproducibility.
 
- -- Tails developers <tails@boum.org>  Mon, 12 Jun 2017 18:39:31 +0000
+ -- Tails developers <tails@boum.org>  Thu, 07 Sep 2017 19:51:51 +0200
 
 tails (3.1) unstable; urgency=medium
 
