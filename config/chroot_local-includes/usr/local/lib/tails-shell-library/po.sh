@@ -16,20 +16,18 @@ diff_without_pot_creation_date () {
    # This is sed for "remove only the first occurrence":
    sed '/^"POT-Creation-Date:/{x;//!d;x}' "${1}" > "${old}"
    sed '/^"POT-Creation-Date:/{x;//!d;x}' "${2}" > "${new}"
-   no_abort diff -q "${old}" "${new}"
-   rm "${old}" "${new}"
-   return ${_NO_ABORT_RET}
+   # `tail -n+3` => read from line 3 so we skip the unified diff
+   # header (---/+++) which is uninteresting for us, and will only
+   # interfer with how we use this function.
+   diff="$(diff -u "${old}" "${new}" | tail -n+3)"
+   [ -n "${diff}" ] && echo "${diff}"
+   [ -z "${diff}" ]
 }
 
 diff_without_pot_creation_date_and_comments () {
-    old="$(tempfile)"
-    new="$(tempfile)"
-    # This is sed for "remove only the first occurrence":
-    sed '/^"POT-Creation-Date:/{x;//!d;x}' "${1}" > "${old}"
-    sed '/^"POT-Creation-Date:/{x;//!d;x}' "${2}" > "${new}"
-    # `tail -n+3` => read from line 3 so we skip the unified diff
-    # header (---/+++, which we otherwise would match)
-    diff -u "${old}" "${new}" | tail -n+3 | while IFS='' read -r cur; do
+    diff="$(diff_without_pot_creation_date "${1}" "${2}")"
+    [ -n "${diff}" ] && echo "${diff}"
+    echo "${diff}" | while IFS='' read -r cur; do
         if str_grep "${cur}" -q '^-'; then
             IFS='' read -r next
             if ! str_grep "${cur}"  -q '^-#:.*:[0-9]\+$' || \
@@ -40,9 +38,7 @@ diff_without_pot_creation_date_and_comments () {
             return 1
         fi
     done
-    ret="${?}"
-    rm "${old}" "${new}"
-    return ${ret}
+    return ${?}
 }
 
 intltool_update_po () {
@@ -57,7 +53,7 @@ intltool_update_po () {
             if [ "${FORCE}" = yes ]; then
                 echo "Force-updating '${locale}.po'."
                 mv ${locale}.po.new ${locale}.po
-            elif diff_without_pot_creation_date "${locale}.po" "${locale}.po.new"; then
+            elif diff_without_pot_creation_date "${locale}.po" "${locale}.po.new" >/dev/null; then
                     echo "${locale}: Only header changes in PO file, delete new PO file."
                     rm ${locale}.po.new
             else
