@@ -11,12 +11,14 @@ po_languages () {
 }
 
 diff_without_pot_creation_date () {
-   old="$1"
-   new="$2"
-
-   [ $(diff "$old" "$new" | grep -Ec '^>') -eq 1 -a \
-     $(diff "$old" "$new" | grep -Ec '^<') -eq 1 -a \
-     $(diff "$old" "$new" | grep -Ec '^[<>] "POT-Creation-Date:') -eq 2 ]
+   old="$(tempfile)"
+   new="$(tempfile)"
+   # This is sed for "remove only the first occurrence":
+   sed '/^"POT-Creation-Date:/{x;//!d;x}' "${1}" > "${old}"
+   sed '/^"POT-Creation-Date:/{x;//!d;x}' "${2}" > "${new}"
+   no_abort diff -q "${old}" "${new}"
+   rm "${old}" "${new}"
+   return ${_NO_ABORT_RET}
 }
 
 diff_without_pot_creation_date_and_comments () {
