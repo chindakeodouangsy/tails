@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-09-12 21:50+0300\n"
+"POT-Creation-Date: 2017-02-09 18:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,8 +22,7 @@ msgstr ""
 
 #. type: Content of: <div>
 msgid ""
-"[[!img install/inc/infography/download-and-verify.png link=\"no\" alt=\"ISO "
-"image downloaded and verified\"]]"
+"[[!img install/inc/infography/download-and-verify.png link=\"no\" alt=\"\"]]"
 msgstr ""
 
 #. type: Content of: <p>
@@ -36,7 +35,7 @@ msgid ""
 msgstr ""
 
 #. type: Content of: <div>
-msgid "[[!img lib/spinner.png link=\"no\" alt=\"Wait\"]]"
+msgid "[[!img lib/spinner.png link=\"no\" alt=\"\"]]"
 msgstr ""
 
 #. type: Content of: <div><p>
@@ -44,7 +43,7 @@ msgid "Please wait…"
 msgstr ""
 
 #. type: Content of: <div><div>
-msgid "0.2.7rc55"
+msgid "0.2.8"
 msgstr ""
 
 #. type: Content of: <div><div><p>
@@ -101,7 +100,7 @@ msgstr ""
 
 #. type: Content of: <div><div><div><div>
 msgid ""
-"<a href=\"https://addons.mozilla.org/firefox/downloads/latest-beta/673020/"
+"<a href=\"https://addons.mozilla.org/firefox/downloads/latest/673020/"
 "addon-673020-latest.xpi\" class=\"btn btn-lg btn-primary browser-override"
 "\">Install Firefox add-on</a>"
 msgstr ""
@@ -113,8 +112,9 @@ msgstr ""
 #. type: Content of: <div><div><div><div>
 msgid ""
 "[[!inline pages=\"install/inc/steps/bittorrent_verification.inline\" raw="
-"\"yes\"]] <a href='[[!inline pages=\"inc/stable_i386_torrent_url\" raw=\"yes"
-"\"]]' class=\"btn btn-lg btn-primary\">Download Torrent file</a>"
+"\"yes\" sort=\"age\"]] <a href='[[!inline pages=\"inc/stable_amd64_torrent_url"
+"\" raw=\"yes\" sort=\"age\"]]' class=\"btn btn-lg btn-primary\">Download "
+"Torrent file</a>"
 msgstr ""
 
 #. type: Content of: <div><div><p>
@@ -173,7 +173,7 @@ msgstr ""
 #. type: Content of: <div><div><div><a>
 msgid ""
 "<a id=\"update-button\" href=\"https://addons.mozilla.org/firefox/downloads/"
-"latest-beta/673020/addon-673020-latest.xpi\" class=\"btn btn-lg btn-primary "
+"latest/673020/addon-673020-latest.xpi\" class=\"btn btn-lg btn-primary "
 "clearfix\"> <span id=\"update-button-label\" class=\"pull-left\">Update "
 "Firefox add-on</span>"
 msgstr ""
@@ -214,8 +214,8 @@ msgstr ""
 #. type: Content of: <div><div><div><a>
 msgid ""
 "\"\"\"]] <a id=\"install-button\" href=\"https://addons.mozilla.org/firefox/"
-"downloads/latest-beta/673020/addon-673020-latest.xpi\" class=\"btn btn-lg "
-"btn-primary clearfix\"> <span id=\"install-button-label\" class=\"pull-left"
+"downloads/latest/673020/addon-673020-latest.xpi\" class=\"btn btn-lg btn-"
+"primary clearfix\"> <span id=\"install-button-label\" class=\"pull-left"
 "\">Install Firefox add-on</span>"
 msgstr ""
 
@@ -235,13 +235,13 @@ msgstr ""
 msgid ""
 "[[!toggleable id=\"bittorrent-verification\" text=\"\"\" [[!toggle id="
 "\"bittorrent-verification\" text=\"X\"]] [[!inline pages=\"install/inc/steps/"
-"bittorrent_verification.inline\" raw=\"yes\"]]"
+"bittorrent_verification.inline\" raw=\"yes\" sort=\"age\"]]"
 msgstr ""
 
 #. type: Content of: <div><div><div><p>
 msgid ""
-"<a href='[[!inline pages=\"inc/stable_i386_torrent_url\" raw=\"yes"
-"\"]]'>Download Torrent file</a>"
+"<a href='[[!inline pages=\"inc/stable_amd64_torrent_url\" raw=\"yes\" sort="
+"\"age\"]]'>Download Torrent file</a>"
 msgstr ""
 
 #. type: Content of: <div><div><div><div><div>
@@ -254,25 +254,26 @@ msgstr ""
 
 #. type: Content of: <div><div>
 msgid ""
-"<a id=\"download-button\" href='[[!inline pages=\"inc/stable_i386_iso_url\" "
-"raw=\"yes\"]]' class=\"btn btn-lg btn-primary clearfix iso-url use-mirror-"
-"pool\"> <span id=\"download-button-label\" class=\"pull-left\">Download "
-"Tails <span class=\"iso-version\">[[!inline pages=\"inc/stable_i386_version"
-"\" raw=\"yes\"]]</span> ISO image <small id=\"download-button-size\">(<span "
-"class=\"iso-size-MiB\">$SIZE</span> MiB)</small> </span> </a>"
+"<a id=\"download-button\" href='[[!inline pages=\"inc/stable_amd64_iso_url\" "
+"raw=\"yes\" sort=\"age\"]]' class=\"btn btn-lg btn-primary clearfix iso-url "
+"use-mirror-pool\"> <span id=\"download-button-label\" class=\"pull-left"
+"\">Download Tails <span class=\"iso-version\">[[!inline pages=\"inc/"
+"stable_amd64_version\" raw=\"yes\" sort=\"age\"]]</span> ISO image <small id="
+"\"download-button-size\">(<span class=\"iso-size-MiB\">$SIZE</span> MiB)</"
+"small> </span> </a>"
 msgstr ""
 
 #. type: Content of: <div><div><div><div><div>
 msgid ""
 "Download Tails <span class=\"iso-version\">[[!inline pages=\"inc/"
-"stable_i386_version\" raw=\"yes\"]]</span> ISO image <small id=\"download-eta"
-"\"> <span class=\"speed-KBs\">$SPEED</span> KB/s &mdash; <span class="
-"\"downloaded-MiB\">$DOWNLOADED</span>/<span class=\"iso-size-MiB\">$SIZE</"
-"span> MiB, <span data-value=\"???\"> <span class=\"eta-mins\">???</span> "
-"<span class=\"plural\">minutes</span> <span class=\"singular\">minute</span> "
-"</span> <span data-value=\"???\"> <span class=\"eta-secs\">???</span> <span "
-"class=\"plural\">seconds</span> <span class=\"singular\">second</span> </"
-"span> </small>"
+"stable_amd64_version\" raw=\"yes\" sort=\"age\"]]</span> ISO image <small id="
+"\"download-eta\"> <span class=\"speed-KBs\">$SPEED</span> KB/s &mdash; <span "
+"class=\"downloaded-MiB\">$DOWNLOADED</span>/<span class=\"iso-size-MiB\">"
+"$SIZE</span> MiB, <span data-value=\"???\"> <span class=\"eta-mins\">???</"
+"span> <span class=\"plural\">minutes</span> <span class=\"singular\">minute</"
+"span> </span> <span data-value=\"???\"> <span class=\"eta-secs\">???</span> "
+"<span class=\"plural\">seconds</span> <span class=\"singular\">second</span> "
+"</span> </small>"
 msgstr ""
 
 #. type: Content of: <div><div><div><div><div><div>
@@ -342,15 +343,15 @@ msgstr ""
 
 #. type: Content of: <div><div><div><div><p>
 msgid ""
-"You can now continue with the next step and <span class=\"windows\">"
-"[[Install an intermediary Tails|install/win/usb#next]].</span> <span class="
-"\"mac-usb\">[[Install an intermediary Tails|install/mac/usb#next]].</span> "
-"<span class=\"mac-dvd\">[[Burn a Tails DVD|install/mac/dvd#next]].</span> "
-"<span class=\"debian\">[[Install <span class=\"application\">Tails "
-"Installer</span>|install/debian/usb#next]].</span> <span class=\"linux\">"
-"[[Install an intermediary Tails|install/linux/usb#next]].</span> <span class="
-"\"upgrade-tails\">[[Install an intermediary Tails|upgrade/tails#next]].</"
-"span> <span class=\"dvd\">[[Burn Tails on a DVD|install/dvd#next]].</span> "
+"You can now continue with the next step and <span class=\"windows"
+"\">[[Install an intermediary Tails|install/win/usb#next]].</span> <span "
+"class=\"mac-usb\">[[Install an intermediary Tails|install/mac/usb#next]].</"
+"span> <span class=\"mac-dvd\">[[Burn a Tails DVD|install/mac/dvd#next]].</"
+"span> <span class=\"debian\">[[Install <span class=\"application\">Tails "
+"Installer</span>|install/debian/usb#next]].</span> <span class=\"linux"
+"\">[[Install an intermediary Tails|install/linux/usb#next]].</span> <span "
+"class=\"upgrade-tails\">[[Install an intermediary Tails|upgrade/tails#next]]."
+"</span> <span class=\"dvd\">[[Burn Tails on a DVD|install/dvd#next]].</span> "
 "<span class=\"vm\">read our [[Introduction to virtual machines|install/"
 "vm#next]].</span>"
 msgstr ""
@@ -367,8 +368,8 @@ msgstr ""
 
 #. type: Content of: <div><div><div><div><div><ul><li>
 msgid ""
-"<a href='[[!inline pages=\"inc/stable_i386_iso_sig_url\" raw=\"yes"
-"\"]]'>Download the OpenPGP signature</a>"
+"<a href='[[!inline pages=\"inc/stable_amd64_iso_sig_url\" raw=\"yes\" sort="
+"\"age\"]]'>Download the OpenPGP signature</a>"
 msgstr ""
 
 #. type: Content of: <div><div><div><div><div><ul><li>

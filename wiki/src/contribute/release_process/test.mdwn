@@ -33,8 +33,8 @@ Compare the list of bundled packages and versions with the one shipped last
 time. `.packages` are usually attached to the email announcing the ISO is ready.
 
 	/usr/bin/diff -u \
-	    wiki/src/torrents/files/tails-i386-1.3.1.packages \
-	    tails-i386-1.3.2.packages \
+	    wiki/src/torrents/files/tails-amd64-3.1.packages \
+	    tails-amd64-3.2.packages \
 	    | wdiff --diff-input  --terminal
 
 Check the output for:
@@ -79,12 +79,12 @@ tracked by tickets prefixed with `todo/test_suite:`.
 
 ## Security and fingerprinting
 
-* Run the [tests the TBB folks
+* Run the [tests the Tor Browser folks
   use](https://trac.torproject.org/projects/tor/wiki/doc/build/BuildSignoff#TestPagestoUse).
   (automate: [[!tails_ticket 10260]])
-* Compare the fingerprint of Tails and the latest TBB using at least
+* Compare the fingerprint of Tails and the latest Tor Browser using at least
   <https://panopticlick.eff.org/> (automate: [[!tails_ticket 10262]])
-  - The exposed User-Agent should match the latest TBB's one.
+  - The exposed User-Agent should match the latest Tor Browser's one.
   - Update the [[fingerprint section|support/known_issues#fingerprint]] of the
     known issues page if needed.
 * WebRTC should be disabled: (automate: [[!tails_ticket 10264]])
@@ -98,32 +98,29 @@ tracked by tickets prefixed with `todo/test_suite:`.
 * Running `/usr/local/lib/getTorBrowserUserAgent` should produce the User-Agent set by the
   installed version of Torbutton, and used in the Tor Browser. (automate: [[!tails_ticket 10268]])
 
-# Icedove
+# Thunderbird
 
 * Check mail over IMAP using:
-  - a "clearnet" IMAP server.
   - a hidden service IMAP server (e.g. Riseup, zsolxunfmbfuq7wf.onion with SSL).
 * Check mail over POP using:
-  - a "clearnet" POP server.
   - a hidden service POP server (e.g. Riseup, zsolxunfmbfuq7wf.onion with SSL).
 * Send an email using:
-  - a "clearnet" SMTP server.
   - a hidden service SMTP server (see above).
 
 * Check that the profile works and is torified:
-  1. Send an email using Icedove and a non-anonymizing SMTP relay (a
+  1. Send an email using Thunderbird and a non-anonymizing SMTP relay (a
      SMTP relay that writes the IP address of the client it is
      relaying email for in the Received header).
   1. Then check that email's headers once received, especially the
      `Received:` one.
 * Also check that the EHLO/HELO SMTP message is not leaking anything
   at the application level:
-  1. Start Icedove using the GNOME Applications menu.
-  2. Disable SSL/TLS for SMTP in Icedove (so take precautions for not
+  1. Start Thunderbird using the GNOME Applications menu.
+  2. Disable SSL/TLS for SMTP in Thunderbird (so take precautions for not
      leaking your password in plaintext by either changing it
      temporarily or using a disposable account). Or better, configure
      StartTLS, since it will send two EHLO/HELO: one before TLS is
-     initiated; one after. The assumption here is that Icedove will
+     initiated; one after. The assumption here is that Thunderbird will
      send the same both times.
   3. Run `sudo tcpdump -n -i lo -w dump` while sending an email to
      capture the packets before Tor encrypts it, then close
@@ -133,12 +130,12 @@ tracked by tickets prefixed with `todo/test_suite:`.
   4. Check the dump for the HELO/EHLO message and
      verify that it only contains `127.0.0.1`:
      `sudo tcpdump -A -r dump | grep EHLO`
-* Make sure Icedove Mail use its dedicated `SocksPort` (see "SocksPort
+* Make sure Thunderbird Mail use its dedicated `SocksPort` (see "SocksPort
   for the MUA" in `/etc/tor/torrc`) when connecting to IMAP / POP3 /
   SMTP servers (both clearnet and hidden services) by monitoring the
   output of this command:
 
-      sudo watch -n 0.1 'netstat -taupen | grep icedove'
+      sudo watch -n 0.1 'ss -taupen | grep thunderbird'
 
 # Tor
 
@@ -156,23 +153,14 @@ tracked by tickets prefixed with `todo/test_suite:`.
 
 * Check you cannot login as root with `su` neither with the `amnesia` password nor
   with the `live` one. (automate: [[!tails_ticket 10274]])
-* Check that the `$TAILS_USER_PASSWORD` variable, if still existing in the system
-  environment after the boot has finished, does not contain the clear text
-  password. (automate: [[!tails_ticket 10275]])
 
 # Virtualization support
 
 * Test that Tails starts and the browser launches in VirtualBox.
 
-# I2P
-
-Make sure that I2P is up-to-date, at least if the
-[changelogs](https://geti2p.net/en/blog/) mention that
-security critical bugs were fixed.
-
 # APT (automate: [[!tails_ticket 8164 desc="#8164"]])
 
-     grep -r deb.tails.boum.org /etc/apt/sources.list*
+     grep -r jenw7xbd6tf7vfhp.onion /etc/apt/sources.list*
 
 * Make sure the Tails repository suite in matching the release tag (for example
   the release version number) is in APT sources.
@@ -181,7 +169,7 @@ security critical bugs were fixed.
 
 <a id="incremental-upgrades"></a>
 
-# Incremental upgrades (automate: [[!tails_ticket 6309 desc="#6309"]])
+# Incremental upgrades
 
 * List the versions from which an upgrade paths to this one is described.
   In the `stable` or `testing` branch:
@@ -194,30 +182,40 @@ security critical bugs were fixed.
 * For each previous version from which an upgrade paths is described, install it
   and try to upgrade:
   * For every incremental upgrade path: make sure the resulting updated
-    system "works fine" (boots and pretends to be the correct version).
+    system "works fine" (boots, pretends to be the correct version,
+    and the following components work fine: Tor, Tor Browser, Unsafe Browser).
   * For upgrade paths that only propose a full upgrade: make sure the
     user is told to do a manual upgrade.
 
   If:
-  
+
   * the update-description files have been published on the
-    *alpha* channel already (see <https://tails.boum.org/upgrade/v1/Tails/>)
+    *test* channel already (see <https://tails.boum.org/upgrade/v1/Tails/>)
   * and the IUK has been published already (see
     <https://archive.torproject.org/amnesia.boum.org/tails/alpha/>
     and <https://archive.torproject.org/amnesia.boum.org/tails/stable/>):
 
   then:
-  
-        echo 'TAILS_CHANNEL="alpha"' | sudo tee --append /etc/os-release && \
+
+        # Set TAILS_CHANNEL accordingly:
+        
+        # For actual releases:
+        TAILS_CHANNEL=test
+        
+        # For other (~rc, ~alpha...) releases:
+        TAILS_CHANNEL=alpha
+        
+        # Run:
+        echo "TAILS_CHANNEL=\"${TAILS_CHANNEL}\"" | sudo tee --append /etc/os-release && \
         tails-upgrade-frontend-wrapper
 
   Else, use a local test setup:
 
   * A web server on the LAN.
   * A copy of `wiki/src/upgrade` from the `stable` or `testing` branch,
-    for example in `/var/www/tails/upgrade/v1/Tails/0.14~rc2/i386/stable/updates.yml`
+    for example in `/var/www/tails/upgrade/v1/Tails/3.14~rc2/amd64/stable/updates.yml`
   * A copy of the `iuk` directory of our HTTP mirrors,
-    for example in `/var/www/tails/stable/iuk/Tails_i386_0.14-rc2_to_0.14.iuk`.
+    for example in `/var/www/tails/stable/iuk/Tails_amd64_3.14-rc2_to_3.14.iuk`.
 
     To synchronize your local copy:
 
@@ -246,18 +244,17 @@ security critical bugs were fixed.
 
 * Browsing (by IP) a FTP server on the LAN should be possible. (automate: [[!tails_ticket 10252]])
 
-* Google must be the default, pre-selected search plugin. (automate: [[!tails_ticket 10253]])
-
 # Real (non-VM) hardware
 
 `[can't-automate]`
 
 * Boot on bare-metal from USB.
-* Boot on bare-metal from DVD.
-* Again, boot on bare-metal from DVD, and measure the boot time (from
-  syslinux menu until the GNOME desktop is ready -- quickly press ENTER in the
-  Greeter) and compare with the boot time of the previous Tails
-  version. The new one should not be significantly slower to start.
+* Boot on bare-metal from DVD. Measure the boot time (from the
+  syslinux menu until the GNOME desktop is ready -- quickly press
+  ENTER in the Greeter) and compare with the boot time of the previous
+  Tails version. The new one should not be significantly slower to
+  start (for release candidates we do not always update the squashfs
+  sort file, so then it might be ok if somewhat slower).
 
 # Documentation
 
@@ -270,23 +267,64 @@ security critical bugs were fixed.
 
 # Internationalization
 
-Boot and check basic functionality is working for every supported
-language. You *really* have to reboot between each language.
+Boot and check basic functionality is working for these (language,
+region) tuples:
+
+ - Arabic - Egypt
+ - Chinese - China
+ - Deutsch - Deutschland
+ - English - USA
+ - Español - España
+ - Français - France
+ - Italiano - Italia
+ - Persian - Iran
+ - Português - Brasil
+ - Russian - Russian Federation
+ - Tiếng Việt - Vietnam
+
+You *really* have to reboot between each language.
 
 * The chosen keyboard layout must be applied. (automate: [[!tails_ticket 10261]])
 * The virtual keyboard must work and be auto-configured to use the same keyboard
   layout as the X session. (automate: [[!tails_ticket 10263]])
 * In the Tor Browser:
   - Disconnect.me must be the default, pre-selected search plugin. (automate: [[!tails_ticket 10265]])
-  - the Disconnect.me, Startpage and Wikipedia search plugins must be
-    localized for the supported locales (automate: [[!tails_ticket 10267]]):
-
-        . /usr/local/lib/tails-shell-library/tor-browser.sh
-        supported_tor_browser_locales
+  - the search plugins must be localized for the expected locales
+    (automate: [[!tails_ticket 10267]]).
+    
+    StartPage should have localized *user interface* for (run this in
+    a Tails Git checkout of the commit the release under testing was built
+    from):
+    
+        grep --extended-regexp "[^:]*:[^:]*:[^:]*:[^:]*:[^:]+" \
+            config/chroot_local-includes/usr/share/tails/browser-localization/descriptions | \
+            sed -n --regexp-extended 's/^([^:]+):.*$/\1/p'
+    
+    StartPage should have localized *search results* for:
+    
+        grep --extended-regexp "[^:]*:[^:]*:[^:]*:[^:]+:[^:]*" \
+            config/chroot_local-includes/usr/share/tails/browser-localization/descriptions | \
+            sed -n --regexp-extended 's/^([^:]+):.*$/\1/p'
+    
+    DDG should have localized user interface *and* search results, and
+    Wikipedia should have a localized plugin, for:
+    
+        sed -n --regexp-extended 's/^([^:]+):.*$/\1/p' \
+            config/chroot_local-includes/usr/share/tails/browser-localization/descriptions
 
 ## Spellchecking
 
-* Check that every supported language is listed in the list of languages for
+To see which among the supported locales there should be no
+spellchecker, run this in a Tails Git checkout of the commit the
+release under testing was built from:
+
+    git grep NO_SPELLCHECKER_LOCALES= config/chroot_local-hooks/11-localize_browser
+
+Then do the follow in the same Tor Browser session running in the
+`en_US.UTF-8` locale (or whatever locale you are most comfortable
+identifying other language names in):
+
+* Check that the expected languages are listed in the list of languages for
   spell checking. (automate: [[!tails_ticket 10269]])
   - Visit <https://translate.google.com/>.
   - Right-click and choose "Check spelling".
@@ -304,3 +342,39 @@ language. You *really* have to reboot between each language.
 * Check that all seems well during init: (automate: [[!tails_ticket 10277]])
   - `systemctl --failed --all` should say `0 loaded units listed`
   - the output of `journalctl` should seem OK.
+
+# DAVE
+
+* Visit <https://tails.boum.org/install/debian/usb> in a Firefox-based
+  browser. Verify that you can install the Firefox Addon. Start
+  downloading a Tails image and copy the used mirror URL.
+  - The URL should contain a mirror URL from
+    <https://tails.boum.org/mirrors.json>.
+  - Verify that pausing and resuming the download from this URL works.
+  - Verify that when you start the download, you can see it appear in
+    the download list (Ctrl+Shift+Y).
+* Test a disabled mirror (Possible only in FF > 51 because of
+  <https://bugzilla.mozilla.org/show_bug.cgi?id=1275289>.)
+  - Disabled mirrors have `"weight": 0` in
+    https://tails.boum.org/mirrors.json so just pick one of them. If
+    there's none, skip this test.
+  - Do not use Firefox over Tor.
+  - To disable Firefox's internal DNS cache, navigate to
+    `about:config` and set these prefererences:
+    * `network.dnsCacheExpirationGracePeriod = 0`
+    * `network.dnsCacheExpiration = 0`
+    * `network.dnsCacheEntries = 0`
+  - To enable logging, in `about:config` add these preferences:
+    * `extensions.dave@tails.boum.org.sdk.console.logLevel = "all"`
+    * `extensions.sdk.console.logLevel = "all"`
+  - Then edit your `/etc/hosts` file to point the URL of the previously
+    used mirror to 127.0.0.1.
+  - Now reload the download page, and try to resume the download
+    again.
+    XXX: How is it ensured that the disabled mirror we picked above is
+    used?
+  - In the Firefox console (Ctrl+Shift+J) you should see the
+    `mirror.blob` variable pointing to a different mirror. This should
+    work.
+    XXX: Please provide more instructions for how to find this
+    variable, possibly with a (large but shortened) example.

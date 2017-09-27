@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Tails 2.2.1\n"
-"POT-Creation-Date: 2016-08-17 09:18+0300\n"
-"PO-Revision-Date: 2016-04-30 00:02-0300\n"
+"POT-Creation-Date: 2017-02-09 18:52+0100\n"
+"PO-Revision-Date: 2017-02-10 14:46+0100\n"
 "Last-Translator: Tails Developers <amnesia@boum.org>\n"
 "Language-Team: Tails translators <tails@boum.org>\n"
 "Language: pt\n"
@@ -19,47 +19,32 @@ msgstr ""
 #. type: Content of: outside any tag (error?)
 msgid ""
 "[[!meta title=\"Choose your manual upgrade scenario\"]] [[!meta stylesheet="
-"\"bootstrap\" rel=\"stylesheet\" title=\"\"]] [[!meta stylesheet=\"install/"
-"inc/stylesheets/assistant\" rel=\"stylesheet\" title=\"\"]] [[!inline pages="
-"\"install/inc/tails-installation-assistant.inline\" raw=\"yes\"]]"
+"\"bootstrap.min\" rel=\"stylesheet\" title=\"\"]] [[!meta stylesheet="
+"\"install/inc/stylesheets/assistant\" rel=\"stylesheet\" title=\"\"]] [[!"
+"inline pages=\"install/inc/tails-installation-assistant.inline\" raw=\"yes\" "
+"sort=\"age\"]]"
 msgstr ""
 "[[!meta title=\"Escolha o seu cenário de atualização manual\"]] [[!meta "
-"stylesheet=\"bootstrap\" rel=\"stylesheet\" title=\"\"]] [[!meta stylesheet="
+"stylesheet=\"bootstrap.min\" rel=\"stylesheet\" title=\"\"]] [[!meta stylesheet="
 "\"install/inc/stylesheets/assistant\" rel=\"stylesheet\" title=\"\"]] [[!"
-"inline pages=\"install/inc/tails-installation-assistant.inline\" raw=\"yes"
-"\"]]"
+"inline pages=\"install/inc/tails-installation-assistant.inline.pt\" raw=\"yes\" "
+"sort=\"age\"]]"
 
 #. type: Content of: <h1>
 msgid "Choose your <strong>manual upgrade</strong> scenario"
 msgstr "Escolha o seu cenário de <strong>atualização manual</strong>"
-
-#. type: Content of: <div><p>
-msgid ""
-"The following set of instructions is quite new. If you face problems "
-"following them:"
-msgstr ""
-"O seguinte conjunto de instruções é relativamente novo. Se você encontrar "
-"problemas ao seguí-las:"
-
-#. type: Content of: <div><li>
-msgid "[[Report your problem.|support/talk]]"
-msgstr "[[Relate o seu problema.|support/talk]]"
-
-#. type: Content of: <div><li>
-msgid ""
-"Try following our old instructions for [[downloading|install]] or "
-"[[upgrading|doc/first_steps/upgrade]] instead."
-msgstr ""
-"Tente, ao invés disto, as nossas instruções antigas para [[instalar|"
-"install]] ou [[atualizar|doc/first_steps/upgrade]]."
 
 #. type: Content of: <div><div><h3>
 msgid "Upgrade from another Tails"
 msgstr "Atualize a partir de outro Tails"
 
 #. type: Content of: <div><div><p>
+#, fuzzy
+#| msgid ""
+#| "If you know someone of trust who already did the upgrade, you can upgrade "
+#| "your Tails by cloning from it."
 msgid ""
-"If you know someone of trust who already did the upgrade, you can upgrade "
+"If you know someone you trust who already did the upgrade, you can upgrade "
 "your Tails by cloning from it."
 msgstr ""
 "Se você conhece uma pessoa de confiança que já fez a atualização, você pode "
@@ -105,23 +90,17 @@ msgstr "Atualizar dentro do Tails"
 
 #. type: Content of: <div><div><ul><li>
 msgid ""
-"Another empty USB stick <small>(at least 4 GB)</small>&nbsp;[[!toggle id="
+"Another empty USB stick <small>(at least 8 GB)</small>&nbsp;[[!toggle id="
 "\"why_extra\" text=\"Why?\"]] [[!toggleable id=\"why_extra\" text=\"\"\" [[!"
 "toggle id=\"why_extra\" text=\"X\"]] [[!inline pages=\"install/inc/router/"
-"why_extra.inline\" raw=\"yes\"]] \"\"\"]]"
-msgstr ""
-"Outra memória USB vazia <small>(mínimo 4 GB)</small>&nbsp;[[!toggle id="
-"\"why_extra\" text=\"Porque?\"]] [[!toggleable id=\"why_extra\" text="
-"\"\"\" [[!toggle id=\"why_extra\" text=\"X\"]] [[!inline pages=\"install/inc/"
-"router/why_extra.inline\" raw=\"yes\"]] \"\"\"]]"
+"why_extra.inline\" raw=\"yes\" sort=\"age\"]] \"\"\"]]"
+msgstr "Outra memória USB vazia <small>(mínimo 8 GB)</small>&nbsp;[[!toggle id=\"why_extra\" text=\"Porque?\"]] [[!toggleable id=\"why_extra\" text=\"\"\" [[!toggle id=\"why_extra\" text=\"X\"]] [[!inline pages=\"install/inc/router/why_extra.inline.pt\" raw=\"yes\" sort=\"age\"]] \"\"\"]]"
 
 #. type: Content of: <div><div><ul><li>
 msgid ""
 "1 hour to download Tails (<small class=\"remove-extra-space\">[[!inline "
-"pages=\"inc/stable_i386_iso_size\" raw=\"yes\"]]</small>)"
-msgstr ""
-"1 hora para baixar o Tails (<small class=\"remove-extra-space\">[[!inline "
-"pages=\"inc/stable_i386_iso_size\" raw=\"yes\"]]</small>)"
+"pages=\"inc/stable_amd64_iso_size\" raw=\"yes\" sort=\"age\"]]</small>)"
+msgstr "1 hora para baixar o Tails (<small class=\"remove-extra-space\">[[!inline pages=\"inc/stable_amd64_iso_size\" raw=\"yes\" sort=\"age\"]]</small>)"
 
 #. type: Content of: <div><div><ul><li>
 msgid "½ hour to upgrade"
@@ -150,6 +129,23 @@ msgstr "[[Atualizar a sua máquina virtual|install/vm]]"
 #. type: Content of: <div><div>
 msgid "</small>"
 msgstr "</small>"
+
+#~ msgid ""
+#~ "The following set of instructions is quite new. If you face problems "
+#~ "following them:"
+#~ msgstr ""
+#~ "O seguinte conjunto de instruções é relativamente novo. Se você encontrar "
+#~ "problemas ao seguí-las:"
+
+#~ msgid "[[Report your problem.|support/talk]]"
+#~ msgstr "[[Relate o seu problema.|support/talk]]"
+
+#~ msgid ""
+#~ "Try following our old instructions for [[downloading|install]] or "
+#~ "[[upgrading|doc/first_steps/upgrade]] instead."
+#~ msgstr ""
+#~ "Tente, ao invés disto, as nossas instruções antigas para [[instalar|"
+#~ "install]] ou [[atualizar|doc/first_steps/upgrade]]."
 
 #~ msgid "Another USB stick with Tails up-to-date"
 #~ msgstr "Outra memória USB com o Tails atualizado"

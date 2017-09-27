@@ -1,5 +1,5 @@
---- a/apparmor/torbrowser.Browser.firefox
-+++ b/apparmor/torbrowser.Browser.firefox
+--- etc/apparmor.d/torbrowser.Browser.firefox.orig	2017-04-19 16:30:32.000000000 +0000
++++ etc/apparmor.d/torbrowser.Browser.firefox	2017-06-08 07:59:11.641571083 +0000
 @@ -1,13 +1,15 @@
  # Last modified
  #include <tunables/global>
@@ -18,7 +18,7 @@
  
    # Uncomment the following lines if you want to give the Tor Browser read-write
    # access to most of your personal files.
-@@ -17,46 +19,52 @@
+@@ -17,48 +19,54 @@
    #dbus,
    network tcp,
  
@@ -42,9 +42,11 @@
 +  /etc/machine-id r,
 +  /var/lib/dbus/machine-id r,
  
-   owner @{PROC}/[0-9]*/mountinfo r,
-   owner @{PROC}/[0-9]*/stat r,
-   owner @{PROC}/[0-9]*/task/*/stat r,
++  owner @{PROC}/@{pid}/environ r,
+   owner @{PROC}/@{pid}/mountinfo r,
+   owner @{PROC}/@{pid}/stat r,
+   owner @{PROC}/@{pid}/status r,
+   owner @{PROC}/@{pid}/task/*/stat r,
    @{PROC}/sys/kernel/random/uuid r,
  
 -  owner @{HOME}/.local/share/torbrowser/tbb/{i686,x86_64}/tor-browser_*/ r,
@@ -60,6 +62,7 @@
 -  owner @{HOME}/.local/share/torbrowser/tbb/{i686,x86_64}/tor-browser_*/Browser/components/*.so mr,
 -  owner @{HOME}/.local/share/torbrowser/tbb/{i686,x86_64}/tor-browser_*/Browser/browser/components/*.so mr,
 -  owner @{HOME}/.local/share/torbrowser/tbb/{i686,x86_64}/tor-browser_*/Browser/firefox rix,
+-  owner @{HOME}/.local/share/torbrowser/tbb/{i686,x86_64}/tor-browser_*/Browser/plugin-container Pix,
 -  owner @{HOME}/.local/share/torbrowser/tbb/{i686,x86_64}/tor-browser_*/Browser/{,TorBrowser/UpdateInfo/}updates/[0-9]*/updater ix,
 -  owner @{HOME}/.local/share/torbrowser/tbb/{i686,x86_64}/tor-browser_*/Browser/{,TorBrowser/UpdateInfo/}updates/0/MozUpdater/bgupdate/updater ix,
 -  owner @{HOME}/.local/share/torbrowser/tbb/{i686,x86_64}/tor-browser_*/Browser/TorBrowser/Data/Browser/profiles.ini r,
@@ -84,8 +87,8 @@
 +  owner "@{HOME}/Persistent/Tor Browser/**" rwk,
 +  owner "/live/persistence/TailsData_unlocked/Persistent/Tor Browser/" rw,
 +  owner "/live/persistence/TailsData_unlocked/Persistent/Tor Browser/**" rwk,
-+  owner @{HOME}/.mozilla/firefox/bookmarks/places.sqlite rwk,
-+  owner /live/persistence/TailsData_unlocked/bookmarks/places.sqlite rwk,
++  owner @{HOME}/.mozilla/firefox/bookmarks/** rwk,
++  owner /live/persistence/TailsData_unlocked/bookmarks/** rwk,
 +  owner @{HOME}/.tor-browser/profile.default/ r,
 +  owner @{HOME}/.tor-browser/profile.default/** rwk,
 +
@@ -101,9 +104,20 @@
  
    /etc/mailcap r,
    /etc/mime.types r,
-@@ -83,6 +91,30 @@
-   /sys/devices/pci[0-9]*/**/uevent r,
-   owner /{dev,run}/shm/shmfd-* rw,
+@@ -96,10 +104,44 @@
+ 
+   # Silence denial logs about permissions we don't need
+   deny /dev/dri/   rwklx,
++  deny @{HOME}/.cache/fontconfig/ rw,
++  deny @{HOME}/.cache/fontconfig/** rw,
++  deny @{HOME}/.config/gtk-2.0/ rw,
++  deny @{HOME}/.config/gtk-2.0/** rw,
++  deny @{HOME}/.mozilla/firefox/bookmarks/ r,
++  deny /usr/local/lib/tor-browser/TorBrowser/UpdateInfo/ rw,
++  deny /usr/local/lib/tor-browser/update.test/ rw,
+   deny @{PROC}/@{pid}/net/route r,
+   deny /sys/devices/system/cpu/cpufreq/policy[0-9]*/cpuinfo_max_freq r,
+   deny /sys/devices/system/cpu/*/cache/index[0-9]*/size r,
  
 +  /usr/lib/@{multiarch}/gstreamer[0-9]*.[0-9]*/gstreamer-[0-9]*.[0-9]*/gst-plugin-scanner Cix -> gst_plugin_scanner,
 +  owner @{HOME}/.gstreamer*/ rw,
@@ -113,6 +127,9 @@
 +  deny /usr/bin/pulseaudio x,
 +
 +  /usr/local/lib/tor-browser/firefox Pix,
++
++  # Required for e10s
++  /usr/local/lib/tor-browser/plugin-container Pix,
 +
 +  # Grant access to assistive technologies
 +  # (otherwise, Firefox crashes when Orca is enabled:
@@ -132,7 +149,7 @@
    # KDE 4
    owner @{HOME}/.kde/share/config/* r,
  
-@@ -90,5 +122,10 @@
+@@ -107,5 +145,11 @@
    /etc/xfce4/defaults.list r,
    /usr/share/xfce4/applications/ r,
  
@@ -144,3 +161,4 @@
 +  deny owner /tmp/**         rwklx,
 +  deny /tmp/                 rwklx,
  }
++

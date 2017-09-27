@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-08-17 09:18+0300\n"
-"PO-Revision-Date: 2016-04-30 11:52-0300\n"
+"POT-Creation-Date: 2017-02-09 18:52+0100\n"
+"PO-Revision-Date: 2017-02-09 19:26+0100\n"
 "Last-Translator: Tails Developers <amnesia@boum.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt\n"
@@ -17,8 +17,10 @@ msgstr ""
 "X-Generator: Poedit 1.6.10\n"
 
 #. type: Content of: <div><h3>
-msgid "You need:"
-msgstr "Você precisa de:"
+#, fuzzy
+#| msgid "You need"
+msgid "You will need"
+msgstr "Você precisa de"
 
 #. type: Content of: <div><div><div><div>
 #, fuzzy
@@ -27,10 +29,8 @@ msgid "[[!img install/inc/icons/1-usb.png link=\"no\" alt=\"\"]]"
 msgstr "[[!img install/inc/icons/1-usb.png link=\"no\"]]"
 
 #. type: Content of: <div><div><div><div><div><h4>
-#, fuzzy
-#| msgid "your Tails"
 msgid "Your Tails"
-msgstr "seu Tails"
+msgstr "Seu Tails"
 
 #. type: Content of: <div><div><div><div>
 msgid "[[!img install/inc/icons/1-usb.png link=\"no\"]]"
@@ -55,16 +55,44 @@ msgid "2 USB sticks"
 msgstr "2 memórias USB"
 
 #. type: Content of: <div><div><div><div><div><h4>
-msgid "<small>4 GB minimum</small>"
-msgstr "<small>mínimo de 4 GB</small>"
+msgid "<small>8 GB minimum</small>"
+msgstr "<small>mínimo de 8 GB</small>"
+
+#. type: Content of: <div><div><div><div><div><h4><small>
+#, fuzzy
+#| msgid "<small>All data will be lost!</small>"
+msgid "<small>All data will be lost!"
+msgstr "<small>Todos os dados serão apagados!</small>"
+
+#. type: Content of: <div><div><div><div><div><h4>
+msgid "[[!toggle id=\"why_two\" text=\"Why 2?\"]]</small>"
+msgstr ""
+
+#. type: Content of: <div><div><div><div><div>
+msgid ""
+"[[!toggleable id=\"why_two\" text=\"\"\" [[!toggle id=\"why_two\" text=\"X"
+"\"]] [[!inline pages=\"install/inc/router/why_two.inline\" raw=\"yes\" sort="
+"\"age\"]] \"\"\"]]"
+msgstr ""
+
+#. type: Content of: <div><div><div><div><div><h4>
+msgid "1 USB stick"
+msgstr "1 memória USB"
 
 #. type: Content of: <div><div><div><div><div><h4>
 msgid "<small>All data will be lost!</small>"
 msgstr "<small>Todos os dados serão apagados!</small>"
 
 #. type: Content of: <div><div><div><div><div><h4>
-msgid "1 USB stick"
-msgstr "1 memória USB"
+msgid "[[!toggle id=\"why_extra\" text=\"Why?\"]]</small>"
+msgstr ""
+
+#. type: Content of: <div><div><div><div><div>
+msgid ""
+"[[!toggleable id=\"why_extra\" text=\"\"\" [[!toggle id=\"why_extra\" text="
+"\"X\"]] [[!inline pages=\"install/inc/router/why_extra.inline\" raw=\"yes\" "
+"sort=\"age\"]] \"\"\"]]"
+msgstr ""
 
 #. type: Content of: <div><div><div><div>
 #, fuzzy
@@ -95,12 +123,9 @@ msgstr ""
 #. type: Content of: <div><div><div><div><div><h4><span>
 msgid ""
 "<span class=\"windows linux mac-usb mac-dvd debian expert upgrade-tails\"> "
-"<small>[[!inline pages=\"inc/stable_i386_iso_size\" raw=\"yes\"]] to "
-"download</small>"
-msgstr ""
-"<span class=\"windows linux mac-usb mac-dvd debian expert upgrade-tails\"> "
-"<small>[[!inline pages=\"inc/stable_i386_iso_size\" raw=\"yes\"]] para "
-"baixar</small>"
+"<small>[[!inline pages=\"inc/stable_amd64_iso_size\" raw=\"yes\" sort=\"age"
+"\"]] to download</small>"
+msgstr "<span class=\"windows linux mac-usb mac-dvd debian expert upgrade-tails\"> <small>[[!inline pages=\"inc/stable_amd64_iso_size\" raw=\"yes\" sort=\"age\"]] para baixar</small>"
 
 #. type: Content of: <div><div><div><div><div><h4>
 msgid ""
@@ -137,8 +162,8 @@ msgid "to follow the instructions </small>"
 msgstr "para acompanhar as instruções </small>"
 
 #. type: Content of: <div><h3>
-msgid "Your steps:"
-msgstr "Seus passos:"
+msgid "Your steps"
+msgstr "Seus passos"
 
 #. type: Content of: <div><ol><li><h4>
 msgid ""
@@ -165,8 +190,8 @@ msgid ""
 msgstr "[[!img install/inc/infography/download-and-verify.png link=\"no\"]]"
 
 #. type: Content of: <div><ol><li><div><div><div><div><h5>
-msgid "<span class=\"step-number\"></span>Download"
-msgstr "<span class=\"step-number\"></span>Baixe"
+msgid "Download"
+msgstr ""
 
 #. type: Content of: <div><ol><li><div><div><div>
 #, fuzzy
@@ -180,8 +205,8 @@ msgstr ""
 "[[!img install/inc/infography/restart-on-intermediary-tails.png link=\"no\"]]"
 
 #. type: Content of: <div><ol><li><div><div><div><div><h5>
-msgid "<span class=\"step-number\"></span>Restart"
-msgstr "<span class=\"step-number\"></span>Reinicie"
+msgid "Restart"
+msgstr "Reinicie"
 
 #. type: Content of: <div><ol><li><div><div><div>
 #, fuzzy
@@ -228,12 +253,8 @@ msgstr "Atualize"
 #. type: Content of: <div><ol><li><div><div><div>
 #, fuzzy
 #| msgid "[[!img install/inc/icons/restart.png link=\"no\"]]"
-msgid "[[!img install/inc/icons/restart.png link=\"no\" alt=\"\"]]"
+msgid "[[!img install/inc/infography/restart.png link=\"no\" alt=\"\"]]"
 msgstr "[[!img install/inc/icons/restart.png link=\"no\"]]"
-
-#. type: Content of: <div><ol><li><div><div><div><div><h5>
-msgid "Restart"
-msgstr "Reinicie"
 
 #. type: Content of: <div><ol><li><h4>
 msgid ""
@@ -275,10 +296,6 @@ msgid ""
 "installed on USB stick on the right\"]]"
 msgstr "[[!img install/inc/infography/clone-dvd.png link=\"no\"]]"
 
-#. type: Content of: <div><ol><li><div><div><div><div><h5>
-msgid "<span class=\"step-number\"></span>Install"
-msgstr "<span class=\"step-number\"></span>Instale"
-
 #. type: Content of: <div><ol><li><div><div><div>
 #, fuzzy
 #| msgid "[[!img install/inc/infography/create-persistence.png link=\"no\"]]"
@@ -288,5 +305,17 @@ msgid ""
 msgstr "[[!img install/inc/infography/create-persistence.png link=\"no\"]]"
 
 #. type: Content of: <div><ol><li><div><div><div><div><h5>
-msgid "<span class=\"step-number\"></span>Configure"
-msgstr "<span class=\"step-number\"></span>Configure"
+msgid "Configure"
+msgstr ""
+
+#~ msgid "<span class=\"step-number\"></span>Download"
+#~ msgstr "<span class=\"step-number\"></span>Baixe"
+
+#~ msgid "<span class=\"step-number\"></span>Restart"
+#~ msgstr "<span class=\"step-number\"></span>Reinicie"
+
+#~ msgid "<span class=\"step-number\"></span>Install"
+#~ msgstr "<span class=\"step-number\"></span>Instale"
+
+#~ msgid "<span class=\"step-number\"></span>Configure"
+#~ msgstr "<span class=\"step-number\"></span>Configure"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-09-12 11:32+0300\n"
+"POT-Creation-Date: 2017-01-18 10:13+0100\n"
 "PO-Revision-Date: 2015-07-07 16:19+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,40 +15,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: ENCODING\n"
 
-#. type: Plain text
-#, no-wrap
-msgid "[[!meta title=\"News\"]]\n"
-msgstr "[[!meta title=\"Notícias\"]]\n"
+#.  Changing this title breaks the test suite. See #12134#note-7. 
+#. type: Content of: outside any tag (error?)
+msgid "[[!meta title=\"News\"]] [[!meta robots=\"noindex\"]]"
+msgstr "[[!meta title=\"Notícias\"]] [[!meta robots=\"noindex\"]]"
 
-#. type: Plain text
-#, fuzzy, no-wrap
-#| msgid "[[!meta title=\"News\"]]\n"
-msgid "[[!meta robots=\"noindex\"]]\n"
-msgstr "[[!meta title=\"Notícias\"]]\n"
-
-#. type: Plain text
-#, no-wrap
+#.  Note for translators: You can use <span class="twolines">
+#.  if your
+#. translation of the label below is long and gets split into two lines. 
+#. type: Content of: <div>
 msgid ""
-"<div id=\"tor_check\">\n"
-"<a href=\"https://check.torproject.org/\">\n"
+"<a href=\"https://check.torproject.org/\"> [[!img \"lib/onion.png\" link=\"no"
+"\"]] <span>Tor check</span> </a>"
 msgstr ""
 
-#. type: Plain text
-#, no-wrap
-msgid "[[!img \"lib/onion.png\" link=\"no\"]]\n"
-msgstr ""
-
-#. type: Plain text
-#, no-wrap
-msgid ""
-"<!-- Note for translators: You can use <span class=\"twolines\"> if your\n"
-"translation of the label below is long and gets split into two lines. -->\n"
-"<span>Tor check</span>\n"
-"</a>\n"
-"</div>\n"
-msgstr ""
-
-#. type: Plain text
-#, no-wrap
-msgid "[[!inline pages=\"news\" raw=\"yes\"]]\n"
-msgstr ""
+#. type: Content of: outside any tag (error?)
+msgid "[[!inline pages=\"news\" raw=\"yes\" sort=\"age\"]]"
+msgstr "[[!inline pages=\"news.pt\" raw=\"yes\" sort=\"age\"]]"

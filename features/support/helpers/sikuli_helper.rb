@@ -1,8 +1,18 @@
 require 'rjb'
 require 'rjbextension'
 $LOAD_PATH << ENV['SIKULI_HOME']
-require 'sikuli-script.jar'
+begin
+  require 'sikulixapi.jar'
+  USING_SIKULIX = true
+rescue LoadError
+  require 'sikuli-script.jar'
+  USING_SIKULIX = false
+end
 Rjb::load
+
+def using_sikulix?
+  USING_SIKULIX
+end
 
 package_members = [
                    "java.io.FileOutputStream",
@@ -16,13 +26,24 @@ package_members = [
                    "org.sikuli.script.Pattern",
                    "org.sikuli.script.Region",
                    "org.sikuli.script.Screen",
-                   "org.sikuli.script.Settings",
                   ]
 
+if using_sikulix?
+  package_members << "org.sikuli.basics.Settings"
+  package_members << "org.sikuli.script.ImagePath"
+else
+  package_members << "org.sikuli.script.Settings"
+end
+
+# Note: we can't use anything that starts with "Java" on the right
+# side, otherwise the :Java constant is defined and then
+# test/unit/assertions will use JRuby-specific code that breaks our
+# own code.
 translations = Hash[
                     "org.sikuli.script", "Sikuli",
-                    "java.lang", "Java::Lang",
-                    "java.io", "Java::Io",
+                    "org.sikuli.basics", "Sikuli",
+                    "java.lang", "RJava::Lang",
+                    "java.io", "RJava::Io",
                    ]
 
 for p in package_members
@@ -44,9 +65,9 @@ end
 # Bind Java's stdout to debug_log() via our magical pseudo fifo
 # logger.
 def bind_java_to_pseudo_fifo_logger
-  file_output_stream = Java::Io::FileOutputStream.new(DEBUG_LOG_PSEUDO_FIFO)
-  print_stream = Java::Io::PrintStream.new(file_output_stream)
-  Java::Lang::System.setOut(print_stream)
+  file_output_stream = RJava::Io::FileOutputStream.new(DEBUG_LOG_PSEUDO_FIFO)
+  print_stream = RJava::Io::PrintStream.new(file_output_stream)
+  RJava::Lang::System.setOut(print_stream)
 end
 
 def findfailed_hook(pic)
@@ -186,14 +207,20 @@ def sikuli_script_proxy.new(*args)
   end
 
   def s.hide_cursor
-    self.hover_point(self.w, self.h/2)
+    self.hover_point(self.w - 1, self.h/2)
   end
 
   s
 end
 
 # Configure sikuli
-java.lang.System.setProperty("SIKULI_IMAGE_PATH", "#{Dir.pwd}/features/images/")
+if using_sikulix?
+  Sikuli::ImagePath.add("#{Dir.pwd}/features/images/")
+else
+  java.lang.System.setProperty("SIKULI_IMAGE_PATH",
+                               "#{Dir.pwd}/features/images/")
+  ENV["SIKULI_IMAGE_PATH"] = "#{Dir.pwd}/features/images/"
+end
 
 # ruby and rjb doesn't play well together when it comes to static
 # fields (and possibly methods) so we instantiate and access the field
@@ -211,4 +238,4 @@ sikuli_settings.MinSimilarity = 0.9
 sikuli_settings.ActionLogs = true
 sikuli_settings.DebugLogs = true
 sikuli_settings.InfoLogs = true
-sikuli_settings.ProfileLogs = true
+sikuli_settings.ProfileLogs = false

@@ -76,10 +76,22 @@ For example, to encode in the `$RELEASE_BRANCH` branch the set of
 that shall be used during the freeze:
 
         git checkout "$RELEASE_BRANCH" && \
-        ./auto/scripts/apt-snapshots-serials freeze && \
+        ./auto/scripts/apt-snapshots-serials freeze
+
+Normally when freezing the APT snapshots used when building Tails we
+also freeze the snapshots used to generate our builder VM:
+
+        ( \
+            cd vagrant/definitions/tails-builder && \
+            ../../../auto/scripts/apt-snapshots-serials freeze --freeze-debian-security \
+        )
+
+Then commit:
+
         git commit \
             -m "Freeze APT snapshots for ${VERSION}." \
-            config/APT_snapshots.d/*/serial
+            config/APT_snapshots.d/*/serial \
+            vagrant/definitions/tails-builder/config/APT_snapshots.d/*/serial
 
 <a id="thaw"></a>
 
@@ -126,34 +138,56 @@ To bump `Valid-Until`, for every snapshot used by the current frozen
 days from now:
 
 	git checkout "$RELEASE_BRANCH" && \
-	(
-	   cd config/APT_snapshots.d && \
-	   for ARCHIVE in * ; do
-           if ! grep -qs '^latest$' "$ARCHIVE"/serial; then
-               ssh reprepro-time-based-snapshots@incoming.deb.tails.boum.org \
-                   tails-bump-apt-snapshot-valid-until \
-                       "$ARCHIVE" "$(cat "$ARCHIVE"/serial)" \
-                       "$DAYS_FROM_NOW"
-           fi
-	   done
-	)
+	for dir in config/APT_snapshots.d vagrant/definitions/tails-builder/config/APT_snapshots.d; do
+	    (
+	        cd "${dir}" && \
+	        for ARCHIVE in * ; do
+	            if ! grep -qs '^latest$' "$ARCHIVE"/serial; then
+	                ssh reprepro-time-based-snapshots@incoming.deb.tails.boum.org \
+	                    tails-bump-apt-snapshot-valid-until \
+	                        "$ARCHIVE" "$(cat "$ARCHIVE"/serial)" \
+	                        "$DAYS_FROM_NOW"
+	            fi
+	        done
+	    )
+	done
 
 Stop tracking a distribution
 ----------------------------
 
-After we stop tracking a distribution, e.g. after we release Tails
-based on a new Debian, we need to manually remove all corresponding
-time-based snapshots, and the packages that are not referenced
-anymore.
+After we don't need snapshots for a given Debian distribution anymore,
+e.g. after we release Tails based on a new Debian, we need to stop
+including it in new snapshots, and to remove all corresponding
+time-based snapshots and the packages that are not referenced anymore.
 
-For example, when we stopped tracking Wheezy, we did:
+1. In puppet-tails, remove the bits about the distribution you want to
+   stop tracking from the reprepro configuration templates:
+   `templates/reprepro/snapshots/time_based/*/*`.
 
-	reprepro dumpreferences \
-       | grep -E '^s=wheezy' \
-       | awk '{print $1}' \
-       | sort -u \
-       | xargs -n 1 reprepro _removereferences \
-    && reprepro deleteunreferenced
+2. In puppet-tails, remove references to the distribution you want to
+   stop tracking from the `tails::reprepro::params` class.
+
+3. Commit, push and deploy on the system that hosts our time-based
+   APT snapshots.
+
+4. In the directory for each repository (e.g. `debian`, `torproject`),
+   adjust `s=jessie` to match the codename of the distribution you
+   want to remove in the following command and run it:
+
+        reprepro --delete clearvanished && \
+        reprepro export && \
+        reprepro dumpreferences \
+          | grep -E '^s=jessie' \
+          | awk '{print $1}' \
+          | sort -u \
+          | xargs -n 1 reprepro _removereferences && \
+        reprepro deleteunreferenced
+
+5. Delete `dists/$codename/` in the directory of each repository.
+
+6. In the directory for each repository, delete files in the `logs`
+   sub-directory that were about the distribution we just
+   stopped tracking.
 
 <a id="freeze-exception"></a>
 
@@ -221,7 +255,7 @@ a distribution, keeping references to the packages it contains.
 
 Compared to the "snapshots as full-blown distributions + `reprepro
 pull`" option we
-[used in our initial experiments](https://labs.riseup.net/code/issues/6295#note-14),
+[[!tails_ticket 6295#note-14 desc="used in our initial experiments"]],
 we are saving _a lot_ on database size, and thus in performance,
 because reprepro does less tracking on snapshots, than what it does
 for real distributions.

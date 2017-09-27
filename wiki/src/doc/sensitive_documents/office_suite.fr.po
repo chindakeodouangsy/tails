@@ -23,10 +23,10 @@ msgstr "[[!meta title=\"Suite bureautique\"]]\n"
 #. type: Plain text
 #, no-wrap
 msgid ""
-"Tails includes <span class=\"application\">[LibreOffice](http://www.libreoffice.org/)</span>,\n"
+"Tails includes <span class=\"application\">[LibreOffice](https://www.libreoffice.org/)</span>,\n"
 "a powerful office suite which embeds several tools:\n"
 msgstr ""
-"Tails inclut <span class=\"application\">[LibreOffice](http://www.libreoffice.org/)</span>,\n"
+"Tails inclut <span class=\"application\">[LibreOffice](https://fr.libreoffice.org/)</span>,\n"
 "une suite bureautique puissante qui comprend plusieurs outils :\n"
 
 #. type: Bullet: '  - '
@@ -83,13 +83,13 @@ msgstr ""
 
 #. type: Plain text
 #, no-wrap
-msgid "[[!inline pages=\"doc/sensitive_documents/persistence\" raw=\"yes\"]]\n"
-msgstr "[[!inline pages=\"doc/sensitive_documents/persistence.fr\" raw=\"yes\"]]\n"
+msgid "[[!inline pages=\"doc/sensitive_documents/persistence\" raw=\"yes\" sort=\"age\"]]\n"
+msgstr "[[!inline pages=\"doc/sensitive_documents/persistence.fr\" raw=\"yes\" sort=\"age\"]]\n"
 
 #. type: Plain text
 #, no-wrap
-msgid "[[!inline pages=\"doc/sensitive_documents/metadata\" raw=\"yes\"]]\n"
-msgstr "[[!inline pages=\"doc/sensitive_documents/metadata.fr\" raw=\"yes\"]]\n"
+msgid "[[!inline pages=\"doc/sensitive_documents/metadata\" raw=\"yes\" sort=\"age\"]]\n"
+msgstr "[[!inline pages=\"doc/sensitive_documents/metadata.fr\" raw=\"yes\" sort=\"age\"]]\n"
 
 #~ msgid ""
 #~ "Tails includes [LibreOffice](http://www.libreoffice.org/), which is a "

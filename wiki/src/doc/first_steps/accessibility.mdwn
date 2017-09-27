@@ -21,6 +21,32 @@ Visual Alters, Sticky Keys, Slow Keys, Bounce Keys, and Mouse Keys"]]
 These technologies are documented in more details in the
 [GNOME universal access documentation](https://help.gnome.org/users/gnome-help/stable/a11y.html).
 
+Keyboard shortcuts
+==================
+
+<table>
+<tr><td>Turn screen reader on or off</td><td>Alt+Super+S</td></tr>
+<tr><td>Turn zoom on or off</td><td>Alt+Super+8</td></tr>
+</table>
+
+To access the universal access menu using the keyboard:
+
+1. Press <span class="keycap">Ctrl+Alt+Tab</span> to move the keyboard
+   focus to the top bar.
+
+1. Use the arrow keys on the keyboard to select the universal access
+   menu.
+
+1. Press <span class="button">Enter</span> to open the menu.
+
+1. Use the up and down arrow keys to select items in
+   the menu.
+
+1. Press <span class="button">Space</span> to toggle the selected
+   item.
+
+1. Press <span class="button">Esc</span> to close the menu.
+
 Screen reader
 =============
 
@@ -33,20 +59,25 @@ documentation](https://help.gnome.org/users/orca/stable/).
 
 <div class="bug">
 
-<p>The screen reader does not work with <span class="application">Tails
-Installer</span> nor with the <span class="application">Unsafe
-Web Browser</span> and <span class="application">I2P Browser</span>.</p>
+<p>The screen reader takes around 10 seconds to start.</p>
 
 </div>
 
-<span class="application">Florence</span> virtual keyboard
-==========================================================
+<div class="bug">
 
-If you prefer a pointing device over the keyboard, you can open the
-[[<span class="application">Florence</span> virtual
-keyboard|first_steps/introduction_to_gnome_and_the_tails_desktop#florence]] from the top bar:
+<p>The screen reader does not work with the <span class="application">Unsafe
+Browser</span>.</p>
 
-[[!img doc/first_steps/introduction_to_gnome_and_the_tails_desktop/florence.png alt="Florence icon in the top bar" link="no"]]
+</div>
+
+Screen keyboard
+===============
+
+If you prefer a pointing device over the keyboard, you can activate the
+<span class="guilabel">Screen Keyboard</span> accessibility feature.
+
+For more detailed documentation refer to the official
+[<span class="application">GNOME</span> Screen Keyboard documentation](https://help.gnome.org/users/gnome-help/stable/keyboard-osk.html.en).
 
 <span class="application">Dasher</span> graphical text entry application
 ========================================================================

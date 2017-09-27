@@ -12,7 +12,7 @@ upgrade as soon as possible.
 
 ## New features
 
-- You can now start Tails in [[offline mode|doc/first_steps/startup_options/offline_mode]]
+- You can now start Tails in [[offline mode|doc/first_steps/startup_options#additional]]
   to disable all networking for additional security. Doing so can be
   useful when working on sensitive documents.
 
@@ -80,5 +80,5 @@ December 15.
 Have a look at our [[!tails_roadmap]] to see where we are heading to.
 
 We need your help and there are many ways to [[contribute to
-Tails|contribute]] ([[donating|contribute/how/donate]] is only one of
+Tails|contribute]] ([[donating|donate]] is only one of
 them). Come [[talk to us|about/contact#tails-dev]]!

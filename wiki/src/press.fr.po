@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Tails\n"
-"POT-Creation-Date: 2016-08-18 21:46+0300\n"
-"PO-Revision-Date: 2016-08-18 21:47-0000\n"
+"POT-Creation-Date: 2017-09-17 09:41+0000\n"
+"PO-Revision-Date: 2017-02-16 11:50-0000\n"
 "Last-Translator: Chre <tor@renaudineau.org>\n"
 "Language-Team: Tails translators <tails@boum.org>\n"
 "Language: fr\n"
@@ -137,13 +137,13 @@ msgstr ""
 
 #. type: Title -
 #, no-wrap
-msgid "2016\n"
-msgstr "2016\n"
+msgid "2017\n"
+msgstr "2017\n"
 
 #. type: Plain text
 #, no-wrap
-msgid "[[!inline pages=\"press/media_appearances_2016\" raw=\"yes\"]]\n"
-msgstr "[[!inline pages=\"press/media_appearances_2016\" raw=\"yes\"]]\n"
+msgid "[[!inline pages=\"press/media_appearances_2017\" raw=\"yes\" sort=\"age\"]]\n"
+msgstr "[[!inline pages=\"press/media_appearances_2017\" raw=\"yes\" sort=\"age\"]]\n"
 
 #. type: Plain text
 #, no-wrap
@@ -153,6 +153,10 @@ msgid ""
 msgstr ""
 "Anciennes apparitions dans les médias\n"
 "----------------------\n"
+
+#. type: Bullet: '* '
+msgid "[[!toggle id=\"media_appearances_2016\" text=\"2016\"]]"
+msgstr "[[!toggle id=\"media_appearances_2016\" text=\"2016\"]]"
 
 #. type: Bullet: '* '
 msgid "[[!toggle id=\"media_appearances_2015\" text=\"2015\"]]"
@@ -176,6 +180,26 @@ msgstr "[[!toggle id=\"media_appearances_2011\" text=\"2011\"]]"
 
 #. type: Plain text
 #, no-wrap
+msgid "[[!toggleable id=\"media_appearances_2016\" text=\"\"\"\n"
+msgstr "[[!toggleable id=\"media_appearances_2016\" text=\"\"\"\n"
+
+#. type: Plain text
+#, no-wrap
+msgid "<span class=\"hide\">[[!toggle id=\"media_appearances_2016\" text=\"\"]]</span>\n"
+msgstr "<span class=\"hide\">[[!toggle id=\"media_appearances_2016\" text=\"\"]]</span>\n"
+
+#. type: Title -
+#, no-wrap
+msgid "2016\n"
+msgstr "2016\n"
+
+#. type: Plain text
+#, no-wrap
+msgid "[[!inline pages=\"press/media_appearances_2016\" raw=\"yes\" sort=\"age\"]]\n"
+msgstr "[[!inline pages=\"press/media_appearances_2016\" raw=\"yes\" sort=\"age\"]]\n"
+
+#. type: Plain text
+#, no-wrap
 msgid "[[!toggleable id=\"media_appearances_2015\" text=\"\"\"\n"
 msgstr "[[!toggleable id=\"media_appearances_2015\" text=\"\"\"\n"
 
@@ -191,8 +215,8 @@ msgstr "2015\n"
 
 #. type: Plain text
 #, no-wrap
-msgid "[[!inline pages=\"press/media_appearances_2015\" raw=\"yes\"]]\n"
-msgstr "[[!inline pages=\"press/media_appearances_2015\" raw=\"yes\"]]\n"
+msgid "[[!inline pages=\"press/media_appearances_2015\" raw=\"yes\" sort=\"age\"]]\n"
+msgstr "[[!inline pages=\"press/media_appearances_2015\" raw=\"yes\" sort=\"age\"]]\n"
 
 #. type: Plain text
 #, no-wrap
@@ -211,8 +235,8 @@ msgstr "2014\n"
 
 #. type: Plain text
 #, no-wrap
-msgid "[[!inline pages=\"press/media_appearances_2014\" raw=\"yes\"]]\n"
-msgstr "[[!inline pages=\"press/media_appearances_2014\" raw=\"yes\"]]\n"
+msgid "[[!inline pages=\"press/media_appearances_2014\" raw=\"yes\" sort=\"age\"]]\n"
+msgstr "[[!inline pages=\"press/media_appearances_2014\" raw=\"yes\" sort=\"age\"]]\n"
 
 #. type: Plain text
 #, no-wrap
@@ -231,8 +255,8 @@ msgstr "2013\n"
 
 #. type: Plain text
 #, no-wrap
-msgid "[[!inline pages=\"press/media_appearances_2013\" raw=\"yes\"]]\n"
-msgstr "[[!inline pages=\"press/media_appearances_2013\" raw=\"yes\"]]\n"
+msgid "[[!inline pages=\"press/media_appearances_2013\" raw=\"yes\" sort=\"age\"]]\n"
+msgstr "[[!inline pages=\"press/media_appearances_2013\" raw=\"yes\" sort=\"age\"]]\n"
 
 #. type: Plain text
 #, no-wrap
@@ -251,8 +275,8 @@ msgstr "2012\n"
 
 #. type: Plain text
 #, no-wrap
-msgid "[[!inline pages=\"press/media_appearances_2012\" raw=\"yes\"]]\n"
-msgstr "[[!inline pages=\"press/media_appearances_2012\" raw=\"yes\"]]\n"
+msgid "[[!inline pages=\"press/media_appearances_2012\" raw=\"yes\" sort=\"age\"]]\n"
+msgstr "[[!inline pages=\"press/media_appearances_2012\" raw=\"yes\" sort=\"age\"]]\n"
 
 #. type: Plain text
 #, no-wrap
@@ -271,8 +295,8 @@ msgstr "2011\n"
 
 #. type: Plain text
 #, no-wrap
-msgid "[[!inline pages=\"press/media_appearances_2011\" raw=\"yes\"]]\n"
-msgstr "[[!inline pages=\"press/media_appearances_2011\" raw=\"yes\"]]\n"
+msgid "[[!inline pages=\"press/media_appearances_2011\" raw=\"yes\" sort=\"age\"]]\n"
+msgstr "[[!inline pages=\"press/media_appearances_2011\" raw=\"yes\" sort=\"age\"]]\n"
 
 #. type: Title =
 #, no-wrap
@@ -294,10 +318,10 @@ msgstr ""
 #. type: Bullet: '* '
 msgid ""
 "2014-12-01: Tails was awarded the [November 2014 DistroWatch.com donation]"
-"(http://distrowatch.com/weekly.php?issue=20141201#donation)"
+"(https://distrowatch.com/weekly.php?issue=20141201#donation)."
 msgstr ""
 "2014-12-01 : Tails a reçu le [don du mois de novembre 2014 de DistroWatch."
-"com](http://distrowatch.com/weekly.php?issue=20141201#donation)"
+"com](https://distrowatch.com/weekly.php?issue=20141201#donation)."
 
 #. type: Bullet: '* '
 msgid ""
@@ -364,11 +388,13 @@ msgstr ""
 
 #. type: Bullet: '* '
 msgid ""
-"2014-07-16: [The Amnesic Incognito Live System](https://interference.io/"
-"amnesic-incognito-live-system) at Interference"
+"2014-07-16: [The Amnesic Incognito Live System](https://web.archive.org/"
+"web/20150924031644/http://interference.io/amnesic-incognito-live-system) at "
+"Interference"
 msgstr ""
-"2014-07-16 : [The Amnesic Incognito Live System](https://interference.io/"
-"amnesic-incognito-live-system) à Interference"
+"2014-07-16 : [The Amnesic Incognito Live System](https://web.archive.org/"
+"web/20150924031644/http://interference.io/amnesic-incognito-live-system) à "
+"Interference"
 
 #. type: Bullet: '* '
 msgid ""
@@ -408,25 +434,49 @@ msgid ""
 "democracy/2013-forum)  at the World Forum for Democracy"
 msgstr ""
 "2013-11-28 : [Aider les Défenseurs des droits de l'homme à communiquer de "
-"manière sûre : TAILS, National Democratic Institute, USA](https://www.coe.int/"
-"fr/web/world-forum-democracy/2013-forum) au Forum mondial de la démocratie"
+"manière sûre : TAILS, National Democratic Institute, USA](https://www.coe."
+"int/fr/web/world-forum-democracy/2013-forum) au Forum mondial de la "
+"démocratie"
 
 #. type: Bullet: '* '
 msgid ""
 "2013-10-30: [Tails : confidentialité et anonymat, pour tous et "
 "partout — L'utilisabilité et de la maintenabilité, fonctionnalités critiques "
-"pour la sécurité](https://www.irill.org/events/tails-confidentialite-et-"
-"anonymat-pour-tous-et-partout)  at [IRILL](https://www.irill.org/)"
+"pour la sécurité](https://www.irill.org/posts/2013/tails-confidentialite-et-"
+"anonymat-pour-tous-et-partout.html)  at [IRILL](https://www.irill.org/)"
 msgstr ""
 "2013-10-30 : [Tails : confidentialité et anonymat, pour tous et "
 "partout — L'utilisabilité et de la maintenabilité, fonctionnalités critiques "
-"pour la sécurité](https://www.irill.org/events/tails-confidentialite-et-"
-"anonymat-pour-tous-et-partout) à l'[IRILL](https://www.irill.org/)"
+"pour la sécurité](https://www.irill.org/posts/2013/tails-confidentialite-et-"
+"anonymat-pour-tous-et-partout.html) à l'[IRILL](https://www.irill.org/)"
 
 #. type: Title =
 #, no-wrap
 msgid "Films and videos\n"
 msgstr "Films et vidéos\n"
+
+#. type: Bullet: '* '
+msgid ""
+"Tails is being used in [Citizenfour](https://citizenfourfilm.com/) by Laura "
+"Poitras and appears in the credits."
+msgstr ""
+"Tails est utilisé dans [Citizenfour](https://citizenfourfilm.com/) par Laura "
+"Poitras et apparaît dans le générique."
+
+#. type: Bullet: '* '
+msgid ""
+"Tails [is used](http://arstechnica.co.uk/the-multiverse/2015/10/homeland-"
+"brutally-tackles-spy-tech-again-this-time-with-stingrays/)  in Season 5, "
+"Episode 3 of the [Homeland](http://www.imdb.com/title/tt1796960/) TV series "
+"([images gallery](http://linux.softpedia.com/blog/tails-amnesic-incognito-"
+"live-linux-os-spotted-on-the-homeland-tv-show-495141.shtml))."
+msgstr ""
+"Tails [est utilisé](http://arstechnica.co.uk/the-multiverse/2015/10/homeland-"
+"brutally-tackles-spy-tech-again-this-time-with-stingrays/) dans l’épisode 3 "
+"de la saison 5 de la série télévisée [Homeland](http://www.imdb.com/title/"
+"tt1796960/) ([galerie d'images](http://linux.softpedia.com/blog/tails-"
+"amnesic-incognito-live-linux-os-spotted-on-the-homeland-tv-show-495141."
+"shtml))."
 
 #. type: Bullet: '* '
 msgid ""
@@ -437,14 +487,6 @@ msgstr ""
 "[Tails 1.3 : The Amnesic Incognito Live System](https://www.youtube.com/"
 "watch?v=_xna6wnn-Uw&feature=youtu.be) de Linux Scoop, une vidéo "
 "d'introduction à Tails 1.3."
-
-#. type: Bullet: '* '
-msgid ""
-"Tails is being used in [Citizenfour](https://citizenfourfilm.com/) by Laura "
-"Poitras and appears in the credits."
-msgstr ""
-"Tails est utilisé dans [Citizenfour](https://citizenfourfilm.com/) par Laura "
-"Poitras et apparaît dans le générique."
 
 #. type: Bullet: '* '
 msgid ""
@@ -461,27 +503,35 @@ msgstr "Livres, brochures et guides\n"
 
 #. type: Bullet: '* '
 msgid ""
+"2017-09: [Guide d'autodéfense numérique](https://guide.boum.org/) has "
+"several sections based on Tails (in French)."
+msgstr ""
+"2017-09 : Le [Guide d'autodéfense numérique](https://guide.boum.org/) "
+"contient plusieurs sections basées sur Tails (en français)."
+
+#. type: Bullet: '* '
+msgid ""
 "2016-04 : [Guide de survie Tails](https://chouettecouetteblog.wordpress."
 "com/) by the Chouette Couette collective - 324p. Also comes with [slides]"
-"(https://chouettecouetteblog.wordpress.com/le-pack-formation-tails/). (in "
-"French)"
+"(https://chouettecouetteblog.wordpress.com/le-pack-formation-tails/) (in "
+"French)."
 msgstr ""
 "2016-04 : [Guide de survie Tails](https://chouettecouetteblog.wordpress."
 "com/) par le collectif Chouette Couette - 324p. Avec également des "
 "[diaporamas](https://chouettecouetteblog.wordpress.com/le-pack-formation-"
-"tails/). (en français)"
+"tails/) (en français)."
 
 #. type: Bullet: '* '
 msgid ""
 "2015-11: [Anonym im Internet mit Tor und Tails](https://linksunten.indymedia."
 "org/fr/system/files/data/2015/11/1427455165.pdf)  by [Peter Loshin](http://"
 "www.franzis.de/fachbuecher/internet-netzwerk/anonym-im-internet-mit-tor-und-"
-"tails) 200p. (in German)"
+"tails) 200p (in German)."
 msgstr ""
 "2015-11 : [Anonym im Internet mit Tor und Tails](https://linksunten."
 "indymedia.org/fr/system/files/data/2015/11/1427455165.pdf) par [Peter Loshin]"
 "(http://www.franzis.de/fachbuecher/internet-netzwerk/anonym-im-internet-mit-"
-"tor-und-tails) 200p. (en allemand)"
+"tor-und-tails) 200p (en allemand)."
 
 #. type: Bullet: '* '
 msgid ""
@@ -515,14 +565,6 @@ msgstr ""
 "safehubcollective.org qualifie Tails comme \"l'anonymat et\n"
 "l'amnésie ultimes\" (en anglais).\n"
 
-#. type: Bullet: '* '
-msgid ""
-"2014-12: [Guide d'autodéfense numérique](https://guide.boum.org/) has "
-"several sections based on Tails (in French)."
-msgstr ""
-"2014-12 : Le [Guide d'autodéfense numérique](https://guide.boum.org/) "
-"contient plusieurs sections basées sur Tails (en français)."
-
 #. type: Plain text
 #, no-wrap
 msgid ""
@@ -537,11 +579,11 @@ msgstr ""
 #. type: Plain text
 #, no-wrap
 msgid ""
-"* 2014-12: [Information Security for Journalists](http://www.tcij.org/resources/handbooks/infosec)\n"
-"by Silkie Carlo and Arjen Kamphuis for the [Centre for Investigative Journalism](http://www.tcij.org/).\n"
+"* 2014-12: [Information Security for Journalists](https://tcij.org/resources/handbooks/infosec)\n"
+"by Silkie Carlo and Arjen Kamphuis for the [Centre for Investigative Journalism](https://tcij.org/).\n"
 msgstr ""
-"* 2014-12 : [Information Security for Journalists](http://www.tcij.org/resources/handbooks/infosec)\n"
-"par Silkie Carlo et Arjen Kamphuis pour le [Centre for Investigative Journalism](http://www.tcij.org/) (en anglais).\n"
+"* 2014-12 : [Information Security for Journalists](https://tcij.org/resources/handbooks/infosec)\n"
+"par Silkie Carlo et Arjen Kamphuis pour le [Centre for Investigative Journalism](https://tcij.org) (en anglais).\n"
 
 #. type: Plain text
 #, no-wrap
@@ -564,9 +606,3 @@ msgstr ""
 #. type: Bullet: '* '
 msgid "[CryptoParty handbook](https://www.cryptoparty.in/tails)."
 msgstr "[CryptoParty handbook](https://www.cryptoparty.in/tails) (en anglais)."
-
-#~ msgid "Video\n"
-#~ msgstr "Vidéo\n"
-
-#~ msgid "Announcements\n"
-#~ msgstr "Annonces\n"

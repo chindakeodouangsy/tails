@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-02 16:02+0200\n"
-"PO-Revision-Date: 2016-05-27 10:12+0000\n"
+"POT-Creation-Date: 2017-09-13 20:10+0200\n"
+"PO-Revision-Date: 2017-05-26 14:47+0000\n"
 "Last-Translator: carolyn <carolyn@anhalt.org>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/otf/torproject/"
 "language/zh_HK/)\n"
@@ -77,42 +77,14 @@ msgid "Do you want to start Electrum anyway?"
 msgstr "啟用Electrum嗎？"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:23
-#: config/chroot_local-includes/usr/local/bin/icedove:37
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:41
 msgid "_Launch"
 msgstr "_Launch"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:24
-#: config/chroot_local-includes/usr/local/bin/icedove:38
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:42
 msgid "_Exit"
 msgstr "_Exit"
-
-#: config/chroot_local-includes/usr/local/bin/icedove:27
-msgid "The <b>Claws Mail</b> persistence feature is activated."
-msgstr "<b>Claws Mail</b>嘅持續儲存功能已啟用。"
-
-#: config/chroot_local-includes/usr/local/bin/icedove:29
-msgid ""
-"If you have emails saved in <b>Claws Mail</b>, you should <a href='https://"
-"tails.boum.org/doc/anonymous_internet/claws_mail_to_icedove'>migrate your "
-"data</a> before starting <b>Icedove</b>."
-msgstr ""
-"如果有郵件儲存喺<b>Claws Mail</b>嘅話，應該喺啟用<b>Icedove</b>前，先將佢哋"
-"<a \"\n"
-"\"href='https://tails.boum.org/doc/anonymous_internet/claws_mail_to_icedove'>"
-"轉移</a>。"
-
-#: config/chroot_local-includes/usr/local/bin/icedove:34
-msgid ""
-"If you already migrated your emails to <b>Icedove</b>, you should <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove#delete'>delete all your <b>Claws Mail</b> data</a> to "
-"remove this warning."
-msgstr ""
-"如果已經將郵件轉移到<b>Icedove</b>嘅話，只要<a 'href='https://tails.boum.org/"
-"doc/anonymous_internet/claws_mail_to_icedove#delete'>刪除全部<b>Claws Mail</"
-"b>資料</a>，就能消除呢個警告。"
 
 #: config/chroot_local-includes/usr/share/gnome-shell/extensions/shutdown-helper@tails.boum.org/extension.js:71
 msgid "Restart"
@@ -149,14 +121,14 @@ msgstr ""
 msgid "not available"
 msgstr "唔可以揀"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:118
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:124
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:128
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:147
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:162
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:166
 msgid "Your additional software"
 msgstr "其他軟件"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:119
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:129
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:148
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:167
 msgid ""
 "The upgrade failed. This might be due to a network problem. Please check "
 "your network connection, try to restart Tails, or read the system log to "
@@ -165,7 +137,7 @@ msgstr ""
 "升級失敗。可能由於網絡問題。請檢查網絡連線、嘗試將Tails重新啟動，或者讀取系統"
 "記錄，以便進一步澄清問題。"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:125
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:163
 msgid "The upgrade was successful."
 msgstr "升級成功。"
 
@@ -183,11 +155,11 @@ msgstr "Tor需要準確嘅時鐘先能正常運作，特別係對隱藏嘅服務
 msgid "Failed to synchronize the clock!"
 msgstr "無法與時鐘同步！"
 
-#: config/chroot_local-includes/usr/local/bin/tails-security-check:146
+#: config/chroot_local-includes/usr/local/bin/tails-security-check:124
 msgid "This version of Tails has known security issues:"
 msgstr "此Tails版本有已知嘅安全問題："
 
-#: config/chroot_local-includes/usr/local/bin/tails-security-check:156
+#: config/chroot_local-includes/usr/local/bin/tails-security-check:134
 msgid "Known security issues"
 msgstr "已知嘅安全問題"
 
@@ -253,21 +225,21 @@ msgstr ""
 "或手動執行升級。\n"
 "請參閱 https://tails.boum.org/doc/first_steps/upgrade#manual"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:67
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:71
 msgid "Warning: virtual machine detected!"
 msgstr "警告：偵測到虛擬機器！"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:69
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:73
 msgid ""
 "Both the host operating system and the virtualization software are able to "
 "monitor what you are doing in Tails."
 msgstr "主機作業系統同虛擬化軟件都能夠監控你喺Tails嘅行動。"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:72
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:76
 msgid "Warning: non-free virtual machine detected!"
 msgstr "警告：偵測到此虛擬機器並非自由軟件！"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:74
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:78
 msgid ""
 "Both the host operating system and the virtualization software are able to "
 "monitor what you are doing in Tails. Only free software can be considered "
@@ -277,23 +249,23 @@ msgstr ""
 "主機作業系統同虛擬化軟件都能夠監控你喺Tails嘅行動。只有真正免費嘅主機作業系統"
 "同虛擬化軟件先值得信賴。"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:79
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:83
 msgid "Learn more"
 msgstr "更多"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:40
+#: config/chroot_local-includes/usr/local/bin/tor-browser:43
 msgid "Tor is not ready"
 msgstr "Tor洋蔥路由未就緒"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:41
+#: config/chroot_local-includes/usr/local/bin/tor-browser:44
 msgid "Tor is not ready. Start Tor Browser anyway?"
 msgstr "Tor洋蔥路由未就緒。仍啟動Tor洋蔥路由瀏覽器嗎？"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:42
+#: config/chroot_local-includes/usr/local/bin/tor-browser:45
 msgid "Start Tor Browser"
 msgstr "啟動Tor洋蔥路由瀏覽器"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:43
+#: config/chroot_local-includes/usr/local/bin/tor-browser:46
 msgid "Cancel"
 msgstr "取消"
 
@@ -367,45 +339,6 @@ msgstr "無法設定瀏覽器。"
 msgid "Failed to run browser."
 msgstr "無法開啟瀏覽器。"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:34
-msgid "I2P failed to start"
-msgstr "I2P無法啟動"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:35
-msgid ""
-"Something went wrong when I2P was starting. Check the logs in /var/log/i2p "
-"for more information."
-msgstr "I2P啟動時發生錯誤。更多資訊請查閱位於 /var/log/i2p 嘅紀錄檔。"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:52
-msgid "I2P's router console is ready"
-msgstr "I2P嘅路由控制台已準備好"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:53
-msgid "You can now access I2P's router console in the I2P Browser."
-msgstr "你咿㗎可以使用I2P瀏覽器進入I2P嘅路由控制台。"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:58
-msgid "I2P is not ready"
-msgstr "I2P未就緒"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:59
-msgid ""
-"Eepsite tunnel not built within six minutes. Check the router console in the "
-"I2P Browser or the logs in /var/log/i2p for more information. Reconnect to "
-"the network to try again."
-msgstr ""
-"Eepsite通道無喺6分鐘內建立。可於I2P瀏覽器路由控制台或位於 /var/log/i2p 嘅紀錄"
-"檔取得更多資訊。請嘗試重新連線。"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:71
-msgid "I2P is ready"
-msgstr "I2P準備好"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:72
-msgid "You can now access services on I2P."
-msgstr "咿㗎可以使用I2P服務。"
-
 #: ../config/chroot_local-includes/etc/skel/Desktop/Report_an_error.desktop.in.h:1
 msgid "Report an error"
 msgstr "回報錯誤"
@@ -418,14 +351,6 @@ msgstr "Tails文件"
 #: ../config/chroot_local-includes/usr/share/applications/tails-documentation.desktop.in.h:2
 msgid "Learn how to use Tails"
 msgstr "了解如何使用Tails"
-
-#: ../config/chroot_local-includes/usr/share/applications/i2p-browser.desktop.in.h:1
-msgid "Anonymous overlay network browser"
-msgstr "匿名覆蓋網絡瀏覽器"
-
-#: ../config/chroot_local-includes/usr/share/applications/i2p-browser.desktop.in.h:2
-msgid "I2P Browser"
-msgstr "I2P瀏覽器"
 
 #: ../config/chroot_local-includes/usr/share/applications/tails-about.desktop.in.h:2
 msgid "Learn more about Tails"
@@ -451,121 +376,6 @@ msgstr "唔安全網頁瀏覽器"
 msgid "Tails specific tools"
 msgstr "Tails特有工具"
 
-#~ msgid "OpenPGP encryption applet"
-#~ msgstr "OpenPGP加密小程式"
-
-#~ msgid "Exit"
-#~ msgstr "離開"
-
-#~ msgid "About"
-#~ msgstr "關於"
-
-#~ msgid "Encrypt Clipboard with _Passphrase"
-#~ msgstr "使用_Passphrase對剪貼簿進行加密"
-
-#~ msgid "Sign/Encrypt Clipboard with Public _Keys"
-#~ msgstr "使用公匙簽署╱加密剪貼簿"
-
-#~ msgid "_Decrypt/Verify Clipboard"
-#~ msgstr "_Decrypt╱驗證剪貼簿"
-
-#~ msgid "_Manage Keys"
-#~ msgstr "_Manage鎖匙"
-
-#~ msgid "_Open Text Editor"
-#~ msgstr "_Open Text Editor"
-
-#~ msgid "The clipboard does not contain valid input data."
-#~ msgstr "剪貼簿未包含有效嘅輸入資料。"
-
-#~ msgid "Unknown Trust"
-#~ msgstr "不明嘅信任"
-
-#~ msgid "Marginal Trust"
-#~ msgstr "臨界信任"
-
-#~ msgid "Full Trust"
-#~ msgstr "完全信任"
-
-#~ msgid "Ultimate Trust"
-#~ msgstr "終極信任"
-
-#~ msgid "Name"
-#~ msgstr "名稱"
-
-#~ msgid "Key ID"
-#~ msgstr "鎖匙ID"
-
-#~ msgid "Status"
-#~ msgstr "狀態"
-
-#~ msgid "Fingerprint:"
-#~ msgstr "數碼指紋："
-
-#~ msgid "User ID:"
-#~ msgid_plural "User IDs:"
-#~ msgstr[0] "用戶識別碼："
-
-#~ msgid "None (Don't sign)"
-#~ msgstr "無(未簽署)"
-
-#~ msgid "Select recipients:"
-#~ msgstr "選取收件者："
-
-#~ msgid "Hide recipients"
-#~ msgstr "隱藏收件者"
-
-#~ msgid ""
-#~ "Hide the user IDs of all recipients of an encrypted message. Otherwise "
-#~ "anyone that sees the encrypted message can see who the recipients are."
-#~ msgstr ""
-#~ "隱藏加密郵件全部收件者嘅用戶識別碼。否則任何人見到加密嘅郵件都可以睇出邊個"
-#~ "係收件者。"
-
-#~ msgid "Sign message as:"
-#~ msgstr "郵件簽名為："
-
-#~ msgid "Choose keys"
-#~ msgstr "選取鎖匙"
-
-#~ msgid "Do you trust these keys?"
-#~ msgstr "信任呢啲鎖匙嗎？"
-
-#~ msgid "The following selected key is not fully trusted:"
-#~ msgid_plural "The following selected keys are not fully trusted:"
-#~ msgstr[0] "下列所選嘅鎖匙未被完全信任："
-
-#~ msgid "Do you trust this key enough to use it anyway?"
-#~ msgid_plural "Do you trust these keys enough to use them anyway?"
-#~ msgstr[0] "可以信任呢啲鎖匙到足以使用佢哋嗎？"
-
-#~ msgid "No keys selected"
-#~ msgstr "未選取鎖匙"
-
-#~ msgid ""
-#~ "You must select a private key to sign the message, or some public keys to "
-#~ "encrypt the message, or both."
-#~ msgstr "須選取私人鎖匙對郵件進行簽名，或一啲公匙嚟加密郵件，或兩者兼行。"
-
-#~ msgid "No keys available"
-#~ msgstr "無可用鎖匙"
-
-#~ msgid ""
-#~ "You need a private key to sign messages or a public key to encrypt "
-#~ "messages."
-#~ msgstr "須選取私人鎖匙對郵件進行簽名，或公匙嚟加密郵件。"
-
-#~ msgid "GnuPG error"
-#~ msgstr "GnuPG錯誤"
-
-#~ msgid "Therefore the operation cannot be performed."
-#~ msgstr "因此唔能夠執行操作。"
-
-#~ msgid "GnuPG results"
-#~ msgstr "GnuPG結果"
-
-#~ msgid "Output of GnuPG:"
-#~ msgstr "GnuPG嘅輸出："
-
-#~ msgid "Other messages provided by GnuPG:"
-#~ msgstr "由GnuPG提供嘅其他訊息："
+#: ../config/chroot_local-includes/usr/share/polkit-1/actions/org.boum.tails.root-terminal.policy.in.h:1
+msgid "To start a Root Terminal, you need to authenticate."
+msgstr ""

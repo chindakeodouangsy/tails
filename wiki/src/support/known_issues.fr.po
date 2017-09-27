@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Tails\n"
-"POT-Creation-Date: 2016-09-10 12:15+0300\n"
-"PO-Revision-Date: 2016-08-18 11:25-0000\n"
+"POT-Creation-Date: 2017-09-25 20:19+0200\n"
+"PO-Revision-Date: 2017-08-11 12:53+0000\n"
 "Last-Translator: \n"
 "Language-Team: Tails translators <tails@boum.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #. type: Plain text
 #, no-wrap
@@ -66,14 +66,16 @@ msgstr "SanDisk"
 msgid ""
 "Many SanDisk USB sticks are configured by the manufacturer as a fixed disk, "
 "and not as a removable disk. As a consequence, they require removing the "
-"`live-media=removable` boot parameter, which [[is dangerous|doc/first_steps/"
-"bug_reporting/tails_does_not_start#entirely]]."
+"`live-media=removable` boot parameter. See troubleshooting section about "
+"Tails not starting entirely on [[PC|install/debian/usb#start-tails]] or "
+"[[Mac|install/mac/usb#start-intermediary]]."
 msgstr ""
 "De nombreuses clés USB SanDisk sont configurées par le constructeur comme "
 "des disques fixes, et non comme des disques amovibles. En conséquence, elles "
-"nécessitent d'enlever le paramètre de démarrage `live-media=removable`, ce "
-"qui [[est dangereux|doc/first_steps/bug_reporting/"
-"tails_does_not_start#entirely]]."
+"nécessitent d'enlever le paramètre de démarrage `live-media=removable`. Voir "
+"la partie résolution des problèmes concernant Tails ne démarre pas "
+"complètement sur [[PC|install/debian/usb#start-tails]] ou sur [[Mac|install/"
+"mac/usb#start-intermediary]]."
 
 #. type: Bullet: '* '
 msgid "SanDisk Cruzer Edge 8GB"
@@ -217,8 +219,8 @@ msgstr "Acer Travelmate 8573T-254G50M\n"
 
 #. type: Plain text
 msgid ""
-"Booting from DVD works fine, but does not start on USB sticks created using "
-"Tails Installer."
+"Booting from DVD works fine, but does not start from USB sticks created "
+"using Tails Installer."
 msgstr ""
 "Démarrer depuis un DVD fonctionne, mais pas depuis une clé USB créée avec "
 "l'Installeur de Tails."
@@ -323,8 +325,9 @@ msgid ""
 msgstr ""
 "L'affichage de l'écran aura la mauvaise résolution à moins que vous "
 "n'ajoutiez `video=LVDS-1:1600x1200 nouveau.noaccel=1` à la ligne de commande "
-"du menu de démarrage. Ce problème est peut-être corrigé dans Tails 1.1 ou "
-"des versions plus récentes : merci de nous rapporter vos résultats de test."
+"du menu du chargeur d’amorçage. Ce problème est peut-être corrigé dans Tails "
+"1.1 ou des versions plus récentes : merci de nous rapporter vos résultats de "
+"test."
 
 #. type: Title -
 #, no-wrap
@@ -364,11 +367,11 @@ msgstr "HP Pavilion dv7\n"
 
 #. type: Plain text
 msgid ""
-"Since Tails 1.3, gets stuck at the boot menu, whether Tails is installed "
-"manually or using Tails Installer."
+"Since Tails 1.3, gets stuck at the Boot Loader Menu, whether Tails is "
+"installed manually or using Tails Installer."
 msgstr ""
-"Depuis Tails 1.3, reste coincé sur le menu de démarrage, que Tails ait été "
-"installé manuellement ou depuis l'Installeur Tails."
+"Depuis Tails 1.3, reste coincé sur le menu du chargeur d’amorçage, que Tails "
+"ait été installé manuellement ou depuis l'Installeur de Tails."
 
 #. type: Title -
 #, no-wrap
@@ -377,11 +380,12 @@ msgstr "HP ProBook\n"
 
 #. type: Plain text
 msgid ""
-"With UEFI enabled, when chosing a boot device, select `Boot From EFI File` "
-"and then `Filesystem Tails` and `EFI/BOOT/bootx64.efi`."
+"With UEFI enabled, when choosing a boot device, select `Boot From EFI File` "
+"and then `Filesystem Tails` and `EFI/BOOT/BOOTX64.EFI`."
 msgstr ""
-"Avec l'UEFI activé, lors du choix de périphérique de démarrage, choisir "
-"`Boot From EFI File` puis `Filesystem Tails` puis `EFI/BOOT/bootx64.efi`."
+"Avec l'UEFI activé, lors du choix d'un périphérique de démarrage, "
+"sélectionner `Boot From EFI File` puis `Filesystem Tails` et `EFI/BOOT/"
+"BOOTX64.EFI`."
 
 #. type: Plain text
 msgid "That workaround applied to, at least, the following HP ProBook:"
@@ -412,21 +416,22 @@ msgid "Lenovo IdeaPad z585\n"
 msgstr "Lenovo IdeaPad z585\n"
 
 #. type: Plain text
-msgid "Goes back continuously to boot menu on Tails installed on DVD."
-msgstr "Revient continuellement au menu de démarrage avec un DVD Tails."
+msgid "Goes back continuously to Boot Loader Menu on Tails installed on DVD."
+msgstr ""
+"Revient continuellement au menu du chargeur d’amorçage avec un DVD Tails."
 
 #. type: Title -
 #, no-wrap
-msgid "Clevo W258CU, ThinkPad X220, X121e, T420i, T410, T520, W520, T530, E325, and E530\n"
-msgstr "Clevo W258CU, ThinkPad X220, X121e, T420i, T410, T520, W520, T530, E325 et E530\n"
+msgid "Clevo W258CU, ThinkPad X121e, T420i, T410, T520, W520, T530, E325, and E530\n"
+msgstr "Clevo W258CU, ThinkPad X121e, T420i, T410, T520, W520, T530, E325 et E530\n"
 
 #. type: Plain text
 msgid ""
-"These machines do not start on USB sticks created using Tails USB Installer, "
-"due to a firmware limitation."
+"These machines do not start on USB sticks created using Tails Installer due "
+"to a firmware limitation."
 msgstr ""
 "Ces machines ne démarrent pas sur une clé USB créée en utilisant "
-"l'installeur USB Tails, à cause d'une limitation du firmware"
+"l'installeur Tails, à cause d'une limitation du firmware."
 
 #. type: Plain text
 msgid ""
@@ -434,8 +439,8 @@ msgid ""
 "process|install/linux/usb]].  Note, however, that this technique does not "
 "allow you to set up a persistent volume."
 msgstr ""
-" Une solution alternative pour certaines de ces machines est d'utiliser le "
-"[[procédé d'installation manuelle|install/linux/usb]].Notez cependant que "
+"Une solution alternative pour certaines de ces machines est d'utiliser le "
+"[[processus d'installation manuelle|install/linux/usb]]. Notez cependant que "
 "cette technique ne permet pas de configurer un volume persistant."
 
 #. type: Plain text
@@ -480,7 +485,7 @@ msgstr "MacBook Pro 5,5 ne démarre pas avec Tails en mode UEFI."
 #. type: Bullet: '* '
 msgid ""
 "MacBook Pro 5,1 17\" (Nvidia GeForce 9400M): one must add the `nouveau."
-"noaccel=1` boot parameters so that the display works properly."
+"noaccel=1` boot parameter so that the display works properly."
 msgstr ""
 "MacBook Pro 5,1 17\" (Nvidia GeForce 9400M) : certains doivent ajouter le "
 "paramètre de démarrage `nouveau.noaccel=1` pour que l'affichage fonctionne "
@@ -499,12 +504,16 @@ msgstr "MacBook Pro (début 2011) ne démarre pas sur DVD depuis Tails 1.1."
 
 #. type: Bullet: '* '
 msgid ""
-"Mac Pro Tower and MacBook Pro 4,1 (both from early 2008) and MacBook Pro 8,2 "
-"(late 2011) fail to boot from a USB stick created by Tails Installer."
+"Mac Pro Tower and MacBook Pro 4,1 (both from early 2008)  fails to boot from "
+"a USB stick created by Tails Installer."
 msgstr ""
-"Mac Pro Tower et MacBook Pro 4,1 (les deux de début 2008) et MacBookPro 8,2 "
-"(fin 2011) ne démarrent pas sur une clé USB créée en utilisant l'Installeur "
-"de Tails."
+"Mac Pro Tower et MacBook Pro 4,1 (les deux de début 2008) ne démarrent pas "
+"sur une clé USB créée en utilisant l'Installeur de Tails."
+
+#. type: Title =
+#, no-wrap
+msgid "Graphics issues\n"
+msgstr "Problèmes graphiques\n"
 
 #. type: Title -
 #, no-wrap
@@ -543,27 +552,114 @@ msgid ""
 "[Radeon HD 5000/6000 7350/8350 Series] - Broadway PRO [Mobility Radeon HD "
 "5850] - RV730/M96 [Mobility Radeon HD 4650/5165]"
 msgstr ""
-"- Mars XTX [Radeon HD 8790M] - Mars XTX [Radeon HD 8790M] (rev ff)  - Cedar "
-"[Radeon HD 5000/6000 7350/8350 Series] - Broadway PRO [Mobility Radeon HD "
-"5850] - RV730/M96 [Mobility Radeon HD 4650/5165]"
+"- Mars XTX [Radeon HD 8790M]\n"
+"- Mars XTX [Radeon HD 8790M] (rev ff)\n"
+" - Cedar [Radeon HD 5000/6000 7350/8350 Series]\n"
+"- Broadway PRO [Mobility Radeon HD 5850]\n"
+"- RV730/M96 [Mobility Radeon HD 4650/5165]"
 
 #. type: Plain text
 msgid ""
 "For some models, adding `radeon.modeset=0` to the [[startup options|/doc/"
-"first_steps/startup_options/#boot_menu]] fixes the issue."
+"first_steps/startup_options/#boot_loader_menu]] fixes the issue."
 msgstr ""
 "Pour certains modèles, ajouter `radeon.modeset=0` dans les [[options de "
-"démarrage|/doc/first_steps/startup_options/#boot_menu]] corrige le problème."
-
-#. type: Plain text
-#, no-wrap
-msgid "<a id=\"switchable_graphics\"></a>\n"
-msgstr "<a id=\"switchable_graphics\"></a>\n"
+"démarrage|/doc/first_steps/startup_options/#boot_loader_menu]] corrige le "
+"problème."
 
 #. type: Title -
 #, no-wrap
-msgid "Switchable graphics computers\n"
-msgstr "Ordinateurs avec cartes graphiques commutables\n"
+msgid "Tails Greeter fails to start with some AMD/ATI Radeon graphic adapters\n"
+msgstr "Tails Greeter n'arrive pas à démarrer avec certaines cartes graphiques AMD/ATI Radeon\n"
+
+#. type: Plain text
+msgid ""
+"Some computers cannot start Tails Greeter. This issue has appeared with the "
+"following graphic adapters:"
+msgstr ""
+"Certains ordinateurs ne peuvent démarrer Tails Greeter. Ce problème est "
+"apparu avec les cartes graphiques suivantes :"
+
+#. type: Plain text
+msgid "- AMD Radeon R9 390"
+msgstr "- AMD Radeon R9 390"
+
+#. type: Plain text
+msgid ""
+"Adding `radeon.dpm=0` to the [[startup options|/doc/first_steps/"
+"startup_options/#boot_loader_menu]] fixes the issue."
+msgstr ""
+"Ajouter `radeon.dpm=0` dans les [[options de démarrage|/doc/first_steps/"
+"startup_options/#boot_loader_menu]] corrige le problème."
+
+#. type: Plain text
+#, no-wrap
+msgid "<a id=\"nvidia-maxwell\"></a>\n"
+msgstr "<a id=\"nvidia-maxwell\"></a>\n"
+
+#. type: Title -
+#, no-wrap
+msgid "Tails Greeter fails to start on computers with NVIDIA Maxwell graphic cards\n"
+msgstr "Tails Greeter n'arrive pas à démarrer avec certaines cartes graphiques NVIDIA Maxwell\n"
+
+#. type: Plain text
+msgid ""
+"Some computers cannot start Tails Greeter. This may appear with the "
+"following graphic adapters:"
+msgstr ""
+"Certains ordinateurs ne peuvent démarrer Tails Greeter. Cela peut arriver "
+"avec les cartes graphiques suivantes :"
+
+#. type: Plain text
+#, fuzzy
+#| msgid ""
+#| "- GeForce GTX (745, 750, 750 Ti, 840M, 845M, 850M, 860M, 950M, 960M)  - "
+#| "Quadro K620, K1200, K2200; GRID M30, M40 - GeForce 830M, 840M, 930M, "
+#| "940M[X] - GeForce GTX Titan X - GeForce GTX (970, 980)  - GeForce GTX "
+#| "(950, 960)"
+msgid ""
+"- GeForce GTX (660 Ti, 745, 750, 750 Ti, 840M, 845M, 850M, 860M, 950M, "
+"960M)  - Quadro K620, K1200, K2200; GRID M30, M40 - GeForce 830M, 840M, "
+"930M, 940M[X] - GeForce GTX Titan X - GeForce GTX (970, 980)  - GeForce GTX "
+"(950, 960)"
+msgstr ""
+"- GeForce GTX (745, 750, 750 Ti, 840M, 845M, 850M, 860M, 950M, 960M)  - "
+"Quadro K620, K1200, K2200; GRID M30, M40 - GeForce 830M, 840M, 930M, 940M[X] "
+"- GeForce GTX Titan X - GeForce GTX (970, 980)  - GeForce GTX (950, 960)"
+
+#. type: Plain text
+msgid ""
+"We think this problem has been fixed in Tails 3.2. If Tails Greeter still "
+"does not start for you:"
+msgstr ""
+
+#. type: Bullet: '1. '
+#, fuzzy
+#| msgid ""
+#| "Adding `nouveau.noaccel=1` or `nouveau.modeset=0` to the [[startup "
+#| "options|doc/first_steps/startup_options#boot_loader_menu]] has been "
+#| "reported to fix the issue in some cases."
+msgid ""
+"Add `nouveau.noaccel=1` or `nouveau.modeset=0` to the [[startup options|doc/"
+"first_steps/startup_options#boot_loader_menu]]."
+msgstr ""
+"Ajouter `nouveau.noaccel=1` ou `nouveau.modeset=0` dans les [[options de "
+"démarrage|doc/first_steps/startup_options/#boot_loader_menu]] a été signalé "
+"comme corrigeant le problème dans certains cas."
+
+#. type: Bullet: '2. '
+msgid "[[Report a bug|doc/first_steps/bug_reporting]]."
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "<a id=\"switchable_graphics_black_screen\"></a>\n"
+msgstr "<a id=\"switchable_graphics_black_screen\"></a>\n"
+
+#. type: Title -
+#, no-wrap
+msgid "Black screen with switchable graphics computers\n"
+msgstr "Écran noir avec des ordinateurs avec cartes graphiques commutables\n"
 
 #. type: Plain text
 msgid ""
@@ -593,15 +689,15 @@ msgstr ""
 
 #. type: Bullet: '* '
 msgid "Expert Linux users can also do the following:"
-msgstr "Les utilisateurs expert de Linux peuvent aussi faire :"
+msgstr "Les personnes expertes de Linux peuvent aussi :"
 
 #. type: Bullet: '  1. '
 msgid ""
-"Add the `i915.modeset=0 rootpw=pass` option in the [[boot menu|doc/"
-"first_steps/startup_options#boot_menu]]."
+"Add the `i915.modeset=0 rootpw=pass` option in the [[Boot Loader Menu|doc/"
+"first_steps/startup_options#boot_loader_menu]]."
 msgstr ""
-"Ajouter l'option `i915.modeset=0 rootpw=pass` dans le [[menu de démarrage|"
-"doc/first_steps/startup_options#boot_menu]]."
+"Ajouter l'option `i915.modeset=0 rootpw=pass` dans le [[menu du chargeur "
+"d’amorçage|doc/first_steps/startup_options#boot_loader_menu]]."
 
 #. type: Bullet: '  2. '
 msgid ""
@@ -640,7 +736,7 @@ msgid ""
 "After the GNOME session has started, change again the root password with the "
 "command:"
 msgstr ""
-"Après le démarrage de la session GNOME, modifiez à nouveau le mot de passe "
+"Après le démarrage de la session GNOME, modifier à nouveau le mot de passe "
 "root avec la commande :"
 
 #. type: Plain text
@@ -656,6 +752,36 @@ msgstr ""
 "Pour plus de détails, voir notre ticket [[!tails_ticket 7505 desc=\"Plus "
 "d'affichage sur les matériels Apple avec double cartes graphiques\"]]."
 
+#. type: Plain text
+#, no-wrap
+msgid "<a id=switchable_graphics_segfault></a>\n"
+msgstr "<a id=switchable_graphics_segfault></a>\n"
+
+#. type: Title -
+#, no-wrap
+msgid "Cannot start GNOME session with switchable graphics computers\n"
+msgstr "La session GNOME ne peut pas démarrer avec des ordinateurs avec cartes graphiques commutables\n"
+
+#. type: Plain text
+msgid ""
+"On some computers with switchable graphics, Tails 2.10 and later fails to "
+"start the GNOME session and keeps returning to [[Tails Greeter|doc/"
+"first_steps/startup_options#greeter]]."
+msgstr ""
+"Sur certains ordinateurs avec cartes graphiques commutables, Tails 2.10 et "
+"suivants ne peuvent ouvrir une session GNOME et reviennent systématiquement "
+"au [[Tails Greeter|doc/first_steps/startup_options#greeter]]."
+
+#. type: Plain text
+msgid ""
+"Starting in **Troubleshooting Mode** works, as well as adding the `modeprobe."
+"blacklist=nouveau` to the [[startup options|doc/first_steps/"
+"startup_options#boot_loader_menu]]."
+msgstr ""
+"Démarrer en mode **Troubleshooting Mode** marche, ainsi que le fait "
+"d'ajouter `modeprobe.blacklist=nouveau` aux [[options de démarrage|doc/"
+"first_steps/startup_options#boot_loader_menu]]."
+
 #. type: Title -
 #, no-wrap
 msgid "Laptops with Intel 855GM graphic card\n"
@@ -667,52 +793,90 @@ msgid ""
 "Tails Greeter."
 msgstr ""
 "Les ordinateurs portables avec une carte graphique Intel 855GM (tel que le "
-"Dell Inspiron 510M) crashent après le Tails Greeter."
+"Dell Inspiron 510M) plantent après le Tails Greeter."
 
 #. type: Plain text
 msgid ""
-"See [[!tails_ticket 11096 desc=\"relevant ticket\"]] for more information."
+"See [[!debbug 776911 desc=\"relevant bug report\"]] for more information."
 msgstr ""
-"Voir le [[!tails_ticket 11096 desc=\"ticket correspondant\"]] pour plus de "
-"détails."
-
-#. type: Plain text
-#, no-wrap
-msgid "<a id=\"chainloading\"></a>\n"
-msgstr "<a id=\"chainloading\"></a>\n"
+"Voir le [[!debbug 776911 desc=\"rapport de bug correspondant\"]] pour plus "
+"d'informations."
 
 #. type: Title -
 #, no-wrap
-msgid "Chainloading Tails from GRUB\n"
-msgstr "Chargement chaîné (chainloading) de Tails depuis GRUB\n"
+msgid "Laptops with Intel GM965/GL960 graphic card\n"
+msgstr "Ordinateurs portables avec une carte graphique Intel GM965/GL960\n"
 
 #. type: Plain text
 msgid ""
-"To workaround problems in booting Tails on laptops with UEFI support, it is "
-"possible to chainload the syslinux on the ISO image from another boot loader "
-"that is already working on the laptop, like GRUB. Be careful not to modify "
-"at all the options of syslinux in the process."
+"Laptops with graphic card Intel GM965/GL960 crash while running Tails.  Add "
+"`video=SVIDEO-1:d` on the boot command line to work around this problem."
 msgstr ""
-"Pour contourner des problèmes de démarrage de Tails sur des ordinateurs avec "
-"prise en charge UEFI, il est possible de faire du chargement chaîné de "
-"syslinux de l'image ISO depuis un autre chargeur d'amorçage qui fonctionne "
-"toujours sur cet ordinateur, comme GRUB. Soyons prudent à ne pas modifier "
-"toutes les options de syslinux lors de l'opération."
+"Les ordinateurs portables avec une carte graphique Intel GM965/GL960 "
+"plantent lors de l'utilisation de Tails. Ajouter `video=SVIDEO-1:d` à la "
+"ligne de commande du démarrage pour contourner le problème."
 
 #. type: Plain text
-msgid "The following commands, run from the GRUB shell, might be helpful:"
-msgstr "Les commandes suivantes, lancées depuis un shell GRUB, peuvent aider :"
+msgid "See [[!linuxbug 187001]] for more information."
+msgstr "Voir [[!linuxbug 187001]] pour plus d'informations."
+
+#. type: Plain text
+#, no-wrap
+msgid "<a id=\"xorg-driver\"></a>\n"
+msgstr "<a id=\"xorg-driver\"></a>\n"
+
+#. type: Title -
+#, no-wrap
+msgid "Systems with Intel graphic cards\n"
+msgstr "Systèmes avec cartes graphiques Intel\n"
+
+#. type: Plain text
+msgid ""
+"The graphical interface fails to start on some Intel graphics adapters. If "
+"this happens to you:"
+msgstr ""
+"L'interface graphique n'arrive pas à démarrer avec certaines cartes "
+"graphiques Intel. Si cela vous arrive :"
+
+#. type: Bullet: '1. '
+msgid ""
+"Add the `xorg-driver=intel` option in the [[boot menu|doc/first_steps/"
+"startup_options#boot_menu]]."
+msgstr ""
+"Ajoutez l'option `xorg-driver=intel` dans le [[menu du chargeur d’amorçage|"
+"doc/first_steps/startup_options#boot_menu]]."
+
+#. type: Bullet: '2. '
+msgid ""
+"If this fixes the problem, report to <tails-support-private@boum.org> the "
+"output of the following commands:"
+msgstr ""
+"Si cela corrige le problème, rapportez à <tails-support-private@boum.org> la "
+"sortie des commandes suivantes :"
 
 #. type: Plain text
 #, no-wrap
 msgid ""
-"    set root=(hd1)\n"
-"    chainloader +1\n"
-"    boot\n"
+"         lspci -v\n"
+"         lspci -mn\n"
 msgstr ""
-"    set root=(hd1)\n"
-"    chainloader +1\n"
-"    boot\n"
+"         lspci -v\n"
+"         lspci -mn\n"
+
+#. type: Plain text
+#, no-wrap
+msgid ""
+"   … so we get the identifier of your graphics adapter and can have\n"
+"   this fix applied automatically in the next Tails release.\n"
+"3. If this does not fix the problem, try Troubleshooting Mode and\n"
+"   [[report a bug|doc/first_steps/bug_reporting]]. Include the exact\n"
+"   model of your Intel graphics adapter.\n"
+msgstr ""
+"   … ainsi nous pourrons identifier votre carte graphique et nous pourrons avoir\n"
+"   cette correction appliquée automatiquement dans la prochaine version de Tails.\n"
+"3. Si cela ne corrige pas le problème essayez le `Troubleshooting Mode` et\n"
+"   [[rapportez un bug|doc/first_steps/bug_reporting]]. En incluant le modèle\n"
+"   exact de la carte graphique Intel.\n"
 
 #. type: Plain text
 #, no-wrap
@@ -756,10 +920,10 @@ msgstr "Pour savoir si votre interface Wi-Fi nécessite le pilote `wl` :"
 #. type: Bullet: '1. '
 msgid ""
 "Execute the following command in a [[terminal|doc/first_steps/"
-"introduction_to_gnome_and_the_tails_desktop#index3h2]]:"
+"introduction_to_gnome_and_the_tails_desktop#terminal]]:"
 msgstr ""
 "Exécutez la commande suivante dans le [[terminal|doc/first_steps/"
-"introduction_to_gnome_and_the_tails_desktop#index3h2]] :"
+"introduction_to_gnome_and_the_tails_desktop#terminal]] :"
 
 #. type: Plain text
 #, no-wrap
@@ -779,42 +943,27 @@ msgstr ""
 "Si vous trouvez votre périphérique dans la liste de ceux supportés, alors il est\n"
 "impossible d'utiliser votre carte Wi-Fi avec Tails.\n"
 
+#. type: Plain text
+#, fuzzy, no-wrap
+#| msgid "<a id=\"chainloading\"></a>\n"
+msgid "<a id=\"cherry-trail\"></a>\n"
+msgstr "<a id=\"chainloading\"></a>\n"
+
+#. type: Title -
+#, no-wrap
+msgid "Intel Atom Cherry Trail tablets\n"
+msgstr ""
+
+#. type: Plain text
+msgid ""
+"Tails can be started on tablets with an Intel Atom Cherry Trail system on "
+"chip (SoC) but the Wi-Fi interface and sound card doesn't work."
+msgstr ""
+
 #. type: Title =
 #, no-wrap
 msgid "Security issues\n"
 msgstr "Problèmes de sécurité\n"
-
-#. type: Plain text
-#, no-wrap
-msgid "<a id=\"memory-wipe\"></a>\n"
-msgstr "<a id=\"memory-wipe\"></a>\n"
-
-#. type: Title -
-#, no-wrap
-msgid "Tails might not erase all the system memory on shutdown\n"
-msgstr "Tails n'effacera peut-être pas la totalité de la mémoire à l'extinction\n"
-
-#. type: Plain text
-msgid ""
-"On rare systems (non-PAE with big amounts of memory), Tails does not "
-"consistently erase all system memory as it should."
-msgstr ""
-"Sur de rares systèmes (non-PAE avec beaucoup de mémoire), Tails n'efface pas "
-"systématiquement toute la mémoire système comme il devrait."
-
-#. type: Plain text
-msgid ""
-"If no [[cold boot attack|doc/advanced_topics/cold_boot_attacks]] happens "
-"directly after shutdown, the RAM empties itself in minutes, and all data "
-"disappears."
-msgstr ""
-"Si aucune [[attaque par démarrage à froid|doc/advanced_topics/"
-"cold_boot_attacks]] n'a lieu juste après l'extinction, la RAM se vide d'elle-"
-"même en quelques minutes, et toutes les données disparaissent."
-
-#. type: Plain text
-msgid "See [[!tails_ticket 6006 desc=\"More efficient memory wipe\"]]."
-msgstr "Voir [[!tails_ticket 6006 desc=\"le ticket correspondant\"]]."
 
 #. type: Plain text
 #, no-wrap
@@ -834,9 +983,9 @@ msgid ""
 "within Tails."
 msgstr ""
 "Tails n'efface pas encore la [[!wikipedia_fr Mémoire_vidéo desc=\"mémoire "
-"vidéo\"]]. Quand quelqu'un utilise Tails, puis redémarre l'ordinateur avec "
-"un autre système d'exploitation, cet autre système d'exploitation peut voir "
-"ce qui a été affiché sur l'écran dans Tails."
+"vidéo\"]]. Quand une personne utilise Tails, puis redémarre l'ordinateur "
+"avec un autre système d'exploitation, cet autre système d'exploitation peut "
+"voir ce qui a été affiché sur l'écran dans Tails."
 
 #. type: Plain text
 msgid ""
@@ -849,32 +998,6 @@ msgstr ""
 #. type: Plain text
 msgid "See [[!tails_ticket 5356 desc=\"Erase video memory on shutdown\"]]."
 msgstr "Voir [[!tails_ticket 5356 desc=\"le ticket correspondant\"]]."
-
-#. type: Title -
-#, no-wrap
-msgid "After using Tails Installer, the \"emergency shutdown\" doesn't work\n"
-msgstr "Après avoir utilisé l'Installeur USB de Tails, l'\"extinction d'urgence\" ne fonctionne pas.\n"
-
-#. type: Plain text
-msgid ""
-"Tails Installer messes a bit too much with the USB devices for the "
-"\"emergency shutdown on media removal\" feature to continue working after "
-"using it. If you believe this feature is critical for the session you're "
-"running, we advice you to restart Tails."
-msgstr ""
-"L'installeur de Tails déconne un tout petit peu trop avec les périphérique "
-"USB pour que la fonction d'\"extinction d'urgence sur retrait de support\" "
-"fonctionne encore après son utilisation. Si vous pensez que cette "
-"fonctionnalité est cruciale pour votre session, nous vous conseillons de "
-"redémarrer Tails."
-
-#. type: Plain text
-msgid ""
-"See [[!tails_ticket 5677 desc=\"Tails Installer should not break emergency "
-"shutdown\"]]."
-msgstr ""
-"Voir [[!tails_ticket 5677 desc=\"Tails Installer should not break emergency "
-"shutdown\"]]."
 
 #. type: Title -
 #, no-wrap
@@ -893,104 +1016,6 @@ msgstr ""
 #. type: Plain text
 msgid "See [[!tails_ticket 5447 desc=\"Fix DVD eject at shutdown\"]]."
 msgstr "Voir [[!tails_ticket 5447 desc=\"le ticket correspondant\"]]."
-
-#. type: Plain text
-#, no-wrap
-msgid "<a id=\"fails-to-shutdown\"></a>\n"
-msgstr "<a id=\"fails-to-shutdown\"></a>\n"
-
-#. type: Title -
-#, no-wrap
-msgid "Tails fails to completely shutdown or restart\n"
-msgstr "Tails n'arrive pas à s'éteindre complètement ou à redémarrer\n"
-
-#. type: Plain text
-msgid ""
-"When stopping Tails on some hardware, the memory wipe procedure fails to "
-"complete: the display gets scrambled, but the computer doesn't completely "
-"shutdown or restart. Sometimes the caps-lock button light of the keyboard "
-"flashes."
-msgstr ""
-"Lors de l'extinction de Tails, la procédure d'effacement de la mémoire "
-"n'aboutit\n"
-"pas avec certains ordinateurs : l'affichage se brouille, mais l'ordinateur "
-"ne\n"
-"s'éteint pas complètement, ou ne redémarre pas. Parfois, le voyant de\n"
-"verrouillage des majuscules clignote sur le clavier."
-
-#. type: Plain text
-#, no-wrap
-msgid "<div class=\"caution\">\n"
-msgstr "<div class=\"caution\">\n"
-
-#. type: Plain text
-msgid ""
-"When this happens, there is no guarantee that the memory is wiped entirely."
-msgstr ""
-"Lorsque cela arrive, il n'y a aucune garantie comme quoi la mémoire a été "
-"entièrement effacée."
-
-#. type: Plain text
-#, no-wrap
-msgid "</div>\n"
-msgstr "</div>\n"
-
-#. type: Plain text
-msgid "This issue has been reported on the following hardware:"
-msgstr "Ce problème a été rapporté sur les ordinateurs suivants :"
-
-#. type: Plain text
-#, no-wrap
-msgid ""
-"  - Apple when booting from a USB stick:\n"
-"    - MacBook Air 5,1\n"
-"    - MacBook Air 5,2 (using a device installed with Tails Installer)\n"
-"    - MacBook Air 6,2\n"
-"    - MacBook Pro 7,1 13-inch (mid 2010)\n"
-"    - MacBook Pro 9,2 13-inch (mid 2012)\n"
-"    - MacBook Pro 8,1 13-inch (late 2011)\n"
-"    - MacBook Pro 10,2\n"
-"    - MacBook Pro Retina 11,1 (late 2013)\n"
-"    - MacBook Pro Retina 13-inch (early 2015)\n"
-"  - Hewlett-Packard HP ENVY x360\n"
-"  - Hewlett-Packard HP Pavilion dv6 Notebook PC\n"
-"  - Hewlett-Packard HP ProBook 450 G0\n"
-"  - Lenovo ThinkPad X61, only on emergency shutdown when pulling out the\n"
-"    USB stick\n"
-"  - Lenovo ThinkPad X220\n"
-"  - Toshiba Satellite C855D\n"
-"  - Dell Inc. Studio 1458\n"
-"  - Fujitsu Lifebook AH531/GFO, only on regular shutdown, emergency\n"
-"    shutdown works\n"
-"  - Samsung N150P\n"
-"  - Acer Aspire e1-572\n"
-"  - Dell Latitude E6230\n"
-"  - Microsoft Surface Pro 3\n"
-msgstr ""
-"  - Apple en démarrant depuis une clé USB :\n"
-"    - MacBook Air 5,1\n"
-"    - MacBook Air 5,2 (via un périphérique installé avec l'Installeur de Tails)\n"
-"    - MacBook Air 6,2\n"
-"    - MacBook Pro 7,1 13 pouces (mi-2010)\n"
-"    - MacBook Pro 9,2 13 pouces (mi-2012)\n"
-"    - MacBook Pro 8,1 13 pouces (fin 2011)\n"
-"    - MacBook Pro 10,2\n"
-"    - MacBook Pro Retina 11,1 (fin 2013)\n"
-"    - MacBook Pro Retina 13 pouces (début 2015)\n"
-"  - Hewlett-Packard HP ENVY x360\n"
-"  - Hewlett-Packard HP Pavilion dv6 Notebook PC\n"
-"  - Hewlett-Packard HP ProBook 450 G0\n"
-"  - Lenovo ThinkPad X61, seulement en extinction d'urgence lorsque l'on retire la\n"
-"    clé USB\n"
-"  - Lenovo ThinkPad X220\n"
-"  - Toshiba Satellite C855D\n"
-"  - Dell Inc. Studio 1458\n"
-"  - Fujitsu Lifebook AH531/GFO, seulement lors de l'extinction normale, l'extinction\n"
-"    d'urgence fonctionne\n"
-"  - Samsung N150P\n"
-"  - Acer Aspire e1-572\n"
-"  - Dell Latitude E6230\n"
-"  - Microsoft Surface Pro 3\n"
 
 #. type: Plain text
 #, no-wrap
@@ -1041,19 +1066,57 @@ msgstr "-->\n"
 msgid "Other issues\n"
 msgstr "Autres problèmes\n"
 
+#. type: Plain text
+#, no-wrap
+msgid "<a id=\"chainloading\"></a>\n"
+msgstr "<a id=\"chainloading\"></a>\n"
+
 #. type: Title -
 #, no-wrap
-msgid "Boot menu has display issues\n"
-msgstr "Le menu de démarrage a des problèmes d'affichage\n"
+msgid "Chainloading Tails from GRUB\n"
+msgstr "Chargement chaîné (chainloading) de Tails depuis GRUB\n"
 
 #. type: Plain text
 msgid ""
-"Since Tails 1.1, on some hardware (ThinkPad X230, MacBook Pro 8,1), the boot "
-"menu is not displayed properly. Tails starts fine, though."
+"To workaround problems in booting Tails on laptops with UEFI support, it is "
+"possible to chainload the syslinux on the ISO image from another boot loader "
+"that is already working on the laptop, like GRUB. Be careful not to modify "
+"at all the options of syslinux in the process."
+msgstr ""
+"Pour contourner des problèmes de démarrage de Tails sur des ordinateurs avec "
+"prise en charge UEFI, il est possible de faire du chargement chaîné de "
+"syslinux de l'image ISO depuis un autre chargeur d'amorçage qui fonctionne "
+"toujours sur cet ordinateur, comme GRUB. Faites attention à ne pas modifier "
+"toutes les options de syslinux lors de l'opération."
+
+#. type: Plain text
+msgid "The following commands, run from the GRUB shell, might be helpful:"
+msgstr "Les commandes suivantes, lancées depuis un shell GRUB, peuvent aider :"
+
+#. type: Plain text
+#, no-wrap
+msgid ""
+"    set root=(hd1)\n"
+"    chainloader +1\n"
+"    boot\n"
+msgstr ""
+"    set root=(hd1)\n"
+"    chainloader +1\n"
+"    boot\n"
+
+#. type: Title -
+#, no-wrap
+msgid "Boot Loader Menu has display issues\n"
+msgstr "Le menu du chargeur d’amorçage a des problèmes d'affichage\n"
+
+#. type: Plain text
+msgid ""
+"Since Tails 1.1, on some hardware (ThinkPad X230, MacBook Pro 8,1), the Boot "
+"Loader Menu is not displayed properly. Tails starts fine, though."
 msgstr ""
 "Depuis Tails 1.1, sur certains ordinateurs (ThinkPad X230, MacBook Pro 8,1), "
-"le menu d'affichage ne s'affiche pas correctement. Cependant, Tails démarre "
-"correctement."
+"le menu du chargeur d’amorçage ne s'affiche pas correctement. Cependant, "
+"Tails démarre correctement."
 
 #. type: Title -
 #, no-wrap
@@ -1136,20 +1199,28 @@ msgstr ""
 "    synclient FingerLow=1;\n"
 "    synclient FingerHigh=1;\n"
 
+#. type: Title ###
+#, no-wrap
+msgid "Acer C720 - Cypress APA Touchpad"
+msgstr "Acer C720 - Cypress APA Touchpad"
+
+#. type: Plain text
+#, no-wrap
+msgid ""
+"    synclient FingerLow=5;\n"
+"    synclient FingerHigh=5;\n"
+msgstr ""
+"    synclient FingerLow=5;\n"
+"    synclient FingerHigh=5;\n"
+
 #. type: Title -
 #, no-wrap
 msgid "Bluetooth devices don't work\n"
 msgstr "Les périphériques Bluetooth ne fonctionnent pas\n"
 
 #. type: Plain text
-msgid ""
-"Bluetooth is not enabled in Tails for security reasons. To enable it anyway, "
-"see the documentation about [[wireless devices|doc/advanced_topics/"
-"wireless_devices]]."
-msgstr ""
-"Le Bluetooth n'est pas activé dans Tails pour des raisons de sécurité. Pour "
-"l'activer, voir la documentation à propos des [[périphériques sans-fil|doc/"
-"advanced_topics/wireless_devices]]."
+msgid "Bluetooth is not enabled in Tails for security reasons."
+msgstr "Le Bluetooth n'est pas activé dans Tails pour des raisons de sécurité."
 
 #. type: Plain text
 #, no-wrap
@@ -1172,6 +1243,24 @@ msgstr ""
 "traduit dans moins de langues qu'avant. Vous pouvez voir la liste des "
 "langues disponibles dans le navigateur Tor depuis la [page d'accueil du "
 "navigateur Tor](https://www.torproject.org/projects/torbrowser.html)."
+
+#. type: Title -
+#, no-wrap
+msgid "Playing WebM videos in the Tor Browser fails on old hardware\n"
+msgstr "Échec de la lecture des vidéos WebM dans le Navigateur Tor sur du vieux matériel\n"
+
+#. type: Plain text
+msgid ""
+"On systems that only have one CPU code, WebM videos may fail to play in the "
+"Tor Browser, and show the error message: \"Video can't be played because the "
+"file is corrupt\". You can work around this by downloading the video and "
+"watching it in the Totem video player."
+msgstr ""
+"Sur les systèmes n'ayant qu'un seul processeur, la lecture des vidéos WebM "
+"dans le Navigateur Tor peut échouer et afficher le message d'erreur : "
+"\"Video can't be played because the file is corrupt\". Vous pouvez "
+"contourner le problème en téléchargeant la vidéo et en la regardant avec le "
+"lecteur vidéo Totem."
 
 #. type: Plain text
 #, no-wrap
@@ -1202,28 +1291,6 @@ msgstr ""
 #. type: Plain text
 msgid "Note that your Persistent Volume will be safely preserved."
 msgstr "Notez que le volume persistant devrait être préservé."
-
-#. type: Title -
-#, no-wrap
-msgid "Slow graphics operations with recent NVidia hardware\n"
-msgstr "Affichage lent avec du matériel NVidia récent\n"
-
-#. type: Plain text
-msgid ""
-"Graphics display operations are slow on computers with graphics adapters of "
-"the NVidia [[!wikipedia GeForce 900 series]], such as the GeForce GTX 960."
-msgstr ""
-"Les opérations d'affichage sont lentes sur les ordinateurs avec des cartes "
-"graphiques NVidia [[!wikipedia GeForce 900 series]], comme la GeForce GTX "
-"960."
-
-#. type: Plain text
-msgid ""
-"This problem will likely be resolved once Tails [[!tails_ticket 10298 desc="
-"\"includes a newer Linux kernel\"]]."
-msgstr ""
-"Ce problème devrait être résolu lorsque Tails [[!tails_ticket 10298 desc="
-"\"inclura un noyau Linux plus récent\"]]."
 
 #. type: Plain text
 #, no-wrap
@@ -1260,257 +1327,157 @@ msgstr ""
 msgid "See [[!tails_ticket 10576]] for more details."
 msgstr "Voir [[!tails_ticket 10576]] pour plus de détails."
 
-#~ msgid "Print preview is blank in Tor Browser"
-#~ msgstr "L'aperçu avant impression est vierge dans le Navigateur Tor"
+#. type: Title -
+#, no-wrap
+msgid "Tor Browser search engine with security slider set to High requires a click\n"
+msgstr "Le moteur de recherche du Navigateur Tor avec le curseur de sécurité au niveau Haut nécessite un clic\n"
+
+#. type: Plain text
+msgid ""
+"The custom search engine plugin shipped in Tails to localize the search "
+"engine in Tor Browser is still using disconnect.me, while upstream Tor "
+"Browser has switched to duckduckgo.com by default."
+msgstr ""
+"Le module du moteur de recherche personnalisé livré avec Tails pour "
+"personnaliser celui du Navigateur Tor est toujours disconnect.me, tandis que "
+"le Navigateur Tor officiel a basculé sur duckduckgo.com par défaut."
+
+#. type: Plain text
+msgid ""
+"Until we update the search engine plugin, users that set their Tor Browser "
+"security slider to High and use the search box in Tor Browser will end up "
+"after a redirection from disconnect.me on a page on duckduckgo.com asking "
+"them to click on a link to see their result without JavaScript."
+msgstr ""
+"Jusqu'à ce que nous mettions à jour le module du moteur de recherche, les "
+"personnes ayant réglé le curseur de sécurité du Navigateur Tor à Haut et qui "
+"utilisent la zone de recherche dans ce navigateur doivent attendre l'échec "
+"après la redirection depuis disconnect.me sur la page de duckduckgo.com qui "
+"leur demande de cliquer sur un lien pour voir leur résultat sans JavaScript."
+
+#. type: Title -
+#, no-wrap
+msgid "Some languages do not have the correct keyboard layout set by default\n"
+msgstr "Certaines langues n'ont pas la bonne disposition du clavier configurée par défaut\n"
+
+#. type: Plain text
+msgid ""
+"When selecting some languages in the Tails Greeter, the default associated "
+"keyboard layout fallbacks to US."
+msgstr ""
+"Lors de la sélection de certaines langues dans le Tails Greeter, la "
+"disposition du clavier associée par défaut est US."
+
+#. type: Plain text
+msgid ""
+"To use the right keyboard layout during a session, set it in the Tails "
+"Greeter after having set the language. When the desktop has started, apply "
+"the keyboard layout by clicking on the `en` systray icon."
+msgstr ""
+"Pour utiliser la bonne disposition du clavier durant une session, configurez-"
+"là dans le Tails Greeter après avoir configuré la langue. Une fois le bureau "
+"lancé, choisissez la disposition du clavier en cliquant sur l’icône `en` "
+"dans la barre des tâches."
+
+#. type: Plain text
+msgid ""
+"Affected language codes are `AYC`, `BHB`, `BRX`, `CMN`, `HAK`, `HNE`, `LIJ`, "
+"`LZH`, `MHR`, `NAN`, `NHN`, `QUZ`, `SGS`, `SHS`, `TCY`, `THE`, `UNM`, `WAE` "
+"and `YUE`."
+msgstr ""
+"Les codes des langues affectées sont `AYC`, `BHB`, `BRX`, `CMN`, `HAK`, "
+"`HNE`, `LIJ`, `LZH`, `MHR`, `NAN`, `NHN`, `QUZ`, `SGS`, `SHS`, `TCY`, `THE`, "
+"`UNM`, `WAE` et `YUE`."
+
+#~ msgid "Tails does not boot on Virtualbox 32-bit VM\n"
+#~ msgstr ""
+#~ "Tails ne démarre pas dans une machine virtuelle Virtualbox 32 bits.\n"
 
 #~ msgid ""
-#~ "Due to a [bug in Firefox](https://bugzilla.mozilla.org/show_bug.cgi?"
-#~ "id=1205598), its print preview is incompatible with the AppArmor "
-#~ "confinement of Tor Browser in Tails."
+#~ "There is a [bug in Linux 4.7](https://patchwork.kernel.org/"
+#~ "patch/9357253/)  which prevents Tails from booting without I/O APIC "
+#~ "enabled. To enable it:"
 #~ msgstr ""
-#~ "À cause d'un [bug dans Firefox](https://bugzilla.mozilla.org/show_bug.cgi?"
-#~ "id=1205598), l'aperçu avant impression est incompatible avec le "
-#~ "confinement AppArmor du Navigateur Tor dans Tails."
+#~ "Un [bug dans Linux 4.7](https://patchwork.kernel.org/patch/9357253/) "
+#~ "empêche Tails de démarrer si les I/O APIC ne sont pas activés. Pour les "
+#~ "activer :"
+
+#~ msgid "Select the Tails virtual machine."
+#~ msgstr "Sélectionner la machine virtuelle de Tails."
 
 #~ msgid ""
-#~ "From the print preview, you can click\n"
-#~ "<span class=\"guilabel\">Print&hellip;</span> and choose\n"
-#~ "<span class=\"guilabel\">Print to File</span> in the list of printers to\n"
-#~ "save it as a PDF file. Then you can open this PDF file from the file\n"
-#~ "browser.\n"
+#~ "Choose <span class=\"menuchoice\"> <span class=\"guimenu\">Machine</"
+#~ "span>&nbsp;▸ <span class=\"guimenuitem\">Settings...</span></span>."
 #~ msgstr ""
-#~ "Depuis l'aperçu avant impression, vous pouvez cliquer sur\n"
-#~ "<span class=\"guilabel\">Imprimer&hellip;</span> et choisir\n"
-#~ "<span class=\"guilabel\">Imprimer dans un fichier</span> dans la liste des imprimantes\n"
-#~ "pour le sauvegarder comme fichier PDF. Puis vous pouvez ouvrir le fichier PDF depuis le\n"
-#~ "navigateur de fichiers.\n"
+#~ "Choisir <span class=\"menuchoice\"> <span class=\"guimenu\">Machine</"
+#~ "span>&nbsp;▸ <span class=\"guimenuitem\">Configuration...</span></span>."
+
+#~ msgid "Select **System** in the left pane."
+#~ msgstr "Sélectionner **Système** dans la partie de gauche."
 
 #~ msgid ""
-#~ "Tor Browser 5.5 introduces [protection against fingerprinting](https://"
-#~ "trac.torproject.org/projects/tor/ticket/13313)  but due to an [[!"
-#~ "tails_ticket 11000 desc=\"oversight\"]] it is not enabled in Tails 2.0. "
-#~ "However, this is not so bad for Tails users since each Tails system has "
-#~ "the same fonts installed, and hence will look identical, so this only "
-#~ "means that it's easy to distinguish whether a user of Tor Browser 5.5 "
-#~ "uses Tails or not. That is already easy given that Tails has the AdBlock "
-#~ "Plus extension enabled, unlike the normal Tor Browser."
+#~ "In the **Extended Features** section of the **Motherboard** tab, make "
+#~ "sure that **Enable I/O APIC** is enabled."
 #~ msgstr ""
-#~ "Le Navigateur Tor 5.5 introduit une [protection contre les empreintes]"
-#~ "(https://trac.torproject.org/projects/tor/ticket/13313) mais à cause "
-#~ "d'une [[!tails_ticket 11000 desc=\"erreur\"]], elle n'est pas activée "
-#~ "dans Tails 2.0. Toutefois, ce n'est pas si grave pour les utilisateurs de "
-#~ "Tails, puisque chaque sytème Tails a les mêmes polices de caractères "
-#~ "installées, et qu'elles semblent identiques, cela veut seulement dire "
-#~ "qu'il est facile de distinguer si les utilisateurs du Navigateur Tor 5.5 "
-#~ "utilisent Tails ou non. Cette information est déjà facile à retrouver du "
-#~ "fait que Tails comprend l'extension Adblock Plus activée, contrairement "
-#~ "au Navigateur Tor normal."
+#~ "Dans la section **Fonctions avancées** de l'onglet **Carte mère**, "
+#~ "vérifier que la case **Activer les IO-APIC** est cochée."
 
-#~ msgid "Tor Browser does not support MPEG-4 videos\n"
-#~ msgstr "Le Navigateur Tor ne supporte pas les vidéos MPEG-4\n"
+#~ msgid "Click **OK**."
+#~ msgstr "Cliquer sur **OK**."
 
 #~ msgid ""
-#~ "Tor Browser does not support MPEG-4 video streaming in Tails 2.0 and "
-#~ "newer. Instead, in some cases you can download them and play them with "
-#~ "the video player included in Tails."
+#~ "Some computers [[!tails_ticket 12218 desc=\"cannot start Tails Greeter"
+#~ "\"]]."
 #~ msgstr ""
-#~ "Le Navigateur Tor ne supporte plus les vidéos MPEG-4 en streaming depuis "
-#~ "Tails 2.0. A la place, vous pouvez dans certains cas les télécharger et "
-#~ "les lire dans le lecteur de vidéos inclut dans Tails."
+#~ "Certains ordinateurs [[!tails_ticket 12218 desc=\"n'arrivent pas à "
+#~ "démarrer Tails Greeter\"]]."
 
 #~ msgid ""
-#~ "On the other hand, web sites that propose WebM video streaming work fine."
+#~ "See [[!tails_ticket 12217 desc=\"relevant ticket\"]] for more information."
 #~ msgstr ""
-#~ "En revanche, les sites web proposant des vidéos WebM en streaming "
-#~ "marchent correctement."
+#~ "Voir le [[!tails_ticket 12217 desc=\"ticket correspondant\"]] pour plus "
+#~ "de détails."
 
-#~ msgid "Network interfaces remain turned off"
-#~ msgstr "Les interfaces réseau restent inactives"
+#~ msgid "Slow graphics operations with recent NVidia hardware\n"
+#~ msgstr "Affichage lent avec du matériel NVidia récent\n"
 
 #~ msgid ""
-#~ "For your safety, Tails blocks access to the network until you have chosen "
-#~ "whether to [[spoof the MAC address|doc/first_steps/startup_options/"
-#~ "mac_spoofing]].  Once you have done that, network interfaces are turned "
-#~ "on. However, since Tails 2.0, sometimes network interfaces remain turned "
-#~ "off."
+#~ "Graphics display operations are slow on computers with graphics adapters "
+#~ "of the NVidia [[!wikipedia GeForce 900 series]], such as the GeForce GTX "
+#~ "960."
 #~ msgstr ""
-#~ "Pour votre sécurité, Tails bloque les accès au réseau, à moins que vous "
-#~ "ayez choisi de [[masquer votre adresse MAC|doc/first_steps/"
-#~ "startup_options/mac_spoofing]]. Une fois que vous l'avez fait, les "
-#~ "interfaces réseau sont activées. Toutefois, avec Tails 2.0, il arrive "
-#~ "quelquefois que les interfaces réseau restent inactives."
+#~ "Les opérations d'affichage sont lentes sur les ordinateurs avec des "
+#~ "cartes graphiques NVidia [[!wikipedia GeForce 900 series]], comme la "
+#~ "GeForce GTX 960."
 
 #~ msgid ""
-#~ "If this happens to you, please [[report a bug|doc/first_steps/"
-#~ "bug_reporting]]: we currently lack information to fix this problem."
+#~ "This problem is likely resolved with Tails [[!tails_ticket 10298 desc="
+#~ "\"including a newer Linux kernel\"]]."
 #~ msgstr ""
-#~ "Si cela vous arrive, merci de [[rapporter un  bogue|doc/first_steps/"
-#~ "bug_reporting]] : nous manquons actuellement d'informations pour corriger "
-#~ "ce problème."
-
-#~ msgid "Restarting Tails generally solves this problem."
-#~ msgstr "Redémarrer Tails corrige généralement ce problème."
-
-#~ msgid "See [[!tails_ticket 9012]] for more details."
-#~ msgstr "Voir [[!tails_ticket 9012]] pour plus de détails."
-
-#~ msgid "<a id=\"keyboard_layout\"></a>\n"
-#~ msgstr "<a id=\"keyboard_layout\"></a>\n"
-
-#~ msgid "Keyboard layout is sometimes not applied\n"
-#~ msgstr "La disposition du clavier n'est des fois pas appliquée\n"
+#~ "Ce problème devrait être résolu lorsque Tails [[!tails_ticket 10298 desc="
+#~ "\"incluera une nouvelle version du noyau Linux\"]]."
 
 #~ msgid ""
-#~ "The keyboard layout selected in *Tails Greeter* is sometimes not applied "
-#~ "if different from **English (US)**. Click on the [[keyboard layout|doc/"
-#~ "first_steps/introduction_to_gnome_and_the_tails_desktop#keyboard_layout]] "
-#~ "icon in the notification area to switch between English and the layout "
-#~ "selected in *Tails Greeter*."
+#~ "After using Tails Installer, the \"emergency shutdown\" doesn't work\n"
 #~ msgstr ""
-#~ "La disposition du clavier dans *Tails Greeter* n'est des fois pas "
-#~ "appliquée lorsque différente de **English (US)**. Cliquer sur l’icône de "
-#~ "[[disposition du clavier|doc/first_steps/"
-#~ "introduction_to_gnome_and_the_tails_desktop#keyboard_layout]] dans la "
-#~ "zone de notification pour changer entre Anglais et la disposition choisie "
-#~ "dans *Tails Greeter*."
-
-#~ msgid "<a id=\"bcm43224\"></a>\n"
-#~ msgstr "<a id=\"bcm43224\"></a>\n"
-
-#~ msgid "Broadcom BCM43224 802.11a/b/g/n Wi-Fi network interface\n"
-#~ msgstr "Interfaces réseau Wi-Fi Broadcom BCM43224 802.11a/b/g/n\n"
+#~ "Après avoir utilisé l'Installeur USB de Tails, l'\"extinction d'urgence\" "
+#~ "ne fonctionne pas.\n"
 
 #~ msgid ""
-#~ "The Broadcom Corporation BCM43224 802.11a/b/g/n Wi-Fi network interface "
-#~ "is known to not be able to [[spoof its MAC address|doc/first_steps/"
-#~ "startup_options/mac_spoofing]]. Tails enables MAC spoofing by default, "
-#~ "and will disable any network interface it fails to spoof. To make it work "
-#~ "you must [[disable Tails' MAC spoofing feature|doc/first_steps/"
-#~ "startup_options/mac_spoofing#disable]]; please read the documentation "
-#~ "carefully and make sure you understand the consequences before doing so."
+#~ "Tails Installer messes a bit too much with the USB devices for the "
+#~ "\"emergency shutdown on media removal\" feature to continue working after "
+#~ "using it. If you believe this feature is critical for the session you're "
+#~ "running, we advice you to restart Tails."
 #~ msgstr ""
-#~ "Les interfaces réseau BCM43224 802.11a/b/g/n de Broadcom Corporation sont "
-#~ "connues pour ne pas être capable d'[[usurper leur adresse MAC|doc/"
-#~ "first_steps/startup_options/mac_spoofing]]. Tails active l’usurpation "
-#~ "d'adresse MAC par défaut, et désactivera chaque interface réseau qui "
-#~ "n'arrive pas l'usurper. Pour les faire fonctionner vous devez "
-#~ "[[désactiver la fonctionnalité d'usurpation d'adresse MAC de Tails|doc/"
-#~ "first_steps/startup_options/mac_spoofing#disable]] ; veuillez lire "
-#~ "attentivement la documentation et être sûr que vous comprenez les "
-#~ "conséquences avant de faire cela."
+#~ "L'installeur de Tails déconne un tout petit peu trop avec les "
+#~ "périphérique USB pour que la fonction d'\"extinction d'urgence sur "
+#~ "retrait de support\" fonctionne encore après son utilisation. Si vous "
+#~ "pensez que cette fonctionnalité est cruciale pour votre session, nous "
+#~ "vous conseillons de redémarrer Tails."
 
 #~ msgid ""
-#~ "This network interface can, for instance, be found in the MacBook Air "
-#~ "4,1, 4,2, 5,1 and 5,2."
+#~ "See [[!tails_ticket 5677 desc=\"Tails Installer should not break "
+#~ "emergency shutdown\"]]."
 #~ msgstr ""
-#~ "Ces interfaces réseau peuvent, notamment, être rencontrées dans les "
-#~ "MacBook Air 4,1, 4,2, 5,1 et 5,2."
-
-#~ msgid "<a id=\"i2p_browser\"></a>\n"
-#~ msgstr "<a id=\"i2p_browser\"></a>\n"
-
-#~ msgid "Hard to exchange files with the I2P Browser\n"
-#~ msgstr "Difficulté pour échanger des fichiers via le navigateur I2P\n"
-
-#~ msgid ""
-#~ "It is impossible to exchange files between the I2P Browser and the "
-#~ "amnesia user.  See [[!tails_ticket 8280]]. But you can do that with "
-#~ "administration rights from the command line. The home directory of the "
-#~ "I2P Browser is located in `/var/lib/i2p-browser/chroot/home/i2pbrowser/`."
-#~ msgstr ""
-#~ "Il est impossible d'échanger des fichiers entre le navigateur I2P et "
-#~ "l'utilisateur amnesia. Voir le [[!tails_ticket 8280]]. Mais vous pouvez "
-#~ "le faire en ligne de commande avec des droits d'administration. Le "
-#~ "dossier home du navigateur I2P est situé dans `/var/lib/i2p-browser/"
-#~ "chroot/home/i2pbrowser/`."
-
-#~ msgid ""
-#~ "You might have to check the permissions of the files that you want to "
-#~ "exchange with the I2P Browser:"
-#~ msgstr ""
-#~ "Vous devrez peut-être vérifier les permissions des fichiers que vous "
-#~ "voulez échanger via le navigateur I2P :"
-
-#~ msgid ""
-#~ "They need to belong to the `i2pbrowser` user to be accessible from inside "
-#~ "of the I2P browser."
-#~ msgstr ""
-#~ "Ils doivent appartenir à l'utilisateur `i2pbrowser` pour être accessible "
-#~ "depuis le navigateur I2P."
-
-#~ msgid ""
-#~ "They need to belong to the `amnesia` user to be accessible from outside "
-#~ "of the I2P Browser."
-#~ msgstr ""
-#~ "Ils doivent appartenir à l'utilisateur `amnesia` pour être accessible en "
-#~ "dehors du navigateur I2P."
-
-#~ msgid "The Windows 8 Browser theme doesn't look like Internet Explorer 10\n"
-#~ msgstr ""
-#~ "Le thème Navigateur Windows 8 ne ressemble pas à Internet Explorer 10\n"
-
-#~ msgid ""
-#~ "When the Windows 8 camouflage is enabled, the Internet Explorer 10 theme "
-#~ "for the Tor Browser, Unsafe Browser and I2P Browser is incorrect ([[!"
-#~ "tails_ticket 9326]]). Specifically,"
-#~ msgstr ""
-#~ "Lorsque le camouflage Windows 8 est activé, le thème d'Internet Explorer "
-#~ "pour le Tor Browser, le Navigateur Non-Sécurisé et le navigateur I2P est "
-#~ "incorrect ([[!tails_ticket 9326]]). En particulier,"
-
-#~ msgid ""
-#~ "the default Firefox tab bar is used (it should be positioned above the "
-#~ "URL bar, and use a \"square\" style), and"
-#~ msgstr ""
-#~ "La barre d'onglet par défaut de Firefox est utilisée (elle devrait être "
-#~ "positionnée au-dessus de la barre d'URL, et utilisé un style \"carré\"), "
-#~ "et"
-
-#~ msgid "the search bar is enabled (it should be disabled)."
-#~ msgstr "la barre de recherche est activée (elle doit être désactivée)."
-
-#~ msgid "Claws Mail leaks plaintext of encrypted emails to IMAP server\n"
-#~ msgstr ""
-#~ "Claws Mails laisse fuiter en clair les mails chiffrés sur le serveur "
-#~ "IMAP\n"
-
-#~ msgid ""
-#~ "Claws Mail stores plaintext copies of all emails on the remote IMAP "
-#~ "server, including those that are meant to be encrypted."
-#~ msgstr ""
-#~ "Claws Mail stocke des copies en clair de tous les messages sur le serveur "
-#~ "IMAP distant, y compris ceux qui sont sensés être chiffrés."
-
-#~ msgid ""
-#~ "If you send OpenPGP encrypted emails using *Claws Mail* and IMAP, make "
-#~ "sure to apply one of the workarounds documented in our [[security "
-#~ "announcement|security/claws_mail_leaks_plaintext_to_imap]]."
-#~ msgstr ""
-#~ "Si vous envoyez des messages chiffrés OpenPGP en utilisant *Claws Mail* "
-#~ "et IMAP, soyez sûr d'appliquer une de nos solutions de contournement "
-#~ "documentée dans notre [[annonce de sécurité|security/"
-#~ "claws_mail_leaks_plaintext_to_imap]]."
-
-#~ msgid "Stream isolation inconsistency in Claws Mail\n"
-#~ msgstr "Isolation des flux irrégulière dans Claws Mails\n"
-
-#~ msgid ""
-#~ "Claws Mail isn't using its dedicated Tor SocksPort for Tor hidden service "
-#~ "IMAP/POP/SMTP servers (instead Tor's TransPort is used). This is just a "
-#~ "deviation from Tails' design and should have no adverse real world "
-#~ "consequences."
-#~ msgstr ""
-#~ "Claws Mail n'utilise pas un SocksPort Tor dédié pour les serveurs IMAP/"
-#~ "POP/SMTP en services cachés (TransPort de Tor est utilisé à la place). "
-#~ "C'est seulement une variation du design de Tails et ça ne devrait pas "
-#~ "avoir de conséquences fâcheuses dans la \"vraie vie\"."
-
-#~ msgid ""
-#~ "<!-- If this section is empty adjust the [[fingerprint documentation|doc/"
-#~ "about/fingerprint]]. -->\n"
-#~ msgstr ""
-#~ "<!-- If this section is empty adjust the [[documentation empreinte|doc/"
-#~ "about/fingerprint]]. -->\n"
-
-#~ msgid "None currently known."
-#~ msgstr "Aucune actuellement connue."
+#~ "Voir [[!tails_ticket 5677 desc=\"Tails Installer should not break "
+#~ "emergency shutdown\"]]."

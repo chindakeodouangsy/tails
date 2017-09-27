@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Astryd Viandila Dahlan <astrydviandila@yahoo.com>, 2015
+# Astryd Viandila Dahlan, 2015
 # cholif yulian <cholifyulian123@gmail.com>, 2015
 # Dwi Cahyono <dwexz_cie@yahoo.com>, 2015
+# Frengky Sinaga <frengkys5@gmail.com>, 2016
 # Ibnu Daru Aji, 2014
-# Mohamad Hasan Al Banna <se7entime@protonmail.com>, 2015
+# Mohamad Hasan Al Banna <se7entime@openmailbox.org>, 2015
 # L1Nus <multazam_ali@me.com>, 2014
-# zk <zamani.karmana@gmail.com>, 2015-2016
-# zk <zamani.karmana@gmail.com>, 2015
+# zk, 2015-2016
+# zk, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-02 16:02+0200\n"
-"PO-Revision-Date: 2016-03-21 16:27+0000\n"
-"Last-Translator: zk <zamani.karmana@gmail.com>\n"
+"POT-Creation-Date: 2017-09-13 20:10+0200\n"
+"PO-Revision-Date: 2017-07-14 15:30+0000\n"
+"Last-Translator: carolyn <carolyn@anhalt.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/otf/torproject/language/"
 "id/)\n"
 "Language: id\n"
@@ -88,44 +89,14 @@ msgid "Do you want to start Electrum anyway?"
 msgstr "Apakah Anda tetap ingin memulai Electrum?"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:23
-#: config/chroot_local-includes/usr/local/bin/icedove:37
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:41
 msgid "_Launch"
 msgstr "_Luncurkan"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:24
-#: config/chroot_local-includes/usr/local/bin/icedove:38
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:42
 msgid "_Exit"
 msgstr "_Keluar"
-
-#: config/chroot_local-includes/usr/local/bin/icedove:27
-msgid "The <b>Claws Mail</b> persistence feature is activated."
-msgstr "Fitur persistensi <b>Claws Mail</b> sudah diaktifkan."
-
-#: config/chroot_local-includes/usr/local/bin/icedove:29
-msgid ""
-"If you have emails saved in <b>Claws Mail</b>, you should <a href='https://"
-"tails.boum.org/doc/anonymous_internet/claws_mail_to_icedove'>migrate your "
-"data</a> before starting <b>Icedove</b>."
-msgstr ""
-"Jika Anda memiliki surel yang disimpan di <b>Claws Mail</b>, Anda harus <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove'>migrasikan data Anda</a> sebelum menjalankan "
-"<b>Icedove</b>."
-
-#: config/chroot_local-includes/usr/local/bin/icedove:34
-#, fuzzy
-msgid ""
-"If you already migrated your emails to <b>Icedove</b>, you should <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove#delete'>delete all your <b>Claws Mail</b> data</a> to "
-"remove this warning."
-msgstr ""
-"Jika Anda memiliki surel yang disimpan di <b>Claws Mail</b>, Anda harus <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove'>migrasikan data Anda</a> sebelum menjalankan "
-"<b>Icedove</b>."
 
 #: config/chroot_local-includes/usr/share/gnome-shell/extensions/shutdown-helper@tails.boum.org/extension.js:71
 msgid "Restart"
@@ -162,14 +133,14 @@ msgstr ""
 msgid "not available"
 msgstr "tak tersedia"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:118
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:124
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:128
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:147
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:162
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:166
 msgid "Your additional software"
 msgstr "Perangkat lunak tambahan Anda"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:119
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:129
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:148
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:167
 msgid ""
 "The upgrade failed. This might be due to a network problem. Please check "
 "your network connection, try to restart Tails, or read the system log to "
@@ -179,7 +150,7 @@ msgstr ""
 "koneksi jaringan Anda, coba mulai ulang Tails, atau baca log sistem untuk "
 "lebih memahami permasalahannya."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:125
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:163
 msgid "The upgrade was successful."
 msgstr "Pemutakhiran telah berhasil."
 
@@ -199,11 +170,11 @@ msgstr ""
 msgid "Failed to synchronize the clock!"
 msgstr "Gagal menyinkronisasi jam!"
 
-#: config/chroot_local-includes/usr/local/bin/tails-security-check:146
+#: config/chroot_local-includes/usr/local/bin/tails-security-check:124
 msgid "This version of Tails has known security issues:"
 msgstr "Versi Tails ini telah mengetahui isu-isu keamanan:"
 
-#: config/chroot_local-includes/usr/local/bin/tails-security-check:156
+#: config/chroot_local-includes/usr/local/bin/tails-security-check:134
 msgid "Known security issues"
 msgstr "Isu keamanan yang diketahui"
 
@@ -272,11 +243,11 @@ msgstr ""
 "Atau lakukan pemutakhiran manual.\n"
 "Lihat https://tails.boum.org/doc/first_steps/upgrade#manual"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:67
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:71
 msgid "Warning: virtual machine detected!"
 msgstr "Peringatan: mesin virtual terdeteksi!"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:69
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:73
 msgid ""
 "Both the host operating system and the virtualization software are able to "
 "monitor what you are doing in Tails."
@@ -284,11 +255,11 @@ msgstr ""
 "Baik sistem operasi asal dan perangkat lunak virtualisasi dapat memantau "
 "yang Anda lakukan di Tails."
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:72
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:76
 msgid "Warning: non-free virtual machine detected!"
 msgstr "Peringatan: mesin virtual non-free terdeteksi!"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:74
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:78
 msgid ""
 "Both the host operating system and the virtualization software are able to "
 "monitor what you are doing in Tails. Only free software can be considered "
@@ -300,23 +271,23 @@ msgstr ""
 "dipandang terpercaya, untuk kedua sistem operasi host dan perangkat lunak "
 "virtualisasi."
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:79
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:83
 msgid "Learn more"
 msgstr "Pelajari lebih lanjut"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:40
+#: config/chroot_local-includes/usr/local/bin/tor-browser:43
 msgid "Tor is not ready"
 msgstr "Tor belum siap"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:41
+#: config/chroot_local-includes/usr/local/bin/tor-browser:44
 msgid "Tor is not ready. Start Tor Browser anyway?"
 msgstr "Tor belum siap. Tetap jalankan peramban Tor?"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:42
+#: config/chroot_local-includes/usr/local/bin/tor-browser:45
 msgid "Start Tor Browser"
 msgstr "Mulai peramban Tor"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:43
+#: config/chroot_local-includes/usr/local/bin/tor-browser:46
 msgid "Cancel"
 msgstr "Batal"
 
@@ -395,48 +366,6 @@ msgstr "Konfigurasi peramban gagal."
 msgid "Failed to run browser."
 msgstr "Gagal menjalankan peramban."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:34
-msgid "I2P failed to start"
-msgstr "I2P gagal memulai"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:35
-msgid ""
-"Something went wrong when I2P was starting. Check the logs in /var/log/i2p "
-"for more information."
-msgstr ""
-"Ada yang salah ketika I2P dimulai. Cek logs in/var/log/i2p untuk informasi "
-"lebih lanjut."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:52
-msgid "I2P's router console is ready"
-msgstr "Konsol router I2P sudah siap"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:53
-msgid "You can now access I2P's router console in the I2P Browser."
-msgstr "Sekarang Anda bisa mengakses konsol router I2P di dalam peramban I2P."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:58
-msgid "I2P is not ready"
-msgstr "I2P belum siap."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:59
-msgid ""
-"Eepsite tunnel not built within six minutes. Check the router console in the "
-"I2P Browser or the logs in /var/log/i2p for more information. Reconnect to "
-"the network to try again."
-msgstr ""
-"Tunnel eepsite tidak dibangun dalam waktu 6 menit. Periksa konsol router di "
-"peramban I2P atau log di /var/log/i2p untuk informasi lebih lanjut. Sambung "
-"ulang ke jaringan untuk mencoba kembali."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:71
-msgid "I2P is ready"
-msgstr "I2P telah siap"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:72
-msgid "You can now access services on I2P."
-msgstr "Sekarang Anda dapat mengakses layanan di I2P."
-
 #: ../config/chroot_local-includes/etc/skel/Desktop/Report_an_error.desktop.in.h:1
 msgid "Report an error"
 msgstr "Laporkan kesalahan"
@@ -449,14 +378,6 @@ msgstr "Dokumentasi Tails"
 #: ../config/chroot_local-includes/usr/share/applications/tails-documentation.desktop.in.h:2
 msgid "Learn how to use Tails"
 msgstr "Pelajari bagaimana menggunakan Tails"
-
-#: ../config/chroot_local-includes/usr/share/applications/i2p-browser.desktop.in.h:1
-msgid "Anonymous overlay network browser"
-msgstr "Tanpanama membebani jaringan peramban"
-
-#: ../config/chroot_local-includes/usr/share/applications/i2p-browser.desktop.in.h:2
-msgid "I2P Browser"
-msgstr "I2P Peramban"
 
 #: ../config/chroot_local-includes/usr/share/applications/tails-about.desktop.in.h:2
 msgid "Learn more about Tails"
@@ -482,135 +403,6 @@ msgstr "Unsafe Web Browser"
 msgid "Tails specific tools"
 msgstr "Peralatan spesifik Tails"
 
-#~ msgid "OpenPGP encryption applet"
-#~ msgstr "Applet enkripsi OpenPGP"
-
-#~ msgid "Exit"
-#~ msgstr "Keluar"
-
-#~ msgid "About"
-#~ msgstr "Tentang"
-
-#~ msgid "Encrypt Clipboard with _Passphrase"
-#~ msgstr "Enkripsikan Papan Klip dengan _Frasa Sandi"
-
-#~ msgid "Sign/Encrypt Clipboard with Public _Keys"
-#~ msgstr "Tandai/Enkripsi Papan Klip dengan _Kunci Publik"
-
-#~ msgid "_Decrypt/Verify Clipboard"
-#~ msgstr "_Dekrip/Verifikasi Papan Klip"
-
-#~ msgid "_Manage Keys"
-#~ msgstr "_Kelola Kunci"
-
-#~ msgid "_Open Text Editor"
-#~ msgstr "_Buka Penyunting Teks"
-
-#~ msgid "The clipboard does not contain valid input data."
-#~ msgstr "Papan klip ini tidak berisi data masukan yang valid."
-
-#~ msgid "Unknown Trust"
-#~ msgstr "Kepercayaan Tidak Dikenal"
-
-#~ msgid "Marginal Trust"
-#~ msgstr "Kepercayaan Marginal"
-
-#~ msgid "Full Trust"
-#~ msgstr "Kepercayaan Penuh"
-
-#~ msgid "Ultimate Trust"
-#~ msgstr "Kepercayaan Tertinggi"
-
-#~ msgid "Name"
-#~ msgstr "Nama"
-
-#~ msgid "Key ID"
-#~ msgstr "ID Kunci"
-
-#~ msgid "Status"
-#~ msgstr "Status"
-
-#~ msgid "Fingerprint:"
-#~ msgstr "Sidik jari:"
-
-#~ msgid "User ID:"
-#~ msgid_plural "User IDs:"
-#~ msgstr[0] "ID Pengguna:"
-
-#~ msgid "None (Don't sign)"
-#~ msgstr "Tidak ada (Jangan tandai)"
-
-#~ msgid "Select recipients:"
-#~ msgstr "Pilih penerima:"
-
-#~ msgid "Hide recipients"
-#~ msgstr "Sembunyikan penerima"
-
-#~ msgid ""
-#~ "Hide the user IDs of all recipients of an encrypted message. Otherwise "
-#~ "anyone that sees the encrypted message can see who the recipients are."
-#~ msgstr ""
-#~ "Sembunyikan ID pengguna penerima pesan yang dienkripsi. Jika tidak, semua "
-#~ "orang yang dapat melihat pesan terenkripsi dapat melihat siapa saja "
-#~ "penerimanya."
-
-#~ msgid "Sign message as:"
-#~ msgstr "Tandai pesan sebagai:"
-
-#~ msgid "Choose keys"
-#~ msgstr "Pilih kunci"
-
-#~ msgid "Do you trust these keys?"
-#~ msgstr "Apakah Anda percaya kunci-kunci ini?"
-
-#~ msgid "The following selected key is not fully trusted:"
-#~ msgid_plural "The following selected keys are not fully trusted:"
-#~ msgstr[0] "Kunci terpilih berikut tidak sepenuhnya bisa dipercaya:"
-
-#~ msgid "Do you trust this key enough to use it anyway?"
-#~ msgid_plural "Do you trust these keys enough to use them anyway?"
-#~ msgstr[0] "Apakah Anda cukup percaya untuk tetap menggunakan kunci ini?"
-
-#~ msgid "No keys selected"
-#~ msgstr "Tidak ada kunci terpilih"
-
-#~ msgid ""
-#~ "You must select a private key to sign the message, or some public keys to "
-#~ "encrypt the message, or both."
-#~ msgstr ""
-#~ "Anda harus memiliki private key untuk menandai pesan, atau beberapa "
-#~ "public key untuk mengenkripsi pesan, atau keduanya."
-
-#~ msgid "No keys available"
-#~ msgstr "Tidak ada kunci tersedia"
-
-#~ msgid ""
-#~ "You need a private key to sign messages or a public key to encrypt "
-#~ "messages."
-#~ msgstr ""
-#~ "Anda memerlukan private key untuk menandai pesan atau public key untuk "
-#~ "mengenkripsi pesan."
-
-#~ msgid "GnuPG error"
-#~ msgstr "Galat GnuPG"
-
-#~ msgid "Therefore the operation cannot be performed."
-#~ msgstr "Karenanya pengoperasian tidak dapat dilaksanakan."
-
-#~ msgid "GnuPG results"
-#~ msgstr "Hasil GnuPG"
-
-#~ msgid "Output of GnuPG:"
-#~ msgstr "Keluaran GnuPG:"
-
-#~ msgid "Other messages provided by GnuPG:"
-#~ msgstr "Pesan-pesan lain dari GnuPG:"
-
-#~ msgid "Reboot"
-#~ msgstr "Boot-ulang"
-
-#~ msgid "Immediately reboot computer"
-#~ msgstr "Segera boot-ulang komputer"
-
-#~ msgid "Immediately shut down computer"
-#~ msgstr "Segera matikan komputer"
+#: ../config/chroot_local-includes/usr/share/polkit-1/actions/org.boum.tails.root-terminal.policy.in.h:1
+msgid "To start a Root Terminal, you need to authenticate."
+msgstr ""

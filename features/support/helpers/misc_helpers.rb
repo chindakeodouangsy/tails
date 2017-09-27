@@ -1,4 +1,6 @@
 require 'date'
+require 'io/console'
+require 'pry'
 require 'timeout'
 require 'test/unit'
 
@@ -28,8 +30,12 @@ end
 
 # Call block (ignoring any exceptions it may throw) repeatedly with
 # one second breaks until it returns true, or until `timeout` seconds have
-# passed when we throw a Timeout::Error exception.
+# passed when we throw a Timeout::Error exception. If `timeout` is `nil`,
+# then we just run the code block with no timeout.
 def try_for(timeout, options = {})
+  if block_given? && timeout.nil?
+    return yield
+  end
   options[:delay] ||= 1
   last_exception = nil
   # Create a unique exception used only for this particular try_for
@@ -76,11 +82,12 @@ def try_for(timeout, options = {})
   # ends up there immediately.
 rescue unique_timeout_exception => e
   msg = options[:msg] || 'try_for() timeout expired'
+  exc_class = options[:exception] || Timeout::Error
   if last_exception
     msg += "\nLast ignored exception was: " +
            "#{last_exception.class}: #{last_exception}"
   end
-  raise Timeout::Error.new(msg)
+  raise exc_class.new(msg)
 end
 
 class TorFailure < StandardError
@@ -91,7 +98,15 @@ end
 
 def force_new_tor_circuit()
   debug_log("Forcing new Tor circuit...")
+  # Tor rate limits NEWNYM to at most one per 10 second period.
+  interval = 10
+  if $__last_newnym
+    elapsed = Time.now - $__last_newnym
+    # We sleep an extra second to avoid tight timings.
+    sleep interval - elapsed + 1 if 0 < elapsed && elapsed < interval
+  end
   $vm.execute_successfully('tor_control_send "signal NEWNYM"', :libs => 'tor')
+  $__last_newnym = Time.now
 end
 
 # This will retry the block up to MAX_NEW_TOR_CIRCUIT_RETRIES
@@ -110,11 +125,6 @@ def retry_tor(recovery_proc = nil, &block)
                :operation_name => 'Tor operation', &block)
 end
 
-def retry_i2p(recovery_proc = nil, &block)
-  retry_action(15, :recovery_proc => recovery_proc,
-               :operation_name => 'I2P operation', &block)
-end
-
 def retry_action(max_retries, options = {}, &block)
   assert(max_retries.is_a?(Integer), "max_retries must be an integer")
   options[:recovery_proc] ||= nil
@@ -125,6 +135,10 @@ def retry_action(max_retries, options = {}, &block)
     begin
       block.call
       return
+    rescue NameError => e
+      # NameError most likely means typos, and hiding that is rarely
+      # (never?) a good idea, so we rethrow them.
+      raise e
     rescue Exception => e
       if retries <= max_retries
         debug_log("#{options[:operation_name]} failed (Try #{retries} of " +
@@ -141,16 +155,19 @@ def retry_action(max_retries, options = {}, &block)
   end
 end
 
+alias :retry_times :retry_action
+
+class TorBootstrapFailure < StandardError
+end
+
 def wait_until_tor_is_working
   try_for(270) { $vm.execute('/usr/local/sbin/tor-has-bootstrapped').success? }
-rescue Timeout::Error => e
-  c = $vm.execute("journalctl SYSLOG_IDENTIFIER=restart-tor")
-  if c.success?
-    debug_log("From the journal:\n" + c.stdout.sub(/^/, "  "))
-  else
-    debug_log("Nothing was in the journal about 'restart-tor'")
-  end
-  raise e
+rescue Timeout::Error
+  # Save Tor logs before erroring out
+    File.open("#{$config["TMPDIR"]}/log.tor", 'w') { |file|
+    file.write("#{$vm.execute('journalctl --no-pager -u tor@default.service').stdout}")
+  }
+  raise TorBootstrapFailure.new('Tor failed to bootstrap')
 end
 
 def convert_bytes_mod(unit)
@@ -264,8 +281,77 @@ def info_log_artifact_location(type, path)
   info_log("#{type.capitalize}: #{path}")
 end
 
+def notify_user(message)
+  alarm_script = $config['NOTIFY_USER_COMMAND']
+  return if alarm_script.nil? || alarm_script.empty?
+  cmd_helper(alarm_script.gsub('%m', message))
+end
+
 def pause(message = "Paused")
+  notify_user(message)
   STDERR.puts
-  STDERR.puts "#{message} (Press ENTER to continue!)"
-  STDIN.gets
+  STDERR.puts message
+  # Ring the ASCII bell for a helpful notification in most terminal
+  # emulators.
+  STDOUT.write "\a"
+  STDERR.puts
+  loop do
+    STDERR.puts "Return: Continue; d: Debugging REPL"
+    c = STDIN.getch
+    case c
+    when "\r"
+      return
+    when "d"
+      binding.pry(quiet: true)
+    end
+  end
+end
+
+# Converts dbus-send replies into a suitable Ruby value
+def dbus_send_ret_conv(ret)
+  type, val = /^\s*(\S+)\s+(.+)$/m.match(ret)[1,2]
+  case type
+  when 'string'
+    # Unquote
+    val[1...-1]
+  when 'int32'
+    val.to_i
+  when 'array'
+    # Drop array start/stop markers ([])
+    val.split("\n")[1...-1].map { |e| dbus_send_ret_conv(e) }
+  else
+    raise "No Ruby type conversion for D-Bus type '#{type}'"
+  end
+end
+
+def dbus_send_get_shellcommand(service, object_path, method, *args, **opts)
+  opts ||= {}
+  ruby_type_to_dbus_type = {
+    String => 'string',
+    Fixnum => 'int32',
+  }
+  typed_args = args.map do |arg|
+    type = ruby_type_to_dbus_type[arg.class]
+    assert_not_nil(type, "No D-Bus type conversion for Ruby type '#{arg.class}'")
+    "#{type}:#{arg}"
+  end
+  $vm.execute(
+    "dbus-send --print-reply --dest=#{service} #{object_path} " +
+    "    #{method} #{typed_args.join(' ')}",
+    **opts
+  )
+end
+
+def dbus_send(*args, **opts)
+  opts ||= {}
+  opts[:return_shellcommand] ||= false
+  c = dbus_send_get_shellcommand(*args, **opts)
+  return c if opts[:return_shellcommand]
+  assert_vmcommand_success(c)
+  # The first line written is about timings and other stuff we don't
+  # care about; we only care about the return values.
+  ret_lines = c.stdout.split("\n")
+  ret_lines.shift
+  ret = ret_lines.join("\n")
+  dbus_send_ret_conv(ret)
 end

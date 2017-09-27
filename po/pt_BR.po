@@ -3,12 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Communia <ameaneantie@riseup.net>, 2013-2016
+# Communia <ameaneantie@riseup.net>, 2013-2017
 # carlo giusepe tadei valente sasaki <carlo.gt.valente@gmail.com>, 2014
 # Danton Medrado, 2015
 # Eduardo Bonsi, 2013-2014
 # Eduardo Luis Voltolini Tafner, 2013
-# Gilberto Coutinho <gilberto.jsc@gmail.com>, 2015
+# Gilberto José Souza Coutinho <gilberto.jsc@gmail.com>, 2015
 # Isabel Ferreira, 2014
 # john smith, 2015
 # Leonardo Vieira de Souza <leonardo.v.souza@gmail.com>, 2016
@@ -17,14 +17,14 @@
 # Matheus Boni Vicari <matheus_boni_vicari@hotmail.com>, 2014
 # Matheus Gaboardi Tralli <matheusgtralli@live.com>, 2016
 # Matheus  Martins, 2013
-# Wagner Marques Oliveira <wagnermarques00@hotmail.com>, 2016
+# Wagner Marques <wagnermarques00@hotmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-02 16:02+0200\n"
-"PO-Revision-Date: 2016-06-08 12:01+0000\n"
-"Last-Translator: carolyn <carolyn@anhalt.org>\n"
+"POT-Creation-Date: 2017-09-13 20:10+0200\n"
+"PO-Revision-Date: 2017-09-23 19:05+0000\n"
+"Last-Translator: Communia <ameaneantie@riseup.net>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/otf/torproject/"
 "language/pt_BR/)\n"
 "Language: pt_BR\n"
@@ -39,7 +39,7 @@ msgstr "O Tor está pronto"
 
 #: config/chroot_local-includes/etc/NetworkManager/dispatcher.d/60-tor-ready.sh:40
 msgid "You can now access the Internet."
-msgstr "Agora você pode acessar a Internet."
+msgstr "A partir de agora você pode acessar a Internet."
 
 #: config/chroot_local-includes/etc/whisperback/config.py:65
 #, python-format
@@ -82,50 +82,21 @@ msgid ""
 msgstr ""
 "Ao reiniciar o Tails, todos os dados do Electrum serão perdidos, inclusive "
 "as carteiras de Bitcoin. Assim, o mais recomendado é executar Electrum "
-"quando o persistência deste estiver ativado."
+"quando a funcionalidade 'Persistente' estiver ativada."
 
 #: config/chroot_local-includes/usr/local/bin/electrum:21
 msgid "Do you want to start Electrum anyway?"
 msgstr "Você deseja iniciar o Electrum assim mesmo?"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:23
-#: config/chroot_local-includes/usr/local/bin/icedove:37
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:41
 msgid "_Launch"
 msgstr "_Lançar"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:24
-#: config/chroot_local-includes/usr/local/bin/icedove:38
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:42
 msgid "_Exit"
 msgstr "_Saída"
-
-#: config/chroot_local-includes/usr/local/bin/icedove:27
-msgid "The <b>Claws Mail</b> persistence feature is activated."
-msgstr "O recurso persistente <b>Claws Mail</b> foi ativado."
-
-#: config/chroot_local-includes/usr/local/bin/icedove:29
-msgid ""
-"If you have emails saved in <b>Claws Mail</b>, you should <a href='https://"
-"tails.boum.org/doc/anonymous_internet/claws_mail_to_icedove'>migrate your "
-"data</a> before starting <b>Icedove</b>."
-msgstr ""
-"Se você tiver e-mails salvos no <b>Claws Mail</b>, você deve <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove'>migrar seus dados</a> antes de iniciar o <b>Icedove</"
-"b>."
-
-#: config/chroot_local-includes/usr/local/bin/icedove:34
-msgid ""
-"If you already migrated your emails to <b>Icedove</b>, you should <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove#delete'>delete all your <b>Claws Mail</b> data</a> to "
-"remove this warning."
-msgstr ""
-"Se você já tver migrado seus e-mails para o <b>Icedove</b>, você deveria <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove#delete'>apagar todos seus dados do <b>Claws Mail</b></"
-"a> para remover este aviso."
 
 #: config/chroot_local-includes/usr/share/gnome-shell/extensions/shutdown-helper@tails.boum.org/extension.js:71
 msgid "Restart"
@@ -162,14 +133,14 @@ msgstr ""
 msgid "not available"
 msgstr "não disponível"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:118
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:124
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:128
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:147
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:162
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:166
 msgid "Your additional software"
 msgstr "O seu programa adicional"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:119
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:129
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:148
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:167
 msgid ""
 "The upgrade failed. This might be due to a network problem. Please check "
 "your network connection, try to restart Tails, or read the system log to "
@@ -179,7 +150,7 @@ msgstr ""
 "verifique a sua conexão de rede, tente reiniciar o Tails, ou leia o registro "
 "do sistema para compreender melhor o problema."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:125
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:163
 msgid "The upgrade was successful."
 msgstr "A atualização foi bem-sucedida."
 
@@ -199,11 +170,11 @@ msgstr ""
 msgid "Failed to synchronize the clock!"
 msgstr "Falha ao sincronizar o relógio!"
 
-#: config/chroot_local-includes/usr/local/bin/tails-security-check:146
+#: config/chroot_local-includes/usr/local/bin/tails-security-check:124
 msgid "This version of Tails has known security issues:"
 msgstr "Esta versão do Tails tem problemas de segurança conhecidos:"
 
-#: config/chroot_local-includes/usr/local/bin/tails-security-check:156
+#: config/chroot_local-includes/usr/local/bin/tails-security-check:134
 msgid "Known security issues"
 msgstr "Problemas de seguranca conhecidos"
 
@@ -220,7 +191,7 @@ msgid ""
 "You might prefer to restart Tails and disable MAC spoofing."
 msgstr ""
 "A máscara de identidade MAC falhou para a placa de rede ${nic_name} "
-"(${nic}), portanto, está temporariamente desabilitada.\n"
+"(${nic}), portanto, ela está temporariamente desabilitada.\n"
 "Talvez seja melhor reiniciar o Tails e desabilitar a máscara de identidade "
 "MAC."
 
@@ -273,11 +244,11 @@ msgstr ""
 "Ou faça uma atualização manual.\n"
 "Veja https://tails.boum.org/doc/first_steps/upgrade#manual"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:67
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:71
 msgid "Warning: virtual machine detected!"
 msgstr "Aviso: máquina virtual detectada!"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:69
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:73
 msgid ""
 "Both the host operating system and the virtualization software are able to "
 "monitor what you are doing in Tails."
@@ -285,11 +256,11 @@ msgstr ""
 "Tanto o sistema operacional hospedeiro quanto o programa de virtualização "
 "são capazes de monitorar as suas atividades no Tails."
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:72
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:76
 msgid "Warning: non-free virtual machine detected!"
 msgstr "Aviso: máquina virtual non-free detectada!"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:74
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:78
 msgid ""
 "Both the host operating system and the virtualization software are able to "
 "monitor what you are doing in Tails. Only free software can be considered "
@@ -301,23 +272,23 @@ msgstr ""
 "ser considerados confiáveis, em relação ao sistema operacional hospedeiro e "
 "ao programa de virtualização. "
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:79
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:83
 msgid "Learn more"
 msgstr "Saiba mais"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:40
+#: config/chroot_local-includes/usr/local/bin/tor-browser:43
 msgid "Tor is not ready"
 msgstr "O Tor não está pronto"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:41
+#: config/chroot_local-includes/usr/local/bin/tor-browser:44
 msgid "Tor is not ready. Start Tor Browser anyway?"
 msgstr "O Tor não está pronto. Iniciar o Navegador Tor assim mesmo?"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:42
+#: config/chroot_local-includes/usr/local/bin/tor-browser:45
 msgid "Start Tor Browser"
 msgstr "Iniciar o Navegador Tor"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:43
+#: config/chroot_local-includes/usr/local/bin/tor-browser:46
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -400,48 +371,6 @@ msgstr "Falha ao configurar o navegador."
 msgid "Failed to run browser."
 msgstr "Falha ao executar o navegador."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:34
-msgid "I2P failed to start"
-msgstr "I2P falhou ao iniciar"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:35
-msgid ""
-"Something went wrong when I2P was starting. Check the logs in /var/log/i2p "
-"for more information."
-msgstr ""
-"Algo de errado aconteceu quando o I2P estava iniciando. Verifique os "
-"registros em /var/log/i2p para mais informações."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:52
-msgid "I2P's router console is ready"
-msgstr "O console do roteador do I2P está pronto"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:53
-msgid "You can now access I2P's router console in the I2P Browser."
-msgstr "Você já pode acessar o console de roteador do I2P no Navegador I2P."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:58
-msgid "I2P is not ready"
-msgstr "I2P não está pronto"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:59
-msgid ""
-"Eepsite tunnel not built within six minutes. Check the router console in the "
-"I2P Browser or the logs in /var/log/i2p for more information. Reconnect to "
-"the network to try again."
-msgstr ""
-"O túnel Eepsite não foi  construido em seis minutos. Verifique o console de "
-"roteador no navegador noe endereço I2P ou nos log em /var/log/i2p para mais "
-"informações. Reconecte na rede para tentar novamente."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:71
-msgid "I2P is ready"
-msgstr "I2P está pronto"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:72
-msgid "You can now access services on I2P."
-msgstr "Você pode agora acessar serviços no I2P."
-
 #: ../config/chroot_local-includes/etc/skel/Desktop/Report_an_error.desktop.in.h:1
 msgid "Report an error"
 msgstr "Reportar um erro"
@@ -454,14 +383,6 @@ msgstr "Documentação do Tails"
 #: ../config/chroot_local-includes/usr/share/applications/tails-documentation.desktop.in.h:2
 msgid "Learn how to use Tails"
 msgstr "Saiba como usar o Tails"
-
-#: ../config/chroot_local-includes/usr/share/applications/i2p-browser.desktop.in.h:1
-msgid "Anonymous overlay network browser"
-msgstr "Navegador anônimo de rede sobreposta"
-
-#: ../config/chroot_local-includes/usr/share/applications/i2p-browser.desktop.in.h:2
-msgid "I2P Browser"
-msgstr "Navegador I2P"
 
 #: ../config/chroot_local-includes/usr/share/applications/tails-about.desktop.in.h:2
 msgid "Learn more about Tails"
@@ -487,129 +408,6 @@ msgstr "Navegador não-confiável"
 msgid "Tails specific tools"
 msgstr "Ferramentas específicas do Tails"
 
-#~ msgid "OpenPGP encryption applet"
-#~ msgstr "Miniaplicativo de criptografia OpenPGP"
-
-#~ msgid "Exit"
-#~ msgstr "Sair"
-
-#~ msgid "About"
-#~ msgstr "Sobre"
-
-#~ msgid "Encrypt Clipboard with _Passphrase"
-#~ msgstr "Criptografar a Área de Transferência com a_frase secreta"
-
-#~ msgid "Sign/Encrypt Clipboard with Public _Keys"
-#~ msgstr "Assinar/Criptografar a Área de Transferência com Chaves_Públicas"
-
-#~ msgid "_Decrypt/Verify Clipboard"
-#~ msgstr "_Descriptografar/Verificar a Área de Transferência"
-
-#~ msgid "_Manage Keys"
-#~ msgstr "_Gerenciar as Chaves"
-
-#~ msgid "_Open Text Editor"
-#~ msgstr "_Abrir o Editor de Texto"
-
-#~ msgid "The clipboard does not contain valid input data."
-#~ msgstr "A Área de Transferência não contém dados de entrada válidos."
-
-#~ msgid "Unknown Trust"
-#~ msgstr "Confiança Desconhecida"
-
-#~ msgid "Marginal Trust"
-#~ msgstr "Confiança Marginal"
-
-#~ msgid "Full Trust"
-#~ msgstr "Confiança Completa"
-
-#~ msgid "Ultimate Trust"
-#~ msgstr "Confiança definitiva"
-
-#~ msgid "Name"
-#~ msgstr "Nome"
-
-#~ msgid "Key ID"
-#~ msgstr "Identidade da Chave"
-
-#~ msgid "Status"
-#~ msgstr "Status"
-
-#~ msgid "Fingerprint:"
-#~ msgstr "Impressão digital:"
-
-#~ msgid "User ID:"
-#~ msgid_plural "User IDs:"
-#~ msgstr[0] "Identidade de Usuário:"
-#~ msgstr[1] "Identidades de Usuário:"
-
-#~ msgid "None (Don't sign)"
-#~ msgstr "Nenhuma (Não assinar)"
-
-#~ msgid "Select recipients:"
-#~ msgstr "Selecione os destinatários:"
-
-#~ msgid "Hide recipients"
-#~ msgstr "Ocultar destinatários"
-
-#~ msgid ""
-#~ "Hide the user IDs of all recipients of an encrypted message. Otherwise "
-#~ "anyone that sees the encrypted message can see who the recipients are."
-#~ msgstr ""
-#~ "Oculte as IDs de usuário de todos os destinatários de uma mensagem "
-#~ "criptografada. Caso contrário, qualquer um que vir a mensagem "
-#~ "criptografada poderá saber quem são os destinatários."
-
-#~ msgid "Sign message as:"
-#~ msgstr "Assinar a mensagem como:"
-
-#~ msgid "Choose keys"
-#~ msgstr "Escolha as chaves"
-
-#~ msgid "Do you trust these keys?"
-#~ msgstr "Você confia nestas chaves?"
-
-#~ msgid "The following selected key is not fully trusted:"
-#~ msgid_plural "The following selected keys are not fully trusted:"
-#~ msgstr[0] "A chave selecionada seguinte não é plenamente confiável:"
-#~ msgstr[1] "As seguintes chaves selecionadas não são totalmente confiáveis​​:"
-
-#~ msgid "Do you trust this key enough to use it anyway?"
-#~ msgid_plural "Do you trust these keys enough to use them anyway?"
-#~ msgstr[0] "Você confia nesta chave o suficiente para usá-la mesmo assim?"
-#~ msgstr[1] "Você confia nestas chaves o suficiente para usá-las mesmo assim?"
-
-#~ msgid "No keys selected"
-#~ msgstr "Nenhuma chave foi selecionada"
-
-#~ msgid ""
-#~ "You must select a private key to sign the message, or some public keys to "
-#~ "encrypt the message, or both."
-#~ msgstr ""
-#~ "Você deve selecionar uma chave privada para assinar a mensagem, ou "
-#~ "algumas chaves públicas para criptografar a mensagem, ou ambas as opções."
-
-#~ msgid "No keys available"
-#~ msgstr "Nenhuma chave encontra-se disponível"
-
-#~ msgid ""
-#~ "You need a private key to sign messages or a public key to encrypt "
-#~ "messages."
-#~ msgstr ""
-#~ "Você precisa de uma chave privada para assinar as mensagens ou de uma "
-#~ "chave pública para criptografá-las."
-
-#~ msgid "GnuPG error"
-#~ msgstr "Erro do GnuPG"
-
-#~ msgid "Therefore the operation cannot be performed."
-#~ msgstr "Portanto, a operação não pode ser executada."
-
-#~ msgid "GnuPG results"
-#~ msgstr "Resultados do GnuPG"
-
-#~ msgid "Output of GnuPG:"
-#~ msgstr "Saída do GnuPG:"
-
-#~ msgid "Other messages provided by GnuPG:"
-#~ msgstr "Outras mensagens fornecidas pelo GnuPG:"
+#: ../config/chroot_local-includes/usr/share/polkit-1/actions/org.boum.tails.root-terminal.policy.in.h:1
+msgid "To start a Root Terminal, you need to authenticate."
+msgstr "Para iniciar o Terminal Root, é preciso inserir sua senha."

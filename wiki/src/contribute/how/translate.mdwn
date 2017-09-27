@@ -55,10 +55,10 @@ Currently, there are several active **language teams**:
 * [[German|translate/team/de]]
 * [[Portuguese|translate/team/pt]]
 * [[Italian|translate/team/it]]
+* [[Spanish|translate/team/es]]
 
 Other teams are being set up:
 
-* Spanish
 * Turkish
 
 If your language is not listed here, read the documentation
@@ -68,4 +68,4 @@ to [[add a new language|translate/team/new]].
 
 # Mailing list for translators
 
-[[!inline pages="contribute/how/translate/tails-l10n.inline" raw="yes"]]
+[[!inline pages="contribute/how/translate/tails-l10n.inline" raw="yes" sort="age"]]

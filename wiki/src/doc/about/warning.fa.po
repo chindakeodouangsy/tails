@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tails-l10n@boum.org\n"
-"POT-Creation-Date: 2016-05-11 15:35+0000\n"
+"POT-Creation-Date: 2017-07-31 21:51+0000\n"
 "PO-Revision-Date: 2015-10-15 12:19+0000\n"
 "Last-Translator: sprint5 <translation5@451f.org>\n"
 "Language-Team: Persian <http://weblate.451f.org:8889/projects/tails/warning/"
@@ -89,10 +89,15 @@ msgstr ""
 "دچار مشکل شود."
 
 #. type: Bullet: '* '
+#, fuzzy
+#| msgid ""
+#| "Plugging your Tails device in a compromised operating system might "
+#| "corrupt your Tails installation, and destroy the protection that Tails "
+#| "provides. Only use your Tails device to start Tails."
 msgid ""
-"Plugging your Tails device in a compromised operating system might corrupt "
-"your Tails installation, and destroy the protection that Tails provides. "
-"Only use your Tails device to start Tails."
+"Plugging your Tails USB stick in a compromised operating system might "
+"corrupt your Tails installation, and destroy the protection that Tails "
+"provides. Only use your Tails USB stick to start Tails."
 msgstr ""
 "متصل کردن دستگاه تیلز خود به یک سیستم‌عامل مشکل‌دار ممکن است نصب تیلز را دچار "
 "مشکل کند و محافظت تیلز از شما را مخدوش کند. برای راه‌اندازی تیلز تنها از "
@@ -104,7 +109,7 @@ msgstr ""
 "رجوع کنید به  [[سوالات معمول در همین زمینه|support/faq#compromised_system]]."
 
 #. type: Plain text
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "<a id=\"bios\"></a>\n"
 msgstr "<a id=\"bios\"></a>\n"
 
@@ -185,7 +190,7 @@ msgstr ""
 #. type: Plain text
 msgid ""
 "For example, in 2007, a security researcher intercepted thousands of private "
-"e-mail messages sent by foreign embassies and human rights groups around the "
+"email messages sent by foreign embassies and human rights groups around the "
 "world by spying on the connections coming out of an exit node he was "
 "running.  See [Wired: Rogue Nodes Turn Tor Anonymizer Into Eavesdropper's "
 "Paradise](http://archive.wired.com/politics/security/news/2007/09/"
@@ -574,7 +579,7 @@ msgstr ""
 #. type: Plain text
 #, no-wrap
 msgid ""
-"Tails doesn't clear the metadata of your documents for you and doesn't encrypt the Subject: and other headers of your encrypted e-mail messages\n"
+"Tails doesn't clear the metadata of your documents for you and doesn't encrypt the Subject: and other headers of your encrypted email messages\n"
 "===========================================================================================\n"
 msgstr ""
 "تیلز متاداده‌های اسناد شما را پاک نکرده و عنوان رایانامه‌های شما و دیگر سربرگ‌های رایانامهٔ رمزگذاری‌شدهٔ شما را رمزگذاری نمی‌کند\n"
@@ -596,14 +601,14 @@ msgstr ""
 #| "and time of creation of the file, and sometimes even parts of the editing "
 #| "history of the file… those hidden data depend on the file format and the "
 #| "software used. Please note also, that the Subject: as well as the rest of "
-#| "the header lines of your OpenPGP encrypted e-mail messages are not "
+#| "the header lines of your OpenPGP encrypted email messages are not "
 #| "encrypted. This is not a bug of Tails or the [OpenPGP](http://www.mozilla-"
 #| "enigmail.org/forum/viewtopic.php?f=3&t=328) protocol; it's for backwards "
 #| "compatibility with the original SMTP protocol. Unfortunately no RFC "
 #| "standard exists yet for Subject encryption."
 msgid ""
 "Please note also, that the Subject: as well as the rest of the header lines "
-"of your OpenPGP encrypted e-mail messages are not encrypted. This is not a "
+"of your OpenPGP encrypted email messages are not encrypted. This is not a "
 "bug of Tails or the [OpenPGP](http://www.mozilla-enigmail.org/forum/"
 "viewtopic.php?f=3&t=328) protocol; it's due to backwards compatibility with "
 "the original SMTP protocol. Unfortunately no RFC standard exists yet for "
@@ -712,7 +717,7 @@ msgstr ""
 "۳. اهداف و پیش‌فرض‌های طراحی."
 
 #. type: Plain text
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "<a id=\"identities\"></a>\n"
 msgstr "<a id=\"identities\"></a>\n"
 

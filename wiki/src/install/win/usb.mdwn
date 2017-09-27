@@ -1,43 +1,43 @@
 [[!meta title="Install from Windows"]]
 
-[[!meta stylesheet="bootstrap" rel="stylesheet" title=""]]
+[[!meta stylesheet="bootstrap.min" rel="stylesheet" title=""]]
 [[!meta stylesheet="inc/stylesheets/assistant" rel="stylesheet" title=""]]
 [[!meta stylesheet="inc/stylesheets/dave" rel="stylesheet" title=""]]
 [[!meta stylesheet="inc/stylesheets/steps" rel="stylesheet" title=""]]
 [[!meta stylesheet="inc/stylesheets/windows" rel="stylesheet" title=""]]
 [[!meta script="install/inc/js/dave"]]
 
-[[!inline pages="install/inc/tails-installation-assistant.inline" raw="yes"]]
+[[!inline pages="install/inc/tails-installation-assistant.inline" raw="yes" sort="age"]]
 
-<div class="step-image">[[!img install/inc/infography/os-windows.png link="no" alt="Windows"]]</div>
+<div class="step-image">[[!img install/inc/infography/os-windows.png link="no" alt=""]]</div>
 
 <p class="start">Start in Windows.</p>
 
-[[!inline pages="install/inc/steps/download.inline" raw="yes"]]
+[[!inline pages="install/inc/steps/download.inline" raw="yes" sort="age"]]
 
-[[!inline pages="install/inc/steps/install_intermediary_intro.inline" raw="yes"]]
+[[!inline pages="install/inc/steps/install_intermediary_intro.inline" raw="yes" sort="age"]]
 
-<div class="step-image">[[!img install/inc/infography/plug-first-usb.png link="no" alt="USB stick plugged on the left"]]</div>
+<div class="step-image">[[!img install/inc/infography/plug-first-usb.png link="no" alt=""]]</div>
 
 1. Plug the first USB stick in the computer.
 
 1. Click on the following link to download <span class="application">Universal USB Installer</span>:
 
-   <a href='https://git-tails.immerda.ch/uui-binary/plain/Universal-USB-Installer.exe'>Download Universal USB Installer</a>
+   <a href='https://tails.boum.org/uui/Universal-USB-Installer.exe'>Download Universal USB Installer</a>
 
 1. At the Windows security warning, confirm that you want to
 run the program.
 
-1. Read the licence agreement and click <span class="button">I Agree</span>
+1. Read the license agreement and click <span class="button">I Agree</span>
 to continue and start <span class="application">Universal USB Installer</span>.
 
-   [[!img install/inc/screenshots/uui.png class="screenshot" link="no" alt="Universal USB Installer"]]
+   [[!img install/inc/screenshots/uui.png link="no" alt=""]]
 
 1. Select <span class="guilabel">Tails</span> from the drop-down list.
 
    [[!img install/inc/screenshots/uui_tails.png link="no" alt=""]]
 
-   <div class="step-image">[[!img install/inc/infography/install-intermediary-tails.png link="no" alt="ISO image installed on USB stick on the left"]]</div>
+   <div class="step-image">[[!img install/inc/infography/install-intermediary-tails.png link="no" alt=""]]</div>
 
 1. Click <span class="button">Browse</span> and choose the ISO image that you downloaded earlier.
 
@@ -50,7 +50,7 @@ the ISO image.
    <span class="application">Universal USB Installer</span>.</p>
    </div>
 
-1. Select the <span class="guilabel">Format</span> option.
+1. Select the <span class="guilabel">Fat32 Format Drive</span> option.
 
    [[!img install/inc/screenshots/uui_format.png link="no" alt=""]]
 
@@ -62,12 +62,12 @@ the ISO image.
 1. After the installation is finished, click <span class="button">Close</span>
 to quit <span class="application">Universal USB Installer</span>.
 
-[[!inline pages="install/inc/steps/install_intermediary_outro.inline" raw="yes"]]
+[[!inline pages="install/inc/steps/install_intermediary_outro.inline" raw="yes" sort="age"]]
 
-[[!inline pages="install/inc/steps/restart_first_time.inline" raw="yes"]]
+[[!inline pages="install/inc/steps/restart_first_time.inline" raw="yes" sort="age"]]
 
-[[!inline pages="install/inc/steps/install_final.inline" raw="yes"]]
+[[!inline pages="install/inc/steps/install_final.inline" raw="yes" sort="age"]]
 
-[[!inline pages="install/inc/steps/restart_second_time.inline" raw="yes"]]
+[[!inline pages="install/inc/steps/restart_second_time.inline" raw="yes" sort="age"]]
 
-[[!inline pages="install/inc/steps/create_persistence.inline" raw="yes"]]
+[[!inline pages="install/inc/steps/create_persistence.inline" raw="yes" sort="age"]]

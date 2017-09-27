@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-05-17 09:40+0200\n"
-"PO-Revision-Date: 2016-03-05 22:35-0000\n"
+"POT-Creation-Date: 2017-08-05 14:00+0200\n"
+"PO-Revision-Date: 2016-09-07 21:29+0200\n"
 "Last-Translator: jkl <jkl>\n"
-"Language-Team: \n"
+"Language-Team: ita <transitails@inventati.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #. type: Plain text
 #, no-wrap
@@ -89,9 +89,9 @@ msgstr ""
 
 #. type: Bullet: '* '
 msgid ""
-"Plugging your Tails device in a compromised operating system might corrupt "
-"your Tails installation, and destroy the protection that Tails provides. "
-"Only use your Tails device to start Tails."
+"Plugging your Tails USB stick in a compromised operating system might "
+"corrupt your Tails installation, and destroy the protection that Tails "
+"provides. Only use your Tails USB stick to start Tails."
 msgstr ""
 "Inserire il tuo dispositivo con Tails in un sistema operativo compromesso, "
 "potrebbe compromettere anche la tua installazione di Tails, e distruggere la "
@@ -165,15 +165,6 @@ msgid "[[!img htw2-tails.png link=no alt=\"A Tor connection usually goes through
 msgstr "[[!img htw2-tails.png link=no alt=\"Di solito il collegamento Tor passa attraverso tre nodi con l'ultimo che stabilisce la connessione corrente fino alla destinazione finale\"]]\n"
 
 #. type: Plain text
-#, fuzzy
-#| msgid ""
-#| "The last relay on this circuit, called the exit node, is the one that "
-#| "establishes the actual connection to the destination server. As Tor does "
-#| "not, and by design cannot, encrypt the traffic between an exit node and "
-#| "the destination server, **any exit node is in a position to capture any "
-#| "traffic passing through it**. See [Tor FAQ: Can exit nodes eavesdrop on "
-#| "communications?](https://trac.torproject.org/projects/tor/wiki/"
-#| "TheOnionRouter/TorFAQ#CanexitnodeseavesdroponcommunicationsIsntthatbad)."
 msgid ""
 "The last relay on this circuit, called the exit node, is the one that "
 "establishes the actual connection to the destination server. As Tor does "
@@ -196,14 +187,14 @@ msgstr ""
 #, fuzzy
 #| msgid ""
 #| "For example, in 2007, a security researcher intercepted thousands of "
-#| "private e-mail messages sent by foreign embassies and human rights groups "
+#| "private email messages sent by foreign embassies and human rights groups "
 #| "around the world by spying on the connections coming out of an exit node "
 #| "he was running.  See [Wired: Rogue Nodes Turn Tor Anonymizer Into "
 #| "Eavesdropper's Paradise](http://www.wired.com/politics/security/"
 #| "news/2007/09/embassy_hacks)."
 msgid ""
 "For example, in 2007, a security researcher intercepted thousands of private "
-"e-mail messages sent by foreign embassies and human rights groups around the "
+"email messages sent by foreign embassies and human rights groups around the "
 "world by spying on the connections coming out of an exit node he was "
 "running.  See [Wired: Rogue Nodes Turn Tor Anonymizer Into Eavesdropper's "
 "Paradise](http://archive.wired.com/politics/security/news/2007/09/"
@@ -238,7 +229,7 @@ msgid "<a id=\"fingerprint\"></a>\n"
 msgstr "<a id=\"fingerprint\"></a>\n"
 
 #. type: Title =
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "Tails makes it clear that you are using Tor and probably Tails\n"
 msgstr ""
 "Tails rende chiaro che si sta utilizzando Tor e probabilmente Tails\n"
@@ -324,13 +315,6 @@ msgid "<!-- Source: wiki/lib/man-in-the-middle.svg -->\n"
 msgstr "<!-- Source: wiki/lib/man-in-the-middle.svg -->\n"
 
 #. type: Plain text
-#, fuzzy
-#| msgid ""
-#| "While using Tor, man-in-the-middle attacks can still happen between the "
-#| "exit node and the destination server. The exit node itself can also act "
-#| "as a man-in-the-middle. For an example of such an attack see [MW-Blog: "
-#| "TOR exit-node doing MITM attacks](http://www.teamfurry.com/"
-#| "wordpress/2007/11/20/tor-exit-node-doing-mitm-attacks)."
 msgid ""
 "While using Tor, man-in-the-middle attacks can still happen between the exit "
 "node and the destination server. The exit node itself can also act as a man-"
@@ -355,7 +339,7 @@ msgstr ""
 "e nel farlo dovresti avere un ulteriore attenzione nel verificare l'autenticità del server.\n"
 
 #. type: Plain text
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "Usually, this is automatically done throught SSL certificates checked by your\n"
 "browser against a given set of recognized [[!wikipedia\n"
@@ -577,7 +561,7 @@ msgstr ""
 #. type: Plain text
 #, no-wrap
 msgid ""
-"Tails doesn't clear the metadata of your documents for you and doesn't encrypt the Subject: and other headers of your encrypted e-mail messages\n"
+"Tails doesn't clear the metadata of your documents for you and doesn't encrypt the Subject: and other headers of your encrypted email messages\n"
 "===========================================================================================\n"
 msgstr ""
 "Tails non cancella i metadati dei tuoi documenti per te e non cifra l'Oggetto e le altre intestazioni dei tuoi messaggi crittografati\n"
@@ -598,7 +582,7 @@ msgstr ""
 #. type: Plain text
 msgid ""
 "Please note also, that the Subject: as well as the rest of the header lines "
-"of your OpenPGP encrypted e-mail messages are not encrypted. This is not a "
+"of your OpenPGP encrypted email messages are not encrypted. This is not a "
 "bug of Tails or the [OpenPGP](http://www.mozilla-enigmail.org/forum/"
 "viewtopic.php?f=3&t=328) protocol; it's due to backwards compatibility with "
 "the original SMTP protocol. Unfortunately no RFC standard exists yet for "
@@ -748,8 +732,7 @@ msgstr ""
 "tutte le volte che usi una nuova identità, se veramente vuoi isolarli al meglio \n"
 
 #. type: Plain text
-#, fuzzy, no-wrap
-#| msgid "As explained in our documentation about [[Vidalia|anonymous_internet/vidalia#new_identity]] and [[Tor Browser|anonymous_internet/Tor_Browser#new_identity]], their **New identity** features are not perfect solutions to separate different contextual identities. **Shutdown and restart Tails instead.**"
+#, no-wrap
 msgid ""
 "As explained in our documentation about\n"
 "[[Tor Browser|anonymous_internet/Tor_Browser#new_identity]],\n"
@@ -758,7 +741,11 @@ msgid ""
 "[[explained in the FAQ|support/faq#new_identity]], Tails does not\n"
 "provide a global <span class=\"guilabel\">New Identity</span>\n"
 "feature. **Shutdown and restart Tails instead.**\n"
-msgstr "Come spiegato nella nostra documentazione su [[Vidalia|anonymous_internet/vidalia#new_identity]] e [[Tor Browser|anonymous_internet/Tor_Browser#new_identity]], le loro funzioni: **Nuova identità**, non sono la soluzione perfetta per separare le differenti identità contestuali. **Riavvia Tails piuttosto.**"
+msgstr ""
+"Come spiegato nella nostra documentazione su [[Tor Browser|anonymous_internet/Tor_Browser#new_identity]], la funzione: **Nuova identità**, non sono la soluzione perfetta per separare le differenti identità contestuali. E, come\n"
+"[[spiegato nelle FAQ|support/faq#new_identity]], Tails non\n"
+"presenta la feature <span class=\"guilabel\">Nuova identità</span>.\n"
+" **Riavvia Tails piuttosto.**\n"
 
 #. type: Title =
 #, no-wrap
@@ -786,7 +773,7 @@ msgstr ""
 "Se usi delle password deboli, possono essere indovinate da un attacco-di-forza-bruta  allo stesso modo, con o\n"
 "senza Tails. Per sapere se le tue password sono deboli e per imparare delle buone pratiche \n"
 "per creare delle password migliori, puoi leggere  [[!wikipedia\n"
-"Password_deboli#Examples_of_weak_passwords desc=\"Wikipedia: Weak Passwords\"]].\n"
+"Weak_password#Examples_of_weak_passwords desc=\"Wikipedia: Password deboli\"]].\n"
 
 #. type: Title =
 #, no-wrap
@@ -794,32 +781,10 @@ msgid "Tails is a work in progress\n"
 msgstr "Tails è un lavoro in corso\n"
 
 #. type: Plain text
-#, fuzzy
-#| msgid ""
-#| "Tails, as well as all the software it includes, are on continuous "
-#| "development and might contain programming errors or security holes. "
-#| "[[Stay tuned|download#stay_tuned]] to Tails development."
 msgid ""
 "Tails, as well as all the software it includes, are continuously being "
 "developed and may contain programming errors or security holes."
 msgstr ""
-"Tails così come tutto il software che comprende, sono in continuo sviluppo e "
+"Tails, così come tutto il software che comprende, è in continuo sviluppo e "
 "potrebbe contenere errori di programmazione o buchi di sicurezza. [[Rimanete "
 "sintonizzati|download#stay_tuned]] sullo sviluppo di Tails."
-
-#~ msgid ""
-#~ "Vidalia's \"New Identity\" button forces Tor to use new circuits but only "
-#~ "for new connections: existing connections might stay open. Plus, apart "
-#~ "from the Tor circuits, other kind of information can reveal your past "
-#~ "activities, for example the cookies stored by your browser. So this "
-#~ "feature of Vidalia is not a solution to really separate contextual "
-#~ "identities. Shutdown and restart Tails instead."
-#~ msgstr ""
-#~ "Die \"Neue Identität\"-Funktion in Vidalia zwingt Tor eine neue "
-#~ "Verbindung zu verwenden, aber nur für neue Verbindungen: Bereits "
-#~ "existierende Verbindungen können weiterhin bestehen. Abgesehen von den "
-#~ "Tor-Verbindungen kann andere Information ihre vergangenen Aktivitäten "
-#~ "zeigen, beispielsweise die in Ihrem Browser abgespeicherten Cookies. "
-#~ "Daher ist diese Funktion in Vidalia keine echte Lösung, um Identitäten in "
-#~ "verschiedenen Kontexten wirklich zu trennen. Fahren Sie Tails stattdessen "
-#~ "herunter und starten es neu."

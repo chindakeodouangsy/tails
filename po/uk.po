@@ -4,21 +4,22 @@
 #
 # Translators:
 # jonny_nut, 2014
-# Kostiantyn Hontar <tilersever@gmail.com>, 2016
+# Konstantin Tiler <inactive+tilersever@transifex.com>, 2016
 # LinuxChata, 2014
 # Oleksii Golub <sclub2018@yandex.ua>, 2015
 # Pinro Lomil <lomil97@gmail.com>, 2013
+# Serge Thirdlingson <serge3ling@gmail.com>, 2017
 # Vira Motorko <ato4ka@i.ua>, 2015-2016
-# Yasha <yasha88888@hotmail.com>, 2015
+# Yasha, 2015
 # Андрій Бандура <andriykopanytsia@gmail.com>, 2014
-# Владислав <vladyslavpoghrebniakov@gmail.com>, 2014
+# Владислав <inactive+PersonalJesus@transifex.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-02 16:02+0200\n"
-"PO-Revision-Date: 2016-06-08 12:04+0000\n"
-"Last-Translator: Kostiantyn Hontar <tilersever@gmail.com>\n"
+"POT-Creation-Date: 2017-09-13 20:10+0200\n"
+"PO-Revision-Date: 2017-09-09 13:49+0000\n"
+"Last-Translator: carolyn <carolyn@anhalt.org>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/otf/torproject/language/"
 "uk/)\n"
 "Language: uk\n"
@@ -67,8 +68,8 @@ msgstr ""
 "про помилки,\n"
 " оскільки більшість повідомлень без контактної інформації марні. З іншого "
 "боку, це також дає можливість засобам перехоплення\n"
-" та збору інформації інформації, наприклад, провайдеру Вашої електронної "
-"пошти або Інтернет-провайдеру, встановити,\n"
+" та збору інформації, наприклад, провайдеру Вашої електронної пошти або "
+"Інтернет-провайдеру, встановити,\n"
 " що Ви використовуєте Tails.\n"
 "</p>\n"
 
@@ -91,43 +92,14 @@ msgid "Do you want to start Electrum anyway?"
 msgstr "У будь-якому випадку запустити Electrum ?"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:23
-#: config/chroot_local-includes/usr/local/bin/icedove:37
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:41
 msgid "_Launch"
 msgstr "_Запуск"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:24
-#: config/chroot_local-includes/usr/local/bin/icedove:38
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:42
 msgid "_Exit"
 msgstr "_Вихід"
-
-#: config/chroot_local-includes/usr/local/bin/icedove:27
-msgid "The <b>Claws Mail</b> persistence feature is activated."
-msgstr "Увімкнено функцію стійкості <b>Claws Mail</b>."
-
-#: config/chroot_local-includes/usr/local/bin/icedove:29
-msgid ""
-"If you have emails saved in <b>Claws Mail</b>, you should <a href='https://"
-"tails.boum.org/doc/anonymous_internet/claws_mail_to_icedove'>migrate your "
-"data</a> before starting <b>Icedove</b>."
-msgstr ""
-"Якщо Ваші електронні листи зберігаються у <b>Claws Mail</b>, Вам варто <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove'>мігрувати свої дані</a> перед початком використання "
-"<b>Icedove</b>."
-
-#: config/chroot_local-includes/usr/local/bin/icedove:34
-msgid ""
-"If you already migrated your emails to <b>Icedove</b>, you should <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove#delete'>delete all your <b>Claws Mail</b> data</a> to "
-"remove this warning."
-msgstr ""
-"Якщо Ви вже перемістили Ваші електронні листи до <b>Icedove</b>, Вам слід <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove#delete'> видалити всі Ваші <b>Claws Mail</b> data</a>, "
-"щоб прибрати це попередження"
 
 #: config/chroot_local-includes/usr/share/gnome-shell/extensions/shutdown-helper@tails.boum.org/extension.js:71
 msgid "Restart"
@@ -164,14 +136,14 @@ msgstr ""
 msgid "not available"
 msgstr "недоступно"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:118
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:124
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:128
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:147
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:162
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:166
 msgid "Your additional software"
 msgstr "Ваше додаткове програмне забезпечення"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:119
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:129
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:148
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:167
 msgid ""
 "The upgrade failed. This might be due to a network problem. Please check "
 "your network connection, try to restart Tails, or read the system log to "
@@ -181,7 +153,7 @@ msgstr ""
 "перевірте підключення до мережі, спробуйте перезавантажити Tails, або "
 "прочитайте логи, щоб краще зрозуміти проблему."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:125
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:163
 msgid "The upgrade was successful."
 msgstr "Оновлення пройшло успішно."
 
@@ -201,11 +173,11 @@ msgstr ""
 msgid "Failed to synchronize the clock!"
 msgstr "Не вдалося синхронізувати годинник!"
 
-#: config/chroot_local-includes/usr/local/bin/tails-security-check:146
+#: config/chroot_local-includes/usr/local/bin/tails-security-check:124
 msgid "This version of Tails has known security issues:"
 msgstr "Ця версія Tails має відомі проблеми безпеки:"
 
-#: config/chroot_local-includes/usr/local/bin/tails-security-check:156
+#: config/chroot_local-includes/usr/local/bin/tails-security-check:134
 msgid "Known security issues"
 msgstr "Відомі проблеми безпеки"
 
@@ -273,11 +245,11 @@ msgstr ""
 "Або здійсніть ручне оновлення.\n"
 "Див. https://tails.boum.org/doc/first_steps/upgrade#manual"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:67
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:71
 msgid "Warning: virtual machine detected!"
 msgstr "Увага: знайдено віртуальну машину!"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:69
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:73
 msgid ""
 "Both the host operating system and the virtualization software are able to "
 "monitor what you are doing in Tails."
@@ -285,11 +257,11 @@ msgstr ""
 "Операційна система та програмне забезпечення віртуалізації у змозі "
 "контролювати те, що Ви робите в Tails."
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:72
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:76
 msgid "Warning: non-free virtual machine detected!"
 msgstr "Увага: знайдено невільну віртуальну машину!"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:74
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:78
 msgid ""
 "Both the host operating system and the virtualization software are able to "
 "monitor what you are doing in Tails. Only free software can be considered "
@@ -301,23 +273,23 @@ msgstr ""
 "розглядається як варте довіри, як для операційної системи, так і для "
 "програмне забезпечення віртуалізації."
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:79
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:83
 msgid "Learn more"
 msgstr "Детальніше"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:40
+#: config/chroot_local-includes/usr/local/bin/tor-browser:43
 msgid "Tor is not ready"
 msgstr "Tor не готовий"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:41
+#: config/chroot_local-includes/usr/local/bin/tor-browser:44
 msgid "Tor is not ready. Start Tor Browser anyway?"
 msgstr "Tor не готовий. Запустити Tor у будь-якому разі?"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:42
+#: config/chroot_local-includes/usr/local/bin/tor-browser:45
 msgid "Start Tor Browser"
 msgstr "Запустити Tor Browser"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:43
+#: config/chroot_local-includes/usr/local/bin/tor-browser:46
 msgid "Cancel"
 msgstr "Відмова"
 
@@ -401,50 +373,6 @@ msgstr "Не вдалося налаштувати браузер."
 msgid "Failed to run browser."
 msgstr "Не вдалося запустити браузер."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:34
-msgid "I2P failed to start"
-msgstr "Помилка підключення до I2P"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:35
-msgid ""
-"Something went wrong when I2P was starting. Check the logs in /var/log/i2p "
-"for more information."
-msgstr ""
-"Щось пішло не так під час запуску I2P. Перевірте журнали у /var/log/i2p для "
-"отримання додаткової інформації."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:52
-msgid "I2P's router console is ready"
-msgstr "I2P консоль маршрутизатора готова"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:53
-msgid "You can now access I2P's router console in the I2P Browser."
-msgstr ""
-"Тепер ви можете отримати доступ до консолі маршрутизатора I2P у браузері I2P."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:58
-msgid "I2P is not ready"
-msgstr "I2P не готовий"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:59
-msgid ""
-"Eepsite tunnel not built within six minutes. Check the router console in the "
-"I2P Browser or the logs in /var/log/i2p for more information. Reconnect to "
-"the network to try again."
-msgstr ""
-"Eepsite тунель не був створений протягом шести хвилин. Перевірте консоль "
-"маршрутизатора у браузері I2P або журнали в /var/log/i2p для отримання "
-"додаткової інформації. Відключіться і підключіться до мережі, щоб спробувати "
-"знову."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:71
-msgid "I2P is ready"
-msgstr "I2P готовий"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:72
-msgid "You can now access services on I2P."
-msgstr "Тепер ви можете отримати доступ до сервісів I2P."
-
 #: ../config/chroot_local-includes/etc/skel/Desktop/Report_an_error.desktop.in.h:1
 msgid "Report an error"
 msgstr "Повідомити про помилку"
@@ -457,14 +385,6 @@ msgstr "Документація по Tails"
 #: ../config/chroot_local-includes/usr/share/applications/tails-documentation.desktop.in.h:2
 msgid "Learn how to use Tails"
 msgstr "Навчіться користуватися Tails"
-
-#: ../config/chroot_local-includes/usr/share/applications/i2p-browser.desktop.in.h:1
-msgid "Anonymous overlay network browser"
-msgstr "Мережевий браузер з анонімним оверлеєм"
-
-#: ../config/chroot_local-includes/usr/share/applications/i2p-browser.desktop.in.h:2
-msgid "I2P Browser"
-msgstr "I2P браузер"
 
 #: ../config/chroot_local-includes/usr/share/applications/tails-about.desktop.in.h:2
 msgid "Learn more about Tails"
@@ -490,138 +410,6 @@ msgstr "Ненадійний веб-браузер"
 msgid "Tails specific tools"
 msgstr "Спеціальні інструменти Tails"
 
-#~ msgid "OpenPGP encryption applet"
-#~ msgstr "Апплет шифрування OpenPGP"
-
-#~ msgid "Exit"
-#~ msgstr "Вихід"
-
-#~ msgid "About"
-#~ msgstr "Про"
-
-#~ msgid "Encrypt Clipboard with _Passphrase"
-#~ msgstr "Зашифрувати Буфер Обміну Ключовою _Фразою"
-
-#~ msgid "Sign/Encrypt Clipboard with Public _Keys"
-#~ msgstr "Підписати/Зашифрувати Буфер Обміну Відкритим _Ключем"
-
-#~ msgid "_Decrypt/Verify Clipboard"
-#~ msgstr "_Розшифрувати/Перевірити Буфер Обміну"
-
-#~ msgid "_Manage Keys"
-#~ msgstr "_Управління Ключами"
-
-#~ msgid "_Open Text Editor"
-#~ msgstr "_Відкрити текстовий редактор"
-
-#~ msgid "The clipboard does not contain valid input data."
-#~ msgstr "Буфер обміну не містить дійсні вхідні дані."
-
-#~ msgid "Unknown Trust"
-#~ msgstr "Невідоме Довір’я"
-
-#~ msgid "Marginal Trust"
-#~ msgstr "Маргінальне Довір’я"
-
-#~ msgid "Full Trust"
-#~ msgstr "Повне Довір’я"
-
-#~ msgid "Ultimate Trust"
-#~ msgstr "Остаточне Довір’я"
-
-#~ msgid "Name"
-#~ msgstr "Ім’я"
-
-#~ msgid "Key ID"
-#~ msgstr "Ідентифікатор Ключа"
-
-#~ msgid "Status"
-#~ msgstr "Статус"
-
-#~ msgid "Fingerprint:"
-#~ msgstr "Дактилоскопія:"
-
-#~ msgid "User ID:"
-#~ msgid_plural "User IDs:"
-#~ msgstr[0] "Ідентифікатор Користувача:"
-#~ msgstr[1] "Ідентифікатори Користувача:"
-#~ msgstr[2] "Ідентифікатори Користувача:"
-
-#~ msgid "None (Don't sign)"
-#~ msgstr "Нічого (не підписувати)"
-
-#~ msgid "Select recipients:"
-#~ msgstr "Виберіть одержувачів:"
-
-#~ msgid "Hide recipients"
-#~ msgstr "Приховати одержувачів"
-
-#~ msgid ""
-#~ "Hide the user IDs of all recipients of an encrypted message. Otherwise "
-#~ "anyone that sees the encrypted message can see who the recipients are."
-#~ msgstr ""
-#~ "Приховати користувацькі ID всіх одержувачів зашифрованого повідомлення. У "
-#~ "протилежному випадку кожен, хто бачить зашифроване повідомлення, може "
-#~ "бачити одержувачів цього повідомлення."
-
-#~ msgid "Sign message as:"
-#~ msgstr "Підписати повідомлення як:"
-
-#~ msgid "Choose keys"
-#~ msgstr "Виберіть ключі"
-
-#~ msgid "Do you trust these keys?"
-#~ msgstr "Чи маєте довір’ю в цих ключах?"
-
-#~ msgid "The following selected key is not fully trusted:"
-#~ msgid_plural "The following selected keys are not fully trusted:"
-#~ msgstr[0] "Наступний обраний ключ не є повністю довіреним:"
-#~ msgstr[1] "Наступні обрані ключі не є повністю довіреними:"
-#~ msgstr[2] "Наступні обрані ключі не є повністю довіреними:"
-
-#~ msgid "Do you trust this key enough to use it anyway?"
-#~ msgid_plural "Do you trust these keys enough to use them anyway?"
-#~ msgstr[0] ""
-#~ "Чи довіряєте цьому ключеві досить, аби його використовувати в будь-якому "
-#~ "випадку?"
-#~ msgstr[1] ""
-#~ "Чи довіряєте цим ключам досить, аби їх використовувати в будь-якому "
-#~ "випадку?"
-#~ msgstr[2] ""
-#~ "Чи довіряєте цим ключам досить, аби їх використовувати в будь-якому "
-#~ "випадку?"
-
-#~ msgid "No keys selected"
-#~ msgstr "Жодних ключів не вибрано"
-
-#~ msgid ""
-#~ "You must select a private key to sign the message, or some public keys to "
-#~ "encrypt the message, or both."
-#~ msgstr ""
-#~ "Вам потрібно вибрати закритий ключ, щоб підписати повідомлення, або "
-#~ "кілька відкритих ключів щоб зашифрувати його, або і те і інше."
-
-#~ msgid "No keys available"
-#~ msgstr "Жодних ключів доступно"
-
-#~ msgid ""
-#~ "You need a private key to sign messages or a public key to encrypt "
-#~ "messages."
-#~ msgstr ""
-#~ "Вам потрібен закритий ключ для підпису повідомлень або відкритий ключ для "
-#~ "шифрування повідомлень."
-
-#~ msgid "GnuPG error"
-#~ msgstr "Помилка GnuPG"
-
-#~ msgid "Therefore the operation cannot be performed."
-#~ msgstr "Таким чином, операція не може бути виконана."
-
-#~ msgid "GnuPG results"
-#~ msgstr "Підсумки GnuPG"
-
-#~ msgid "Output of GnuPG:"
-#~ msgstr "Вихід GnuPG:"
-
-#~ msgid "Other messages provided by GnuPG:"
-#~ msgstr "Інші повідомлення, що надаються GnuPG:"
+#: ../config/chroot_local-includes/usr/share/polkit-1/actions/org.boum.tails.root-terminal.policy.in.h:1
+msgid "To start a Root Terminal, you need to authenticate."
+msgstr ""

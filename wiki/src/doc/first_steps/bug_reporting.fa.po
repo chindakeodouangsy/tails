@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tails-l10n@boum.org\n"
-"POT-Creation-Date: 2016-04-29 15:20+0000\n"
+"POT-Creation-Date: 2016-10-16 18:44+0300\n"
 "PO-Revision-Date: 2015-10-06 10:27+0000\n"
 "Last-Translator: sprint5 <translation5@451f.org>\n"
 "Language-Team: Persian <http://weblate.451f.org:8889/projects/tails/"
@@ -87,9 +87,14 @@ msgid "How to write a useful bug report\n"
 msgstr "چگونه یک گزارش ایرادِ سودمند بنویسیم\n"
 
 #. type: Bullet: '  - '
+#, fuzzy
+#| msgid ""
+#| "The first aim of a bug report is to **tell the developers exactly how to "
+#| "reproduce the failure**."
 msgid ""
 "The first aim of a bug report is to **tell the developers exactly how to "
-"reproduce the failure**."
+"reproduce the failure**, so try to reproduce the issue yourself and describe "
+"how you did that."
 msgstr ""
 "هدف اصلی گزارش یک ایراد **گفتن این به توسعه‌دهندگان است که چطور ایراد را "
 "دوباره به وجود بیاورند**."
@@ -221,9 +226,9 @@ msgstr ""
 "ما اطلاعاتی در مورد سخت‌افزار، نسخهٔ تیلز و روند راه‌اندازی شما داشته باشیم.\n"
 
 #. type: Plain text
-#, fuzzy, no-wrap
-msgid "[[!inline pages=\"support/talk/languages.inline\" raw=\"yes\"]]\n"
-msgstr "[[!inline pages=\"support/talk/languages.inline\" raw=\"بله\"]]\n"
+#, no-wrap
+msgid "[[!inline pages=\"support/talk/languages.inline\" raw=\"yes\" sort=\"age\"]]\n"
+msgstr "[[!inline pages=\"support/talk/languages.inline.fa\" raw=\"yes\" sort=\"age\"]]\n"
 
 #. type: Title -
 #, no-wrap
@@ -367,10 +372,9 @@ msgid "Boot into a system with Internet connection and send your report"
 msgstr "وارد سیستمی شوید که دسترسی به اینترنت دارد و گزارش خود را بفرستید"
 
 #. type: Plain text
-#, fuzzy, no-wrap
-#| msgid "<a id=\"no_internet_access\"></a>\n"
+#, no-wrap
 msgid "<a id=\"does_not_start\"></a>\n"
-msgstr "<a id=\"no_internet_access\"></a>\n"
+msgstr "<a id=\"does_not_start\"></a>\n"
 
 #. type: Title -
 #, no-wrap

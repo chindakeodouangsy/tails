@@ -11,12 +11,13 @@
 # ecocan <eecocan@yahoo.com>, 2014
 # ecocan <eecocan@yahoo.com>, 2014
 # imratirtil <d.imra.gundogdu@gmail.com>, 2014
-# Kaya Zeren <kayazeren@gmail.com>, 2015-2016
+# Kaya Zeren <kayazeren@gmail.com>, 2015-2017
 # metint, 2014
 # metint, 2014
 # Ozancan Karataş <ozancankaratas96@outlook.com>, 2015-2016
 # Tails_developers <tails@boum.org>, 2014
 # Tails_developers <tails@boum.org>, 2014
+# T. E. Kalayci <tekrei@fsfe.org>, 2017
 # Ümit Türk <zucchinitr@gmail.com>, 2013
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2016
 # Yasin Özel <iletisim@yasinozel.com.tr>, 2013
@@ -24,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-02 16:02+0200\n"
-"PO-Revision-Date: 2016-06-08 14:39+0000\n"
-"Last-Translator: carolyn <carolyn@anhalt.org>\n"
+"POT-Creation-Date: 2017-09-13 20:10+0200\n"
+"PO-Revision-Date: 2017-09-16 05:03+0000\n"
+"Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/otf/torproject/language/"
 "tr/)\n"
 "Language: tr\n"
@@ -72,7 +73,7 @@ msgstr ""
 "bulunmadığı\n"
 "için işe yaramıyor. Ancak gerçek bilgilerinizi verdiğinizde sizi izliyor "
 "olabilecek \n"
-"kurumlara (e-posta ya da İnternet hizmet sağlayıcınıza) Tails yazılımını "
+"kurumlara (e-posta ya da İnternet servis sağlayıcınıza) Tails yazılımını "
 "kullandığınızı\n"
 "belirleme fırsatı vermiş olursunuz. Bu nedenle farklı bir e-posta adresi "
 "kullanmanız önerilir.\n"
@@ -97,41 +98,14 @@ msgid "Do you want to start Electrum anyway?"
 msgstr "Electrum yine de başlatılsın mı?"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:23
-#: config/chroot_local-includes/usr/local/bin/icedove:37
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:41
 msgid "_Launch"
 msgstr "_Başlat"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:24
-#: config/chroot_local-includes/usr/local/bin/icedove:38
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:42
 msgid "_Exit"
 msgstr "Çı_kış"
-
-#: config/chroot_local-includes/usr/local/bin/icedove:27
-msgid "The <b>Claws Mail</b> persistence feature is activated."
-msgstr "<b>Claws Mail</b> kalıcılık özelliği etkinleştirildi."
-
-#: config/chroot_local-includes/usr/local/bin/icedove:29
-msgid ""
-"If you have emails saved in <b>Claws Mail</b>, you should <a href='https://"
-"tails.boum.org/doc/anonymous_internet/claws_mail_to_icedove'>migrate your "
-"data</a> before starting <b>Icedove</b>."
-msgstr ""
-"<b>Claws Mail</b> üzerinde kaydedilmiş e-postalarınız varsa, <b>Icedove</b> "
-"başlatılmadan önce <a href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove'>verilerinizi aktarmalısınız</a>."
-
-#: config/chroot_local-includes/usr/local/bin/icedove:34
-msgid ""
-"If you already migrated your emails to <b>Icedove</b>, you should <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove#delete'>delete all your <b>Claws Mail</b> data</a> to "
-"remove this warning."
-msgstr ""
-"E-postalarınızı zaten <b>Icedove</b> üzerine aktardıysanız bu uyarıyı "
-"kaldırmak için <a href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove#delete'>tüm <b>Claws Mail</b> verilerinizi silin</a>."
 
 #: config/chroot_local-includes/usr/share/gnome-shell/extensions/shutdown-helper@tails.boum.org/extension.js:71
 msgid "Restart"
@@ -168,14 +142,14 @@ msgstr ""
 msgid "not available"
 msgstr "kullanılamıyor"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:118
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:124
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:128
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:147
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:162
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:166
 msgid "Your additional software"
 msgstr "Ek yazılımlarınız"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:119
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:129
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:148
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:167
 msgid ""
 "The upgrade failed. This might be due to a network problem. Please check "
 "your network connection, try to restart Tails, or read the system log to "
@@ -185,7 +159,7 @@ msgstr ""
 "bağlantınızı denetleyip Tails yazılımını yeniden başlatmayı deneyin. Sorunu "
 "daha iyi anlayabilmek için sistem günlüğünü okuyabilirsiniz."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:125
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:163
 msgid "The upgrade was successful."
 msgstr "Güncellendi."
 
@@ -205,11 +179,11 @@ msgstr ""
 msgid "Failed to synchronize the clock!"
 msgstr "Saat eşitlenemedi!"
 
-#: config/chroot_local-includes/usr/local/bin/tails-security-check:146
+#: config/chroot_local-includes/usr/local/bin/tails-security-check:124
 msgid "This version of Tails has known security issues:"
 msgstr "Bu Tails sürümünde bilinen bazı güvenlik sorunları var: "
 
-#: config/chroot_local-includes/usr/local/bin/tails-security-check:156
+#: config/chroot_local-includes/usr/local/bin/tails-security-check:134
 msgid "Known security issues"
 msgstr "Bilinen güvenlik sorunları"
 
@@ -278,11 +252,11 @@ msgstr ""
 "Ya da el ile güncelleyin.\n"
 "Bilgiler: https://tails.boum.org/doc/first_steps/upgrade#manual"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:67
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:71
 msgid "Warning: virtual machine detected!"
 msgstr "Uyarı: Sanal makine algılandı!"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:69
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:73
 msgid ""
 "Both the host operating system and the virtualization software are able to "
 "monitor what you are doing in Tails."
@@ -290,11 +264,11 @@ msgstr ""
 "Hem ana işletim sistemi hem de sanallaştırma yazılımı Tails üzerinde neler "
 "yaptığınızı görebilir."
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:72
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:76
 msgid "Warning: non-free virtual machine detected!"
 msgstr "Uyarı: Özgür olmayan sanal makine algılandı!"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:74
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:78
 msgid ""
 "Both the host operating system and the virtualization software are able to "
 "monitor what you are doing in Tails. Only free software can be considered "
@@ -305,23 +279,23 @@ msgstr ""
 "yaptığınızı izler. Sunucu işletim sistemi ve sanallaştırma yazılımı için "
 "yalnızca özgür yazılımlar güvenilir olarak düşünülebilir."
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:79
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:83
 msgid "Learn more"
 msgstr "Daha fazla bilgi"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:40
+#: config/chroot_local-includes/usr/local/bin/tor-browser:43
 msgid "Tor is not ready"
 msgstr "Tor hazır değil"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:41
+#: config/chroot_local-includes/usr/local/bin/tor-browser:44
 msgid "Tor is not ready. Start Tor Browser anyway?"
 msgstr "Tor hazır değil. Gene de Tor Browser başlatılsın mı?"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:42
+#: config/chroot_local-includes/usr/local/bin/tor-browser:45
 msgid "Start Tor Browser"
-msgstr "Tor Browser Başlatılsın"
+msgstr "Tor Browser'ı Başlat"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:43
+#: config/chroot_local-includes/usr/local/bin/tor-browser:46
 msgid "Cancel"
 msgstr "İptal"
 
@@ -404,49 +378,6 @@ msgstr "Tarayıcıyı ayarlanamadı."
 msgid "Failed to run browser."
 msgstr "Tarayıcıyı çalıştırılamadı."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:34
-msgid "I2P failed to start"
-msgstr "I2P başlatılamadı."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:35
-msgid ""
-"Something went wrong when I2P was starting. Check the logs in /var/log/i2p "
-"for more information."
-msgstr ""
-"I2P başlatılırken bir şeyler ters gitti. Ayrıntılı bilgi almak için /var/log/"
-"i2p klasöründeki günlüklere bakın."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:52
-msgid "I2P's router console is ready"
-msgstr "I2P yöneltici konsolu hazır"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:53
-msgid "You can now access I2P's router console in the I2P Browser."
-msgstr ""
-"Artık I2P yönlendirici konsoluna I2P Browser içerisinden erişebilirsiniz."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:58
-msgid "I2P is not ready"
-msgstr "I2P hazır değil"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:59
-msgid ""
-"Eepsite tunnel not built within six minutes. Check the router console in the "
-"I2P Browser or the logs in /var/log/i2p for more information. Reconnect to "
-"the network to try again."
-msgstr ""
-"Eepsite tüneli altı dakika içinde oluşturulmamış. Daha fazla bilgi için I2P "
-"Browser içerisinden yönlendirici konsolunu ya da /var/log/i2p dizininden "
-"günlükleri denetleyin. Ağa bağlanmayı yeniden deneyin."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:71
-msgid "I2P is ready"
-msgstr "I2P hazır"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:72
-msgid "You can now access services on I2P."
-msgstr "Artık I2P üzerindeki hizmetlere erişebilirsiniz."
-
 #: ../config/chroot_local-includes/etc/skel/Desktop/Report_an_error.desktop.in.h:1
 msgid "Report an error"
 msgstr "Hata bildirin"
@@ -459,14 +390,6 @@ msgstr "Tails belgeleri"
 #: ../config/chroot_local-includes/usr/share/applications/tails-documentation.desktop.in.h:2
 msgid "Learn how to use Tails"
 msgstr "Tails yazılımını nasıl kullanacağınızı öğrenin"
-
-#: ../config/chroot_local-includes/usr/share/applications/i2p-browser.desktop.in.h:1
-msgid "Anonymous overlay network browser"
-msgstr "Anonim kaplama ağ tarayıcısı"
-
-#: ../config/chroot_local-includes/usr/share/applications/i2p-browser.desktop.in.h:2
-msgid "I2P Browser"
-msgstr "I2P Tarayıcı"
 
 #: ../config/chroot_local-includes/usr/share/applications/tails-about.desktop.in.h:2
 msgid "Learn more about Tails"
@@ -482,7 +405,7 @@ msgstr "Anonim Web Tarayıcısı"
 
 #: ../config/chroot_local-includes/usr/share/applications/unsafe-browser.desktop.in.h:2
 msgid "Browse the World Wide Web without anonymity"
-msgstr "Web üzernde anonim olmadan gez"
+msgstr "Web üzerinde anonim olmadan gez"
 
 #: ../config/chroot_local-includes/usr/share/applications/unsafe-browser.desktop.in.h:3
 msgid "Unsafe Web Browser"
@@ -492,129 +415,6 @@ msgstr "Güvenli Olmayan Tarayıcı"
 msgid "Tails specific tools"
 msgstr "Özel Tails araçları"
 
-#~ msgid "OpenPGP encryption applet"
-#~ msgstr "OpenPGP şifreleme uygulaması"
-
-#~ msgid "Exit"
-#~ msgstr "Çıkış"
-
-#~ msgid "About"
-#~ msgstr "Hakkında"
-
-#~ msgid "Encrypt Clipboard with _Passphrase"
-#~ msgstr "Panoyu _Parola ile Şifrele"
-
-#~ msgid "Sign/Encrypt Clipboard with Public _Keys"
-#~ msgstr "Panoyu Genel _Anahtarlarla İmzala/Şifrele"
-
-#~ msgid "_Decrypt/Verify Clipboard"
-#~ msgstr "Panonun Şifresini Aç/_Doğrula"
-
-#~ msgid "_Manage Keys"
-#~ msgstr "Anahtarları _Yönet"
-
-#~ msgid "_Open Text Editor"
-#~ msgstr "_Metin Düzenleyicisini Aç"
-
-#~ msgid "The clipboard does not contain valid input data."
-#~ msgstr "Panoda geçerli bir giriş verisi yok."
-
-#~ msgid "Unknown Trust"
-#~ msgstr "Bilinmeyen Güvenirlik"
-
-#~ msgid "Marginal Trust"
-#~ msgstr "Az Bilinen Güvenirlik"
-
-#~ msgid "Full Trust"
-#~ msgstr "Tam Güvenirlik"
-
-#~ msgid "Ultimate Trust"
-#~ msgstr "Üstün Güvenirlik"
-
-#~ msgid "Name"
-#~ msgstr "Ad"
-
-#~ msgid "Key ID"
-#~ msgstr "Anahtar Kodu"
-
-#~ msgid "Status"
-#~ msgstr "Durum"
-
-#~ msgid "Fingerprint:"
-#~ msgstr "Parmak İzi:"
-
-#~ msgid "User ID:"
-#~ msgid_plural "User IDs:"
-#~ msgstr[0] "Kullanıcı Kimliği:"
-#~ msgstr[1] "Kullanıcı Kimlikleri:"
-
-#~ msgid "None (Don't sign)"
-#~ msgstr "Hiçbiri (İmzalama)"
-
-#~ msgid "Select recipients:"
-#~ msgstr "Alıcıları seçin:"
-
-#~ msgid "Hide recipients"
-#~ msgstr "Alıcılar gizlensin"
-
-#~ msgid ""
-#~ "Hide the user IDs of all recipients of an encrypted message. Otherwise "
-#~ "anyone that sees the encrypted message can see who the recipients are."
-#~ msgstr ""
-#~ "Bu seçenek etkinleştirildiğinde, şifreli iletideki alıcılarının kullanıcı "
-#~ "kimlikleri gizlenir. Aksi halde şifreli iletiyi görebilen herkes "
-#~ "alıcıların da kimler olduğunu görebilir."
-
-#~ msgid "Sign message as:"
-#~ msgstr "İletiyi şu olarak imzala:"
-
-#~ msgid "Choose keys"
-#~ msgstr "Anahtarları seçin"
-
-#~ msgid "Do you trust these keys?"
-#~ msgstr "Bu anahtarlara güveniyor musunuz?"
-
-#~ msgid "The following selected key is not fully trusted:"
-#~ msgid_plural "The following selected keys are not fully trusted:"
-#~ msgstr[0] "Şu anahtar tamamen güvenilir değil:"
-#~ msgstr[1] "Şu anahtarlar tamamen güvenilir değil:"
-
-#~ msgid "Do you trust this key enough to use it anyway?"
-#~ msgid_plural "Do you trust these keys enough to use them anyway?"
-#~ msgstr[0] "Bu anahtara kullanabilecek kadar güveniyor musunuz?"
-#~ msgstr[1] "Bu anahtarlara kullanabilecek kadar güveniyor musunuz?"
-
-#~ msgid "No keys selected"
-#~ msgstr "Henüz bir anahtar seçilmemiş"
-
-#~ msgid ""
-#~ "You must select a private key to sign the message, or some public keys to "
-#~ "encrypt the message, or both."
-#~ msgstr ""
-#~ "İletiyi imzalamak için bir özel anahtar ya da iletiyi şifrelemek için bir "
-#~ "genel anahtar seçmelisiniz. Ayrıca her ikisini de seçebilirsiniz."
-
-#~ msgid "No keys available"
-#~ msgstr "Kullanılabilecek bir anahtar bulunamadı"
-
-#~ msgid ""
-#~ "You need a private key to sign messages or a public key to encrypt "
-#~ "messages."
-#~ msgstr ""
-#~ "İletiyi imzalamak için bir özel anahtar ya da iletileri şifrelemek için "
-#~ "bir genel anahtarınız olmalı. "
-
-#~ msgid "GnuPG error"
-#~ msgstr "GnuPG hatası"
-
-#~ msgid "Therefore the operation cannot be performed."
-#~ msgstr "Bu yüzden işlem yürütülemedi."
-
-#~ msgid "GnuPG results"
-#~ msgstr "GnuPG sonuçları"
-
-#~ msgid "Output of GnuPG:"
-#~ msgstr "GnuPG çıktısı: "
-
-#~ msgid "Other messages provided by GnuPG:"
-#~ msgstr "Diğer GnuPG iletileri: "
+#: ../config/chroot_local-includes/usr/share/polkit-1/actions/org.boum.tails.root-terminal.policy.in.h:1
+msgid "To start a Root Terminal, you need to authenticate."
+msgstr "Bir Root Uç Birimi başlatmak için kimliğinizi doğrulamalısınız."

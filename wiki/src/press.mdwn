@@ -42,19 +42,30 @@ mentioned regularly in the press and in research papers. This list is
 not comprehensive, but illustrates some of the significant articles
 that have been published about Tails.
 
-2016
+2017
 ----
 
-[[!inline pages="press/media_appearances_2016" raw="yes"]]
+[[!inline pages="press/media_appearances_2017" raw="yes" sort="age"]]
 
 Older media appearances
 ----------------------
 
+* [[!toggle id="media_appearances_2016" text="2016"]]
 * [[!toggle id="media_appearances_2015" text="2015"]]
 * [[!toggle id="media_appearances_2014" text="2014"]]
 * [[!toggle id="media_appearances_2013" text="2013"]]
 * [[!toggle id="media_appearances_2012" text="2012"]]
 * [[!toggle id="media_appearances_2011" text="2011"]]
+
+[[!toggleable id="media_appearances_2016" text="""
+<span class="hide">[[!toggle id="media_appearances_2016" text=""]]</span>
+
+2016
+----
+
+[[!inline pages="press/media_appearances_2016" raw="yes" sort="age"]]
+
+"""]]
 
 [[!toggleable id="media_appearances_2015" text="""
 <span class="hide">[[!toggle id="media_appearances_2015" text=""]]</span>
@@ -62,7 +73,7 @@ Older media appearances
 2015
 ----
 
-[[!inline pages="press/media_appearances_2015" raw="yes"]]
+[[!inline pages="press/media_appearances_2015" raw="yes" sort="age"]]
 
 """]]
 
@@ -72,7 +83,7 @@ Older media appearances
 2014
 ----
 
-[[!inline pages="press/media_appearances_2014" raw="yes"]]
+[[!inline pages="press/media_appearances_2014" raw="yes" sort="age"]]
 
 """]]
 
@@ -82,7 +93,7 @@ Older media appearances
 2013
 ----
 
-[[!inline pages="press/media_appearances_2013" raw="yes"]]
+[[!inline pages="press/media_appearances_2013" raw="yes" sort="age"]]
 
 """]]
 
@@ -92,7 +103,7 @@ Older media appearances
 2012
 ----
 
-[[!inline pages="press/media_appearances_2012" raw="yes"]]
+[[!inline pages="press/media_appearances_2012" raw="yes" sort="age"]]
 
 """]]
 
@@ -102,7 +113,7 @@ Older media appearances
 2011
 ----
 
-[[!inline pages="press/media_appearances_2011" raw="yes"]]
+[[!inline pages="press/media_appearances_2011" raw="yes" sort="age"]]
 
 """]]
 
@@ -115,7 +126,7 @@ Awards
   [[make Tails ISO images build reproducibly|blueprint/reproducible_builds]].
 
 * 2014-12-01: Tails was awarded the [November 2014 DistroWatch.com
-  donation](http://distrowatch.com/weekly.php?issue=20141201#donation)
+  donation](https://distrowatch.com/weekly.php?issue=20141201#donation).
 
 * 2014-06-06: Tails received an honorable mention at
   [APC FLOSS Prize](https://www.apc.org/es/node/19368): "In
@@ -143,7 +154,7 @@ Conferences
   ones that can blind the pervasive surveillance of the NSA.
   They are rated as "catastrophic" by the NSA itself.
 
-* 2014-07-16: [The Amnesic Incognito Live System](https://interference.io/amnesic-incognito-live-system) at Interference
+* 2014-07-16: [The Amnesic Incognito Live System](https://web.archive.org/web/20150924031644/http://interference.io/amnesic-incognito-live-system) at Interference
 
 * 2014-03-16: [Lightning talk about Tails](http://meetings-archive.debian.net/pub/debian-meetings/2014/mini-debconf-barcelona/Lightning_Talks.webm) at 2014 Mini-Debconf in Barcelona. The talk begins at 24:15 of the video.
 
@@ -164,17 +175,22 @@ Conferences
 * 2013-10-30: [Tails : confidentialité et anonymat, pour tous et
   partout — L'utilisabilité et de la maintenabilité, fonctionnalités
   critiques pour la
-  sécurité](https://www.irill.org/events/tails-confidentialite-et-anonymat-pour-tous-et-partout)
+  sécurité](https://www.irill.org/posts/2013/tails-confidentialite-et-anonymat-pour-tous-et-partout.html)
   at [IRILL](https://www.irill.org/)
 
 Films and videos
 ================
 
-* [Tails 1.3 : The Amnesic Incognito Live System](https://www.youtube.com/watch?v=_xna6wnn-Uw&feature=youtu.be),
-  by Linux Scoop, an introductory video to Tails 1.3.
-
 * Tails is being used in [Citizenfour](https://citizenfourfilm.com/) by
   Laura Poitras and appears in the credits.
+
+* Tails [is used](http://arstechnica.co.uk/the-multiverse/2015/10/homeland-brutally-tackles-spy-tech-again-this-time-with-stingrays/)
+  in Season 5, Episode 3 of the
+  [Homeland](http://www.imdb.com/title/tt1796960/) TV series
+  ([images gallery](http://linux.softpedia.com/blog/tails-amnesic-incognito-live-linux-os-spotted-on-the-homeland-tv-show-495141.shtml)).
+
+* [Tails 1.3 : The Amnesic Incognito Live System](https://www.youtube.com/watch?v=_xna6wnn-Uw&feature=youtu.be),
+  by Linux Scoop, an introductory video to Tails 1.3.
 
 * [Probando TAILS 0.16 Privacidad y
   Anonimato](https://www.youtube.com/watch?v=bBdGbK54WPE), an
@@ -183,11 +199,14 @@ Films and videos
 Books, booklets, and guide
 ==========================
 
+* 2017-09: [Guide d'autodéfense numérique](https://guide.boum.org/) has
+  several sections based on Tails (in French).
+
 * 2016-04 : [Guide de survie Tails](https://chouettecouetteblog.wordpress.com/) by the Chouette
-  Couette collective - 324p. Also comes with [slides](https://chouettecouetteblog.wordpress.com/le-pack-formation-tails/). (in French)
+  Couette collective - 324p. Also comes with [slides](https://chouettecouetteblog.wordpress.com/le-pack-formation-tails/) (in French).
 
 * 2015-11: [Anonym im Internet mit Tor und Tails](https://linksunten.indymedia.org/fr/system/files/data/2015/11/1427455165.pdf)
-  by [Peter Loshin](http://www.franzis.de/fachbuecher/internet-netzwerk/anonym-im-internet-mit-tor-und-tails) 200p. (in German)
+  by [Peter Loshin](http://www.franzis.de/fachbuecher/internet-netzwerk/anonym-im-internet-mit-tor-und-tails) 200p (in German).
 
 * 2015-06: [L’informatique : se défendre et attaquer](https://infokiosques.net/spip.php?article1045) (in French).
 
@@ -200,15 +219,12 @@ Cybersecurity](https://tech.safehubcollective.org/cybersecurity/) by
 safehubcollective.org qualifies Tails as "ultimate anonymity and
 amnesia".
 
-* 2014-12: [Guide d'autodéfense numérique](https://guide.boum.org/) has
-  several sections based on Tails (in French).
-
 * 2014-12: [Band I: Tails - The Amnesic Incognito Live
 System](https://capulcu.blackblogs.org/bandi) by capulcu is a booklet explaining
 Tails for activists (in German).
 
-* 2014-12: [Information Security for Journalists](http://www.tcij.org/resources/handbooks/infosec)
-by Silkie Carlo and Arjen Kamphuis for the [Centre for Investigative Journalism](http://www.tcij.org/).
+* 2014-12: [Information Security for Journalists](https://tcij.org/resources/handbooks/infosec)
+by Silkie Carlo and Arjen Kamphuis for the [Centre for Investigative Journalism](https://tcij.org/).
 
 * 2013-08-26: [Practical anonymity](http://www.loshin.com/) by Peter Loshin has
 a dedicated chapter on Tails.

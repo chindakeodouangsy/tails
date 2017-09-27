@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Dasa M <littlearchr8@gmail.com>, 2016
-# Marián Mižik <marian@mizik.sk>, 2015
+# Daša Matúšová, 2016
+# Marián Mižik <inactive+marian.mizik@transifex.com>, 2015
 # once, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-02 16:02+0200\n"
-"PO-Revision-Date: 2016-07-17 13:57+0000\n"
-"Last-Translator: Dasa M <littlearchr8@gmail.com>\n"
+"POT-Creation-Date: 2017-09-13 20:10+0200\n"
+"PO-Revision-Date: 2017-05-26 14:47+0000\n"
+"Last-Translator: carolyn <carolyn@anhalt.org>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/otf/torproject/"
 "language/sk_SK/)\n"
 "Language: sk_SK\n"
@@ -82,42 +82,14 @@ msgid "Do you want to start Electrum anyway?"
 msgstr "Chcete nepriek tomu spustiť Electum?"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:23
-#: config/chroot_local-includes/usr/local/bin/icedove:37
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:41
 msgid "_Launch"
 msgstr "_Spustiť"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:24
-#: config/chroot_local-includes/usr/local/bin/icedove:38
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:42
 msgid "_Exit"
 msgstr "_Ukončiť"
-
-#: config/chroot_local-includes/usr/local/bin/icedove:27
-msgid "The <b>Claws Mail</b> persistence feature is activated."
-msgstr "Vlastnosť persistence <b>Claws Mail</b> je aktivovaná"
-
-#: config/chroot_local-includes/usr/local/bin/icedove:29
-msgid ""
-"If you have emails saved in <b>Claws Mail</b>, you should <a href='https://"
-"tails.boum.org/doc/anonymous_internet/claws_mail_to_icedove'>migrate your "
-"data</a> before starting <b>Icedove</b>."
-msgstr ""
-"Ak máte emaily uložené v <b>Claws Mail</b>, mali by ste <a href='https://"
-"tails.boum.org/doc/anonymous_internet/claws_mail_to_icedove'>presunúť Vaše "
-"dáta</a> pred spustením <b>Icedove</b>."
-
-#: config/chroot_local-includes/usr/local/bin/icedove:34
-msgid ""
-"If you already migrated your emails to <b>Icedove</b>, you should <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove#delete'>delete all your <b>Claws Mail</b> data</a> to "
-"remove this warning."
-msgstr ""
-"Ak ste už Vaše dáta presunuli do <b>Icedove</b>, mali by ste <a "
-"href='https://tails.boum.org/doc/anonymous_internet/"
-"claws_mail_to_icedove#delete'>zmazať Vaše <b>Claws Mail</b> dáta</a>, aby "
-"ste odstránili toto varovanie."
 
 #: config/chroot_local-includes/usr/share/gnome-shell/extensions/shutdown-helper@tails.boum.org/extension.js:71
 msgid "Restart"
@@ -154,14 +126,14 @@ msgstr ""
 msgid "not available"
 msgstr "nedostupné"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:118
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:124
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:128
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:147
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:162
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:166
 msgid "Your additional software"
 msgstr "Váš prídavný software"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:119
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:129
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:148
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:167
 msgid ""
 "The upgrade failed. This might be due to a network problem. Please check "
 "your network connection, try to restart Tails, or read the system log to "
@@ -171,7 +143,7 @@ msgstr ""
 "Skontrolujte, prosím, vaše pripojenie, skúste reštartovať Tails alebo si "
 "prečítajte záznam z konzoly, aby ste problém lepšie pochopili."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:125
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:163
 msgid "The upgrade was successful."
 msgstr "Aktualizácia prebehla úspešne."
 
@@ -191,11 +163,11 @@ msgstr ""
 msgid "Failed to synchronize the clock!"
 msgstr "Synchronizácia času zlyhala!"
 
-#: config/chroot_local-includes/usr/local/bin/tails-security-check:146
+#: config/chroot_local-includes/usr/local/bin/tails-security-check:124
 msgid "This version of Tails has known security issues:"
 msgstr "Táto verzia Tails má známe bezpečnostné riziká:"
 
-#: config/chroot_local-includes/usr/local/bin/tails-security-check:156
+#: config/chroot_local-includes/usr/local/bin/tails-security-check:134
 msgid "Known security issues"
 msgstr "Známe bezpečnostné hrozby"
 
@@ -266,11 +238,11 @@ msgstr ""
 "Alebo tiež môžete vykonať manuálnu aktualizáciu.\n"
 "Pozrite si https://tails.boum.org/doc/first_steps/upgrade#manual"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:67
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:71
 msgid "Warning: virtual machine detected!"
 msgstr "Upozornenie: bol objavený virtuálny stroj!"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:69
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:73
 msgid ""
 "Both the host operating system and the virtualization software are able to "
 "monitor what you are doing in Tails."
@@ -278,11 +250,11 @@ msgstr ""
 "Hlavný operačný systém aj virtualizačný software sú schopné monitorovať vašu "
 "aktivitu v Tails."
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:72
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:76
 msgid "Warning: non-free virtual machine detected!"
 msgstr "Upozornenie: bol objavený virtuány stroj!"
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:74
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:78
 msgid ""
 "Both the host operating system and the virtualization software are able to "
 "monitor what you are doing in Tails. Only free software can be considered "
@@ -293,23 +265,23 @@ msgstr ""
 "aktivitu v Tails. Len voľne šíriteľný softvér je možné považovať za "
 "dôveryhodný pre operačný systém aj virtualizačný softvér."
 
-#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:79
+#: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:83
 msgid "Learn more"
 msgstr "Zistite viac"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:40
+#: config/chroot_local-includes/usr/local/bin/tor-browser:43
 msgid "Tor is not ready"
 msgstr "Tor nie je pripravený"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:41
+#: config/chroot_local-includes/usr/local/bin/tor-browser:44
 msgid "Tor is not ready. Start Tor Browser anyway?"
 msgstr "Tor nie je pripravený. Spustiť Tor Browser aj napriek tomu?"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:42
+#: config/chroot_local-includes/usr/local/bin/tor-browser:45
 msgid "Start Tor Browser"
 msgstr "Spustiť Tor Browser"
 
-#: config/chroot_local-includes/usr/local/bin/tor-browser:43
+#: config/chroot_local-includes/usr/local/bin/tor-browser:46
 msgid "Cancel"
 msgstr "Zrušiť"
 
@@ -393,50 +365,6 @@ msgstr "Nepodarilo sa nakonfigurovať prehliadač."
 msgid "Failed to run browser."
 msgstr "Nepodarilo sa spustiť prehliadač."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:34
-msgid "I2P failed to start"
-msgstr "Zlyhalo spúšťanie I2P"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:35
-msgid ""
-"Something went wrong when I2P was starting. Check the logs in /var/log/i2p "
-"for more information."
-msgstr ""
-"Pri spúšťaní I2P sa vyskytla chyba. Skontrolujte záznamy vo /var/log/i2p pre "
-"viac informácií."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:52
-msgid "I2P's router console is ready"
-msgstr "Ovládací panel smerovača I2P je pripravený"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:53
-msgid "You can now access I2P's router console in the I2P Browser."
-msgstr ""
-"Teraz sa môžete pripojiť na I2P v ovládacom panely smerovača v I2P "
-"prehliadači."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:58
-msgid "I2P is not ready"
-msgstr "I2P nie je pripravené"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:59
-msgid ""
-"Eepsite tunnel not built within six minutes. Check the router console in the "
-"I2P Browser or the logs in /var/log/i2p for more information. Reconnect to "
-"the network to try again."
-msgstr ""
-"Eepsite tunel nebol vytvorený v priebehu šiestich minút. Skontrolujte "
-"ovládací panel smerovača v I2P prehliadači alebo záznamy vo /var/log/i2p pre "
-"viac informácií. Skúste sa opätovne pripojiť do siete."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:71
-msgid "I2P is ready"
-msgstr "I2P je pripravené"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-i2p:72
-msgid "You can now access services on I2P."
-msgstr "Teraz sa môžete pripojiť k službám I2P."
-
 #: ../config/chroot_local-includes/etc/skel/Desktop/Report_an_error.desktop.in.h:1
 msgid "Report an error"
 msgstr "Nahlásiť chybu"
@@ -449,14 +377,6 @@ msgstr "Tails dokumentácia"
 #: ../config/chroot_local-includes/usr/share/applications/tails-documentation.desktop.in.h:2
 msgid "Learn how to use Tails"
 msgstr "Naučte sa používať Tails"
-
-#: ../config/chroot_local-includes/usr/share/applications/i2p-browser.desktop.in.h:1
-msgid "Anonymous overlay network browser"
-msgstr "Anonymná vrstva siete"
-
-#: ../config/chroot_local-includes/usr/share/applications/i2p-browser.desktop.in.h:2
-msgid "I2P Browser"
-msgstr "I2P prehliadač"
 
 #: ../config/chroot_local-includes/usr/share/applications/tails-about.desktop.in.h:2
 msgid "Learn more about Tails"
@@ -482,131 +402,6 @@ msgstr "Nezabezpečený webový prehliadač"
 msgid "Tails specific tools"
 msgstr "Špecifické nástroje Tails"
 
-#~ msgid "OpenPGP encryption applet"
-#~ msgstr "OpenPGP šifrovací applet"
-
-#~ msgid "Exit"
-#~ msgstr "Ukončiť"
-
-#~ msgid "About"
-#~ msgstr "O nás"
-
-#~ msgid "Encrypt Clipboard with _Passphrase"
-#~ msgstr "Šifrovať Schránku prístupovým heslom"
-
-#~ msgid "Sign/Encrypt Clipboard with Public _Keys"
-#~ msgstr "Podpísať/zašifrovať Schránku verejným kľúčom"
-
-#~ msgid "_Decrypt/Verify Clipboard"
-#~ msgstr "_Dešifrovať/overiť Schránku"
-
-#~ msgid "_Manage Keys"
-#~ msgstr "_Spravovať kľúče"
-
-#~ msgid "_Open Text Editor"
-#~ msgstr "_Otvoriť textový editor"
-
-#~ msgid "The clipboard does not contain valid input data."
-#~ msgstr "Schránka neobsahuje platné vstupné údaje."
-
-#~ msgid "Unknown Trust"
-#~ msgstr "Nejasná dôvera"
-
-#~ msgid "Marginal Trust"
-#~ msgstr "Minimálna dôvera"
-
-#~ msgid "Full Trust"
-#~ msgstr "Plná dôvera"
-
-#~ msgid "Ultimate Trust"
-#~ msgstr "Neobmedzená dôvera"
-
-#~ msgid "Name"
-#~ msgstr "Názov"
-
-#~ msgid "Key ID"
-#~ msgstr "ID kľúča"
-
-#~ msgid "Status"
-#~ msgstr "Stav"
-
-#~ msgid "Fingerprint:"
-#~ msgstr "Odtlačok:"
-
-#~ msgid "User ID:"
-#~ msgid_plural "User IDs:"
-#~ msgstr[0] "Identifikátor užívateľa:"
-#~ msgstr[1] "Identifikátor užívateľa:"
-#~ msgstr[2] "Identifikátory užívateľa:"
-
-#~ msgid "None (Don't sign)"
-#~ msgstr "Žiadne (Nepodpisovať)"
-
-#~ msgid "Select recipients:"
-#~ msgstr "Vybrať príjemcov:"
-
-#~ msgid "Hide recipients"
-#~ msgstr "Skryť príjemcov"
-
-#~ msgid ""
-#~ "Hide the user IDs of all recipients of an encrypted message. Otherwise "
-#~ "anyone that sees the encrypted message can see who the recipients are."
-#~ msgstr ""
-#~ "Skryť identifikátory všetkých príjemcov šifrovanej správy. V opačnom "
-#~ "prípade môže ktokoľvek vidieť, kto je príjemcom šifrovanej správy."
-
-#~ msgid "Sign message as:"
-#~ msgstr "Podpísať správu ako:"
-
-#~ msgid "Choose keys"
-#~ msgstr "Zvoliť kľúče"
-
-#~ msgid "Do you trust these keys?"
-#~ msgstr "Dôverujete týmto kľúčom?"
-
-#~ msgid "The following selected key is not fully trusted:"
-#~ msgid_plural "The following selected keys are not fully trusted:"
-#~ msgstr[0] "Nasledujúci zvolený kľúč nemá plnú dôveru:"
-#~ msgstr[1] "Nasledujúci zvolený kľúč nemá plnú dôveru:"
-#~ msgstr[2] "Nasledujúce zvolené kľúče nemájú plnú dôveru:"
-
-#~ msgid "Do you trust this key enough to use it anyway?"
-#~ msgid_plural "Do you trust these keys enough to use them anyway?"
-#~ msgstr[0] "Dôverujete tomuto kľúču natoľko, aby ste ho použili?"
-#~ msgstr[1] "Dôverujete tomuto kľúčo natoľko, aby ste ho použili?"
-#~ msgstr[2] "Dôverujete týmto kľúčom natoľko, aby ste ich použili?"
-
-#~ msgid "No keys selected"
-#~ msgstr "Žiadne vybrané kľúče"
-
-#~ msgid ""
-#~ "You must select a private key to sign the message, or some public keys to "
-#~ "encrypt the message, or both."
-#~ msgstr ""
-#~ "Musíte vybrať súkromný kľúč, ktorým podpíšte správu, verejné kľúče na "
-#~ "zašifrovanie správy, alebo oboje."
-
-#~ msgid "No keys available"
-#~ msgstr "Žiadne dostupné kľúče"
-
-#~ msgid ""
-#~ "You need a private key to sign messages or a public key to encrypt "
-#~ "messages."
-#~ msgstr ""
-#~ "Potrebujete súkromný kľúč na podpísanie správy alebo verejný kľúč na "
-#~ "zašifrovanie správy."
-
-#~ msgid "GnuPG error"
-#~ msgstr "Chyba GnuPG"
-
-#~ msgid "Therefore the operation cannot be performed."
-#~ msgstr "Preto nemohla byť operácia vykonaná."
-
-#~ msgid "GnuPG results"
-#~ msgstr "Výsledok GnuPG"
-
-#~ msgid "Output of GnuPG:"
-#~ msgstr "Výstup GnuPG:"
-
-#~ msgid "Other messages provided by GnuPG:"
-#~ msgstr "Ďalšie správy poskytnuté GnuPG:"
+#: ../config/chroot_local-includes/usr/share/polkit-1/actions/org.boum.tails.root-terminal.policy.in.h:1
+msgid "To start a Root Terminal, you need to authenticate."
+msgstr ""

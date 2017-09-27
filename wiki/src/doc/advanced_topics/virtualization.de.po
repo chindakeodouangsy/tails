@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-04-26 17:54+0200\n"
+"POT-Creation-Date: 2017-07-31 21:51+0000\n"
 "PO-Revision-Date: 2016-04-19 13:22+0200\n"
 "Last-Translator: Tails translators <tails@boum.org>\n"
 "Language-Team: \n"
@@ -39,14 +39,14 @@ msgstr ""
 #. type: Plain text
 msgid ""
 "With virtual machines, it is possible to run Tails inside a *host* operating "
-"system (Linux, Windows, or Mac OS&nbsp;X). A virtual machine emulates a real "
+"system (Linux, Windows, or macOS). A virtual machine emulates a real "
 "computer and its operating system, called *guest* which appears in a window "
 "on the *host* operating system."
 msgstr ""
 "Mit virtuellen Maschinen ist es möglich, Tails innerhalb eines *Host*-"
-"Betriebssystems auszuführen (Linux, Windows, oder Mac OS&nbsp;X). Eine "
-"virtuelle Maschine emuliert einen echten Computer und sein Betriebssystem, "
-"genannt *Gast*, und erscheint in einem Fenster auf dem *Host*-Betriebssystem."
+"Betriebssystems auszuführen (Linux, Windows, oder macOS). Eine virtuelle "
+"Maschine emuliert einen echten Computer und sein Betriebssystem, genannt "
+"*Gast*, und erscheint in einem Fenster auf dem *Host*-Betriebssystem."
 
 #. type: Plain text
 msgid ""
@@ -62,15 +62,15 @@ msgstr ""
 #. type: Plain text
 msgid ""
 "This is how Tails looks like when run in a virtual machine on Debian using "
-"*VirtualBox*:"
+"*GNOME Boxes*:"
 msgstr ""
 "So sieht Tails aus, wenn es in einer virtuellen Maschine unter Debian unter "
-"der Nutzung von *VirtualBox* ausgeführt wird:"
+"der Nutzung von *GNOME Boxes* ausgeführt wird:"
 
 #. type: Plain text
 #, no-wrap
-msgid "[[!img tails-in-jessie.png alt=\"\" link=no]]\n"
-msgstr "[[!img tails-in-jessie.png alt=\"\" link=no]]\n"
+msgid "[[!img tails-in-vm.png alt=\"\" link=no]]\n"
+msgstr "[[!img tails-in-vm.png alt=\"\" link=no]]\n"
 
 #. type: Plain text
 #, no-wrap
@@ -220,7 +220,7 @@ msgstr "Lösungen zur Virtualisierung\n"
 msgid ""
 "To run Tails inside a virtual machine, you need to have virtualization "
 "software installed on the host operating system.  Different virtualization "
-"software exist for Linux, Windows, and Mac OS&nbsp;X."
+"software exist for Linux, Windows, and macOS."
 msgstr ""
 "Um Tails in einer virtuellen Maschine auszuführen, ist es nötig, dass Sie "
 "Virtualisierungssoftware auf dem Hostbetriebssystem installiert haben. Es "
@@ -292,7 +292,9 @@ msgstr ""
 "beständigen Speicherbereich zu erstellen, entweder durch:"
 
 #. type: Bullet: '    - '
-msgid "Starting Tails from a USB stick or SD card."
+#, fuzzy
+#| msgid "Starting Tails from a USB stick or SD card."
+msgid "Starting Tails from a USB stick."
 msgstr "Starten von Tails von einem USB-Stick oder einer SD-Karte."
 
 #. type: Bullet: '    - '

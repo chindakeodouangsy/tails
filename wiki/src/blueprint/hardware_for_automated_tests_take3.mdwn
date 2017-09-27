@@ -1,0 +1,176 @@
+This is about [[!tails_ticket 11680]] and related tickets.
+
+[[!toc levels=3]]
+
+# Rationale
+
+In 2016 we gave our main server some more RAM, as a temporary solution
+to cope with our workload, and as a way to learn about how to scale
+it. See [[blueprint/hardware_for_automated_tests_take2]] for our
+reasoning, lots of benchmark results, and conclusions.
+
+It's working relatively well so far, but we may need to upgrade again
+soonish, and improvements are always welcome in the contributor UX
+area:
+
+ * We will likely want to build each ISO twice to ensure it's
+   [[reproducible|blueprint/reproducible_builds]], which will simply
+   double the number of ISO builds we do.
+ * [[Building the ISO reproducibly|blueprint/reproducible_builds]]
+   with Vagrant will be slower, due to nested virtualization, and will
+   require more storage. This will make the feedback loop longer for
+   developers if do nothing about it.
+ * As we add more automated tests, and re-enable tests previously
+   flagged as fragile, a full test run takes longer and longer.
+   We're now up to 160 minutes / run. We can't make it faster by
+   adding RAM anymore, nor by adding CPUs to ISO testers, but faster
+   CPU cores would fix that.
+ * Building our website takes a long while, which makes ISO builds
+   slower. This will get worse as new languages are added to our
+   website. Faster CPU cores would fix that.
+ * We had to turn off one of our ISO testers to make room for other
+   services. This increases the waiting time in queue for an ISO test
+   job (XXX: compute actual numbers).
+ * Average waiting time in queue for an ISO build job is still too
+   high (XXX: compute actual numbers).
+ * Our current server was purchased at the end of 2014. The hardware
+   can last quite a few more years, but we should plan (at least
+   budget-wise) for replacing it when it is 5 years old, at the end of
+   2019, to the latest.
+
+# Options
+
+## Replace lizard
+
+Pros:
+
+ * No initial development nor skills to learn: we can run our test
+   suite in exactly the same way as we currently do.
+ * On-going cost increases only slightly (we probably won't get
+   low-voltage CPUs this time).
+ * We can sell the current hardware while it's still current, and get
+   some of our bucks back.
+
+Cons:
+
+ * High initial investment.
+ * Hard to specify what hardware we need.
+
+## Dedicated ISO testing machine, no nested virtualization
+
+Pros:
+
+ * Fast.
+
+Cons:
+
+ * Medium to high initial investment.
+ * On-going cost for hosting 2 servers.
+ * Hard to specify what hardware we need.
+ * We currently _reboot_ isotesters between test suite runs ⇒ if we go
+   this way we need to learn how to clean up after various kinds of
+   test suite failure.
+ * Our test suite currently assumes only one instance is running on
+   a given system ⇒ if we go this way we have to remove this limitation.
+
+## Dedicated ISO testing machine, with nested virtualization
+
+Pros:
+
+ * No initial development nor skills to learn: we can run our test
+   suite in exactly the same way as we currently do.
+
+Cons:
+
+ * Medium to high initial investment.
+ * On-going cost for hosting 2 servers.
+ * Hard to specify what hardware we need.
+
+## Run builds and/or tests in the cloud
+
+E.g. we could run KVM guests within AWS HVM instances (see
+[Amazon EC2 Instance Types](https://aws.amazon.com/ec2/instance-types/)
+for details).
+
+If we build ISO images in the cloud, then we need to:
+
+ * either download lots of data from the cloud;
+ * or also run our tests and our nightly builds web server there too.
+
+If we only run automated tests in the cloud, then we need to upload
+lots of ISO images to it.
+
+Pros:
+
+ * Scalable as much as we can (afford), both to react to varying
+   workloads on the short term (some days we build and test tons of
+   ISO images, some days a lot fewer), and to adjust to changing needs
+   on the long term.
+ * No initial investment cost.
+ * No hardware failures we have to deal with.
+ * We can try various kinds of instances until we find the right one,
+   compared to hardware that requires careful planning and
+   somewhat-informed guesses (mistakes in this area can only be fixed
+   years later: for example, choosing low-voltage CPUs, that are
+   suboptimal for our workload).
+ * We can choose whether we want persistent VMs or VMs created on the
+   fly (in terms of storage, and in terms of online/offline status).
+ * Frees lots of resources on our current bare metal server, that can
+   be reused for other purposes.
+ * Our next bare metal server can be much cheaper, wrt. both initial
+   investment and on-going costs (it will suck less power).
+
+Cons:
+
+ * We need to learn how to manage systems in the cloud, how to deal
+   with billing, and how to control these systems from Jenkins.
+ * On-going cost: XXX (unknown so far, would need to be researched);
+   very rough estimate, assuming 1. we run all ISO builds and tests on
+   EC2 `m4.xlarge` instances; 2. they perform exactly like my local
+   Jenkins (i7-6770HQ, 2.60GHz); and 3. [[!tails_ticket 12576]] is
+   fixed:
+
+    - builds & tests as usual so far: (35 minutes per build + 105 minutes
+      per test suite run) / 60 * 700 builds+tests * $0.2 = $327/month
+    - second build for reproducibility ([[!tails_ticket 13436]]):
+      35 minutes / 60 * 200 builds * $0.2 = $23 / month
+    - total = $350 / month
+
+   Now, to be more accurate:
+
+    - we can keep running _some_ of our builds and tests on our own
+      infra instead of on EC2: the
+      [Jenkins EC2 plugin](https://plugins.jenkins.io/ec2) allows
+      starting EC2 instances on demand when the local cluster is
+      overloaded, and shuts them down after a configurable idle time;
+      so basically one option is that EC2 would only be used during
+      burst periods;
+    - this assumes we run nightly.t.b.o on EC2 too, which adds to the
+      cost (instance + storage + data transfer to the Internet);
+      otherwise uploading build artifacts to lizard adds to the costs;
+    - booting the VM from its persistent root volume and updating it
+      takes some additional billed time;
+    - storage (EBS) costs money on top of that; the more data we share
+      between instances (e.g. root volume, Vagrant baseboxes), the
+      less it costs; to give an idea, if we stored all the data of our
+      4 isobuilders + 6 isotesters + nightly.t.b.o there without
+      sharing anything at all, i.e. the worst case scenario that's
+      highly unlikely (at least the scratch space to build Vagrant
+      baseboxes should be easy to share, and the root volumes
+      shouldn't be much of a problem either):
+      (32.5 * 4 + 11 * 6 + 300) * $0.10/GB/month = $50/month
+    - likely these instances will be faster than my local Jenkins,
+      thanks to higher CPU clock rate, which should save some money;
+      only actual testing will give us more precise numbers.
+    - more powerful instance types might save money as well, and
+      improve developer experience BTW: e.g. `c4.2xlarge` for ISO
+      builds, if they are more than twice faster, given they cost
+      a bit less than twice more. Here again, only actual testing will
+      give us more precise numbers.
+
+ * We need to trust a third-party somewhat.
+
+We could [request a grant from AWS](https://aws.amazon.com/grants/) to
+experiment with this approach.
+See
+[Arturo's report about how OONI took advantage of this grant program](https://lists.torproject.org/pipermail/tor-project/2017-August/001391.html).

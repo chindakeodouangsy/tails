@@ -1,4 +1,5 @@
 [[!meta title="Tails report for May, 2014"]]
+[[!meta date="Fri Jun 13 15:32:24 2014"]]
 
 Releases
 ========
@@ -136,7 +137,7 @@ Funding
 =======
 
 - Special thanks to all the people who donated
-  [[bitcoins|contribute/how/donate]]. We received more than [60 bitcoins in
+  [[bitcoins|donate]]. We received more than [60 bitcoins in
   May](https://blockchain.info/address/1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2)!
 
 - Received a grant from Debian to fund our yearly summit.
@@ -162,7 +163,7 @@ Outreach
 ========
 
 - Passed a [[call for help on
-  sysadmin|news/Call_for_help:_improve_the_infrastructure_behind_Tails]].
+  sysadmin|news/improve_the_infrastructure_behind_Tails]].
 
 - Organized a first [[usability testing session in
   Paris|news/usability_testing_2014_05/]].
