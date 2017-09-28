@@ -1,0 +1,61 @@
+# Last modified
+#include <tunables/global>
+
+/usr/local/lib/tor-messenger/instantbird {
+  #include <abstractions/gnome>
+  #include <abstractions/ibus>
+
+  network tcp,
+
+  deny /etc/host.conf r,
+  /etc/hosts r,
+  /etc/nsswitch.conf r,
+  deny /etc/resolv.conf r,
+  /etc/passwd r,
+  /etc/machine-id r,
+  owner @{PROC}/@{pid}/environ r,
+  owner @{PROC}/@{pid}/mountinfo r,
+  owner @{PROC}/@{pid}/stat r,
+  owner @{PROC}/@{pid}/task/*/stat r,
+
+  /usr/local/lib/tor-messenger/ r,
+  /usr/local/lib/tor-messenger/** r,
+  /usr/local/lib/tor-messenger/*.so{,.6} mr,
+  /usr/local/lib/tor-messenger/components/*.so{,.6} mr,
+
+  owner @{HOME}/.tor-messenger/profile.default/ r,
+  owner @{HOME}/.tor-messenger/profile.default/** rwk,
+  owner @{HOME}/.tor-messenger/profile.default/extensions/ctypes-otr@tormessenger/chrome/content/libotr.so* mr,
+
+  /usr/share/applications/gnome-mimeapps.list r,
+
+  /sys/devices/system/cpu/ r,
+  /sys/devices/system/cpu/present r,
+
+  # Deny access to DRM nodes, that's granted by the X abstraction, which is
+  # sourced by the gnome abstraction, that we include.
+  deny /dev/dri/** rwklx,
+
+  # Silence denial logs about permissions we don't need
+  deny @{PROC}/@{pid}/net/route r,
+  deny /sys/devices/system/cpu/cpufreq/policy[0-9]*/cpuinfo_max_freq r,
+  deny /sys/devices/system/cpu/*/cache/index[0-9]*/size r,
+  deny /usr/local/lib/tor-messenter/TorBrowser/UpdateInfo/ rw,
+  deny /usr/local/lib/tor-messenter/update.test/ rw,
+
+  # Grant access to assistive technologies
+  owner @{HOME}/.cache/at-spi2-*/ rw,
+  owner @{HOME}/.cache/at-spi2-*/socket rw,
+
+  # Spell checking (the "enchant" abstraction includes these rules
+  # too, but it allows way more stuff than what we need)
+  /usr/share/hunspell/                             r,
+  /usr/share/hunspell/*                            r,
+
+  # Deny access to global tmp directories, that's granted by the user-tmp
+  # abstraction, which is sourced by the gnome abstraction, that we include.
+  deny owner /var/tmp/**     rwklx,
+  deny /var/tmp/             rwklx,
+  deny owner /tmp/**         rwklx,
+  deny /tmp/                 rwklx,
+}
