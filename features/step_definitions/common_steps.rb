@@ -1007,3 +1007,9 @@ end
 When /^Tails system time is magically synchronized$/ do
   $vm.host_to_guest_time_sync
 end
+
+Then /^Tor Messenger seems to start$/ do
+  @tor_messenger = Dogtail::Application.new('Instantbird')
+  @tor_messenger.child('Tor Messenger', roleName: 'frame')
+  @tor_messenger.child('Account Wizard', roleName: 'dialog')
+end
