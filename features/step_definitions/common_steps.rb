@@ -255,6 +255,12 @@ Given /^the computer (re)?boots Tails$/ do |reboot|
 end
 
 Given /^I log in to a new session(?: in )?(|German)$/ do |lang|
+
+#  $vm.execute_successfully(
+#    'gsettings set org.gnome.settings-daemon.plugins.xsettings hinting "full"',
+#    :user => LIVE_USER,
+#  )
+
   case lang
   when 'German'
     @language = "German"
