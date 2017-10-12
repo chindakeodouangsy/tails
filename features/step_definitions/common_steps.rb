@@ -310,7 +310,15 @@ end
 Given /^the Tails desktop is ready$/ do
   desktop_started_picture = "GnomeApplicationsMenu#{@language}.png"
   @screen.wait(desktop_started_picture, 180)
-  @screen.wait("DesktopTailsDocumentation.png", 30)
+  # Workaround #13461 by restarting nautilus-desktop
+  # if Desktop icons are not visible
+  begin
+    @screen.wait("DesktopTailsDocumentation.png", 30)
+  rescue FindFailed
+    step 'I kill the process "nautilus-desktop"'
+    $vm.spawn('nautilus-desktop', user: LIVE_USER)
+    @screen.wait("DesktopTailsDocumentation.png", 30)
+  end
   # Disable screen blanking since we sometimes need to wait long
   # enough for it to activate, which can mess with Sikuli wait():ing
   # for some image.
@@ -349,9 +357,19 @@ Given /^Tor has built a circuit$/ do
   wait_until_tor_is_working
 end
 
+class TimeSyncingError < StandardError
+end
+
 Given /^the time has synced$/ do
-  ["/run/tordate/done", "/run/htpdate/success"].each do |file|
-    try_for(300) { $vm.execute("test -e #{file}").success? }
+  begin
+    ["/run/tordate/done", "/run/htpdate/success"].each do |file|
+      try_for(300) { $vm.execute("test -e #{file}").success? }
+    end
+  rescue
+    File.open("#{$config["TMPDIR"]}/log.htpdate", 'w') do |file|
+      file.write($vm.execute('cat /var/log/htpdate.log').stdout)
+    end
+    raise TimeSyncingError.new("Time syncing failed")
   end
 end
 
@@ -717,14 +735,6 @@ When /^I double-click on the (Tails documentation|Report an Error) launcher on t
   end
 end
 
-When /^I click the blocked video icon$/ do
-  @screen.wait_and_click("TorBrowserBlockedVideo.png", 30)
-end
-
-When /^I accept to temporarily allow playing this video$/ do
-  @screen.wait_and_click("TorBrowserOkButton.png", 10)
-end
-
 When /^I click the HTML5 play button$/ do
   @screen.wait_and_click("TorBrowserHtml5PlayButton.png", 30)
 end
@@ -751,7 +761,7 @@ When /^I (can|cannot) save the current page as "([^"]+[.]html)" to the (.*) dire
   @screen.type(output_file.sub(/[.]html$/, ''))
   @screen.type(Sikuli::Key.ENTER)
   if should_work
-    try_for(10, :msg => "The page was not saved to #{output_dir}/#{output_file}") {
+    try_for(20, :msg => "The page was not saved to #{output_dir}/#{output_file}") {
       $vm.file_exist?("#{output_dir}/#{output_file}")
     }
   else

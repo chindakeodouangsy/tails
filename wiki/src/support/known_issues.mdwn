@@ -216,28 +216,6 @@ Mac
 Graphics issues
 ===============
 
-GNOME desktop fails to start with some AMD/ATI Radeon graphic adapters
-----------------------------------------------------------------------
-
-Some computers [[!tails_ticket 11095 desc="cannot start the GNOME
-desktop"]].
-
-After the <span class="application">Tails Greeter</span> they freeze, or
-sometimes fail with the message <span class="error">"Oh no! Something has gone
-wrong. A problem has occurred and the system can't recover. Please contact a
-system administrator"</span>.
-
-This issue has appeared with the following graphic adapters:
-
-- Mars XTX [Radeon HD 8790M]
-- Mars XTX [Radeon HD 8790M] (rev ff)
-- Cedar [Radeon HD 5000/6000 7350/8350 Series]
-- Broadway PRO [Mobility Radeon HD 5850]
-- RV730/M96 [Mobility Radeon HD 4650/5165]
-
-For some models, adding `radeon.modeset=0` to the
-[[startup options|/doc/first_steps/startup_options/#boot_loader_menu]] fixes the issue.
-
 Tails Greeter fails to start with some AMD/ATI Radeon graphic adapters
 ----------------------------------------------------------------------
 
@@ -270,7 +248,7 @@ still does not start for you:
 
 1. Add `nouveau.noaccel=1` or `nouveau.modeset=0` to the
    [[startup options|doc/first_steps/startup_options#boot_loader_menu]].
-2. [[Report a bug|doc/first_steps/bug_reporting.]]
+2. [[Report a bug|doc/first_steps/bug_reporting]].
 
 <a id="switchable_graphics_black_screen"></a>
 
@@ -390,6 +368,14 @@ To find out if your Wi-Fi interface requires the `wl` driver:
 package on the corresponding [Debian wiki page](https://wiki.debian.org/wl).
 If you find your device in the list of supported devices, then it is
 impossible to use your Wi-Fi card in Tails.
+
+<a id="cherry-trail"></a>
+
+Intel Atom Cherry Trail tablets
+-------------------------------
+
+Tails can be started on tablets with an Intel Atom Cherry Trail system
+on chip (SoC) but the Wi-Fi interface and sound card doesn't work.
 
 Security issues
 ===============
