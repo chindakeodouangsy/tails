@@ -7,8 +7,6 @@
 [[!meta stylesheet="inc/stylesheets/linux" rel="stylesheet" title=""]]
 [[!meta script="install/inc/js/dave"]]
 
-[[!inline pages="install/inc/tails-installation-assistant.inline" raw="yes" sort="age"]]
-
 <div class="step-image">[[!img install/inc/infography/os-linux.png link="no" alt=""]]</div>
 
 <p class="start">Start in Linux.</p>
