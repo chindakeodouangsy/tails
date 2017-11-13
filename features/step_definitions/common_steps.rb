@@ -347,9 +347,12 @@ end
 Given /^Tor is ready$/ do
   step "Tor has built a circuit"
   step "the time has synced"
-  if $vm.execute('systemctl is-system-running').failure?
+  begin
+    try_for(30) { $vm.execute('systemctl is-system-running').success? }
+  rescue Timeout::Error
+    jobs = $vm.execute('systemctl list-jobs').stdout
     units_status = $vm.execute('systemctl').stdout
-    raise "At least one system service failed to start:\n#{units_status}"
+    raise "The system is not fully running yet:\n#{jobs}\n#{units_status}"
   end
 end
 
@@ -1006,4 +1009,37 @@ end
 
 When /^Tails system time is magically synchronized$/ do
   $vm.host_to_guest_time_sync
+end
+
+# Useful for debugging scenarios: e.g. inject this step in a scenario
+# at some point when you want to investigate the state.
+When /^I pause$/ do
+  pause
+end
+
+# Useful for debugging Tails features: let's say you want to fix a bug
+# exposed by $SCENARIO, and is working on a fix in $FILE locally. To
+# immediately test your fix, simply inject this step into $SCENARIO,
+# so that $FILE is put in place (obviously this depends on that no
+# extra steps are needed to make $FILE's changes go "live").
+When /^I upload "([^"]*)" to "([^"]*)"$/ do |source, destination|
+  [source, destination].each { |s| s.sub!(/\/*$/, '') }
+  Dir.glob(source).each do |path|
+    if File.directory?(path)
+      new_destination = "#{destination}/#{File.basename(path)}"
+      $vm.execute_successfully("mkdir -p '#{new_destination}'")
+      Dir.new(path).each do |child|
+        next if child == '.' or child == '..'
+        step "I upload \"#{path}/#{child}\" to \"#{new_destination}\""
+      end
+    else
+      File.open(path) do |f|
+        final_destination = destination
+        if $vm.directory_exist?(final_destination)
+          final_destination += "/#{File.basename(path)}"
+        end
+        $vm.file_overwrite(final_destination, f.read)
+      end
+    end
+  end
 end
