@@ -105,7 +105,7 @@ When /^I start Tails Installer$/ do
 end
 
 When /^I am told that the destination device (.*)$/ do |status|
-  try_for(10) do
+  try_for_success(timeout: 10) do
     tails_installer_match_status(status)
   end
 end
@@ -117,7 +117,7 @@ Then /^a suitable USB device is (?:still )?not found$/ do
 end
 
 Then /^(no|the "([^"]+)") USB drive is selected$/ do |mode, name|
-  try_for(30) do
+  try_for_success(timeout: 30) do
     if mode == 'no'
       tails_installer_selected_device == ''
     else
@@ -130,7 +130,7 @@ When /^I (install|reinstall|upgrade) Tails (?:to|on) USB drive "([^"]+)" (by clo
   step "I start Tails Installer"
   # If the device was plugged *just* before this step, it might not be
   # completely ready (so it's shown) at this stage.
-  try_for(10) { tails_installer_is_device_selected?(name) }
+  try_for_success(timeout: 10) { tails_installer_is_device_selected?(name) }
   if source == 'from an ISO'
     iso_radio = @installer.child('Use a downloaded Tails ISO image',
                                  roleName: 'radio button')
@@ -150,11 +150,10 @@ When /^I (install|reinstall|upgrade) Tails (?:to|on) USB drive "([^"]+)" (by clo
     end
     @installer.button(label).click
     @installer.child('Question', roleName: 'alert').button('Yes').click
-    try_for(30*60) do
+    try(timeout: 30*60) do
       @installer
         .child('Information', roleName: 'alert')
         .child('Installation complete!', roleName: 'label')
-      true
     end
   rescue Exception => e
     debug_log("Tails Installer debug log:\n" +
@@ -336,7 +335,7 @@ end
 
 Given /^all persistence presets(| from the old Tails version)(| but the first one) are enabled$/ do |old_tails, except_first|
   assert(old_tails.empty? || except_first.empty?, "Unsupported case.")
-  try_for(120, :msg => "Persistence is disabled") do
+  try_for_success(timeout: 120, message: "Persistence is disabled") do
     tails_persistence_enabled?
   end
   unexpected_mounts = Array.new
@@ -693,7 +692,7 @@ Then /^I am proposed to install an incremental upgrade to version (.+)$/ do |ver
   end
   failure_pic = 'TailsUpgraderFailure.png'
   success_pic = "TailsUpgraderUpgradeTo#{version}.png"
-  retry_tor(recovery_proc) do
+  try_tor(recovery_proc) do
     match, _ = @screen.waitAny([success_pic, failure_pic], 2*60)
     assert_equal(success_pic, match)
   end
@@ -712,7 +711,7 @@ Then /^I can successfully install the incremental upgrade to version (.+)$/ do |
   end
   failure_pic = 'TailsUpgraderFailure.png'
   success_pic = "TailsUpgraderDone.png"
-  retry_tor(recovery_proc) do
+  try_tor(recovery_proc) do
     match, _ = @screen.waitAny([success_pic, failure_pic], 2*60)
     assert_equal(success_pic, match)
   end

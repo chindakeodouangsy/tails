@@ -43,7 +43,7 @@ When /^I update APT using apt$/ do
     step 'I kill the process "apt"'
     $vm.execute('rm -rf /var/lib/apt/lists/*')
   end
-  retry_tor(recovery_proc) do
+  try_tor(recovery_proc) do
     Timeout::timeout(15*60) do
       $vm.execute_successfully("echo #{@sudo_password} | " +
                                "sudo -S apt update", :user => LIVE_USER)
@@ -56,7 +56,7 @@ Then /^I install "(.+)" using apt$/ do |package_name|
     step 'I kill the process "apt"'
     $vm.execute("apt purge #{package_name}")
   end
-  retry_tor(recovery_proc) do
+  try_tor(recovery_proc) do
     Timeout::timeout(2*60) do
       $vm.execute_successfully("echo #{@sudo_password} | " +
                                "sudo -S apt install #{package_name}",
@@ -81,12 +81,15 @@ When /^I update APT using Synaptic$/ do
     step 'I kill the process "synaptic"'
     step "I start Synaptic"
   end
-  retry_tor(recovery_proc) do
+  try_tor(recovery_proc) do
     @synaptic.button('Reload').click
     sleep 10 # It might take some time before APT starts downloading
-    try_for(15*60, :msg => "Took too much time to download the APT data") {
+    try_for_success(
+      timeout: 15*60,
+      message: "Took too much time to download the APT data"
+    ) do
       !$vm.has_process?("/usr/lib/apt/methods/tor+http")
-    }
+    end
     assert_raise(RuntimeError) do
       @synaptic.child(roleName: 'dialog', recursive: false)
         .child('Error', roleName: 'icon', retry: false)
@@ -103,7 +106,7 @@ Then /^I install "(.+)" using Synaptic$/ do |package_name|
     $vm.execute("apt -y purge #{package_name}")
     step "I start Synaptic"
   end
-  retry_tor(recovery_proc) do
+  try_tor(recovery_proc) do
     @synaptic.button('Search').click
     find_dialog = @synaptic.dialog('Find')
     find_dialog.child(roleName: 'text').typeText(package_name)
@@ -114,11 +117,10 @@ Then /^I install "(.+)" using Synaptic$/ do |package_name|
     package_entry.doubleClick
     @synaptic.button('Apply').click
     apply_prompt = nil
-    try_for(60) { apply_prompt = @synaptic.dialog('Summary'); true }
+    try(timeout: 60) { apply_prompt = @synaptic.dialog('Summary') }
     apply_prompt.button('Apply').click
-    try_for(4*60) do
+    try(timeout: 4*60) do
       @synaptic.child('Changes applied', roleName: 'frame', recursive: false)
-      true
     end
   end
 end
