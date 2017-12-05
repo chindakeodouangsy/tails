@@ -246,9 +246,18 @@ Given /^Tails is at the boot menu's cmdline( after rebooting)?$/ do |reboot|
 end
 
 Given /^the computer (re)?boots Tails$/ do |reboot|
-  step "Tails is at the boot menu's cmdline" + (reboot ? ' after rebooting' : '')
-  @screen.type(" autotest_never_use_this_option blacklist=psmouse #{@boot_options}" +
-               Sikuli::Key.ENTER)
+  # Occasionally the initial space (before "autotest_") is lost, so
+  # let's make sure it was entered correctly.
+  retry_action(3, recovery_proc: Proc.new { $vm.reset }) do
+    step "Tails is at the boot menu's cmdline" + (reboot ? ' after rebooting' : '')
+    @screen.type(" autotest_never_use_this_option blacklist=psmouse #{@boot_options}")
+    @screen.find(
+      "TailsBootMenuKernelCmdlineAutotest" +
+      (@os_loader == 'UEFI' ? 'UEFI' : '') +
+      ".png"
+    )
+  end
+  @screen.type(Sikuli::Key.ENTER)
   @screen.wait('TailsGreeter.png', 5*60)
   $vm.wait_until_remote_shell_is_up
   step 'I configure Tails to use a simulated Tor network'
