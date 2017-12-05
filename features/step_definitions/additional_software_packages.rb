@@ -6,7 +6,7 @@ When /^I configure additional software packages to install "(.+?)"$/ do |package
 end
 
 Then /^the additional software package installation service is run$/ do
-  try_for(300) do
+  try_for_success(timeout: 300) do
     $vm.file_exist?('/run/live-additional-software/installed')
   end
 end
