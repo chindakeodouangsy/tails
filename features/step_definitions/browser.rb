@@ -16,7 +16,7 @@ end
 def xul_application_info(application)
   binary = $vm.execute_successfully(
     'echo ${TBB_INSTALL}/firefox', :libs => 'tor-browser'
-  ).stdout.chomp
+  ).stdout
   address_bar_image = "BrowserAddressBar.png"
   unused_tbb_libs = ['libnssdbm3.so', "libmozavcodec.so", "libmozavutil.so"]
   case application
@@ -36,7 +36,7 @@ def xul_application_info(application)
     binary = "#{binary}-unconfined"
     tor_launcher_install = $vm.execute_successfully(
       'echo ${TOR_LAUNCHER_INSTALL}', :libs => 'tor-browser'
-    ).stdout.chomp
+    ).stdout
     cmd_regex = "#{binary}\s+-app #{tor_launcher_install}/application\.ini.*"
     chroot = ""
     new_tab_button_image = nil
@@ -148,7 +148,7 @@ end
 
 Then /^the (.*) uses all expected TBB shared libraries$/ do |application|
   info = xul_application_info(application)
-  pid = $vm.execute_successfully("pgrep --uid #{info[:user]} --full --exact '#{info[:cmd_regex]}'").stdout.chomp
+  pid = $vm.execute_successfully("pgrep --uid #{info[:user]} --full --exact '#{info[:cmd_regex]}'").stdout
   assert(/\A\d+\z/.match(pid), "It seems like #{application} is not running")
   xul_app_shared_lib_check(pid, info[:chroot], info[:unused_tbb_libs])
 end

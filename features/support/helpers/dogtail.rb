@@ -156,14 +156,14 @@ module Dogtail
         "#{nodes_var} = #{@var}.findChildren(dogtail.predicate.GenericPredicate(#{predicate_opts})#{findChildren_opts})",
         "print(len(#{nodes_var}))",
       ]
-      size = run(find_script_lines).stdout.chomp.to_i
+      size = run(find_script_lines).stdout.to_i
       return size.times.map do |i|
         Node.new("#{nodes_var}[#{i}]", @opts)
       end
     end
 
     def get_field(key)
-      run("print(#{@var}.#{key})").stdout.chomp
+      run("print(#{@var}.#{key})").stdout
     end
 
     def set_field(key, value)
