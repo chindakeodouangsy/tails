@@ -66,7 +66,16 @@ end
 When /^I open the address "([^"]*)" in the (.*)$/ do |address, browser|
   step "I open a new tab in the #{browser}"
   info = xul_application_info(browser)
-  open_address = Proc.new do
+  recovery_on_failure = Proc.new do
+    @screen.type(Sikuli::Key.ESC)
+    @screen.waitVanish('BrowserReloadButton.png', 3)
+  end
+  if browser == "Tor Browser"
+    retry_method = method(:try_tor)
+  else
+    retry_method = Proc.new { |p, &b| try(attempts: 10, recovery_proc: p, &b) }
+  end
+  retry_method.call(recovery_on_failure) do
     @screen.click(info[:address_bar_image])
     # This static here since we have no reliable visual indicators
     # that we can watch to know when typing is "safe".
@@ -77,19 +86,6 @@ When /^I open the address "([^"]*)" in the (.*)$/ do |address, browser|
     $vm.set_clipboard(address)
     @screen.type('v', Sikuli::KeyModifier.CTRL)
     @screen.type(Sikuli::Key.ENTER)
-  end
-  recovery_on_failure = Proc.new do
-    @screen.type(Sikuli::Key.ESC)
-    @screen.waitVanish('BrowserReloadButton.png', 3)
-    open_address.call
-  end
-  if browser == "Tor Browser"
-    retry_method = method(:try_tor)
-  else
-    retry_method = Proc.new { |p, &b| try(attempts: 10, recovery_proc: p, &b) }
-  end
-  open_address.call
-  retry_method.call(recovery_on_failure) do
     @screen.wait('BrowserReloadButton.png', 120)
   end
 end
@@ -212,6 +208,8 @@ end
 Then /^the Tor Browser shows the "([^"]+)" error$/ do |error|
   page = @torbrowser.child("Problem loading page", roleName: "document frame")
   headers = page.children(roleName: "heading")
-  found = headers.any? { |heading| heading.text == error }
-  raise "Could not find the '#{error}' error in the Tor Browser" unless found
+  assert(
+    headers.any? { |heading| heading.text.chomp == error },
+    "Could not find the '#{error}' error in the Tor Browser"
+  )
 end
