@@ -202,6 +202,8 @@ Mac
   created by Tails Installer. You can check if a given Mac is 32-bit
   or 64-bit EFI on that list:
   <http://www.everymac.com/mac-answers/snow-leopard-mac-os-x-faq/mac-os-x-snow-leopard-64-bit-macs-64-bit-efi-boot-in-64-bit-mode.html>
+* MacBook Pro 2016 and 2017: the keyboard, trackpad and Touch Bar do
+  not work.
 * MacBook Pro 5,5 does not boot with Tails in UEFI mode.
 * MacBook Pro 5,1 17" (Nvidia GeForce 9400M): one must add the
   `nouveau.noaccel=1` boot parameter so that the display
@@ -248,7 +250,8 @@ still does not start for you:
 
 1. Add `nouveau.noaccel=1` or `nouveau.modeset=0` to the
    [[startup options|doc/first_steps/startup_options#boot_loader_menu]].
-2. [[Report a bug|doc/first_steps/bug_reporting]].
+2. [[Report a bug|doc/first_steps/bug_reporting]], giving us an email
+   address so we can contact you to debug the problem.
 
 <a id="switchable_graphics_black_screen"></a>
 
@@ -289,7 +292,7 @@ There are two possible workarounds for this issue:
 
          sudo passwd
 
-For more details, see our ticket on [[!tails_ticket 7505 desc="Video is broken on dual-graphics-card apple hardware"]].
+For more details, see our ticket on [[!tails_ticket 7505 desc="Video is broken with switchable graphics"]].
 
 <a id=switchable_graphics_segfault></a>
 
@@ -539,18 +542,6 @@ Press <span class="keycap">Alt+F2</span> and type `r` to restart GNOME
 Shell, which often solves this problem.
 
 See [[!tails_ticket 10576]] for more details.
-
-Tor Browser search engine with security slider set to High requires a click
----------------------------------------------------------------------------
-
-The custom search engine plugin shipped in Tails to localize the search engine
-in Tor Browser is still using disconnect.me, while upstream Tor Browser has
-switched to duckduckgo.com by default.
-
-Until we update the search engine plugin, users that set their Tor Browser
-security slider to High and use the search box in Tor Browser will end up after
-a redirection from disconnect.me on a page on duckduckgo.com asking them to
-click on a link to see their result without JavaScript.
 
 Some languages do not have the correct keyboard layout set by default
 ---------------------------------------------------------------------
