@@ -71,7 +71,7 @@ When /^I start Thunderbird$/ do
     $vm.file_append('/etc/thunderbird/pref/thunderbird.js ', line)
   end
   # On Jenkins each isotester runs its own email server, using their
-  # respecitve snakeoil SSL cert, so we have to import it.
+  # respective snakeoil SSL cert, so we have to import it.
   if ENV['JENKINS']
     thunderbird_install_host_snakeoil_ssl_cert
   end
