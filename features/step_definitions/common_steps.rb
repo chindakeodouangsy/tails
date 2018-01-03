@@ -454,11 +454,10 @@ Given /^all notifications have disappeared$/ do
 end
 
 Then /^I (do not )?see "([^"]*)" after at most (\d+) seconds$/ do |negation, image, time|
-  begin
+  if negation
+    @screen.waitVanish(image, time.to_i)
+  else
     @screen.wait(image, time.to_i)
-    raise "found '#{image}' while expecting not to" if negation
-  rescue FindFailed => e
-    raise e if not(negation)
   end
 end
 
@@ -730,11 +729,9 @@ end
 
 When /^I double-click on the (Tails documentation|Report an Error) launcher on the desktop$/ do |launcher|
   image = 'Desktop' + launcher.split.map { |s| s.capitalize } .join + '.png'
-  info = xul_application_info('Tor Browser')
   # Sometimes the double-click is lost (#12131).
   retry_action(10) do
-    @screen.wait_and_double_click(image, 10) if $vm.execute("pgrep --uid #{info[:user]} --full --exact '#{info[:cmd_regex]}'").failure?
-    step 'the Tor Browser has started'
+    @screen.wait_and_double_click(image, 10) if $vm.execute("pgrep --uid #{LIVE_USER} --full --full tails-documentation").failure?
   end
 end
 
