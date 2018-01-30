@@ -51,12 +51,11 @@ OnionService = Node(
     torrc="hs.tmpl"
 )
 
-NODES = Authority.getN(4) + \
-        BridgeAuthority.getN(1) + \
-        NonExitRelay.getN(20) + \
-        ExitRelay.getN(10) + \
-        Bridge.getN(3) + \
-        BridgeObfs4.getN(3) + \
+NODES = Authority.getN(1) + \
+        NonExitRelay.getN(2) + \
+        ExitRelay.getN(1) + \
+        Bridge.getN(1) + \
+        BridgeObfs4.getN(1) + \
         OnionService.getN(1) + \
         Client.getN(1)
 
