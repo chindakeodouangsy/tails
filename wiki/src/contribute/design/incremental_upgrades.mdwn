@@ -207,8 +207,8 @@ of upgrade-description file files.
   to start with.
 * product name (e.g. *Tails*, but some day we may have *TailsServer*,
   *TailsHandheld* or whatever)
-* product version -- the version initially installed on the device to
-  upgrade, e.g. *0.11* or *0.11.1*
+* initial install version -- the version initially installed on the
+  device to upgrade, e.g. *0.11* or *0.11.1*
 * build-target (e.g. *amd64*)
 * channel (e.g. *stable* or *beta*)
 * `upgrade.yml`
@@ -224,7 +224,9 @@ An upgrade-description file contains a YAML associative array with the
 following top-level keys:
 
 * `product-name`
-* `product-version`
+* `initial-install-version`
+* `product-version` (for backwards compatibility with older version of
+  the Upgrader)
 * `build-target`
 * `channel`
 * `upgrades`: a list of upgrade elements.
@@ -267,6 +269,7 @@ Example that would be found at
 <https://tails.boum.org/upgrade/v1/Tails/0.11.1/amd64/stable/upgrades.yml>:
 
 	product-name: Tails
+	initial-install-version: 0.11.1
 	product-version: 0.11.1
 	channel: stable
 	build-target: amd64
@@ -305,7 +308,7 @@ followed by the `.iuk` suffix:
 
 * product name (e.g. *Tails*)
 * build-target (e.g. *amd64*)
-* product version -- the version initially installed on the device to
+* initial install version -- the version initially installed on the device to
   upgrade, e.g. *0.11* or *0.11.1*
 * `to`
 * the version of this upgrade, that is the version of the running
@@ -340,7 +343,7 @@ upgrade-description file.
 * Fetch the upgrade-description file and its signature at these URIs.
 * Verify the cryptographic signature of the upgrade-description file.
 * Check that content of the upgrade-description file matches the
-  currently running system (in terms of product name, product
+  currently running system (in terms of product name, initial install
   version, build-target and channel).
 * Once all these steps have been successfully performed, the content
   of the upgrade-description file is trusted to be legit, and is
