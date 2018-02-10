@@ -2,6 +2,7 @@ boot/initrd.img-*
 boot/vmlinux-*
 boot/vmlinuz-*
 debootstrap/*
+etc/apt/apt.conf.d/50ignore-valid-until
 root/.gnupg/S.gpg-agent*
 tmp/*
 usr/share/amnesia/packages/*

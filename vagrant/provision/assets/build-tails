@@ -102,6 +102,14 @@ fi
 as_root_do rsync -a "${TAILS_GIT_DIR}"/ "${BUILD_DIR}"/
 
 cd "${BUILD_DIR}"
+
+if [ "${TAILS_APT_IGNORE_VALID_UNTIL}" = 1 ]; then
+   cat > config/chroot_local-includes/etc/apt/apt.conf.d/50ignore-valid-until <<-EOF
+# If this file ever ends up inside a Tails build, that is a bug!
+Acquire::Check-Valid-Until=false;
+   EOF
+fi
+
 as_root_do lb config --cache false
 
 as_root_do lb build

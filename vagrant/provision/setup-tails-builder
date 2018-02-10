@@ -49,6 +49,8 @@ security_serial="$(latest_serial debian-security)"
 sed -i -e "s/${stable_serial}/${security_serial}/g" /etc/apt/sources.list.d/stretch-security.list
 cat /etc/apt/sources.list /etc/apt/sources.list.d/*
 
+# XXX: we need: Acquire::Check-Valid-Until=false;
+
 # Upgrade if needed
 apt-key add /amnesia.git/config/chroot_sources/tails.binary.gpg
 apt-get update

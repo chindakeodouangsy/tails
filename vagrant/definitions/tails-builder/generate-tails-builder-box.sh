@@ -45,6 +45,10 @@ fi
 # already exists
 rm -f "${TARGET_NAME}".*
 
+# XXX: we need: Acquire::Check-Valid-Until=false;
+
+# XXX: actually, we cannot use time-based.snapshots.deb.tails.boum.org below, but need to use tagged.snapshots. So this will be way more complicated (we need to record the packages used to generate the builder box and include them...)
+
 sudo ${http_proxy:+http_proxy="$http_proxy"} \
      LC_ALL=${LC_ALL} \
      ARCHITECTURE=${ARCHITECTURE} \
