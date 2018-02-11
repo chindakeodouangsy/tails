@@ -52,8 +52,8 @@ OnionService = Node(
 )
 
 NODES = Authority.getN(1) + \
-        NonExitRelay.getN(2) + \
-        ExitRelay.getN(1) + \
+        NonExitRelay.getN(6) + \
+        ExitRelay.getN(3) + \
         Bridge.getN(1) + \
         BridgeObfs4.getN(1) + \
         OnionService.getN(1) + \
