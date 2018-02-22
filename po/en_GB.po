@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
-# Andi Chandler <andi@gowling.com>, 2014-2016
+# Andi Chandler <andi@gowling.com>, 2014-2017
 # Billy Humphreys <sysop@enderbbs.enderservices.tk>, 2014
 # newharha ehrara <dbybgohg@yomail.info>, 2015
 # Richard Shaylor <rshaylor@me.com>, 2014
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-13 20:10+0200\n"
-"PO-Revision-Date: 2017-05-26 14:47+0000\n"
-"Last-Translator: carolyn <carolyn@anhalt.org>\n"
+"POT-Creation-Date: 2018-02-20 11:29+0100\n"
+"PO-Revision-Date: 2017-12-22 12:06+0000\n"
+"Last-Translator: Andi Chandler <andi@gowling.com>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/otf/"
 "torproject/language/en_GB/)\n"
 "Language: en_GB\n"
@@ -126,14 +126,58 @@ msgstr ""
 msgid "not available"
 msgstr "not available"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:147
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:162
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:166
-msgid "Your additional software"
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:119
+#, fuzzy
+msgid "Your additional software installation failed"
 msgstr "Your additional software"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:148
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:167
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:120
+#, fuzzy
+msgid ""
+"The installation failed. Please check your additional software "
+"configuration, or read the system log to understand better the problem."
+msgstr ""
+"The upgrade failed. This might be due to a network problem. Please check "
+"your network connection, try to restart Tails, or read the system log to "
+"understand better the problem."
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:126
+#, fuzzy
+msgid "Your additional software are installed"
+msgstr "Your additional software"
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:127
+#, fuzzy
+msgid "Your additional software are ready to use."
+msgstr "Your additional software"
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:138
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:157
+#, fuzzy
+msgid "Your additional software upgrade failed"
+msgstr "Your additional software"
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:139
+#, fuzzy
+msgid ""
+"The check for upgrades failed. This might be due to a network problem. "
+"Please check your network connection, try to restart Tails, or read the "
+"system log to understand better the problem."
+msgstr ""
+"The upgrade failed. This might be due to a network problem. Please check "
+"your network connection, try to restart Tails, or read the system log to "
+"understand better the problem."
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:153
+#, fuzzy
+msgid "Your additional software are up to date"
+msgstr "Your additional software"
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:154
+msgid "The upgrade was successful."
+msgstr "The upgrade was successful."
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:158
 msgid ""
 "The upgrade failed. This might be due to a network problem. Please check "
 "your network connection, try to restart Tails, or read the system log to "
@@ -142,10 +186,6 @@ msgstr ""
 "The upgrade failed. This might be due to a network problem. Please check "
 "your network connection, try to restart Tails, or read the system log to "
 "understand better the problem."
-
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:163
-msgid "The upgrade was successful."
-msgstr "The upgrade was successful."
 
 #: config/chroot_local-includes/usr/local/lib/tails-htp-notify-user:52
 msgid "Synchronizing the system's clock"
@@ -400,4 +440,4 @@ msgstr "Tails specific tools"
 
 #: ../config/chroot_local-includes/usr/share/polkit-1/actions/org.boum.tails.root-terminal.policy.in.h:1
 msgid "To start a Root Terminal, you need to authenticate."
-msgstr ""
+msgstr "To start a Root Terminal, you need to authenticate."
