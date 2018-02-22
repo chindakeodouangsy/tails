@@ -110,7 +110,10 @@ configure_best_tor_launcher_locale() {
 supported_tor_browser_locales() {
     # The default is always supported
     echo en-US
-    for langpack in "${TBB_EXT}"/langpack-*@firefox.mozilla.org.xpi; do
-        basename "${langpack}" | sed 's,^langpack-\([^@]\+\)@.*$,\1,'
-    done
+    find "${TBB_EXT}" \
+         -maxdepth 1 \
+         -name 'langpack-*@firefox.mozilla.org.xpi' \
+         -printf '%f\n' \
+         2> /dev/null \
+        | sed 's,^langpack-\([^@]\+\)@.*$,\1,'
 }
