@@ -51,7 +51,7 @@ OnionService = Node(
     torrc="hs.tmpl"
 )
 
-NODES = Authority.getN(1) + \
+NODES = Authority.getN(3) + \
         NonExitRelay.getN(6) + \
         ExitRelay.getN(3) + \
         Bridge.getN(1) + \
