@@ -49,5 +49,5 @@ if [ "$TOR_NEW_UID" != "$TOR_OLD_UID" ]; then
     fi
     usermod --uid "$TOR_NEW_UID" debian-tor
     # Change the UID of the files belonging to debian-tor
-    find / -wholename /proc -prune -o \( \! -type l -a -uid "$TOR_OLD_UID" -exec chgrp "$TOR_NEW_UID" '{}' \; \)
+    find / -wholename /proc -prune -o \( \! -type l -a -uid "$TOR_OLD_UID" -exec chown "$TOR_NEW_UID" '{}' \; \)
 fi
