@@ -17,3 +17,33 @@ if [ -n "$TPS_USER_STEALER" ]; then
    usermod --uid 150 "$TPS_USER_STEALER"
    find / -wholename /proc -prune -o \( \! -type l -a -uid 115 -exec chown 150 '{}' \; \)
 fi
+
+TOR_NEW_GID=115
+TOR_OLD_GID=$(id debian-tor | grep -Po 'gid=\K(\d+)')
+
+if [ $TOR_NEW_GID != $TOR_OLD_GID ]; then
+    TOR_GROUP_STEALER=$(getent group $TOR_NEW_GID | awk -F ':' '{print $1}')
+    if [ -n "$TOR_GROUP_STEALER" ]; then
+        groupmod --gid 151 "$TOR_GROUP_STEALER"
+        # Change the GID of the files belonging to the stealer
+        find / -wholename /proc -prune -o \( \! -type l -a -gid $TOR_NEW_GID -exec chgrp 151 '{}' \; \)
+    fi
+    groupmod --gid $TOR_NEW_GID debian-tor
+    # Change the GID of the files belonging to debian-tor
+    find / -wholename /proc -prune -o \( \! -type l -a -gid $TOR_OLD_GID -exec chgrp $TOR_NEW_GID '{}' \; \)
+fi
+
+TOR_NEW_UID=108
+TOR_OLD_UID=$(id debian-tor | grep -Po 'uid=\K(\d+)')
+
+if [ $TOR_NEW_UID != $TOR_OLD_UID ]; then
+    TOR_USER_STEALER=$(getent passwd $TOR_NEW_UID| awk -F ':' '{print $1}')
+    if [ -n "$TOR_USER_STEALER" ]; then
+        usermod --uid 151 "$TOR_USER_STEALER"
+        # Change the UID of the files belonging to the stealer
+        find / -wholename /proc -prune -o \( \! -type l -a -uid $TOR_NEW_UID -exec chown 151 '{}' \; \)
+    fi
+    usermod --uid $TOR_NEW_UID debian-tor
+    # Change the UID of the files belonging to debian-tor
+    find / -wholename /proc -prune -o \( \! -type l -a -uid $TOR_OLD_UID -exec chgrp $TOR_NEW_UID '{}' \; \)
+fi
