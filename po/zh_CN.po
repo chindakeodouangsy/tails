@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-24 20:32+0100\n"
+"POT-Creation-Date: 2018-03-06 07:14+0100\n"
 "PO-Revision-Date: 2018-01-11 09:21+0000\n"
 "Last-Translator: Lafrenze Laurant <lusciniacyanbird@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/otf/torproject/"
@@ -65,11 +65,30 @@ msgstr ""
 "窥探的机会，像是您的电子邮件或者互联网提供商，以此确认您正在使用 Tails。\n"
 "</p>\n"
 
-#: config/chroot_local-includes/usr/local/bin/electrum:17
+#: config/chroot_local-includes/usr/share/tails/additional-software/configuration-window.ui:51
+msgid ""
+"You can install additional software automatically from your persistent "
+"storage whan starting Tails."
+msgstr ""
+
+#: config/chroot_local-includes/usr/share/tails/additional-software/configuration-window.ui:77
+msgid ""
+"The following software is installed automatically from your persistent "
+"storage when starting Tails:"
+msgstr ""
+
+#: config/chroot_local-includes/usr/share/tails/additional-software/configuration-window.ui:132
+msgid ""
+"To install new additional software, you can use <a href=\"synaptic.desktop"
+"\">Synaptic Package Manager</a> or <a href=\"doc/advanced_topics/"
+"additional_software\">APT on the command line</a>"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/bin/electrum:57
 msgid "Persistence is disabled for Electrum"
 msgstr "Electrum 的持久化已禁用"
 
-#: config/chroot_local-includes/usr/local/bin/electrum:19
+#: config/chroot_local-includes/usr/local/bin/electrum:59
 msgid ""
 "When you reboot Tails, all of Electrum's data will be lost, including your "
 "Bitcoin wallet. It is strongly recommended to only run Electrum when its "
@@ -78,16 +97,16 @@ msgstr ""
 "在您重新启动 Tails 时，Electrum 的所有数据都将丢失，包括您的比特币钱包。强烈"
 "建议您只在持久化功能已启用时运行 Electrum。"
 
-#: config/chroot_local-includes/usr/local/bin/electrum:21
+#: config/chroot_local-includes/usr/local/bin/electrum:60
 msgid "Do you want to start Electrum anyway?"
 msgstr "您无论如何都要启动 Electrum 吗？"
 
-#: config/chroot_local-includes/usr/local/bin/electrum:23
+#: config/chroot_local-includes/usr/local/bin/electrum:63
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:41
 msgid "_Launch"
 msgstr "启动(_L)"
 
-#: config/chroot_local-includes/usr/local/bin/electrum:24
+#: config/chroot_local-includes/usr/local/bin/electrum:64
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:42
 msgid "_Exit"
 msgstr "退出(_E)"
@@ -97,7 +116,8 @@ msgid "Restart"
 msgstr "重新启动"
 
 #: config/chroot_local-includes/usr/share/gnome-shell/extensions/status-menu-helper@tails.boum.org/extension.js:78
-msgid "Lock"
+#: config/chroot_local-includes/usr/local/bin/tails-screen-locker:147
+msgid "Lock screen"
 msgstr ""
 
 #: config/chroot_local-includes/usr/share/gnome-shell/extensions/status-menu-helper@tails.boum.org/extension.js:81
@@ -131,63 +151,132 @@ msgstr ""
 msgid "not available"
 msgstr "不可用"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:170
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:163
+msgid "Show log"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:163
+msgid "Configure"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:272
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:296
+#, python-brace-format
+msgid "Add {packages} to your additional software?"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:274
+msgid ""
+"To install it automatically from your persistent storage every time you "
+"start Tails"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:276
+msgid "Add to Persistent Storage"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:277
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:302
+msgid "Install only once"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:298
+msgid ""
+"To install it automatically when starting Tails, you can create a persistent "
+"storage and activate the <b>Additional Software</b> feature"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:301
+msgid "Create Persistent Storage"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:309
+#, python-brace-format
+msgid "You could install {packages} automatically when starting Tails"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:311
+msgid ""
+"To do so, you need to run Tails from a USB stick installed using <i>Tails "
+"Installer</i>"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:324
+#, python-brace-format
+msgid "Remove {packages} from your additional software?"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:327
+msgid "Remove"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:328
+#: config/chroot_local-includes/usr/local/bin/tails-screen-locker:155
+#: config/chroot_local-includes/usr/local/bin/tor-browser:46
+msgid "Cancel"
+msgstr "取消"
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:489
 #, fuzzy
-msgid "Your additional software installation failed"
+msgid "Installing your additional software from persistent storage…"
 msgstr "附加软件"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:171
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:490
+msgid "This can take several minutes…"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:502
+#, fuzzy
+msgid "The installation of your additional software failed"
+msgstr "附加软件"
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:504
 #, fuzzy
 msgid ""
-"The installation failed. Please check your additional software "
-"configuration, or read the system log to understand better the problem."
+"Please check your list of additional software packages or read the system "
+"log to understand the problem."
 msgstr ""
 "升级失败。可能是网络故障导致，请检查网络连接或尝试重启 Tails，或者查看系统日"
 "志，更好地理解问题所在。"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:177
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:518
 #, fuzzy
-msgid "Your additional software are installed"
+msgid "Additional software installed successfully"
 msgstr "附加软件"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:178
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:538
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:546
 #, fuzzy
-msgid "Your additional software are ready to use."
+msgid "The upgrade of your additional software failed"
 msgstr "附加软件"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:194
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:204
-#, fuzzy
-msgid "Your additional software upgrade failed"
-msgstr "附加软件"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:195
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:539
 #, fuzzy
 msgid ""
-"The check for upgrades failed. This might be due to a network problem. "
-"Please check your network connection, try to restart Tails, or read the "
-"system log to understand better the problem."
+"The check for upgrades failed. Please check your network connection, restart "
+"Tails, or read the system log to understand the problem."
 msgstr ""
 "升级失败。可能是网络故障导致，请检查网络连接或尝试重启 Tails，或者查看系统日"
 "志，更好地理解问题所在。"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:201
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:547
 #, fuzzy
-msgid "Your additional software are up to date"
-msgstr "附加软件"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:202
-msgid "The upgrade was successful."
-msgstr "成功升级。"
-
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:205
 msgid ""
-"The upgrade failed. This might be due to a network problem. Please check "
-"your network connection, try to restart Tails, or read the system log to "
-"understand better the problem."
+"The upgrade failed. Please check your network connection, restart Tails, or "
+"read the system log to understand the problem."
 msgstr ""
 "升级失败。可能是网络故障导致，请检查网络连接或尝试重启 Tails，或者查看系统日"
 "志，更好地理解问题所在。"
+
+#: config/chroot_local-includes/usr/local/lib/tails-additional-software-notify:37
+#, fuzzy
+msgid "Documentation"
+msgstr "Tails 文档"
+
+#: config/chroot_local-includes/usr/local/bin/tails-additional-software-config:144
+#, fuzzy
+msgid "[package not available]"
+msgstr "不可用"
 
 #: config/chroot_local-includes/usr/local/lib/tails-htp-notify-user:52
 msgid "Synchronizing the system's clock"
@@ -241,19 +330,22 @@ msgstr ""
 "用。\n"
 "您可能宁愿重启 Tails 并禁用 MAC 欺骗。"
 
-#: config/chroot_local-includes/usr/local/bin/tails-upgrade-frontend-wrapper:24
-#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:27
-msgid "error:"
-msgstr "错误："
+#: config/chroot_local-includes/usr/local/bin/tails-screen-locker:109
+msgid "Set up a password to unlock the screen"
+msgstr ""
 
-#: config/chroot_local-includes/usr/local/bin/tails-upgrade-frontend-wrapper:25
-#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:28
-msgid "Error"
-msgstr "错误"
+#: config/chroot_local-includes/usr/local/bin/tails-screen-locker:115
+msgid "Password"
+msgstr ""
 
-#: config/chroot_local-includes/usr/local/bin/tails-upgrade-frontend-wrapper:45
+#: config/chroot_local-includes/usr/local/bin/tails-screen-locker:122
+msgid "Confirm"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/bin/tails-upgrade-frontend-wrapper:35
+#, fuzzy
 msgid ""
-"<b>Not enough memory available to check for upgrades.</b>\n"
+"\"<b>Not enough memory available to check for upgrades.</b>\n"
 "\n"
 "Make sure this system satisfies the requirements for running Tails.\n"
 "See file:///usr/share/doc/tails/website/doc/about/requirements.en.html\n"
@@ -261,7 +353,7 @@ msgid ""
 "Try to restart Tails to check for upgrades again.\n"
 "\n"
 "Or do a manual upgrade.\n"
-"See https://tails.boum.org/doc/first_steps/upgrade#manual"
+"See https://tails.boum.org/doc/first_steps/upgrade#manual\""
 msgstr ""
 "<b>内存不足，无法检测更新。</b>\n"
 "\n"
@@ -272,6 +364,16 @@ msgstr ""
 "\n"
 "或者手动更新。\n"
 "参阅：https://tails.boum.org/doc/first_steps/upgrade#manual"
+
+#: config/chroot_local-includes/usr/local/bin/tails-upgrade-frontend-wrapper:72
+#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:27
+msgid "error:"
+msgstr "错误："
+
+#: config/chroot_local-includes/usr/local/bin/tails-upgrade-frontend-wrapper:73
+#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:28
+msgid "Error"
+msgstr "错误"
 
 #: config/chroot_local-includes/usr/local/lib/tails-virt-notify-user:71
 msgid "Warning: virtual machine detected!"
@@ -312,10 +414,6 @@ msgstr "Tor 未就绪。确定启动 Tor Browser？"
 #: config/chroot_local-includes/usr/local/bin/tor-browser:45
 msgid "Start Tor Browser"
 msgstr "启动 Tor Browser"
-
-#: config/chroot_local-includes/usr/local/bin/tor-browser:46
-msgid "Cancel"
-msgstr "取消"
 
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:38
 msgid "Do you really want to launch the Unsafe Browser?"
@@ -414,6 +512,16 @@ msgstr "不匿名的浏览万维网"
 msgid "Unsafe Web Browser"
 msgstr "不安全的网页浏览器"
 
+#: ../config/chroot_local-includes/usr/share/applications/org.boum.tails.additional-software-config.desktop.in.h:1
+msgid "Additional Software"
+msgstr ""
+
+#: ../config/chroot_local-includes/usr/share/applications/org.boum.tails.additional-software-config.desktop.in.h:2
+msgid ""
+"Configure additional software installed from your persistent storage when "
+"starting Tails."
+msgstr ""
+
 #: ../config/chroot_local-includes/usr/share/desktop-directories/Tails.directory.in.h:2
 msgid "Tails specific tools"
 msgstr "Tails 指定工具"
@@ -421,6 +529,21 @@ msgstr "Tails 指定工具"
 #: ../config/chroot_local-includes/usr/share/polkit-1/actions/org.boum.tails.root-terminal.policy.in.h:1
 msgid "To start a Root Terminal, you need to authenticate."
 msgstr "开启root终端，您需要身份认证。"
+
+#, fuzzy
+#~ msgid "Your additional software installation failed"
+#~ msgstr "附加软件"
+
+#, fuzzy
+#~ msgid "Your additional software are ready to use."
+#~ msgstr "附加软件"
+
+#, fuzzy
+#~ msgid "Your additional software are up to date"
+#~ msgstr "附加软件"
+
+#~ msgid "The upgrade was successful."
+#~ msgstr "成功升级。"
 
 #~ msgid ""
 #~ "NetworkManager passed us garbage data when trying to deduce the clearnet "
