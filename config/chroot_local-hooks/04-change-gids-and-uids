@@ -2,9 +2,10 @@
 
 set -e
 
-# Free the fixed GIDs and UIDs we're using.
-
 echo "Change GIDs and UIDs"
+
+### Free fixed UID/GID we want to give users and groups that when we create
+### them in later hooks.
 
 TPS_GROUP_STEALER=$(getent group 122 | awk -F ':' '{print $1}')
 if [ -n "$TPS_GROUP_STEALER" ]; then
@@ -17,6 +18,11 @@ if [ -n "$TPS_USER_STEALER" ]; then
    usermod --uid 150 "$TPS_USER_STEALER"
    find / -wholename /proc -prune -o \( \! -type l -a -uid 115 -exec chown 150 '{}' \; \)
 fi
+
+### Set fixed UID/GID for the debian-tor user and group, that were already
+### created at package installation time: if their UID/GID changes accross
+### releases, due to an aufs bug Tor won't start after an automated upgrade
+### (see #15419 for details).
 
 TOR_NEW_GID=114
 TOR_OLD_GID=$(getent passwd debian-tor | awk -F ':' '{print $4}')
