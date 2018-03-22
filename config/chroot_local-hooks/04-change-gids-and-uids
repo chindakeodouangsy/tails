@@ -30,7 +30,7 @@ if [ "$TOR_NEW_GID" != "$TOR_OLD_GID" ]; then
         # Change the GID of the files belonging to the stealer
         find / -wholename /proc -prune -o \( \! -type l -a -gid "$TOR_NEW_GID" -exec chgrp 151 '{}' \; \)
     fi
-    groupmod --gid $TOR_NEW_GID debian-tor
+    groupmod --gid "$TOR_NEW_GID" debian-tor
     # Change the GID of the files belonging to debian-tor
     find / -wholename /proc -prune -o \( \! -type l -a -gid "$TOR_OLD_GID" -exec chgrp "$TOR_NEW_GID" '{}' \; \)
 fi
