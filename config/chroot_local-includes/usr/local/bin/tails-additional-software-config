@@ -3,6 +3,8 @@
 """User interface to configure Tails Additional Software."""
 
 import gettext
+import os
+import subprocess
 import sys
 
 import apt.cache
@@ -13,7 +15,8 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk                               # NOQA: E402
 
 from tailslib.additionalsoftware.config import (            # NOQA: E402
-    get_additional_packages)
+    get_additional_packages,
+    get_packages_list_path)
 
 _ = gettext.gettext
 
@@ -75,10 +78,15 @@ class ASPConfigApplicationWindow(Gtk.ApplicationWindow):
         dialog.add_button(Gtk.STOCK_REMOVE, Gtk.ResponseType.ACCEPT)
         if dialog.run() == Gtk.ResponseType.ACCEPT:
             self.remove_asp_func(package_name)
+        dialog.destroy()
 
     def cb_window_show(self, window):
+        self.update_packages_list()
+
+    def update_packages_list(self):
         packages = self.get_config_func()
         if packages:
+            self.listbox.foreach(lambda widget, data: widget.destroy(), None)
             for package_name, package_description in packages:
                 listboxrow = Gtk.ListBoxRow.new()
 
@@ -137,12 +145,19 @@ class ASPConfigApplication(Gtk.Application):
             get_config_func=self.get_asp_configuration,
             remove_asp_func=self.remove_additional_software)
 
+        packages_list_file = Gio.File.new_for_path(get_packages_list_path())
+        self.packages_list_monitor = packages_list_file.monitor(
+            Gio.FileMonitorFlags.NONE, None)
+        self.packages_list_monitor.connect(
+            "changed", self.cb_packages_list_changed)
+
+    def cb_packages_list_changed(self, file_monitor, file, other_file,
+                                 event_type):
+        if os.access(file.get_path(), os.R_OK):
+            self.window.update_packages_list()
+
     def get_asp_configuration(self):
-        try:
-            additional_packages = get_additional_packages()
-        except OSError:
-            # XXX: notify
-            pass
+        additional_packages = get_additional_packages()
         apt_cache = apt.cache.Cache()
 
         packages_with_description = []
@@ -161,8 +176,10 @@ class ASPConfigApplication(Gtk.Application):
         return packages_with_description
 
     def remove_additional_software(self, package_name):
-        # XXX
-        pass
+        subprocess.run(["pkexec",
+                        "/usr/local/sbin/tails-additional-software-remove",
+                        package_name],
+                       check=True)
 
 
 asp_application = ASPConfigApplication()

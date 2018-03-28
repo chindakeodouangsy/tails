@@ -1,14 +1,15 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 import gettext
 import json
+import logging
+import logging.handlers
 import os
 import os.path
 import pwd
 import shutil
 import subprocess
 import sys
-import syslog
 
 import apt.cache
 
@@ -27,15 +28,10 @@ PERSISTENCE_PARTITION = "/dev/disk/by-partlabel/TailsData"
 ASP_STATE_DIR = "/run/live-additional-software"
 ASP_STATE_PACKAGES = os.path.join(ASP_STATE_DIR, "packages")
 ASP_STATE_INSTALLER_ASKED = os.path.join(ASP_STATE_DIR, "installer-asked")
+ASP_LOG_FILE = os.path.join(ASP_STATE_DIR, "log")
 OLD_APT_LISTS_DIR = os.path.join(PERSISTENCE_DIR, 'apt', 'lists.old')
 APT_ARCHIVES_DIR = "/var/cache/apt/archives"
 APT_LISTS_DIR = "/var/lib/apt/lists"
-
-
-def _exit_if_in_live_build():
-    """Exits with success if running inside live-build."""
-    if "SOURCE_DATE_EPOCH" in os.environ:
-        sys.exit(0)
 
 
 def _launch_apt_get(specific_args):
@@ -61,40 +57,50 @@ def _launch_apt_get(specific_args):
                                stdout=subprocess.PIPE)
     for line in iter(apt_get.stdout.readline, ''):
         if not line.startswith('('):
-            syslog.syslog(line.rstrip())
+            logging.info(line.rstrip())
     apt_get.wait()
     if apt_get.returncode:
-        syslog.syslog(syslog.LOG_WARNING,
-                      "apt-get exited with returncode %i" % apt_get.returncode)
+        logging.warn("apt-get exited with returncode %i" % apt_get.returncode)
     return apt_get.returncode
+
+
+def _launch_x_application(username, command, *args):
+    """Launch an X application and wait for its completion."""
+
+    subprocess.run(
+        ["sudo", "-u", LIVE_USERNAME,
+         "xhost", "+SI:localuser:" + username],
+        stderr=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL,
+        check=True)
+
+    cmdline = ["sudo", "-u", username, command]
+    cmdline.extend(args)
+    try:
+        subprocess.run(cmdline, stderr=subprocess.PIPE, check=True,
+                       universal_newlines=True)
+    except subprocess.CalledProcessError as e:
+        logging.error("{command} returned with {returncode}".format(
+            command=command, returncode=e.returncode))
+        for line in e.stderr.splitlines():
+            logging.error(line)
+        raise
+    finally:
+        subprocess.run(
+            ["sudo", "-u", LIVE_USERNAME,
+             "xhost", "-SI:localuser:" + username],
+            stderr=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            check=True)
 
 
 def _launch_persistence_setup(*args):
     """Launch tails-persistence-setup and wait for its completion."""
     TPS_USERNAME = "tails-persistence-setup"
 
-    subprocess.run(
-        ["sudo", "-u", LIVE_USERNAME,
-         "xhost", "+SI:localuser:" + TPS_USERNAME],
-        check=True)
-
-    cmdline = ["sudo", "-u", TPS_USERNAME, "/usr/bin/tails-persistence-setup"]
-    cmdline.extend(args)
-    try:
-        subprocess.run(cmdline, stderr=subprocess.PIPE, check=True,
-                       universal_newlines=True)
-    except subprocess.CalledProcessError as e:
-        syslog.syslog(syslog.LOG_ERR,
-                      "tails-persistence-setup returned with "
-                      "{returncode}".format(returncode=e.returncode))
-        for line in e.stderr.splitlines():
-            syslog.syslog(syslog.LOG_ERR, line)
-        raise
-    finally:
-        subprocess.run(
-            ["sudo", "-u", LIVE_USERNAME,
-             "xhost", "-SI:localuser:" + TPS_USERNAME],
-            check=True)
+    _launch_x_application(TPS_USERNAME,
+                          "/usr/bin/tails-persistence-setup",
+                          *args)
 
 
 def _notify(title, body="", accept_label="", deny_label="",
@@ -135,10 +141,8 @@ def _notify(title, body="", accept_label="", deny_label="",
             # sudo failed to execute the command
             raise OSError(completed_process.stderr)
     except OSError as e:
-        syslog.syslog(syslog.LOG_WARNING,
-                      "Warning: unable to notify the user. %s" % e)
-        syslog.syslog(syslog.LOG_WARNING,
-                      "The notification was: %s %s" % (title, body))
+        logging.warn("Warning: unable to notify the user. %s" % e)
+        logging.warn("The notification was: %s %s" % (title, body))
         return None
 
     if return_id:
@@ -173,9 +177,9 @@ def _notify_failure(summary, details=None):
     action_clicked = _notify(summary, details, _("Show log"), _("Configure"),
                              urgent=True)
     if action_clicked == 1:
-        show_configuration_window()
-    elif action_clicked == 0:
         show_system_log()
+    elif action_clicked == 0:
+        show_configuration_window()
 
 
 def _close_notification(notification_id):
@@ -191,6 +195,40 @@ def _close_notification(notification_id):
              "--method", "org.freedesktop.Notifications.CloseNotification",
              str(notification_id)],
             stdout=subprocess.DEVNULL)
+
+
+def _spawn_daemon(func):
+    """Spawn func after double-forking.
+
+    Do the UNIX double-fork magic, see Stevens' "Advanced
+    Programming in the UNIX Environment" for details (ISBN 0201563177).
+
+    From https://stackoverflow.com/questions/6011235/run-a-program-from-
+    python-and-have-it-continue-to-run-after-the-script-is-kille
+    """
+    try:
+        pid = os.fork()
+        if pid > 0:
+            # parent process, return and keep running
+            return
+    except OSError as e:
+        logging.error("fork #1 failed: %d (%s)" % (e.errno, e.strerror))
+        sys.exit(1)
+
+    os.setsid()
+
+    # do second fork
+    try:
+        pid = os.fork()
+        if pid > 0:
+            # exit from second parent
+            sys.exit(0)
+    except OSError as e:
+        logging.error("fork #2 failed: %d (%s)" % (e.errno, e.strerror))
+        sys.exit(1)
+
+    # do stuff
+    func()
 
 
 def has_persistence():
@@ -226,15 +264,13 @@ def has_additional_packages_list(search_new_persistence=False):
     try:
         packages_list_path = get_packages_list_path(search_new_persistence)
     except FileNotFoundError as e:
-        syslog.syslog(syslog.LOG_WARNING,
-                      "Warning: {}".format(e))
+        logging.warn("Warning: {}".format(e))
         return False
     if os.path.isfile(packages_list_path):
-        syslog.syslog("Found additional packages list.")
+        logging.info("Found additional packages list.")
         return True
     else:
-        syslog.syslog(syslog.LOG_WARNING,
-                      "Warning: no configuration file found.")
+        logging.warn("Warning: no configuration file found.")
         return False
 
 
@@ -246,9 +282,8 @@ def delete_old_apt_lists(old_apt_lists_dir=OLD_APT_LISTS_DIR):
 def save_old_apt_lists(srcdir=APT_LISTS_DIR, destdir=OLD_APT_LISTS_DIR):
     """Save a copy of the APT lists"""
     if os.path.exists(destdir):
-        syslog.syslog(syslog.LOG_WARNING,
-                      "Warning: a copy of the APT lists already exists, "
-                      "which should never happen. Removing it.")
+        logging.warn("Warning: a copy of the APT lists already exists, "
+                     "which should never happen. Removing it.")
         delete_old_apt_lists(destdir)
     shutil.copytree(srcdir, destdir, symlinks=True)
 
@@ -277,7 +312,7 @@ def handle_installed_packages(packages):
     Ask the user if packages should be added to additional software, and
     actually add them if requested.
     """
-    syslog.syslog("New packages manually installed: %s" % packages)
+    logging.info("New packages manually installed: %s" % packages)
     if has_unlocked_persistence(search_new_persistence=True):
         if _notify(_("Add {packages} to your additional software?").format(
                     packages=" ".join(packages)),
@@ -304,9 +339,8 @@ def handle_installed_packages(packages):
         # If they install packages with their persistent storage locked, they
         # probably do it with their persistent storage unlock as well and would
         # learn about this feature when it's most relevant for them.
-        syslog.syslog(syslog.LOG_WARNING,
-                      "Warning: persistence storage is locked, can't add "
-                      "additional software.")
+        logging.warn("Warning: persistence storage is locked, can't add "
+                     "additional software.")
     elif is_tails_media_writable():
         if _notify(_("Add {packages} to your additional software?").format(
                     packages=" ".join(packages)),
@@ -325,7 +359,7 @@ def handle_installed_packages(packages):
                                   "failed."))
                 raise e
     else:   # It's impossible to have a persistent storage
-        syslog.syslog("Cannot create persistent storage on this media.")
+        logging.warn("Cannot create persistent storage on this media.")
         if not os.path.isfile(ASP_STATE_INSTALLER_ASKED):
             open(ASP_STATE_INSTALLER_ASKED, 'a').close()
             _notify(_("You could install {packages} automatically when "
@@ -342,7 +376,7 @@ def handle_removed_packages(packages):
     Ask the user if packages should be removed from additional software, and
     actually remove them if requested.
     """
-    syslog.syslog("Additional packages removed: %s" % packages)
+    logging.info("Additional packages removed: %s" % packages)
     if _notify(_("Remove {packages} from your additional software?").format(
                  packages=" ".join(packages)),
                "",
@@ -372,7 +406,7 @@ def create_persistence_and_setup_additional_packages(packages):
 
     packages should be a list of packages names.
     """
-    syslog.syslog("Creating new persistent volume")
+    logging.info("Creating new persistent volume")
     _launch_persistence_setup("--step", "bootstrap",
                               "--no-display-finished-message",
                               "--force-enable-preset", "AdditionalSoftware")
@@ -385,19 +419,20 @@ def create_persistence_and_setup_additional_packages(packages):
 
 def show_configuration_window():
     """Show additional packages configuration window."""
-    raise NotImplementedError
+    _launch_x_application(LIVE_USERNAME,
+                          "/usr/local/bin/tails-additional-software-config")
 
 
 def show_system_log():
     """Show additional packages configuration window."""
-    raise NotImplementedError
+    _launch_x_application(LIVE_USERNAME,
+                          "/usr/bin/gedit",
+                          ASP_LOG_FILE)
 
 
 def apt_hook_pre():
     """Subcommand to handle Dpkg::Pre-Install-Pkgs."""
-    _exit_if_in_live_build()
-
-    syslog.syslog("Saving package changes")
+    logging.info("Saving package changes")
 
     apt_cache = apt.cache.Cache()
 
@@ -453,9 +488,7 @@ def apt_hook_post():
     Retrieve the list of packages saved by apt_hook_pre, filter packages not
     interesting and pass the resulting list to the appropriate method.
     """
-    _exit_if_in_live_build()
-
-    syslog.syslog("Examining package changes")
+    logging.info("Examining package changes")
 
     with open(ASP_STATE_PACKAGES) as f:
         packages = json.load(f)
@@ -482,7 +515,7 @@ def apt_hook_post():
 
 def install_additional_packages(ignore_old_apt_lists=False):
     """Subcommand which activates and installs all additional packages."""
-    syslog.syslog("Starting to install additional software...")
+    logging.info("Starting to install additional software...")
 
     if not has_additional_packages_list():
         return True
@@ -496,14 +529,12 @@ def install_additional_packages(ignore_old_apt_lists=False):
     # that, we restore the old APT lists: there are greater chances
     # that the APT packages cache still has the corresponding packages.
     if os.path.isdir(OLD_APT_LISTS_DIR) and not ignore_old_apt_lists:
-        syslog.syslog(syslog.LOG_WARNING,
-                      "Found a copy of old APT lists, restoring it.")
+        logging.warn("Found a copy of old APT lists, restoring it.")
         try:
             restore_old_apt_lists()
         except Exception as e:
-            syslog.syslog(syslog.LOG_WARNING,
-                          "Restoring old APT lists failed with %r, "
-                          "deleting them and proceeding anyway." % e)
+            logging.warn("Restoring old APT lists failed with %r, "
+                         "deleting them and proceeding anyway." % e)
         # In all cases, delete the old APT lists: if they could be
         # restored we don't need them anymore (and we don't want to
         # restore them again next time); if they could not be
@@ -513,29 +544,26 @@ def install_additional_packages(ignore_old_apt_lists=False):
 
     packages = get_additional_packages()
     if not packages:
-        syslog.syslog(syslog.LOG_WARNING,
-                      "Warning: no packages to install, exiting")
+        logging.warn("Warning: no packages to install, exiting")
         return True
     installing_notification_id = _notify(
-            _("Installing your additional software from persistent storage…"),
-            _("This can take several minutes…"),
+            _("Installing your additional software from persistent storage"),
+            _("This can take several minutes"),
             return_id=True)
-    syslog.syslog("Will install the following packages: %s"
-                  % " ".join(packages))
+    logging.info("Will install the following packages: %s"
+                 % " ".join(packages))
     apt_get_returncode = _launch_apt_get(
         ["--no-remove",
          "--option", "DPkg::Options::=--force-confold",
          "install"] + list(packages))
     if apt_get_returncode:
         _close_notification(installing_notification_id)
-        syslog.syslog(syslog.LOG_WARNING,
-                      "Warning: installation of %s failed"
-                      % " ".join(packages))
+        logging.warn("Warning: installation of %s failed" % " ".join(packages))
         _notify_failure(_("The installation of your additional software "
                           "failed"))
         return False
     else:
-        syslog.syslog("Installation completed successfully.")
+        logging.info("Installation completed successfully.")
         _close_notification(installing_notification_id)
         # XXX: there should be a "Configure" button in this notification.
         # However, the easy way to implement it makes this process not return
@@ -550,7 +578,7 @@ def install_additional_packages(ignore_old_apt_lists=False):
 
 def upgrade_additional_packages():
     """Subcommand which upgrades all additional packages."""
-    syslog.syslog("Starting to upgrade additional software...")
+    logging.info("Starting to upgrade additional software...")
 
     if not has_additional_packages_list():
         return True
@@ -558,17 +586,17 @@ def upgrade_additional_packages():
     # Save a copy of APT lists that we'll delete only once the upgrade
     # has succeeded, to ensure that the APT packages cache is up-to-date
     # wrt. the APT lists.
-    syslog.syslog("Saving old APT lists...")
+    logging.info("Saving old APT lists...")
     save_old_apt_lists()
 
     apt_get_returncode = _launch_apt_get(["update"])
     if apt_get_returncode:
-        syslog.syslog(syslog.LOG_WARNING, "Warning: the update failed.")
+        logging.warn("Warning: the update failed.")
         _notify_failure(_("The upgrade of your additional software failed"),
                         _("The check for upgrades failed."))
         return False
     if install_additional_packages(ignore_old_apt_lists=True):
-        syslog.syslog("The upgrade was successful.")
+        logging.info("The upgrade was successful.")
     else:
         _notify_failure(_("The upgrade of your additional software failed"),
                         _("The upgrade failed."))
@@ -588,8 +616,7 @@ def upgrade_additional_packages():
     # must have been upgraded already.
     apt_get_returncode = _launch_apt_get(["autoclean"])
     if apt_get_returncode:
-        syslog.syslog(syslog.LOG_WARNING,
-                      "Warning: autoclean failed.")
+        logging.warn("Warning: autoclean failed.")
     return True
 
 
@@ -604,7 +631,26 @@ def print_help():
 if __name__ == "__main__":
     program_name = os.path.basename(sys.argv[0])
 
-    syslog.openlog("%s[%i]" % (program_name, os.getpid()))
+    # Exits with success if running inside live-build.
+    if "SOURCE_DATE_EPOCH" in os.environ:
+        sys.exit(0)
+
+    # Set loglevel if debug is found in kernel command line.
+    with open('/proc/cmdline') as cmdline_fd:
+        cmdline = cmdline_fd.read()
+    if "DEBUG" in os.environ or "debug" in cmdline.split():
+        log_level = logging.DEBUG
+        log_format = "[%(levelname)s] %(filename)s:%(lineno)d " \
+                     "%(funcName)s: %(message)s"
+    else:
+        log_level = logging.INFO
+        log_format = "[%(levelname)s] %(message)s"
+    syslog_handler = logging.handlers.SysLogHandler(address="/dev/log")
+    file_handler = logging.FileHandler(ASP_LOG_FILE)
+    logging.basicConfig(format=log_format,
+                        handlers=[syslog_handler, file_handler],
+                        level=log_level)
+
     gettext.install("tails")
 
     if len(sys.argv) < 2:
@@ -620,7 +666,7 @@ if __name__ == "__main__":
     elif sys.argv[1] == "apt-pre":
         apt_hook_pre()
     elif sys.argv[1] == "apt-post":
-        apt_hook_post()
+        _spawn_daemon(apt_hook_post)
     else:
         print_help()
         sys.exit(2)
