@@ -1,17 +1,6 @@
 Then /^I am notified the ASP installation service is starting$/  do
-  #title = "Installing your additional software from persistent storage"
-  #step "I see the \"#{title}\" notification after at most 120 seconds"
-  # Hairy, but this notification disappears as promptly as the APT install
-  # command is finished, thus it vanishes sometimes too fast for the Dogtail
-  # based sniffing to catch this notification at this stage of the GNOME
-  # session startup. Meanwhile let's try to grossly find it in the journal so
-  # that we at least know it has been fired up. There's maybe a UX problem
-  # that may need fixing in ASP itself. 
-  try_for(120) do
-      !$vm.execute(
-        "journalctl -a | grep \"/usr/local/lib/tails-additional-software-notify Installing your additional software from persistent storage \""
-      ).stdout.empty?
-  end
+  title = "Installing your additional software from persistent storage..."
+  step "I see the \"#{title}\" notification after at most 300 seconds"
 end
 
 Then /^the additional software package (upgrade|installation) service has started$/ do |service|
@@ -25,7 +14,7 @@ Then /^the additional software package (upgrade|installation) service has starte
       seconds_to_wait = 900
     end
     if !$vm.file_exist?(state_file)
-      #step "I am notified the ASP installation service is starting"
+      step "I am notified the ASP installation service is starting"
       try_for(seconds_to_wait) do
         $vm.file_exist?(state_file)
       end
