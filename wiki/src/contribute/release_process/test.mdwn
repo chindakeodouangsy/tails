@@ -127,12 +127,40 @@ tracked by tickets prefixed with `todo/test_suite:`.
 
 # Thunderbird
 
+## Auto-configuration wizard
+
+Below you'll find a list of email addresses and the expected
+"explanation" of where Thunderbird found the configuration. Try each
+of them twice (once for the IMAP result, once for the POP3 result)
+and:
+
+* make sure the "explanation" of where the config was found is what we
+  expect.
+
+* click "Manual config" and verify that:
+  - *SSL* column: is either "SSL" or "STARTTLS".
+  - *Authentication* column: is not "OAuth2".
+
+This is the list of email addresses to test:
+
+* **tails@riseup.net**: "Configuration found on Thunderbird installation"
+
+* **tails@boum.org**: "Configuration found at email provider"
+
+* **tails@hotmail.com**: "Configuration found in Mozilla ISP database"
+
+* **tails@herbesfolles.org**: "Configuration found by trying common server names"
+
+## Protocols
+
 * Check mail over IMAP using:
   - a hidden service IMAP server (e.g. Riseup, zsolxunfmbfuq7wf.onion with SSL).
 * Check mail over POP using:
   - a hidden service POP server (e.g. Riseup, zsolxunfmbfuq7wf.onion with SSL).
 * Send an email using:
   - a hidden service SMTP server (see above).
+
+## Torification
 
 * Check that the profile works and is torified:
   1. Send an email using Thunderbird and a non-anonymizing SMTP relay (a
