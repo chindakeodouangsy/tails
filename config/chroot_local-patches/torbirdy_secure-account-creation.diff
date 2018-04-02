@@ -1,0 +1,37 @@
+diff --git a/components/torbirdy.js b/components/torbirdy.js
+index 6c2be57..c62ee0d 100644
+--- a/usr/share/xul-ext/torbirdy/components/torbirdy.js
++++ b/usr/share/xul-ext/torbirdy/components/torbirdy.js
+@@ -146,6 +146,18 @@
+     Mailnews
+   */
+ 
++  // Prevent simple MitM by disabling plaintext fetches of
++  // configurations from the email provider
++  "mailnews.auto_config.fetchFromISP.ssl_only": true,
++  // OAuth2 requires JavaScript, which we rightfully disable, so let's
++  // just ignore such configurations
++  "mailnews.auto_config.account_constraints.allow_oauth2": false,
++  // Thunderbird defaults to 10 seconds for each guess, which is too
++  // short vs sudden delay spikes
++  "mailnews.auto_config.guess.timeout": 60,
++  // Disable MX lookup which is susceptible to MitM
++  "mailnews.mx_service_url": "",
++
+   // Suggestions from the JAP team on how they'd configure thunderbird
+   // http://anonymous-proxy-servers.net/en/help/thunderbird.html
+ 
+@@ -322,8 +334,11 @@
+   "rss.display.html_as": 1,
+   "rss.show.content-base": 1,
+ 
+-  // Override the user agent by setting it to an empty string.
+-  "general.useragent.override": "",
++  // Override the user agent with the latest Tor Browser one. At least
++  // in early 2018 Mozilla's configuration database was served via
++  // Cloudflare, and unless this useragent is set any lookup in the
++  // database will fail due to a CAPTCHA.
++  "general.useragent.override": "Mozilla/5.0 (Windows NT 6.1; rv:52.0) Gecko/20100101 Firefox/52.0",
+ 
+   // Disable WebGL.
+   "webgl.disabled": true,
