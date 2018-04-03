@@ -82,10 +82,14 @@ Then /^I see that Torbirdy is configured to use Tor$/ do
     .child('TorBirdy Enabled:    Tor', roleName: 'label')
 end
 
-When /^I enter my email credentials into the autoconfiguration wizard$/ do
-  address = $config['Icedove']['address']
+When /^I enter (my email credentials|.*@.*) into the autoconfiguration wizard$/ do |address|
+  if address == 'my email credentials'
+    address = $config['Icedove']['address']
+    password = $config['Icedove']['password']
+  else
+    password = ''
+  end
   name = address.split('@').first
-  password = $config['Icedove']['password']
   thunderbird_wizard.child('Your name:', roleName: 'entry').text = name
   thunderbird_wizard.child('Email address:', roleName: 'entry').text = address
   thunderbird_wizard.child('Password:', roleName: 'entry').text = password
