@@ -128,3 +128,21 @@ end
 When /^I remove the "([^"]*)" deb file from the APT cache$/  do |package|
   $vm.execute("rm -f /live/persistence/TailsData_unlocked/apt/cache/#{package}*.deb")
 end
+
+Then /^I can open the documentation from the notification link$/  do
+  gnome_shell = Dogtail::Application.new('gnome-shell')
+  gnome_shell.child('Documentation', roleName: 'push button').click
+  # For some reason the below two steps fail. Dogtail can not find the Firefox
+  # application.
+  #try_for(60) { @torbrowser = Dogtail::Application.new('Firefox') }
+  #step '"Install from another Tails" has loaded in the Tor Browser'
+  # So instead let's try to find the title of the page with Sikuli.
+  @screen.wait('ASPDocumentationInstallCloning', 120)
+end
+
+Then /^ASP has been started for "([^"]*)" and shuts up because the persistence is locked$/ do |package|
+  asp_logs = '/run/live-additional-software/log'
+  assert(!$vm.file_empty?(asp_logs))
+  try_for(60) { $vm.execute("grep #{package} #{asp_logs}").success? }
+  try_for(60) { $vm.file_content(asp_logs).include?('Warning: persistence storage is locked') }
+end

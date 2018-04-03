@@ -10,7 +10,7 @@ Feature: Additional software packages
     And I update APT using apt
     When I install "sslh" using apt
     Then I am notified I can not use ASP for "sslh"
-    #And I can open the documentation from the notification link
+    And I can open the documentation from the notification link
 
   @check_tor_leaks
   Scenario: I can set up and use ASP when I install a package in a Tails that has no persistent partition
@@ -30,6 +30,15 @@ Feature: Additional software packages
     And the ASP persistence is correctly configured for package "sslh"
     And the additional software package installation service has started
     And the package "sslh" is installed
+
+  @check_tor_leaks
+  Scenario: I can install packages in a Tails session with locked down persistence without being annoyed by ASP
+    Given a computer
+    And I start Tails from USB drive "__internal" and I login with an administration password
+    And I update APT using apt
+    When I install "cowsay" using apt
+    Then ASP has been started for "cowsay" and shuts up because the persistence is locked
+    And the package "cowsay" is installed
 
   #12586
   @check_tor_leaks
