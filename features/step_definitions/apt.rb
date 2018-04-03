@@ -99,7 +99,7 @@ When /^I update APT using Synaptic$/ do
     try_for(15*60, :msg => "Took too much time to download the APT data") {
       !$vm.has_process?("/usr/lib/apt/methods/tor+http")
     }
-    assert_raise(RuntimeError) do
+    assert_raise(Dogtail::ScriptFailure) do
       @synaptic.child(roleName: 'dialog', recursive: false)
         .child('Error', roleName: 'icon', retry: false)
     end
