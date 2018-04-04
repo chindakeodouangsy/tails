@@ -43,30 +43,13 @@ When /^I have not configured an email account$/ do
   end
 end
 
-Then /^I am prompted to setup an email account$/ do
-  thunderbird_wizard
-end
-
-Then /^I cancel setting up an email account$/ do
-  thunderbird_wizard.button('Cancel').click
-end
-
-Then /^I open Thunderbird's Add-ons Manager$/ do
-  thunderbird_main.button('AppMenu').click
-  thunderbird_main.child('Add-ons', roleName: 'menu item').click
-  @thunderbird_addons = thunderbird_app.child(
-    'Add-ons Manager - Mozilla Thunderbird', roleName: 'frame'
-  )
-end
-
-Then /^I click the extensions tab$/ do
-  @thunderbird_addons.child('Extensions', roleName: 'list item').click
-end
-
 Then /^I see that only the (.+) addons are enabled in Thunderbird$/ do |addons|
   expected_addons = addons.split(/, | and /)
+  thunderbird_addons_frame = thunderbird_app.child(
+    'Add-ons Manager - Mozilla Thunderbird', roleName: 'frame'
+  )
   actual_addons =
-    @thunderbird_addons.child('TorBirdy', roleName: 'label')
+    thunderbird_addons_frame.child('TorBirdy', roleName: 'label')
     .parent.parent.children(roleName: 'list item', recursive: false)
     .map { |item| item.name }
   expected_addons.each do |addon|
@@ -75,11 +58,6 @@ Then /^I see that only the (.+) addons are enabled in Thunderbird$/ do |addons|
     actual_addons.delete(result)
   end
   assert_equal(0, actual_addons.size)
-end
-
-Then /^I see that Torbirdy is configured to use Tor$/ do
-  thunderbird_main.child(roleName: 'status bar')
-    .child('TorBirdy Enabled:    Tor', roleName: 'label')
 end
 
 When /^I enter my email credentials into the autoconfiguration wizard$/ do
@@ -134,15 +112,6 @@ When /^I accept the (?:autoconfiguration wizard's|manual) configuration$/ do
   # wizard will start, indicating (incorrectly) that we do not have an
   # account set up yet.
   step 'I fetch my email'
-end
-
-When /^I select the autoconfiguration wizard's (IMAP|POP3) choice$/ do |protocol|
-  if protocol == 'IMAP'
-    choice = 'IMAP (remote folders)'
-  else
-    choice = 'POP3 (keep mail on your computer)'
-  end
-  thunderbird_wizard.child(choice, roleName: 'radio button').click
 end
 
 When /^I alter the email configuration to use (.*) over a hidden services$/ do |protocol|
