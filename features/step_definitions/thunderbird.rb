@@ -86,9 +86,9 @@ When /^I enter my email credentials into the autoconfiguration wizard$/ do
   address = $config['Icedove']['address']
   name = address.split('@').first
   password = $config['Icedove']['password']
-  thunderbird_wizard.child('Your name:', roleName: 'entry').typeText(name)
-  thunderbird_wizard.child('Email address:', roleName: 'entry').typeText(address)
-  thunderbird_wizard.child('Password:', roleName: 'entry').typeText(password)
+  thunderbird_wizard.child('Your name:', roleName: 'entry').text = name
+  thunderbird_wizard.child('Email address:', roleName: 'entry').text = address
+  thunderbird_wizard.child('Password:', roleName: 'entry').text = password
   thunderbird_wizard.button('Continue').click
   # This button is shown if and only if a configuration has been found
   try_for(120) { thunderbird_wizard.button('Done') }
