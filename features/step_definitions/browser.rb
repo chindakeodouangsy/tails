@@ -100,12 +100,12 @@ When /^I open the address "([^"]*)" in the (.*)$/ do |address, browser|
     open_address.call
   end
   if browser == "Tor Browser"
-    retry_method = method(:try_tor)
+    try_method = method(:try_tor)
   else
-    retry_method = Proc.new { |p, &b| try(attempts: 10, recovery_proc: p, &b) }
+    try_method = Proc.new { |p, &b| try(attempts: 10, recovery_proc: p, &b) }
   end
   open_address.call
-  retry_method.call(recovery_on_failure) do
+  try_method.call(recovery_on_failure) do
     @screen.wait('BrowserReloadButton.png', 120)
   end
 end
