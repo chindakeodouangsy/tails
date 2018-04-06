@@ -228,8 +228,10 @@ end
 Then /^the Tor Browser shows the "([^"]+)" error$/ do |error|
   page = @torbrowser.child("Problem loading page", roleName: "document frame")
   headers = page.children(roleName: "heading")
-  found = headers.any? { |heading| heading.text == error }
-  raise "Could not find the '#{error}' error in the Tor Browser" unless found
+  assert(
+    headers.any? { |heading| heading.text == error },
+    "Could not find the '#{error}' error in the Tor Browser"
+  )
 end
 
 # This step shouldn't be needed (the '"$title}" has loaded in the Tor
