@@ -343,17 +343,6 @@ Given /^the Tails desktop is ready$/ do
   )
 end
 
-When /^I see the "(.+)" notification(?: after at most (\d+) seconds)?$/ do |title, timeout|
-  timeout = timeout ? timeout.to_i : nil
-  gnome_shell = Dogtail::Application.new('gnome-shell')
-  notification_list = gnome_shell.child(
-    'No Notifications', roleName: 'label', showingOnly: false
-  ).parent.parent
-  try(timeout: timeout) do
-    notification_list.child(title, roleName: 'label', showingOnly: false)
-  end
-end
-
 Given /^Tor is ready$/ do
   step "Tor has built a circuit"
   step "the time has synced"

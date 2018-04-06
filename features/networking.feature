@@ -26,4 +26,4 @@ Feature: Networking
     Given I have started Tails from DVD without network and logged in
     And the network is plugged
     When Tor is ready
-    Then I see the "Tor is ready" notification after at most 30 seconds
+    Then GNOME shows the "Tor is ready" notification after at most 30 seconds

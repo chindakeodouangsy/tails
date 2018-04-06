@@ -37,7 +37,7 @@ Feature: Spoofing MAC addresses
     Given macchanger will fail by not spoofing and always returns false
     When I log in to a new session
     # XXX: workaround for #11941
-    And I see the "Network card  disabled" notification after at most 60 seconds
+    And GNOME shows the "Network card  disabled" notification after at most 60 seconds
     Then no network interfaces are enabled
     And no network device leaked the real MAC address
 
@@ -47,7 +47,7 @@ Feature: Spoofing MAC addresses
     Given macchanger will fail by not spoofing and always returns true
     When I log in to a new session
     # XXX: workaround for #11941
-    And I see the "Network card  disabled" notification after at most 60 seconds
+    And GNOME shows the "Network card  disabled" notification after at most 60 seconds
     Then no network interfaces are enabled
     And no network device leaked the real MAC address
 
@@ -57,7 +57,7 @@ Feature: Spoofing MAC addresses
     Given macchanger will fail by not spoofing and always returns true
     And no network interface modules can be unloaded
     When I log in to a new session
-    And I see the "All networking disabled" notification after at most 60 seconds
+    And GNOME shows the "All networking disabled" notification after at most 60 seconds
     Then 1 network interface is enabled
     But the MAC spoofing panic mode disabled networking
     And no network device leaked the real MAC address
