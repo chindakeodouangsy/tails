@@ -135,12 +135,6 @@ feature|configure#gnome_keyring]] must also be activated.
 Additional software packages
 ----------------------------
 
-<div class="note">
-
-This is an experimental feature which does not appear in the assistant.
-
-</div>
-
 When this feature is enabled, a list of
 [[additional software|doc/advanced_topics/additional_software]] of
 your choice is automatically installed at the beginning of every
