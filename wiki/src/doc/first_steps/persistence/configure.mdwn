@@ -152,6 +152,9 @@ Software not officially included in Tails is not tested for security.
 
 </div>
 
+If you click on the gears button, you will see a list of all the programs
+currently installed at each boot.
+
 <div class="note">
 
 If you are offline and your additional software packages don't install, it
