@@ -140,11 +140,6 @@ When this feature is enabled, a list of
 your choice is automatically installed at the beginning of every
 working session.
 
-To see the list of software, click on the [[!img lib/emblem-system.png
-alt="System" class="symbolic" link="no"]] button. The corresponding software
-packages are stored in the persistent volume. They are automatically upgraded
-for security after a network connection is established.
-
 <div class="caution">
 
 <strong>Installing additional software is at your own risk.</strong>
@@ -154,6 +149,11 @@ software might, for example, modify the firewall and break the security built
 in Tails. Software not officially included in Tails is not tested for security.
 
 </div>
+
+To see the list of software, click on the [[!img lib/emblem-system.png
+alt="System" class="symbolic" link="no"]] button. The corresponding software
+packages are stored in the persistent volume. They are automatically upgraded
+for security after a network connection is established.
 
 <div class="note">
 
