@@ -434,3 +434,6 @@ libmoox-options-perl
 libtype-tiny-xs-perl
 libtypes-path-tiny-perl
 libuuid-tiny-perl
+
+# GNOME Software
+gnome-software
