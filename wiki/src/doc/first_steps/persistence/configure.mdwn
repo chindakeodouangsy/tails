@@ -142,10 +142,6 @@ working session. The corresponding software packages are stored in the
 persistent volume. They are automatically upgraded for security after
 a network connection is established.
 
-To use this feature you need to enable both the <span
-class="guilabel">APT Lists</span> and <span class="guilabel">APT
-Packages</span> features.
-
 <div class="note">
 
 If you are offline and your additional software packages don't install, it
