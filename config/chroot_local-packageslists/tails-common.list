@@ -69,7 +69,6 @@ cups-pk-helper
 cryptsetup
 rsync
 bash-completion
-bookletimposer
 cracklib-runtime
 dbus-user-session
 desktop-base
@@ -112,7 +111,6 @@ gnome-user-guide
 gnupg-agent
 gnupg2
 gobi-loader
-gobby
 ## breaks lb because of desktop-base.postinst (see Debian bug #467620)
 #if ARCHITECTURE amd64
 # grub
@@ -127,14 +125,12 @@ hardlink
 haveged
 # needed by laptop-mode-tools to spin-down hard drives
 hdparm
-hopenpgp-tools
 inkscape
 iptables
 # ships isolinux.bin in syslinux 6.x packaging
 isolinux
 ferm
 keepassx
-keyringer
 memlockd
 less
 laptop-mode-tools
@@ -142,21 +138,15 @@ libgail-common
 libgfshare-bin
 libcaribou-gtk-module
 libsane-hpaio
-liferea
 live-config
 live-config-systemd
 live-tools
 lvm2
 macchanger
 mat
-pdf-redact-tools
 mesa-utils
-monkeysign
-monkeysphere
-msva-perl
 nautilus
 nautilus-wipe
-nautilus-gtkhash
 network-manager
 network-manager-gnome
 ntfs-3g
@@ -182,20 +172,16 @@ libreoffice-l10n-zh-cn
 onioncircuits
 openpgp-applet
 openssh-client
-paperkey
 parted
 patch
 pidgin
 pidgin-guifications
 pidgin-otr
 pinentry-gtk2
-pitivi
-poedit
 ppp
 pppoe
 pulseaudio
 pulseaudio-utils
-pwgen
 p7zip-full
 qt-at-spi
 rng-tools
@@ -219,7 +205,6 @@ system-config-printer-common
 synaptic
 torsocks
 totem-plugins
-traverso
 ttf-dejavu
 tcpdump
 tcpflow
@@ -227,8 +212,6 @@ thunderbird
 thunderbird-l10n-all
 tor
 tor-geoipdb
-sound-juicer
-ssss
 totem
 unar
 usbutils
@@ -318,10 +301,6 @@ xfonts-cronyx-koi8r-100dpi
 fonts-lklug-sinhala
 ## Thai fonts
 fonts-thai-tlwg
-
-### CD burning
-brasero
-cdrdao
 
 ### Accessibility
 ## mouse accessibility enhancements
