@@ -13,6 +13,8 @@ import sys
 
 import apt.cache
 
+from tailslib import LIVE_USERNAME
+
 from tailslib.additionalsoftware.config import (
     add_additional_packages,
     get_additional_packages,
@@ -23,11 +25,13 @@ from tailslib.persistence import (
     has_unlocked_persistence,
     has_persistence,
     is_tails_media_writable,
+    launch_persistence_setup,
     PERSISTENCE_DIR)
+
+from tailslib.utils import launch_x_application
 
 _ = gettext.gettext
 
-LIVE_USERNAME = "amnesia"
 ASP_STATE_DIR = "/run/live-additional-software"
 ASP_STATE_PACKAGES = os.path.join(ASP_STATE_DIR, "packages")
 ASP_STATE_INSTALLER_ASKED = os.path.join(ASP_STATE_DIR, "installer-asked")
@@ -65,45 +69,6 @@ def _launch_apt_get(specific_args):
     if apt_get.returncode:
         logging.warn("apt-get exited with returncode %i" % apt_get.returncode)
     return apt_get.returncode
-
-
-def _launch_x_application(username, command, *args):
-    """Launch an X application and wait for its completion."""
-
-    subprocess.run(
-        ["sudo", "-u", LIVE_USERNAME,
-         "xhost", "+SI:localuser:" + username],
-        stderr=subprocess.DEVNULL,
-        stdout=subprocess.DEVNULL,
-        check=True)
-
-    cmdline = ["sudo", "-u", username, command]
-    cmdline.extend(args)
-    try:
-        subprocess.run(cmdline, stderr=subprocess.PIPE, check=True,
-                       universal_newlines=True)
-    except subprocess.CalledProcessError as e:
-        logging.error("{command} returned with {returncode}".format(
-            command=command, returncode=e.returncode))
-        for line in e.stderr.splitlines():
-            logging.error(line)
-        raise
-    finally:
-        subprocess.run(
-            ["sudo", "-u", LIVE_USERNAME,
-             "xhost", "-SI:localuser:" + username],
-            stderr=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL,
-            check=True)
-
-
-def _launch_persistence_setup(*args):
-    """Launch tails-persistence-setup and wait for its completion."""
-    TPS_USERNAME = "tails-persistence-setup"
-
-    _launch_x_application(TPS_USERNAME,
-                          "/usr/bin/tails-persistence-setup",
-                          *args)
 
 
 def _notify(title, body="", accept_label="", deny_label="",
@@ -169,15 +134,15 @@ def _notify_failure(summary, details=None):
     """
     if details:
         details = _("{details} Please check your list of additional "
-                    "software packages or read the system log to "
+                    "software or read the system log to "
                     "understand the problem.").format(details=details)
 
     else:
         details = _("Please check your list of additional "
-                    "software packages or read the system log to "
+                    "software or read the system log to "
                     "understand the problem.").format(details=details)
 
-    action_clicked = _notify(summary, details, _("Show log"), _("Configure"),
+    action_clicked = _notify(summary, details, _("Show Log"), _("Configure"),
                              urgent=True)
     if action_clicked == 1:
         show_system_log()
@@ -232,6 +197,19 @@ def _spawn_daemon(func):
 
     # do stuff
     func()
+
+
+def _format_list(lst):
+    """Return a nice formatted version of list."""
+    lst = sorted(lst)
+
+    if len(lst) == 1:
+        return lst[0]
+    elif len(lst) > 1:
+        return "{beginning} and {last}".format(beginning=", ".join(lst[:-1]),
+                                               last=lst[-1])
+    else:
+        return str(lst)
 
 
 def has_additional_packages_list(search_new_persistence=False):
@@ -294,11 +272,11 @@ def handle_installed_packages(packages):
     logging.info("New packages manually installed: %s" % packages)
     if has_unlocked_persistence(search_new_persistence=True):
         if _notify(_("Add {packages} to your additional software?").format(
-                    packages=" ".join(packages)),
+                    packages=_format_list(packages)),
                    _("To install it automatically from your persistent "
-                     "storage every time you start Tails"),
+                     "storage when starting Tails."),
                    _("Add to Persistent Storage"),
-                   _("Install only once"),
+                   _("Install Only Once"),
                    urgent=True):
             try:
                 setup_additional_packages()
@@ -322,12 +300,12 @@ def handle_installed_packages(packages):
                      "additional software.")
     elif is_tails_media_writable():
         if _notify(_("Add {packages} to your additional software?").format(
-                    packages=" ".join(packages)),
+                    packages=_format_list(packages)),
                    _("To install it automatically when starting Tails, you "
                      "can create a persistent storage and activate the "
-                     "<b>Additional Software</b> feature"),
+                     "<b>Additional Software</b> feature."),
                    _("Create Persistent Storage"),
-                   _("Install only once"),
+                   _("Install Only Once"),
                    urgent=True):
             try:
                 create_persistence_and_setup_additional_packages(packages)
@@ -342,9 +320,10 @@ def handle_installed_packages(packages):
         if not os.path.isfile(ASP_STATE_INSTALLER_ASKED):
             open(ASP_STATE_INSTALLER_ASKED, 'a').close()
             _notify(_("You could install {packages} automatically when "
-                      "starting Tails").format(packages=" ".join(packages)),
+                      "starting Tails").format(
+                        packages=_format_list(packages)),
                     _("To do so, you need to run Tails from a USB stick "
-                      "installed using <i>Tails Installer</i>"),
+                      "installed using <i>Tails Installer</i>."),
                     documentation_target="install/clone",
                     urgent=True)
 
@@ -357,7 +336,7 @@ def handle_removed_packages(packages):
     """
     logging.info("Additional packages removed: %s" % packages)
     if _notify(_("Remove {packages} from your additional software?").format(
-                 packages=" ".join(packages)),
+                 packages=_format_list(packages)),
                "",
                _("Remove"),
                _("Cancel"),
@@ -372,9 +351,9 @@ def handle_removed_packages(packages):
 
 def setup_additional_packages():
     """Enable additional software in persistence."""
-    _launch_persistence_setup("--no-gui",
-                              "--no-display-finished-message",
-                              "--force-enable-preset", "AdditionalSoftware")
+    launch_persistence_setup("--no-gui",
+                             "--no-display-finished-message",
+                             "--force-enable-preset", "AdditionalSoftware")
 
 
 def create_persistence_and_setup_additional_packages(packages):
@@ -386,27 +365,27 @@ def create_persistence_and_setup_additional_packages(packages):
     packages should be a list of packages names.
     """
     logging.info("Creating new persistent volume")
-    _launch_persistence_setup("--step", "bootstrap",
-                              "--no-display-finished-message",
-                              "--force-enable-preset", "AdditionalSoftware")
+    launch_persistence_setup("--step", "bootstrap",
+                             "--no-display-finished-message",
+                             "--force-enable-preset", "AdditionalSoftware")
     add_additional_packages(packages, search_new_persistence=True)
     # show persistence configuration
-    _launch_persistence_setup()
+    launch_persistence_setup()
     # APT lists and APT archive cache will be synchronized at shutdown by
     # tails-synchronize-data-to-new-persistent-volume-on-shutdown.service
 
 
 def show_configuration_window():
     """Show additional packages configuration window."""
-    _launch_x_application(LIVE_USERNAME,
-                          "/usr/local/bin/tails-additional-software-config")
+    launch_x_application(LIVE_USERNAME,
+                         "/usr/local/bin/tails-additional-software-config")
 
 
 def show_system_log():
     """Show additional packages configuration window."""
-    _launch_x_application(LIVE_USERNAME,
-                          "/usr/bin/gedit",
-                          ASP_LOG_FILE)
+    launch_x_application(LIVE_USERNAME,
+                         "/usr/bin/gedit",
+                         ASP_LOG_FILE)
 
 
 def apt_hook_pre():
@@ -528,7 +507,7 @@ def install_additional_packages(ignore_old_apt_lists=False):
     installing_notification_id = _notify(
             _("Installing your additional software from persistent "
               "storage..."),
-            _("This can take several minutes..."),
+            _("This can take several minutes."),
             return_id=True)
     logging.info("Will install the following packages: %s"
                  % " ".join(packages))
@@ -572,14 +551,19 @@ def upgrade_additional_packages():
     apt_get_returncode = _launch_apt_get(["update"])
     if apt_get_returncode:
         logging.warn("Warning: the update failed.")
-        _notify_failure(_("The upgrade of your additional software failed"),
-                        _("The check for upgrades failed."))
+        _notify_failure(_("The check for upgrades of your additional software "
+                          "failed"),
+                        _("Please check your network connection, "
+                          "restart Tails, or read the system log to "
+                          "understand the problem."))
         return False
     if install_additional_packages(ignore_old_apt_lists=True):
         logging.info("The upgrade was successful.")
     else:
         _notify_failure(_("The upgrade of your additional software failed"),
-                        _("The upgrade failed."))
+                        _("Please check your network connection, "
+                          "restart Tails, or read the system log to "
+                          "understand the problem."))
         return False
 
     # We now know that the APT packages cache is up-to-date wrt. the APT lists,
