@@ -4,13 +4,12 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: Tails\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tails-l10n@boum.org\n"
 "POT-Creation-Date: 2018-01-17 16:52+0000\n"
 "PO-Revision-Date: 2018-05-23 08:28+0000\n"
-"Last-Translator: cacukin <cacukin@cryptolab.net>\n"
-"Language-Team: Spanish "
-"<https://translate.tails.boum.org/projects/tails/trust/es/>\n"
+"Last-Translator: Tails translators <tails-l10n@boum.org>\n"
+"Language-Team: Tails translators <tails-l10n@boum.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,8 +20,7 @@ msgstr ""
 #. type: Plain text
 #, no-wrap
 msgid "[[!meta title=\"Check the file system of the persistent volume\"]]\n"
-msgstr ""
-"[[!meta title=\"Revisa el sistema de ficheros del volumen persistente\"]]\n"
+msgstr "[[!meta title=\"Revisa el sistema de ficheros del volumen persistente\"]]\n"
 
 #. type: Plain text
 msgid ""
@@ -86,10 +84,10 @@ msgid ""
 "volume. Enter the passphrase of the persistent volume and click <span class="
 "\"guilabel\">Unlock</span>."
 msgstr ""
-"Haz click en el botón <span class=\"guimenu\">[[!img lib/unlock.png alt=\""
-"Unlock\" class=\"symbolic\" link=\"no\"]]</span> para desbloquear el volumen "
-"persistente. Entra la frase contraseña del volumen persistente y haz click "
-"en <span class=\"guilabel\">Desbloquear</span>."
+"Haz click en el botón <span class=\"guimenu\">[[!img lib/unlock.png alt="
+"\"Unlock\" class=\"symbolic\" link=\"no\"]]</span> para desbloquear el "
+"volumen persistente. Entra la frase contraseña del volumen persistente y haz "
+"click en <span class=\"guilabel\">Desbloquear</span>."
 
 #. type: Bullet: '1. '
 msgid ""
@@ -105,8 +103,8 @@ msgid ""
 "appears below the <span class=\"guilabel\">TailsData LUKS</span> partition."
 msgstr ""
 "Haz click en la partición <span class=\"guilabel\">TailsData Ext4</span> que "
-"aparece debajo de la partición <span class=\"guilabel\">TailsData "
-"LUKS</span>."
+"aparece debajo de la partición <span class=\"guilabel\">TailsData LUKS</"
+"span>."
 
 #. type: Bullet: '1. '
 msgid ""

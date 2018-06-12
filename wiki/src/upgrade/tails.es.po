@@ -8,9 +8,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: tails-l10n@boum.org\n"
 "POT-Creation-Date: 2018-04-24 16:41+0300\n"
 "PO-Revision-Date: 2018-05-10 07:55+0000\n"
-"Last-Translator: Tails translators <amnesia@boum.org>\n"
-"Language-Team: Spanish <http://translate.tails.boum.org/projects/tails/"
-"upgrade-tails/es/>\n"
+"Last-Translator: Tails translators <tails-l10n@boum.org>\n"
+"Language-Team: Tails translators <tails-l10n@boum.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -164,8 +163,7 @@ msgid ""
 "   ISO image when running Tails in English. For other languages, the\n"
 "   file chooser button remains inactive:</p>\n"
 msgstr ""
-"   <p>Si estás haciendo una actualización manual desde Tails 3.2, 3.3, 3.4, "
-"o 3.5, solamente es posible seleccionar una\n"
+"   <p>Si estás haciendo una actualización manual desde Tails 3.2, 3.3, 3.4, o 3.5, solamente es posible seleccionar una\n"
 "   imagen ISO ejecutando Tails en inglés. Para otros lenguajes, el\n"
 "   botón del selector de archivos permanece inactivo:</p>\n"
 
@@ -177,9 +175,7 @@ msgstr "   [[!img news/version_3.5/broken-file-chooser.png link=\"no\"]]\n"
 #. type: Plain text
 #, no-wrap
 msgid "   <p>To do a manual upgrade from Tails 3.2, 3.3, 3.4, or 3.5, you can either:</p>\n"
-msgstr ""
-"   <p>Para hacer una actualización manual desde Tails 3.2, 3.3, 3.4, o 3.5, "
-"puedes:</p>\n"
+msgstr "   <p>Para hacer una actualización manual desde Tails 3.2, 3.3, 3.4, o 3.5, puedes:</p>\n"
 
 #. type: Plain text
 #, no-wrap

@@ -4,13 +4,12 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
-"Project-Id-Version: Tails\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tails-l10n@boum.org\n"
 "POT-Creation-Date: 2018-01-30 12:41+0000\n"
 "PO-Revision-Date: 2018-04-28 11:50+0000\n"
-"Last-Translator: emmapeel <emma.peel@riseup.net>\n"
-"Language-Team: Spanish <http://translate.tails.boum.org/projects/tails/advanc"
-"ed_topics_virt_manager/es/>\n"
+"Last-Translator: Tails translators <tails-l10n@boum.org>\n"
+"Language-Team: Tails translators <tails-l10n@boum.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,8 +62,7 @@ msgstr "<div class=\"note\">\n"
 #. type: Plain text
 #, no-wrap
 msgid "<p>The following instructions have been tested on Debian Stretch.</p>\n"
-msgstr ""
-"<p>Las instrucciones siguientes han sido probadas en Debian Stretch.</p>\n"
+msgstr "<p>Las instrucciones siguientes han sido probadas en Debian Stretch.</p>\n"
 
 #. type: Title =
 #, no-wrap
