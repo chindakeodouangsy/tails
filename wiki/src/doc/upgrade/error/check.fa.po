@@ -6,12 +6,12 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "POT-Creation-Date: 2015-07-28 09:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Last-Translator: Tails translators <tails-l10n@boum.org>\n"
+"Language-Team: Tails translators <tails-l10n@boum.org>\n"
+"Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,7 +22,8 @@ msgid "[[!meta title=\"Error while checking for upgrades\"]]\n"
 msgstr ""
 
 #. type: Plain text
-msgid "Tails could not determine whether an upgrade is available from our website."
+msgid ""
+"Tails could not determine whether an upgrade is available from our website."
 msgstr ""
 
 #. type: Plain text
@@ -31,8 +32,7 @@ msgstr ""
 
 #. type: Plain text
 msgid ""
-"Check your network connection, and restart Tails to check for upgrades "
-"again."
+"Check your network connection, and restart Tails to check for upgrades again."
 msgstr ""
 
 #. type: Plain text
