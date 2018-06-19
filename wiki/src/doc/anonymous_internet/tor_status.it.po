@@ -6,12 +6,12 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "POT-Creation-Date: 2016-05-17 09:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: ita <transitails@inventati.org>\n"
-"Language: \n"
+"Last-Translator: Tails translators <tails-l10n@boum.org>\n"
+"Language-Team: Tails translators <tails-l10n@boum.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,10 +46,7 @@ msgstr ""
 
 #. type: Plain text
 #, no-wrap
-msgid ""
-"[[!img "
-"doc/first_steps/introduction_to_gnome_and_the_tails_desktop/tor-status.png "
-"link=\"no\"]]\n"
+msgid "[[!img doc/first_steps/introduction_to_gnome_and_the_tails_desktop/tor-status.png link=\"no\"]]\n"
 msgstr ""
 
 #. type: Bullet: '  - '
@@ -93,8 +90,7 @@ msgstr ""
 #. type: Plain text
 #, no-wrap
 msgid ""
-"<span class=\"application\">Onion Circuits</span> displays information "
-"about\n"
+"<span class=\"application\">Onion Circuits</span> displays information about\n"
 "the current Tor circuits and connections.\n"
 msgstr ""
 
@@ -109,10 +105,8 @@ msgstr ""
 #. type: Plain text
 #, no-wrap
 msgid ""
-"<!-- Note for translators: the entry guard in use when you take the "
-"screenshot\n"
-"onion-circuits.png is in a position to identify you. You might prefer to "
-"leave it\n"
+"<!-- Note for translators: the entry guard in use when you take the screenshot\n"
+"onion-circuits.png is in a position to identify you. You might prefer to leave it\n"
 "untranslated.-->\n"
 msgstr ""
 
@@ -129,9 +123,8 @@ msgstr ""
 
 #. type: Bullet: '  - '
 msgid ""
-"The first relay or *entry guard*. If you configured a [[Tor "
-"bridge|first_steps/startup_options/bridge_mode]], your bridge is the first "
-"relay."
+"The first relay or *entry guard*. If you configured a [[Tor bridge|"
+"first_steps/startup_options/bridge_mode]], your bridge is the first relay."
 msgstr ""
 
 #. type: Bullet: '  - '
@@ -166,8 +159,5 @@ msgstr ""
 
 #. type: Plain text
 #, no-wrap
-msgid ""
-"[[!img doc/about/warning/htw2-tails.png link=no alt=\"Schematics of a "
-"connection to Tor with the client, the three relays, and the destination "
-"server.\"]]\n"
+msgid "[[!img doc/about/warning/htw2-tails.png link=no alt=\"Schematics of a connection to Tor with the client, the three relays, and the destination server.\"]]\n"
 msgstr ""

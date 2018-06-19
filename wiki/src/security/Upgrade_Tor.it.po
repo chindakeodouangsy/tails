@@ -6,12 +6,12 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "POT-Creation-Date: 2015-11-19 23:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: ita <transitails@inventati.org>\n"
-"Language: \n"
+"Last-Translator: Tails translators <tails-l10n@boum.org>\n"
+"Language-Team: Tails translators <tails-l10n@boum.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,9 +23,7 @@ msgstr ""
 
 #. type: Plain text
 #, no-wrap
-msgid ""
-"[[!meta title=\"You have to upgrade Tor to fix a critical anonymity "
-"vulnerability\"]]\n"
+msgid "[[!meta title=\"You have to upgrade Tor to fix a critical anonymity vulnerability\"]]\n"
 msgstr ""
 
 #. type: Plain text
@@ -70,8 +68,7 @@ msgstr ""
 #. type: Plain text
 msgid ""
 "To upgrade Tor, start a *Root Terminal* from the "
-"*Applications* → *Accessories* menu, and type the following command in "
-"there:"
+"*Applications* → *Accessories* menu, and type the following command in there:"
 msgstr ""
 
 #. type: Plain text
@@ -94,7 +91,6 @@ msgstr ""
 
 #. type: Plain text
 msgid ""
-"Want details? See the [Tor project's blog "
-"post](https://blog.torproject.org/blog/tor-02234-released-security-patches)  "
-"about it."
+"Want details? See the [Tor project's blog post](https://blog.torproject.org/"
+"blog/tor-02234-released-security-patches)  about it."
 msgstr ""

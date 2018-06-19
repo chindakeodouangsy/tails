@@ -6,12 +6,12 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "POT-Creation-Date: 2015-11-19 23:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: ita <transitails@inventati.org>\n"
-"Language: \n"
+"Last-Translator: Tails translators <tails-l10n@boum.org>\n"
+"Language-Team: Tails translators <tails-l10n@boum.org>\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,10 +33,9 @@ msgstr ""
 
 #. type: Plain text
 msgid ""
-"Our [[logo contest|logo_contest]] ended up [a few days "
-"ago](https://mailman.boum.org/pipermail/tails-dev/2014-April/005390.html).  "
-"Since then, 11 regular Tails contributors voted on the [[36 "
-"proposals|blueprint/logo]]."
+"Our [[logo contest|logo_contest]] ended up [a few days ago](https://mailman."
+"boum.org/pipermail/tails-dev/2014-April/005390.html).  Since then, 11 "
+"regular Tails contributors voted on the [[36 proposals|blueprint/logo]]."
 msgstr ""
 
 #. type: Title =
@@ -80,14 +79,14 @@ msgstr ""
 
 #. type: Bullet: '  - '
 msgid ""
-"2nd: tie between [[Andrew|blueprint/logo#andrew]] and "
-"[[Joe|blueprint/logo#joe]]"
+"2nd: tie between [[Andrew|blueprint/logo#andrew]] and [[Joe|blueprint/"
+"logo#joe]]"
 msgstr ""
 
 #. type: Bullet: '  - '
 msgid ""
-"4th: tie between [[Jared|blueprint/logo#jared]] and "
-"[[Renato|blueprint/logo#renato]]"
+"4th: tie between [[Jared|blueprint/logo#jared]] and [[Renato|blueprint/"
+"logo#renato]]"
 msgstr ""
 
 #. type: Bullet: '  - '
