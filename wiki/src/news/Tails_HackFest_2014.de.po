@@ -6,12 +6,12 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "POT-Creation-Date: 2014-08-02 13:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Last-Translator: Tails translators <tails-l10n@boum.org>\n"
+"Language-Team: Tails translators <tails-l10n@boum.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,18 +33,17 @@ msgstr "[[!tag announce]]\n"
 
 #. type: Plain text
 msgid ""
-"The first Tails "
-"[HackFest](https://tails.boum.org/blueprint/HackFest_2014_Paris/), which "
-"took place on July 5-6 in Paris, was a great event: about 120 people "
-"attended on Saturday, 70 people on Sunday. We shared some good workshops, "
-"some very good food, and homemade beer in a nice and friendly atmosphere."
+"The first Tails [HackFest](https://tails.boum.org/blueprint/"
+"HackFest_2014_Paris/), which took place on July 5-6 in Paris, was a great "
+"event: about 120 people attended on Saturday, 70 people on Sunday. We shared "
+"some good workshops, some very good food, and homemade beer in a nice and "
+"friendly atmosphere."
 msgstr ""
 
 #. type: Plain text
 msgid ""
-"The slides of some talks have been "
-"[published](https://tails.boum.org/promote/slides/), but there is more to "
-"come."
+"The slides of some talks have been [published](https://tails.boum.org/"
+"promote/slides/), but there is more to come."
 msgstr ""
 
 #. type: Plain text
@@ -56,16 +55,15 @@ msgstr ""
 #. type: Plain text
 msgid ""
 "We are particularly happy that the HackFest attracted very different people, "
-"so we were a quite diverse assembly. Probably thanks to our "
-"[[anti-harassment policy|blueprint/HackFest_2014_Paris/policy]] (thanks "
-"Genma for the frensh translation)..."
+"so we were a quite diverse assembly. Probably thanks to our [[anti-"
+"harassment policy|blueprint/HackFest_2014_Paris/policy]] (thanks Genma for "
+"the frensh translation)..."
 msgstr ""
 
 #. type: Plain text
 msgid ""
-"Some people talked about the HackFest: "
-"[jvoisin](http://dustri.org/b/tails-hackfest.html), and... more? (please "
-"send links!)"
+"Some people talked about the HackFest: [jvoisin](http://dustri.org/b/tails-"
+"hackfest.html), and... more? (please send links!)"
 msgstr ""
 
 #. type: Plain text
@@ -78,9 +76,8 @@ msgstr ""
 
 #. type: Bullet: '  - '
 msgid ""
-"[The Tor Project](https://www.torproject.org/), [Mozilla "
-"Foundation](https://www.mozilla.org/) and [Debian](https://www.debian.org/)  "
-"for the sponsorship"
+"[The Tor Project](https://www.torproject.org/), [Mozilla Foundation](https://"
+"www.mozilla.org/) and [Debian](https://www.debian.org/)  for the sponsorship"
 msgstr ""
 
 #. type: Bullet: '  - '
@@ -90,8 +87,7 @@ msgstr ""
 #. type: Plain text
 #, no-wrap
 msgid ""
-"  - and of course, all our fabulous attendees that made the event so "
-"interesting\n"
+"  - and of course, all our fabulous attendees that made the event so interesting\n"
 "and nice!\n"
 msgstr ""
 

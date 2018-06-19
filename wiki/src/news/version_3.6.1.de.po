@@ -5,11 +5,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "POT-Creation-Date: 2018-03-28 08:20+0000\n"
 "PO-Revision-Date: 2018-04-08 13:58+0000\n"
-"Last-Translator: Tails translators <amnesia@boum.org>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Last-Translator: Tails translators <tails-l10n@boum.org>\n"
+"Language-Team: Tails translators <tails-l10n@boum.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,9 +38,9 @@ msgid ""
 "Numerous_security_holes_in_3.6]] and users should upgrade as soon as "
 "possible."
 msgstr ""
-"Diese Version behebt zahlreiche [[zahlreiche "
-"Sicherheitslücken|security/Numerous_security_holes_in_3.6.de]]. Alle "
-"Benutzerinnen und Benutzer sollten so schnell wie möglich aktualisieren."
+"Diese Version behebt zahlreiche [[zahlreiche Sicherheitslücken|security/"
+"Numerous_security_holes_in_3.6.de]]. Alle Benutzerinnen und Benutzer sollten "
+"so schnell wie möglich aktualisieren."
 
 #. type: Plain text
 #, no-wrap
@@ -142,10 +142,8 @@ msgid ""
 "  ISO image when running Tails in English. For other languages, the\n"
 "  file chooser button remains inactive:\n"
 msgstr ""
-"  Wenn Sie ein manuelles Upgrade von Tails 3.2, 3.3, 3.4 oder 3.5 machen, "
-"ist es nur möglich ein\n"
-"  ISO-Image auszuwählen, wenn Tails in englischer Sprache benutzt wird. Für "
-"andere Sprachen bleibt\n"
+"  Wenn Sie ein manuelles Upgrade von Tails 3.2, 3.3, 3.4 oder 3.5 machen, ist es nur möglich ein\n"
+"  ISO-Image auszuwählen, wenn Tails in englischer Sprache benutzt wird. Für andere Sprachen bleibt\n"
 "  der Knopf zur Dateiauswahl inaktiv:\n"
 
 #. type: Plain text
@@ -156,9 +154,7 @@ msgstr "  [[!img news/version_3.5/broken-file-chooser.png link=\"no\"]]\n"
 #. type: Plain text
 #, no-wrap
 msgid "  To do a manual upgrade from Tails 3.2, 3.3, 3.4, or 3.5, you can either:\n"
-msgstr ""
-"  Um ein manuelle Aktualisierung von Tails 3.2, 3.3, 3.4 oder 3.5 "
-"durchzuführen, können Sie entweder:\n"
+msgstr "  Um ein manuelle Aktualisierung von Tails 3.2, 3.3, 3.4 oder 3.5 durchzuführen, können Sie entweder:\n"
 
 #. type: Bullet: '  - '
 msgid "Restart Tails in English."
