@@ -243,10 +243,6 @@ ibus-hangul
 ## Vietnamese
 ibus-unikey
 
-### l10n, i18n
-## precompiled locales
-locales-all
-
 ### Accessibility
 ## mouse accessibility enhancements
 mousetweaks
