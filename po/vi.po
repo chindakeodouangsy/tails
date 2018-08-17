@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: The Tor Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-30 08:15+0200\n"
+"POT-Creation-Date: 2018-08-16 07:57+0200\n"
 "PO-Revision-Date: 2017-11-03 13:02+0000\n"
 "Last-Translator: Khanh Nguyen <nguyenduykhanh85@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/otf/torproject/language/"
@@ -28,7 +28,7 @@ msgstr "Tor đã sẵn sàng"
 msgid "You can now access the Internet."
 msgstr "Bạn có thể truy cập Internet bây giờ."
 
-#: config/chroot_local-includes/etc/whisperback/config.py:66
+#: config/chroot_local-includes/etc/whisperback/config.py:69
 #, python-format
 msgid ""
 "<h1>Help us fix your bug!</h1>\n"
@@ -105,14 +105,31 @@ msgid "Do you want to start Electrum anyway?"
 msgstr "Bạn có muốn khởi động Electrum dù thế nào đi nữa?"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:63
+#: config/chroot_local-includes/usr/local/bin/liferea:33
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:41
 msgid "_Launch"
 msgstr "_Launch"
 
 #: config/chroot_local-includes/usr/local/bin/electrum:64
+#: config/chroot_local-includes/usr/local/bin/liferea:32
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:42
 msgid "_Exit"
 msgstr "__Exit"
+
+#: config/chroot_local-includes/usr/local/bin/liferea:18
+msgid "Liferea is deprecated"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/bin/liferea:19
+#, fuzzy
+msgid "Do you wish to start Liferea anyway?"
+msgstr "Bạn có muốn khởi động Electrum dù thế nào đi nữa?"
+
+#: config/chroot_local-includes/usr/local/bin/liferea:21
+msgid ""
+"Due to security concerns the Liferea feed reader will be removed from Tails "
+"by the end of 2018. Please migrate your feeds to Thunderbird."
+msgstr ""
 
 #: config/chroot_local-includes/usr/share/gnome-shell/extensions/status-menu-helper@tails.boum.org/extension.js:75
 msgid "Restart"
@@ -153,7 +170,7 @@ msgstr ""
 msgid "not available"
 msgstr "không có sẵn"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:136
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:142
 #, fuzzy, python-brace-format
 msgid ""
 "{details} Please check your list of additional software or read the system "
@@ -163,117 +180,123 @@ msgstr ""
 "kết nối của bạn, cố gắng khởi động lại Tails, hoặc xem nhật ký hệ thống để "
 "hiểu rõ hơn vấn đề."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:141
-#, fuzzy
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:147
 msgid ""
 "Please check your list of additional software or read the system log to "
 "understand the problem."
 msgstr ""
-"Việc nâng cấp thất bại. Việc này có thể do vấn đề về mạng. Vui lòng kiểm tra "
-"kết nối của bạn, cố gắng khởi động lại Tails, hoặc xem nhật ký hệ thống để "
-"hiểu rõ hơn vấn đề."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:145
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:151
 msgid "Show Log"
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:145
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:151
 msgid "Configure"
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:274
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:302
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:215
 #, python-brace-format
-msgid "Add {packages} to your additional software?"
+msgid "{beginning} and {last}"
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:276
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:216
+msgid ", "
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:280
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:308
+#, fuzzy, python-brace-format
+msgid "Add {packages} to your additional software?"
+msgstr "Phần mềm thêm của bạn"
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:282
 msgid ""
 "To install it automatically from your persistent storage when starting Tails."
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:278
-msgid "Add to Persistent Storage"
-msgstr ""
-
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:279
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:308
-msgid "Install Only Once"
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:284
+msgid "Install Every Time"
 msgstr ""
 
 #: config/chroot_local-includes/usr/local/sbin/tails-additional-software:285
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:313
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:347
-#, fuzzy
-msgid "The configuration of your additional software failed."
-msgstr "Phần mềm thêm của bạn"
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:314
+msgid "Install Only Once"
+msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:304
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:291
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:319
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:354
+msgid "The configuration of your additional software failed."
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:310
 msgid ""
 "To install it automatically when starting Tails, you can create a persistent "
 "storage and activate the <b>Additional Software</b> feature."
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:307
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:313
 msgid "Create Persistent Storage"
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:315
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:321
 msgid "Creating your persistent storage failed."
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:322
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:328
 #, python-brace-format
 msgid "You could install {packages} automatically when starting Tails"
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:325
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:331
 msgid ""
 "To do so, you need to run Tails from a USB stick installed using <i>Tails "
 "Installer</i>."
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:338
-#, python-brace-format
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:344
+#, fuzzy, python-brace-format
 msgid "Remove {packages} from your additional software?"
+msgstr "Phần mềm thêm của bạn"
+
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:346
+#, python-brace-format
+msgid "This will stop installing {packages} automatically."
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:341
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:348
 msgid "Remove"
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:342
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:349
 #: config/chroot_local-includes/usr/local/bin/tails-screen-locker:118
 #: config/chroot_local-includes/usr/local/bin/tor-browser:46
 msgid "Cancel"
 msgstr "Hủy bỏ"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:508
-#, fuzzy
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:517
 msgid "Installing your additional software from persistent storage..."
-msgstr "Phần mềm thêm của bạn"
+msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:510
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:519
 msgid "This can take several minutes."
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:521
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:530
 #, fuzzy
 msgid "The installation of your additional software failed"
 msgstr "Phần mềm thêm của bạn"
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:534
-#, fuzzy
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:543
 msgid "Additional software installed successfully"
-msgstr "Phần mềm thêm của bạn"
+msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:554
-#, fuzzy
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:563
 msgid "The check for upgrades of your additional software failed"
-msgstr "Phần mềm thêm của bạn"
+msgstr ""
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:556
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:564
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:565
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:573
 #, fuzzy
 msgid ""
 "Please check your network connection, restart Tails, or read the system log "
@@ -283,7 +306,7 @@ msgstr ""
 "kết nối của bạn, cố gắng khởi động lại Tails, hoặc xem nhật ký hệ thống để "
 "hiểu rõ hơn vấn đề."
 
-#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:563
+#: config/chroot_local-includes/usr/local/sbin/tails-additional-software:572
 #, fuzzy
 msgid "The upgrade of your additional software failed"
 msgstr "Phần mềm thêm của bạn"
@@ -293,17 +316,29 @@ msgstr "Phần mềm thêm của bạn"
 msgid "Documentation"
 msgstr "Tài liệu về Tails"
 
-#: config/chroot_local-includes/usr/local/bin/tails-additional-software-config:83
+#: config/chroot_local-includes/usr/local/bin/tails-additional-software-config:94
 #, python-brace-format
-msgid "Remove {package} from your additional software"
+msgid ""
+"Remove {package} from your additional software? This will stop installing "
+"the package automatically."
 msgstr ""
 
-#: config/chroot_local-includes/usr/local/bin/tails-additional-software-config:108
+#: config/chroot_local-includes/usr/local/bin/tails-additional-software-config:104
+#, python-brace-format
+msgid "Failed to remove {pkg}"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/bin/tails-additional-software-config:121
 #, fuzzy
 msgid "Failed to read additional software configuration"
 msgstr "Phần mềm thêm của bạn"
 
-#: config/chroot_local-includes/usr/local/bin/tails-additional-software-config:219
+#: config/chroot_local-includes/usr/local/bin/tails-additional-software-config:150
+#, python-brace-format
+msgid "Stop installing {package} automatically"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/bin/tails-additional-software-config:246
 #, fuzzy
 msgid "[package not available]"
 msgstr "không có sẵn"
@@ -464,6 +499,14 @@ msgstr "Tor chưa sẵn sàng. Bắt đầu Tor Browser dù thế nào đi nữa
 msgid "Start Tor Browser"
 msgstr "Bắt đầu trình duyệt Tor"
 
+#: config/chroot_local-includes/usr/share/gnome-shell/extensions/torstatus@tails.boum.org/extension.js:40
+msgid "Tor"
+msgstr ""
+
+#: config/chroot_local-includes/usr/share/gnome-shell/extensions/torstatus@tails.boum.org/extension.js:55
+msgid "Open Onion Circuits"
+msgstr ""
+
 #: config/chroot_local-includes/usr/local/sbin/unsafe-browser:38
 msgid "Do you really want to launch the Unsafe Browser?"
 msgstr "Bạn có thực sự muốn khởi chạy Trình duyệt không an toàn?"
@@ -507,7 +550,7 @@ msgstr "Thất bại khi khởi động lại Tor."
 msgid "Unsafe Browser"
 msgstr "Trình duyệt không an toàn"
 
-#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:92
+#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:91
 msgid ""
 "Another Unsafe Browser is currently running, or being cleaned up. Please "
 "retry in a while."
@@ -515,15 +558,15 @@ msgstr ""
 "Một Trình duyệt không an toàn khác đang chạy, hoặc đang được dọn dẹp. Vui "
 "lòng thử lại trong chốc lát."
 
-#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:100
+#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:99
 msgid "Failed to setup chroot."
 msgstr "Thất bại khi cài đặt chroot."
 
-#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:105
+#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:104
 msgid "Failed to configure browser."
 msgstr "Thất bại khi cấu hình trình duyệt."
 
-#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:111
+#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:110
 msgid ""
 "No DNS server was obtained through DHCP or manually configured in "
 "NetworkManager."
@@ -531,9 +574,120 @@ msgstr ""
 "Không có DNS server nào lấy được thông qua DHCP hoặc cấu hình thủ công trong "
 "NetworkManager."
 
-#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:117
+#: config/chroot_local-includes/usr/local/sbin/unsafe-browser:121
 msgid "Failed to run browser."
 msgstr "Thất bại khi chạy trình duyệt."
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume.py:56
+#, python-brace-format
+msgid "{volume_label} ({volume_size})"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume.py:59
+#, python-brace-format
+msgid "{partition_name} ({partition_size})"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume.py:62
+#, python-brace-format
+msgid "{volume_size} Volume"
+msgstr ""
+
+#. Translators: Don't translate {volume_name}, it's a placeholder and
+#. will be replaced.
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume.py:101
+#, python-brace-format
+msgid "{volume_name} (Read-Only)"
+msgstr ""
+
+#. Translators: Don't translate {partition_name} and {container_path}, they
+#. are placeholders and will be replaced.
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume.py:109
+#, python-brace-format
+msgid "{partition_name} in {container_path}"
+msgstr ""
+
+#. Translators: Don't translate {volume_name} and {path_to_file_container},
+#. they are placeholders and will be replaced. You should only have to translate
+#. this string if it makes sense to reverse the order of the placeholders.
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume.py:116
+#, python-brace-format
+msgid "{volume_name} – {path_to_file_container}"
+msgstr ""
+
+#. Translators: Don't translate {partition_name} and {drive_name}, they
+#. are placeholders and will be replaced.
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume.py:122
+#, python-brace-format
+msgid "{partition_name} on {drive_name}"
+msgstr ""
+
+#. Translators: Don't translate {volume_name} and {drive_name},
+#. they are placeholders and will be replaced. You should only have to translate
+#. this string if it makes sense to reverse the order of the placeholders.
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume.py:129
+#, python-brace-format
+msgid "{volume_name} – {drive_name}"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_list.py:83
+msgid "No file containers added"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_list.py:98
+msgid "No VeraCrypt devices detected"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_manager.py:114
+msgid "Container already added"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_manager.py:115
+#, python-format
+msgid "The file container %s should already be listed."
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_manager.py:131
+msgid "Container opened read-only"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_manager.py:132
+#, python-brace-format
+msgid ""
+"The file container {path} could not be opened with write access. It was "
+"opened read-only instead. You will not be able to modify the content of the "
+"container.\n"
+"{error_message}"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_manager.py:137
+msgid "Error opening file"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_manager.py:159
+msgid "Not a VeraCrypt container"
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_manager.py:160
+#, python-format
+msgid "The file %s does not seem to be a VeraCrypt container."
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_manager.py:162
+#, fuzzy
+msgid "Failed to add container"
+msgstr "Thất bại khi cấu hình trình duyệt."
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_manager.py:163
+#, python-format
+msgid ""
+"Could not add file container %s: Timeout while waiting for loop setup.Please "
+"try using the <i>Disks</i> application instead."
+msgstr ""
+
+#: config/chroot_local-includes/usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_manager.py:208
+msgid "Choose File Container"
+msgstr ""
 
 #: ../config/chroot_local-includes/etc/skel/Desktop/Report_an_error.desktop.in.h:1
 msgid "Report an error"
@@ -568,9 +722,18 @@ msgstr "Duyệt Word Wide Web mà không có sự ẩn danh"
 msgid "Unsafe Web Browser"
 msgstr "Trình duyệt trang không an toàn"
 
-#: ../config/chroot_local-includes/usr/share/applications/org.boum.tails.additional-software-config.desktop.in.h:1
-msgid "Additional Software"
+#: ../config/chroot_local-includes/usr/share/applications/unlock-veracrypt-volumes.desktop.in.h:1
+msgid "Unlock VeraCrypt Volumes"
 msgstr ""
+
+#: ../config/chroot_local-includes/usr/share/applications/unlock-veracrypt-volumes.desktop.in.h:2
+msgid "Mount VeraCrypt encrypted file containers and devices"
+msgstr ""
+
+#: ../config/chroot_local-includes/usr/share/applications/org.boum.tails.additional-software-config.desktop.in.h:1
+#, fuzzy
+msgid "Additional Software"
+msgstr "Phần mềm thêm của bạn"
 
 #: ../config/chroot_local-includes/usr/share/applications/org.boum.tails.additional-software-config.desktop.in.h:2
 msgid ""
@@ -586,23 +749,33 @@ msgstr "Những công cụ đặc biệt của Tails"
 msgid "To start a Root Terminal, you need to authenticate."
 msgstr "Để khởi động một Thiết bị gốc, bạn cần phải xác thực"
 
-#, fuzzy
-#~ msgid "Your additional software are ready to use."
-#~ msgstr "Phần mềm thêm của bạn"
+#: ../config/chroot_local-includes/usr/share/unlock-veracrypt-volumes/ui/main.ui.in:61
+msgid "File Containers"
+msgstr ""
 
-#, fuzzy
-#~ msgid ""
-#~ "The check for upgrades failed. This might be due to a network problem. "
-#~ "Please check your network connection, try to restart Tails, or read the "
-#~ "system log to understand better the problem."
-#~ msgstr ""
-#~ "Việc nâng cấp thất bại. Việc này có thể do vấn đề về mạng. Vui lòng kiểm "
-#~ "tra kết nối của bạn, cố gắng khởi động lại Tails, hoặc xem nhật ký hệ "
-#~ "thống để hiểu rõ hơn vấn đề."
+#: ../config/chroot_local-includes/usr/share/unlock-veracrypt-volumes/ui/main.ui.in:80
+msgid "_Add"
+msgstr ""
 
-#, fuzzy
-#~ msgid "Your additional software are up to date"
-#~ msgstr "Phần mềm thêm của bạn"
+#: ../config/chroot_local-includes/usr/share/unlock-veracrypt-volumes/ui/main.ui.in:86
+msgid "Add a file container"
+msgstr ""
+
+#: ../config/chroot_local-includes/usr/share/unlock-veracrypt-volumes/ui/main.ui.in:103
+msgid "Partitions and Drives"
+msgstr ""
+
+#: ../config/chroot_local-includes/usr/share/unlock-veracrypt-volumes/ui/volume.ui.in:38
+msgid "Lock this volume"
+msgstr ""
+
+#: ../config/chroot_local-includes/usr/share/unlock-veracrypt-volumes/ui/volume.ui.in:61
+msgid "Detach this volume"
+msgstr ""
+
+#: ../config/chroot_local-includes/usr/local/share/mime/packages/unlock-veracrypt-volumes.xml.in.h:1
+msgid "TrueCrypt/VeraCrypt container"
+msgstr ""
 
 #~ msgid "The upgrade was successful."
 #~ msgstr "Việc nâng cấp thành công."
