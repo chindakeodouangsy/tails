@@ -13,6 +13,10 @@ PYTHON_PROGS="/etc/whisperback/config.py \
     /usr/local/bin/tails-additional-software-config \
     /usr/local/bin/tails-screen-locker \
     /usr/local/bin/tails-upgrade-frontend-wrapper \
+    /usr/local/sbin/tails-additional-software \
+    /usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume.py \
+    /usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_list.py \
+    /usr/local/lib/python3/dist-packages/unlock_veracrypt_volumes/volume_manager.py
     /usr/local/lib/tails-additional-software-notify \
     /usr/local/sbin/tails-additional-software"
 SHELL_PROGS="/etc/NetworkManager/dispatcher.d/60-tor-ready.sh \
@@ -54,6 +58,9 @@ prog_potfile () {
 	/usr/share/gnome-shell/extensions/torstatus@tails.boum.org/extension.js)
             domain=torstatus-extension.js
             ;;
+        /usr/local/lib/*/unlock_veracrypt_volumes/*)
+            domain="unlock-veracrypt-volumes-$(basename "$prog")"
+            ;;
         *)
             domain=$(basename $prog)
             ;;
@@ -69,7 +76,7 @@ create_pot () {
         pot="$(prog_potfile "${prog}")"
         mkdir -p "$(dirname ${pot})"
         xgettext --language="${proglang}" --from-code=UTF-8 \
-                 -o "${pot}" "${progpath}"
+                 --add-comments="Translators:" -o "${pot}" "${progpath}"
         normalize_pot "${pot}"
     else
         echo "error: We are supposed to create a POT file for '${prog}'" \
